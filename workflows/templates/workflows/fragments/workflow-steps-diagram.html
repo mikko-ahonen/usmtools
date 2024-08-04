@@ -1,0 +1,30 @@
+{% load prev_current_next %}
+
+<div class="g-0 d-flex flex-wrap d-print-none">
+  {% for prev_step, step, next_step in workflow.steps.all|prev_current_next %}
+    <div class="d-inline-block">
+      <div class="row gx-0">
+        <div class="col col-xs-2">
+            {% if not forloop.first %}
+            <div class="horizontal-step-line"></div>
+            {% endif %}
+        </div>
+        <div class="col col-xs-8 horizontal-step-circle {{ step.process }}-bg">
+            <a class="streched-link horizontal-step-link" href="#step-{{step.id}}">
+              <span class="horizontal-step-circle-text align-middle">{{ forloop.counter }}</span>
+            </a>
+        </div>
+        <div class="col col-xs-2">
+            {% if not forloop.last %}
+            <div class="horizontal-step-line"></div>
+            {% endif %}
+        </div>
+      </div>
+      <div class="row gx-0">
+        <div class="col col-xs-12 d-flex justify-content-center">
+          <span class="horizontal-step-text">{{ step.name }}</span>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

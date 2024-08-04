@@ -1,0 +1,141 @@
+{% load i18n %}
+{% load static %}
+  <div class="sidebar collapse h-100 show bg-dark" id="sidebar-narrow">
+    <button class="mb-5 btn btn-primary shadow-none rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wide" aria-controls="sidebar-wide" aria-expanded="false">
+      <span class="fs-2">
+        <i class="bi bi-caret-right"></i>
+      </span>
+    </button>
+    <ul class="nav flex-column align-items-start">
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
+            <i class="bi bi-house"></i>
+          </a>
+        </h5>
+      </li>
+      {% if tenant %}
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:service-list' tenant.id %}">
+            <i class="bi bi-gear"></i>
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:organization-unit-list' tenant.id %}">
+            <i class="bi bi-diagram-3"></i>
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:profile-list' tenant.id %}">
+            <i class="bi bi-person-badge"></i>
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:customer-list' tenant.id %}">
+            <img src="{% static 'img/handshake-white.png' %}" width='19px'/>
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:training-list' tenant.id %}">
+            <i class="bi bi-person-workspace"></i>
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:employee-list' tenant.id %}">
+            <i class="bi bi-people-fill"></i>
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'compliances:domain-list' tenant.id %}">
+            <i class="bi bi-ui-checks"></i>
+          </a>
+        </h5>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="sidebar collapse h-100 bg-dark" id="sidebar-wide">
+    <button class="mb-5 btn btn-primary shadow-none rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-narrow" aria-controls="sidebar-narrow" aria-expanded="false">
+      <span class="fs-2">
+        <i class="bi bi-caret-left"></i>
+      </span>
+    </button>
+    <ul class="nav flex-column align-items-start">
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
+            <i class="bi bi-house"></i>&nbsp;&nbsp;{% trans 'Tenants' %}
+          </a>
+        </h5>
+      </li>
+      {% if tenant %}
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:service-list' tenant.id %}">
+            <i class="bi bi-gear"></i>&nbsp;&nbsp;{% trans 'Services' %}
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:organization-unit-list' tenant.id %}">
+            <i class="bi bi-diagram-3"></i>&nbsp;&nbsp;{% trans 'Organizations' %}
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:profile-list' tenant.id %}">
+            <i class="bi bi-person-badge"></i>
+            &nbsp;&nbsp;{% trans 'Profiles' %}
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:customer-list' tenant.id %}">
+            <img src="{% static 'img/handshake-white.png' %}" width='19px'/>
+            &nbsp;&nbsp;{% trans 'Customers' %}
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:training-list' tenant.id %}">
+            <i class="bi bi-person-workspace"></i>
+            &nbsp;&nbsp;{% trans 'Trainings' %}
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'workflows:employee-list' tenant.id %}">
+            <i class="bi bi-people-fill"></i>
+            &nbsp;&nbsp;{% trans 'Employees' %}
+          </a>
+        </h5>
+      </li>
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'compliances:domain-list' tenant.id %}">
+            <i class="bi bi-ui-checks"></i>
+            &nbsp;&nbsp;{% trans 'Compliances' %}
+          </a>
+        </h5>
+      </li>
+      {% endif %}
+    </ul>
+  </div>

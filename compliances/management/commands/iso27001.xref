@@ -1,0 +1,61 @@
+"""
+ISO-27001 V.2024 standard compliance
+"""
+domain iso27001 {
+    SecurityIncidentWorkflow := Workflow classified as "security-incident" with status="published" and type="incident";
+
+    SecurityEmployee := Employee classified as "security-employee";
+
+    BasicSecurityTraining := Training classified as "basic-security-training";
+
+    """
+    Requirements related to processes
+    """
+    section A [name:"Processes"] {
+        """
+        The organization has a process for security incidents.
+        """
+        requirement A1 {
+            """
+            There is published workflow classified as security incident workflow with process RECOVER.
+            """
+            wf-exists: there exists SecurityIncidentWorkflow;
+        }
+
+    }
+
+    """
+    Requirements related to the organization and personnel
+    """
+    section B [name:"Personnel"] {
+        """
+        There are specific people that are responsible for security in the organization.
+        """
+        requirement B1 {
+            """
+            There is at least one employee classified as security employee.
+            """
+            employee-exists: there exists SecurityEmployee;
+        }
+
+        """
+        Security training is organized regularly.
+        """
+        requirement B2 {
+            """
+            Basic security training exists and has been organized within 3 years.
+            """
+            basic-training-exists: there exists BasicSecurityTraining organized within 1 year;
+        }
+
+        """
+        Each security employee attends basic security training regularly.
+        """
+        requirement B3 {
+            """
+            Each security employee has attended basic security training within 3 years.
+            """
+            basic-training-attended: every SecurityEmployee has attended BasicSecurityTraining within 3 years;
+        }
+    }
+}

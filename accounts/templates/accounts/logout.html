@@ -1,0 +1,14 @@
+{% extends "accounts/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Logged out" %}{% endblock %}
+
+{% block regcontent %}
+<p>
+{% if deleted %}
+    {% trans "Your account was succesfully deleted." %}
+{% else %}
+    {% trans "Successfully logged out" %}.</p>
+{% endif %}
+</p>
+{% endblock %}

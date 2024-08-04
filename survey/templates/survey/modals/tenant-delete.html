@@ -1,0 +1,57 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+{% load danger %}
+<h3>{% trans 'Delete tenant' %} {{ tenant}}</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    {% danger %}
+        {% trans 'This will permanently delete the tenant and everything under it. Are you sure you want to delete it?' %}
+    {% enddanger %}
+    <p>
+      {% if tenant.services.count %}
+      {% trans 'This will also delete all the services below, including all their workflows and other included data:' %}
+      <ul>
+        {% for service in tenant.services.all %}
+        <li>
+            {{ service.name }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if tenant.customers.count %}
+      {% trans 'This will also delete all the customers below:' %}
+      <ul>
+        {% for customer in tenant.customers.all %}
+        <li>
+            {{ customer.name }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if tenant.organization_units.count %}
+      {% trans 'This will also delete all the organization units below:' %}
+      <ul>
+        {% for ou in tenant.organization_units.all %}
+        <li>
+            {{ ou.name }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if tenant.profiles.count %}
+      {% trans 'This will also delete all the profiles below:' %}
+      <ul>
+        {% for profile in tenant.profiles.all %}
+        <li>
+            {{ profile.name }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </p>
+    <p> 
+      <a class="button btn btn-secondary" href="{% url 'workflows:tenant-list' %}">Cancel</a>
+      <input class="button btn btn-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

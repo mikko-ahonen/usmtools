@@ -1,0 +1,23 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+<h3>{% trans 'Delete organization unit ' %} {{ organization_unit }}</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    {% with total_children=organization_unit.descendants.count %}
+    {% if total_children > 0 %}
+    <p>
+      {% blocktranslate trimmed with count=total_children %}
+      Deleting this organization unit will delete {{count}} child organization units as well.
+      {% endblocktranslate %}
+    </p>
+    {% endif %}
+    {% endwith %}
+    <p>
+      {% trans 'Are you sure you want to delete it?' %}
+    </p>
+    <p> 
+      <a class="button btn btn-secondary" href="{% url 'workflows:organization-unit-list' tenant.id %}">Cancel</a>
+      <input class="button btn btn-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

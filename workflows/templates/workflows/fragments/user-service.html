@@ -1,0 +1,22 @@
+{% load indent %}
+{% with indent=level|indent:40 %}
+  <p style="margin-left: {{ indent }}">
+    <h3><a href="{% url 'workflows:service-detail' tenant.id service.id %}">{{ service.name }}</a></h3>
+    <span class="text-small">
+      {{ service.description }}
+    </span>
+  </p>
+  {% for workflow in service.workflows.all %}
+  <p>
+    <a href="{% url 'workflows:workflow-detail-printable' tenant.id workflow.id %}">{{ workflow.name }}</a>
+    <span class="text-small">
+      {{ worklow.description }}
+    </span>
+  </p>
+  {% endfor %}
+{% endwith %}
+{% for service in service.children.all %}
+  {% with next_level=level|add:1 %}
+    {% include 'workflows/fragments/user-service.html' with tenant=tenant.id service=service level=next_level only %}
+  {% endwith %}
+{% endfor %}

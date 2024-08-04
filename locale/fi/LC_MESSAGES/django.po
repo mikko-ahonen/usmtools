@@ -1,0 +1,946 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-16 13:16+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: onboarding/forms.py:9
+msgid ""
+"Keep me updated on your upcoming workshops, product releases etc. relevant "
+"news"
+msgstr ""
+"Pidä minut ajan tasalla tulevista workshopeista, tuotejulkistuksista ja "
+"muista relevanteista uutisista"
+
+#: onboarding/forms.py:10
+msgid "We need to fix our service management ASAP! Lets get in touch!"
+msgstr ""
+"Tarvitsemme palveluiden hallinnan korjaukseen heti apua! Ollaan yhteydessä!"
+
+#: onboarding/forms.py:23
+msgid "Email address is required if you want us to contact you."
+msgstr "Sähköpostiosoite tarvitaan, jos haluat että olemme yhteydessä"
+
+#: onboarding/models.py:23
+msgid "Let us know your industry"
+msgstr "Kerro meille toimialasi"
+
+#: onboarding/models.py:24
+msgid "Agriculture, Forestry, Mining"
+msgstr "Maa-, metsätalous, kaivosteollisuus"
+
+#: onboarding/models.py:25
+msgid "Industrials (Manufacturing, Construction, etc.)"
+msgstr "Teollisuus (tuotanto, rakennus jne.)"
+
+#: onboarding/models.py:26
+msgid "Energy, Utilities"
+msgstr "Energia, julkiset palvelut"
+
+#: onboarding/models.py:27
+msgid "Transport, Logistics"
+msgstr "Kuljetus, logistiikka"
+
+#: onboarding/models.py:28
+msgid "Media, Creative Industries"
+msgstr "Media, luovat alat"
+
+#: onboarding/models.py:29
+msgid "Information Technology, Data Infrastructure, Telecom"
+msgstr "IT, data-infrastruktuuri, telekommunikaatio"
+
+#: onboarding/models.py:30
+msgid "Healthcare"
+msgstr "Terveydenhoito"
+
+#: onboarding/models.py:31
+msgid "Education"
+msgstr "Koulutus"
+
+#: onboarding/models.py:32
+msgid "Life Sciences"
+msgstr "Biotieteet"
+
+#: onboarding/models.py:33
+msgid "Retail, E-Commerce"
+msgstr "Kauppa, verkkokauppa"
+
+#: onboarding/models.py:34
+msgid "Hospitality, Food, Leisure Travel"
+msgstr "Hotelli- ja ravintola-ala, matkailu"
+
+#: onboarding/models.py:35
+msgid "Public Service, Social Service"
+msgstr "Julkishallinto, sosiaalipalvelut"
+
+#: onboarding/models.py:36
+msgid "Financial Services"
+msgstr "Rahoituspalvelut"
+
+#: onboarding/models.py:37
+msgid "Professional Services (Law, Consulting, etc.)"
+msgstr "Ammatilliset palvelut (lakiasiat, konsultointi, jne.)"
+
+#: onboarding/models.py:38
+msgid "Other"
+msgstr "Muu"
+
+#: onboarding/models.py:44
+msgid "Industry"
+msgstr "Toimiala"
+
+#: onboarding/models.py:50 public/templates/public/contact.html:26
+#: templates/base.html:97
+msgid "Email"
+msgstr "Sähköposti"
+
+#: public/templates/public/about.html:6
+msgid "What is USM?"
+msgstr "Mikä USM?"
+
+#: public/templates/public/about.html:7 templates/base.html:13
+msgid "Why USM?"
+msgstr "Miksi USM?"
+
+#: public/templates/public/about.html:8 templates/base.html:14
+msgid "Company"
+msgstr "Yritys"
+
+#: public/templates/public/about.html:9
+msgid "People"
+msgstr "Ihmiset"
+
+#: public/templates/public/about.html:18
+msgid ""
+"You can really learn to manage services yourself. A sustainable service "
+"organization is simpler than you may think."
+msgstr ""
+"Voit oppia itse hallinnoimaan omia palveluitasi. Kestävä palveluorganisaatio "
+"on yksinkertaisempi saavuttaa kuin kuvittelet."
+
+#: public/templates/public/about.html:38
+msgid ""
+"USM Coach is a company dedicated to helping customers to become self-"
+"sufficient in solving their service management needs."
+msgstr ""
+"USM Coach auttaa asiakkaitaan saavuttamaan omavaraisuuden palveluiden "
+"hallinnassa."
+
+#: public/templates/public/about.html:44
+msgid "Our approach is based on Unified Service Management (USM) method."
+msgstr ""
+"Lähestymistapamme pohjautuu Unified Service Management (USM) -menetelmään."
+
+#: public/templates/public/about.html:50
+msgid "We contribute actively to the development of the USM method."
+msgstr "Osallistumme aktiivisesti USM-menetelmän kehittämiseen."
+
+#: public/templates/public/about.html:67
+msgid ""
+"Mikko is a certified USM Coach. He has over 30 years of experience in "
+"various Software Development roles, such as Full Stack Developer, Architect, "
+"Scrum Master, Chief Product Owner, and CTO."
+msgstr ""
+"Mikko on sertifioitu USM-valmentaja. Hänellä on yli 30 vuoden kokemus "
+"erilaisista ohjelmistoalan rooleista, kuten Full Stack -kehittäjä, "
+"arkkitehti, Scrum Master, Chief Product Owner, sekä CTO."
+
+#: public/templates/public/about.html:75
+msgid ""
+"For the last 11 years, he has worked as an Independent Software "
+"Professional. He holds one M.Sc. in Computer Science and another one in "
+"Economics."
+msgstr ""
+"Viimeiset 11 vuotta hän on toiminut itsenäisenä IT-alan ammattilaisena. Hän "
+"on sekä filosofian että kauppatieteiden maisteri."
+
+#: public/templates/public/about.html:82
+msgid ""
+"He spends his free time with his four year old daughter and dances argentine "
+"tango."
+msgstr ""
+"Vapaa-aikaansa Mikko viettää nelivuotiaan tyttärensä kanssa sekä tanssii "
+"argentiinalaista tangoa."
+
+#: public/templates/public/about.html:96
+msgid ""
+"Today all business are service businesses. Even if you are just selling "
+"potatoes, you will legally need to provide a support for returning the bad "
+"ones."
+msgstr ""
+"Nykyään jokainen yritys on palveluyritys. Vaikka myisit vain perunoita, laki "
+"velvoittaa sinua tarjoamaan palvelun huonojen perunoiden palauttamiselle."
+
+#: public/templates/public/about.html:104
+msgid ""
+"For many companies it is not enough to just provide services. They see the "
+"need to become customer-driven in order to survive in a competitive market. "
+"To become customer-driven, you need to focus on the long-term relationship "
+"with the customer, instead of only looking at individual transactions. This "
+"means that how you manage your services needs some new thinking as well."
+msgstr ""
+"Moni yritys ei kuitenkaan tyydy pelkkään palveluiden tarjoamiseen. "
+"Pärjääminen kilpailluilla markkinoilla vaatii asiakaslähtöisyyttä. "
+"Asiakaslähtöisyys vaatii fokusoitumista pitkäaikaiseen asiakassuhteeseen "
+"yksittäisten transaktioiden sijaan. Tästä seuraa, että palveluiden "
+"hallinnointi vaatii myös uudenlaista ajattelua."
+
+#: public/templates/public/about.html:114
+msgid ""
+"The USM method provides a standardized management method for a service "
+"organization to manage its people, its processes, its technology, and its "
+"services."
+msgstr ""
+"USM-menetelmä tarjoaa palveluorganisaatiolle standardoidun hallintomallin "
+"henkilöiden, prosessien, teknologioiden sekä palveluiden hallintaan."
+
+#: public/templates/public/about.html:128
+msgid ""
+"USM is different from frameworks and standards, such as ISO 20000-1, COBIT "
+"or ITIL, which are collections of best practices.  USM is built on "
+"principles inspired by those practices. Thus USM is complementary to them."
+msgstr ""
+"USM poikkeaa muista kehikoista ja standardeista, kuten ISO 20000-1, COBIT "
+"tai ITIL, jotka ovat käytännössä parhaiden käytäntöjen kokoelmia. USM on "
+"rakennettu periaatteille, jotka ovat saaneet inspiraationsa noista "
+"käytännöistä. USM täydentää niitä."
+
+#: public/templates/public/about.html:136
+msgid ""
+"In fact, if you need certifications for your business, USM is probably the "
+"fastest, least expensive, least risky, and probably even the most useful way "
+"to do it. After you deploy USM, the auditors can cross-reference "
+"certification requirements to the activities in workflows, profiles and "
+"other specifications of the USM, to demonstrate compliancy."
+msgstr ""
+"Jos yrityksesti tarvitsee sertifikaatiota, USM on luultavasti jopa nopein, "
+"edullisin, vähäriskisin ja ehkä jopa hyödyllisin tapa hankkia se. Kun USM on "
+"otettu käyttöön, auditoijat voivat varmistaa sertifikaatien vaatimusten "
+"noudattamista hyödyntämällä ristiinviittauksia vaatimusten sekä USM:n "
+"työnkuluissa olevien aktiviteettien, profiilien sekä muiden USM:n "
+"määrittelyjen välillä."
+
+#: public/templates/public/about.html:152
+msgid ""
+"The USM Method was authored by USM Chief Architect Jan van Bon. Jan has "
+"extensive exprience in Service Management, including being a member of the "
+"ITIL v3 guidance team between 2006-2007. Jan became increasingly frustrated "
+"with the complexity of common standards and frameworks, including ITIL and "
+"various ISO standards, and started developing a more simplified method for "
+"service management, based on principles. USM is the result of that work."
+msgstr ""
+"USM-menetelmän on on laatinut USM:n pääarkkitehti Jan van Bon. Janilla on "
+"laaja kokemus palveluiden hallinnasta. Hän on ollut mm. jäsen ITIL v3 "
+"ohjaustiimissä vuosina 2006-2007. Jan tuskastui ITIL:in ja ISO-standardien "
+"kaltaisten standardien ja kehikkojen monimutkaisuuteen ja alkoi kehittää "
+"yksinkertaisempaa, periaatteille perustuvaa menetelmää palveluiden "
+"hallintaan. USM on sen työn tulos."
+
+#: public/templates/public/about.html:163
+msgid ""
+"The USM Method was developed and is owned and managed by the SURVUZ "
+"Foundation in Netherlands."
+msgstr ""
+"USM-menetelmän on kehittänyt, sen omistaa ja sitä hallinnoi hollantilainen "
+"SURVUZ Foundation."
+
+#: public/templates/public/about.html:178
+msgid "The USM method has the following features and benefits:"
+msgstr "USM-menetelmällä on seuraavat ominaisuudet ja hyödyt:"
+
+#: public/templates/public/about.html:186
+msgid "It is universal, so you can use it to manage any service."
+msgstr ""
+"Se on universaali, joten voit käyttää sitä minkä tahansa palvelun "
+"hallinnointiin"
+
+#: public/templates/public/about.html:191
+msgid ""
+"It unified, and allows workflows to co-operate more harmoniously even in "
+"complex networks of service providers."
+msgstr ""
+"Se on yhtenäinen ja mahdollistaa työnkulkujen harmonisen yhteistoiminnan "
+"jopa monimutkaisissa palveluntarjoajien verkostoissa."
+
+#: public/templates/public/about.html:196
+msgid "It is learnable, because it is based on principles instead of practices"
+msgstr "Se on opittavissa, koska se perustuu periaatteisiin eikä käytäntöihin"
+
+#: public/templates/public/about.html:201
+msgid "It is free, so you don't need to pay royalties for using it"
+msgstr ""
+"Se on vapaa, joten sinun ei tarvitse maksaa rojalteja sen käyttämisestä"
+
+#: public/templates/public/about.html:206
+msgid "It is simple, so you can learn it and become self-sufficient"
+msgstr ""
+"Se on yksinkertainen, joten voit oppia sen helposti itse ja tulla "
+"riippumattomaksi ulkopuolisista konsulteista"
+
+#: public/templates/public/about.html:211
+msgid "It is non-redundant, so you can avoid duplication of work"
+msgstr "Se ei sisällä toistoa, joten ylimääräistä työtä vältetään"
+
+#: public/templates/public/about.html:216
+msgid "It is open, so it fosters a culture of sharing ideas and practices"
+msgstr "Se on avoin, joka ruokkii ideoiden ja käytäntöjen jakamisen kulttuuria"
+
+#: public/templates/public/contact.html:14
+msgid "We are based in Helsinki, Finland."
+msgstr "Sijaitsemme Helsingissä."
+
+#: public/templates/public/contact.html:20
+msgid "We coach remotely as well."
+msgstr "Teemme myös etävalmennusta."
+
+#: public/templates/public/contact.html:29 templates/base.html:99
+msgid "Phone"
+msgstr "Puhelin"
+
+#: public/templates/public/privacy-policy.html:6
+msgid "USM Coach Privacy Policy"
+msgstr "USM Coachin Tietosuojaseloste"
+
+#: public/templates/public/privacy-policy.html:7
+msgid "As a visitor to the usm.coach website"
+msgstr "Vierailijana usm.coachin sivustolla"
+
+#: public/templates/public/privacy-policy.html:8
+msgid "As a customer and subscriber of USM Coach"
+msgstr "Asiakkaana ja USM Coachin palveluiden tilaajana"
+
+#: public/templates/public/privacy-policy.html:9
+msgid "Retention of data"
+msgstr "Tiedon säilytys"
+
+#: public/templates/public/privacy-policy.html:10
+msgid "Changes and questions"
+msgstr "Muutokset ja kysymykset"
+
+#: public/templates/public/privacy-policy.html:18
+msgid ""
+"For usm.coach visitors, we do not use cookies for tracking you and we do not "
+"collect any personal data without your consent."
+msgstr ""
+"Emme käytä keksejä usm.coachin vierailijoiden seuraamiseen emmekä kerää "
+"henkilökohtaista tietoa sinusta ilman lupaa."
+
+#: public/templates/public/privacy-policy.html:24
+msgid ""
+"If you request to hear about our news or us to contact you, or decide to "
+"create an account, we ask for your email address. We use it only for the "
+"purposes you have explicitly warranted. We will not contact you unless you "
+"explicitly give us a permission to do so."
+msgstr ""
+"Jos tilaat uutiskirjeen, pyydät että otamme yhteyttä, tai päätät perustaa "
+"käyttäjätilin, pyydämme sähköpostiosoitettasi. Käytämme sitä vain niihin "
+"tarkoituksiin, johon olet antanut luvan. Otamme sinuun yhteyttä vain jos olet "
+"antanut siihen luvan tai muista erittäin pakottavista syistä."
+
+#: public/templates/public/privacy-policy.html:31
+msgid ""
+"At USM Coach, we are committed to complying with GDPR, CCPA, PECR and other "
+"privacy regulations on our website and on our services."
+msgstr ""
+"Me USM Coachissa olemme sitoutuneet noudattamaan GDPR-, CCPA-, PECR- ja muita "
+"tietosuojaa koskevia säädöksiä verkko- ja muissa palveluissamme."
+
+#: public/templates/public/privacy-policy.html:41
+msgid ""
+"The privacy of our website visitors is important to us so we do not track "
+"any individual people. As a visitor to the usm.coach website:"
+msgstr ""
+"Verkkosivujen kävijöiden yksityisyys on meille tärkeää, joten emme jäljitä "
+"yksittäisiä käyttäjiä. Sivuston usm.coach vierailijana:"
+
+#: public/templates/public/privacy-policy.html:46
+msgid "No personal information other than you explicitly provide is collected"
+msgstr ""
+"Emme kerää muuta henkilökohtaista tietoa kuin sen mitä olet erikseen antanut"
+
+#: public/templates/public/privacy-policy.html:51
+msgid ""
+"No information such as cookies is stored in the browser to track you. "
+"Cookies are only used to persist your language choice and for other similar "
+"user interface features."
+msgstr ""
+"Emme tallenna tietoja, kuten keksejä, selaimesi muistiin "
+"seuraamistarkoituksessa. Keksejä käytetään vain kielivalintasi "
+"tallentamiseen ja muihin vastaaviin sivuston ominaisuuksien toteuttamiseen."
+
+#: public/templates/public/privacy-policy.html:56
+msgid "No information is shared with, sent to or sold to third-parties"
+msgstr ""
+"Kerättyä informaatiota ei jaeta, lähetetä tai myydä kolmansille osapuolille"
+
+#: public/templates/public/privacy-policy.html:61
+msgid "No information is shared with advertising companies"
+msgstr "Kerättyä informaatiota ei jaeta mainoksia myyville yrityksille"
+
+#: public/templates/public/privacy-policy.html:66
+msgid ""
+"No information is mined and harvested for personal and behavioral trends"
+msgstr ""
+"Kerättyä informaatiota ei louhita tai muuten hyödynnetä yksilöiden tai "
+"käyttäytymistrendien seuraamiseksi"
+
+#: public/templates/public/privacy-policy.html:71
+msgid "No information is monetized"
+msgstr "Kerättyä informaatiota ei kaupallisteta"
+
+#: public/templates/public/privacy-policy.html:79
+msgid ""
+"We run privacy-centered analysis script from Plausible to collect some "
+"anonymous usage data for statistical purposes. The goal is to track overall "
+"trends in our website traffic and success of our marketing campaigns, it is "
+"not to track individual visitors. All the data is in aggregate only. No "
+"personal data is collected."
+msgstr ""
+"Ajamme yksityisyydensuojaan keskittyvää Plausiblen analytiikkakirjastoa "
+"kerätäksemme anonyymiä käyttötietoa tilastollisiin tarkoituksiin. Keräämisen tarkoitus "
+"on seurata yleisiä verkkosivujen käyttötrendejä sekä "
+"markkinointikampanjoiden onnistumista. Tarkoitus ei ole seurata yksittäisiä "
+"kävijöitä. Kaikki tieto kerätään vain aggregaattimuodossa, eikä henkilökohtaista "
+"tietoa kerätä."
+
+#: public/templates/public/privacy-policy.html:85
+msgid ""
+"Data collected includes websites that send us traffic, pages on our site "
+"that are visited, duration of the visits, information from the devices "
+"(device type, operating system, country and browser) used during the visit "
+"and more. You can check Plausible website for full details the data policy."
+msgstr ""
+"Kerätty tieto sisältää mm. tiedon siitä, mistä sivulle on tultu, vieraillut "
+"sivut, vierailun kesto sekä tieto laitteista (laitteen tyyppi, "
+"käyttöjärjestelmä, maa, selain) jolla vierailu on tehty. Voit "
+"tarkistaa tarkemmat tiedot Plausiblen sivustolta."
+
+#: public/templates/public/privacy-policy.html:95
+msgid ""
+"Our guiding principle is to collect only what we need and that we will "
+"solely process this information to provide you with the service you signed "
+"up for."
+msgstr ""
+"Meitä ohjaava periaate on, että keräämme vain sen tiedon minkä tarvitsemme "
+"ja prosessoimme sen tiedon vain voidaksemme tarjota sinulle tilaamasi "
+"palvelun."
+
+#: public/templates/public/privacy-policy.html:101
+msgid ""
+"We use a select number of trusted external service providers for certain "
+"service offerings. These service providers are carefully selected and meet "
+"high data protection, data privacy and security standards."
+msgstr ""
+"Käytämme muutamia luotettuja kolmansien osapuolten tarjoamia palveluita "
+"joidenkin palvelujen toteuttamiseen. Nämä palvelut on tarkoin valittu ja "
+"noudattavat korkeita tiedonsuojauksen, tiedon yksityisyyden ja tietoturvan "
+"standardeja."
+
+#: public/templates/public/privacy-policy.html:107
+msgid ""
+"We only share information with them that is required for the services "
+"offered and we contractually bind them to keep any information we share with "
+"them as confidential and to process personal data only according to our "
+"instructions."
+msgstr ""
+"Jaamme heidän kanssaan vain sen tiedon minkä he tarvitsevat omien "
+"palveluidensa toteuttamiseen, velvoitamme heitä sopimuksella pitämään "
+"kyseisen tiedon luottamuksellisena ja prosessoimaan henkilöihin liittyvää "
+"tietoa vain meidän antamiemme ohjeiden mukaisesti."
+
+#: public/templates/public/privacy-policy.html:113
+msgid "Here’s what that means in practice:"
+msgstr "Tätä se tarkoittaa käytännössä:"
+
+#: public/templates/public/privacy-policy.html:119
+msgid "What we collect and what we use it for"
+msgstr "Mitä keräämme ja mihin sitä käytetään"
+
+#: public/templates/public/privacy-policy.html:124
+msgid ""
+"An email address is required if you request us to send you information or "
+"contact you, or if you create an account. For the account, this is just so "
+"you can log in and personalize your new account, and we can send you "
+"invoices, updates or other essential information."
+msgstr ""
+"Sähköpostiosoite tarvitaan jos pyydät että otamme sinuun yhteyttä, pyydät "
+"että lähetämme sinulle tietoa tai jos haluat luoda tunnuksen. Tunnuksessa "
+"tarvitsemme sitä siksi, että voit kirjautua sisään ja personoida tunnustasi, "
+"ja että voimme lähettää sinulle laskuja, päivityksiä ja muuta oleellista "
+"tietoa."
+
+#: public/templates/public/privacy-policy.html:129
+msgid ""
+"A persistent first-party cookie is stored to remember you’re logged in. If "
+"you log in to your USM Coach account, you give us permission to use cookies "
+"so you don’t have to log in on each returning session. This makes it easier "
+"for you to use our product. A cookie is a piece of text stored by your "
+"browser. You can adjust cookie retention settings in your own browser. "
+"Cookies that are already stored may be deleted at any time."
+msgstr ""
+"Pysyvä ensimmäisen osapuolen keksi tallennetaan jotta sisäänkirjautumisesi "
+"muistetaan. Jos kirjaudut sisään USM Coach -tunnuksellasi, annat meille "
+"oikeuden käyttää keksejä ettei sinun tarvitse kirjautua sisään jokaisella "
+"seuraavalla istunnolla. Tämä tekee palvelumme käyttämisestä helpompaa. Keksi "
+"on tekstinpätkä joka tallennetaan selaimeesi. Voit muuttaa keksien "
+"säilömisaikaa selaimesi asetuksista. Voit tuhota tallennetut piparit "
+"milloin tahansa."
+
+#: public/templates/public/privacy-policy.html:134
+msgid ""
+"The payment process is handled by a third-party payment provider. If you "
+"choose to upgrade to a USM Coach paid plan, the billing information and the "
+"payment process is handled by Paddle. See the Paddle Privacy Policy for full "
+"details."
+msgstr ""
+"Maksut käsitellään kolmannen osapuolen maksunvälittäjän toimesta. Jos "
+"valitset USM Coachin maksullisen palvelun, laskutustiedot sekä "
+"laskutusprosessi hoidetaan Paddlen toimesta. Voit tarkistaa tarkemmat tiedot "
+"Paddlen tietosuojaselosteesta."
+
+#: public/templates/public/privacy-policy.html:139
+msgid ""
+"All emails are sent using a third-party email provider. Transactional emails "
+"and email reports (should you choose to subscribe to them) are sent using "
+"Postmark. We have disabled both open tracking and link tracking on all "
+"emails sent. See the Postmark Privacy Policy for full details."
+msgstr ""
+"Kaikki sähköpostit lähetetään kolmannen osapuolen sähköpostipalvelinten "
+"kautta. Transaktionaaliset sähköpostit sekä sähköpostiraportit (jos tilaat "
+"sellaisen) lähetään Postmark-palvelulla. Olemme poistaneet käytöstä "
+"sähköpostin avaamisen ja linkkien seuraamisen kaikissa lähtevissä "
+"sähköposteissa. Voit tarkistaa tarkemmat tiedot Postmarkin "
+"tietosuojaselosteesta."
+
+#: public/templates/public/privacy-policy.html:144
+msgid ""
+"When you write to us with a question or to ask for help. We keep that "
+"correspondence, which includes the email address, so that we have a history "
+"of past correspondences to reference if you reach out in the future. We use "
+"this data solely in connection with answering the queries we receive."
+msgstr ""
+"Jos kirjoitat meille kysyäksesi kysymyksen tai pyytääksesi apua. Tallennamme "
+"käydyt keskustelut, jotka pitävät sisällään sähköpostiosoitteet, jotta "
+"meillä on tallessa käytyjen viestinvaihtojen historia siinä tapauksessa että "
+"otat meihin yhteyttä myös jatkossa. Tätä tietoa käytetään vain kysyttyihin "
+"kysymyksiin vastaamiseen."
+
+#: public/templates/public/privacy-policy.html:149
+msgid ""
+"We use CAPTCHA service as a means of spam protection on our account "
+"registration form. hCaptcha is a GDPR-compliant and privacy-friendly "
+"captcha. See the hCaptcha Privacy Policy for full details."
+msgstr ""
+"Käytämme CAPTCHA-palvelua roskapostien estoon rekisteröitymislomakkeella. "
+"hCaptcha on GDPR-yhteensopiva ja tietoturvalähtöinen captcha. Voit tarkistaa "
+"tarkemmat tiedot hCaptchan tietosuojaselosteesta."
+
+#: public/templates/public/privacy-policy.html:154
+msgid ""
+"When you choose to subscribe to our blog posts via email. We use Mailchimp "
+"to send those newsletters. We have disabled both open tracking and link "
+"tracking on all emails sent. See the Mailchimp Privacy Policy for full "
+"details."
+msgstr ""
+"Kun tilaat blogikirjoituksemme sähköpostitse. Käytämme Mailchimp-palvelua "
+"uutiskirjeiden lähettämiseen. Olemme poistaneet käytöstä uutiskirjeen "
+"avaamisen ja linkkien seuraamisen kaikissa lähtevissä sähköposteissa. Voit "
+"tarkistaa tarkemmat tiedot Mailchimpin tietosuojaselosteesta."
+
+#: public/templates/public/privacy-policy.html:163
+msgid ""
+"We will retain your information as long as your account is active, as "
+"necessary to provide you with the services or as otherwise set forth in this "
+"policy."
+msgstr ""
+"Säilytämme informaation niin kauan kuin tunnuksesi on aktiivinen, "
+"voidaksemme tarjota sinulle palveluita tai muista tässä selosteessa "
+"mainituista syistä."
+
+#: public/templates/public/privacy-policy.html:169
+msgid ""
+"We will also retain and use this information as necessary for the purposes "
+"set out in this policy and to the extent necessary to comply with our legal "
+"obligations, resolve disputes, enforce our agreements and protect USM "
+"Coach’s legal rights."
+msgstr ""
+"Säilytämme ja käytämme näitä tietoja tarpeen mukaan tässä selosteessa "
+"kuvatussa tarkoituksessa ja siinä määrin kuin se on tarpeellista "
+"lakisääteisten velvoitteiden hoitamiseksi, riitojen ratkaisemiseksi, "
+"sopimusten täytäntöönpanemiseksi sekä USM Coachin oikeuksien suojelemiseksi."
+
+#: public/templates/public/privacy-policy.html:175
+msgid ""
+"You can choose to delete your USM Coach account at any time. All your data "
+"will be permanently deleted immediately when you delete your account."
+msgstr ""
+"Voit tuhota USM Coach -tilisi milloin tahansa. Kaikki data tuhotaan "
+"välittömästi ja peruuttamattomasti kun poistat tilisi."
+
+#: public/templates/public/privacy-policy.html:183
+msgid ""
+"We may update this policy as needed to comply with relevant regulations and "
+"reflect any new practices. Whenever we make a significant change to our "
+"policies, we will also announce them on our company blog or social media "
+"profiles."
+msgstr ""
+"Voimme päivittää tätä selostetta tarpeen mukaan erilaisten säännösten "
+"toteuttamiseksi ja mukauttamiseksi sopivaksi uusiin käytäntöihin. Jos teemme "
+"merkittäviä muutoksia selosteeseen, julkaisemme tiedon siitä yrityksen "
+"blogissa tai sosiaalisen median tileilä."
+
+#: public/templates/public/privacy-policy.html:189
+msgid ""
+"<a href=\"/public/contact/\">Contact</a> us if you have any questions, "
+"comments, or concerns about this privacy policy, your data, or your rights "
+"with respect to your information."
+msgstr ""
+"<a href=\"/public/contact/\">Ota yhteyttä</a> meihin jos sinulla on "
+"kysyttävää, kommentteja tai huolia liittyen tähän tietosuojaselosteeseen, "
+"dataasi, tai oikeuksisi omaan tietoosi liittyen."
+
+#: public/templates/public/resources.html:9
+msgid "Simple USM"
+msgstr "Simple USM"
+
+#: public/templates/public/resources.html:10
+msgid "Training"
+msgstr "Koulutus"
+
+#: public/templates/public/resources.html:11
+msgid "Books"
+msgstr "Kirjat"
+
+#: public/templates/public/resources.html:12
+msgid "USM Portal"
+msgstr "Portaali"
+
+#: public/templates/public/resources.html:23
+msgid "Start download"
+msgstr "Aloita lataus"
+
+#: public/templates/public/resources.html:28
+msgid "Submit for the download link"
+msgstr "Lähetä, saat latauslinkin"
+
+#: public/templates/public/resources.html:35
+msgid ""
+"<i>Simple USM</i> is an introductory e-book about USM. It is targeted for "
+"people that want to understand the basics of USM, for example for deploying "
+"USM with the help of a coach."
+msgstr ""
+"E-kirja <i>Simple USM</i> on johdanto USM:ään. Kirja on suunnattu ihmisille "
+"jotka haluavat ymmärtää USM:n perusteet, esimerkiksi voidakseen osallistua "
+"USM:n käyttöönottoon valmentajan avulla."
+
+#: public/templates/public/resources.html:42
+msgid ""
+"It explains the core ideas of USM method in simple, condensed format. It is "
+"a good starting point for learning more about USM."
+msgstr ""
+"Se esittelee USM-menetelmän ydinajatukset yksinkertaisessa ja tiivistetyssä "
+"muodossa. E-kirja on hyvä lähtökohta USM:ään tutustumiseen."
+
+#: public/templates/public/resources.html:49
+msgid "The book is in English and contains 14 pages."
+msgstr "Kirja on englanninkielinen ja sisältää 14 sivua."
+
+#: public/templates/public/resources.html:55
+msgid ""
+"The book is free to download in PDF format. Fill your industry on the form "
+"on the left, and submit the form. After you submit the form, a download "
+"button will appear."
+msgstr ""
+"Voit ladata PDF-muotoisen kirjan ilmaiseksi. Täytä toimiala vasemman palstan "
+"lomakkeelle ja lähetä lomake. Lomakkeen lähettämisen jälkeen lomakkeen "
+"tilalle tulee latauspainike."
+
+#: public/templates/public/resources.html:62
+msgid ""
+"We have free webinars, product releases and other interesting things coming "
+"up soon. To stay informed, check the corresponding boxes and fill in your "
+"email address. We will not spam you, and use your email address only for the "
+"purposes you have explicitly warranted. See our <a href=\"/public/privacy-"
+"policy\">Privacy Policy</a> for details."
+msgstr ""
+"Julkaisemme pian webinaareja, uusia tuotteita ja muutakin mielenkiintoista. "
+"Valitse sopivat laatikot sekä täytä sähköpostiosoitteesi saadaksesi niistä "
+"lisätietoja. Emme lähetä viestejä turhaan. Käytämme osoitettasi vain siihen "
+"tarkoitukseen johon olet antanut luvan. Lisätietoja <a href=\"/public/"
+"privacy-policy\">tietosuojaselosteesta</a>."
+
+#: public/templates/public/resources.html:77
+msgid ""
+"Training is integral part of the USM Deployment, allowing you to become more "
+"self-sufficient. Training can be more informal knowledge transfer, or more "
+"formal training by a certified USM Training Partner."
+msgstr ""
+"Koulutus on tärkeä osa USM:n käyttöönottoa. Me voimme auttaa sinua tulemaan "
+"omavaraisemmaksi. Koulutus voi olla joko vapaamuotoisempaa osaamisen siirtoa "
+"tai muodollisempaa sertifioidun USM-kouluttajan pitämää koulutusta."
+
+#: public/templates/public/resources.html:84
+msgid ""
+"For more information on training, see <a href=\"https://usm-portal.com/"
+"training/?lang=en\">Training</a> at USM portal."
+msgstr ""
+"Lisätietoja koulutuksista saat USM-portaalin koulutussivulta &mdash; <a href="
+"\"https://usm-portal.com/training/?lang=en\">Training</a>."
+
+#: public/templates/public/resources.html:104
+msgid ""
+"The online webbook <i>How to make a success of ITIL&#169; 4 with USM</i> "
+"describes the structure and practices of ITIL 4 from the perspective of the "
+"USM management system."
+msgstr ""
+"Verkkokirja <i>How to make a success of ITIL&#169; 4 with USM</i> kuvaa ITIL "
+"4:n rakenteen ja periaatteet USM-menetelmän näkökulmasta. Kirja on "
+"englanninkielinen."
+
+#: public/templates/public/resources.html:117
+msgid ""
+"The webbook <i>The USM Method</i> describes in detail the principles, "
+"structure, and application of the USM method, in 105 web pages and 100+ "
+"illustrations. To apply USM, you read the USM web-book and then apply it in "
+"your own organization. Rest assured – you can really do this yourself. A "
+"sustainable service organization is simpler than you may think."
+msgstr ""
+"Verkkokirja <i>The USM Method</i> kuvaa tarkasti periaatteet, rakenteen sekä "
+"USM-menetelmän soveltamisen. Kirjassa on 105 sivua ja yli sata kuvaa. Kirja "
+"antaa valmiudet soveltaa USM:ää omaan organisaatioosi. Usko pois - pystyt "
+"ihan oikeasti tekemään sen itse. Kestävä palveluorganisaatio on "
+"yksinkertaisempaa kuin uskotkaan. Kirja on englanninkielinen."
+
+#: public/templates/public/resources.html:138
+msgid ""
+"The <a href=\"https://usm-portal.com/?lang=en\">USM Portal</a> contains lots "
+"of resources about the USM."
+msgstr ""
+"<a href=\"https://usm-portal.com/?lang=en\">USM-portaali</a> sisältää paljon "
+"lisätietoa USM:stä."
+
+#: public/templates/public/resources.html:144
+msgid ""
+"A good starting point is the <a href=\"https://usm-portal.com/usm-library/?"
+"lang=en\">USM Library</a>."
+msgstr ""
+"Hyvä aloituspiste on USM-kirjasto &mdash; <a href=\"https://usm-portal.com/"
+"usm-library/?lang=en\">USM Library</a>."
+
+#: public/templates/public/services.html:7
+msgid "Scans"
+msgstr "Kartoitukset"
+
+#: public/templates/public/services.html:8
+msgid "Coaching"
+msgstr "Valmennus"
+
+#: public/templates/public/services.html:9
+msgid "Tooling"
+msgstr "Työkalut"
+
+#: public/templates/public/services.html:10
+msgid "Audit Support"
+msgstr "Tuki auditoinneissa"
+
+#: public/templates/public/services.html:18
+msgid ""
+"Any process can be described with one of 8 workflows going through 5 "
+"processes."
+msgstr ""
+"Mikä tahansa prosessi voidaan kuvata yhdellä kahdeksasta työnkulusta, jotka "
+"kulkevat viiden prosessin läpi."
+
+#: public/templates/public/services.html:34
+msgid "Before you begin your USM journey, you should know where you are."
+msgstr ""
+"Ennen kuin aloittaa matkan USM:n parissa, on hyvä tietää missä tällä "
+"hetkellä on."
+
+#: public/templates/public/services.html:40
+msgid ""
+"We can analyze your current situation using USM scans. If we scan your "
+"current situation before the project, you can use the results to demonstrate "
+"the business value the project may provide to your organization. We can also "
+"do the scan later, in the initial phase of the deployment project."
+msgstr ""
+"Voimme analysoida nykytilannettasi USM-kartoitusten avulla. Jos kartoitus "
+"tehdään ennen projektin aloitusta, sen tuloksia voidaan käyttää osoittamaan "
+"USM:n tuomia liiketoimintahyötyjä. Kartoitus voidaan tehdä myös myöhemmin, "
+"osana käyttöönottoprojektin aloitusvaihetta."
+
+#: public/templates/public/services.html:48
+msgid ""
+"There are multiple types of scans, with varying depths and scopes, depending "
+"on the needs of the organization. USM scans use a mix of surveys, interviews "
+"and reviews of existing documentation and tools. The result is typically "
+"presented in a form of a report."
+msgstr ""
+"Kartoituksia voidaan laatia tarpeen mukaan vaihtelevalla laajuudella ja "
+"syvyydellä. USM-kartoituksissa käytetään hyödyksi kyselyitä, haastatteluja, "
+"sekä olemassaolevaan dokumentaatioon ja työkaluihin perehtymistä. Tulokset "
+"esitetään yleensä raportin muodossa."
+
+#: public/templates/public/services.html:55
+msgid ""
+"Quick scan can also be done as a self-assessment, using an Excel template or "
+"an online form."
+msgstr ""
+"Pikakartoitus voidaan tehdä myös itsearviointina, käyttäen Excel-pohjaa tai "
+"verkkolomaketta."
+
+#: public/templates/public/services.html:61
+msgid ""
+"<span class=\"foobar\">Coming soon</span> Online self-assessment form! "
+"Register on the resources page for our newsletter to get notified."
+msgstr ""
+"<span class=\"foobar\">Tulossa</span> Itsearvioinnin verkkotyökalu tulossa "
+"pian! Rekisteröidy uutiskirjeemme tilaajaksi niin pidämme sinut ajan tasalla."
+
+#: public/templates/public/services.html:71
+msgid ""
+"Your organization should become self-sufficient in providing the USM. Our "
+"coaches can help you in your path towards self-sufficiency, with various "
+"forms of knowledge transfer, such as informal training and coaching. We can "
+"also set you up with more formal USM training if needed."
+msgstr ""
+"Organisaatiosi pitäisi tulla omavaraiseksi USM:n tarjoamisessa. "
+"Valmentajamme voivat auttaa sinua matkalla omavaraisuuteen "
+"esimerkiksierilaisten osaamisen siirtojen kuten vapaamuotoisen koulutuksen "
+"tai valmennuksen muodossa. Voimme myös järjestää tarvittaessa "
+"muodollisempaaUSM-koulututa."
+
+#: public/templates/public/services.html:78
+msgid ""
+"We are flexible, but typically avoid consulting, deployment work and project "
+"management, because they do not help you to become self-sufficient."
+msgstr ""
+"Olemme joustavia, mutta yleisesti välttelemme konsultointia, käyttöönottotyö "
+"tai projektinhallintaa, koska se vaikeuttaa omavaraisuuttasi."
+
+#: public/templates/public/services.html:90
+msgid ""
+"Tooling is an integral part of the USM deployment project and will play a "
+"major part in its success."
+msgstr ""
+"Työkalut ovat olennainen osa USM:n käyttöönottoa ja vaikuttaa keskeisesti "
+"sen onnistumiseen."
+
+#: public/templates/public/services.html:96
+msgid ""
+"Existing systems may need to be integrated, or you may need to build or "
+"purchase new ones."
+msgstr ""
+"Olemassaolevat järjestelmät voivat tarvita integraatioita, tai uusia "
+"järjestelmiä täytyy rakentaa tai ostaa."
+
+#: public/templates/public/services.html:102
+msgid ""
+"We can help you in evaluating suitability of your current systems in terms "
+"of USM features, evaluating alternatives, or implementing the necessary "
+"custom tools, integrations and glue between systems."
+msgstr ""
+"Voimme auttaa sinua arvioimaan nykyisten järjestelmiesi toimivuuden USM:n "
+"vaatimien ominaisuuksien kannalta, vertailla työkaluja tai toteuttaa uusia "
+"työkaluja, integraatioita tai liimaa järjestelmien välillä."
+
+#: public/templates/public/services.html:113
+msgid ""
+"We have the tools to assist you in various kinds of service management "
+"audits that target frameworks and certifications, such as ITIL v4, ISO 27k, "
+"ISO 20k, COBIT. We can provide your auditors with cross-references between "
+"USM and the target framework or certification."
+msgstr ""
+"Meillä on työkalut joilla voimme auttaa sinua erilaisissa palvelunhallinnan "
+"auditoinneissa jotka kohdistuvat ITIL v4, ISO 27k, ISO 20k, COBIT "
+"kaltaisiinkehikoihin. Voimme tarjota auditoijillesi ristiviittaukset USM:n "
+"ja kohteena olevan kehikon tai sertifikaatin välillä."
+
+#: public/templates/public/services.html:120
+msgid "We do not do audits or provide you with certifications."
+msgstr "Emme tee auditointeja tai tarjoa serifikaatteja."
+
+#: public/views.py:25
+msgid "Form sending was successful."
+msgstr "Lomakkeen lähetys onnistui."
+
+#: public/views.py:38
+msgid "Only fi and en are supported. Vain fi ja en tuettu."
+msgstr "Only fi and en are supported. Vain fi ja en tuettu."
+
+#: public/views.py:57
+msgid "Download was not successful, did you remember to fill the form?"
+msgstr "Vastaanotto epäonnistui, muistitko täyttää lomakkeen?"
+
+#: templates/base.html:8
+msgid "About"
+msgstr "Yleistä"
+
+#: templates/base.html:9
+msgid "Services"
+msgstr "Palvelut"
+
+#: templates/base.html:10
+msgid "Resources"
+msgstr "Resurssit"
+
+#: templates/base.html:11
+msgid "Contact"
+msgstr "Yhteystiedot"
+
+#: templates/base.html:12
+msgid "Privacy Policy"
+msgstr "Tietosuojaseloste"
+
+#: templates/base.html:59
+msgid "E-Book: Simple USM"
+msgstr "E-kirja: Simple USM"
+
+#: templates/base.html:105
+msgid "It is universal"
+msgstr "Se on universaali"
+
+#: templates/base.html:106
+msgid "unified"
+msgstr "yhtenäinen"
+
+#: templates/base.html:107
+msgid "learnable"
+msgstr "opittavissa"
+
+#: templates/base.html:108
+msgid "free"
+msgstr "vapaa"
+
+#: templates/base.html:109
+msgid "simple"
+msgstr "yksinkertainen"
+
+#: templates/base.html:110
+msgid "non-redundant"
+msgstr "ei sisällä toistoa"
+
+#: templates/base.html:111
+msgid "open"
+msgstr "avoin"
+
+#: usm/settings.py:135
+msgid "Finnish"
+msgstr "Suomi"
+
+#: usm/settings.py:136
+msgid "English"
+msgstr "Englanti"

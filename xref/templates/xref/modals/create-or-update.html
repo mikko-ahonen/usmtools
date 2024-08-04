@@ -1,0 +1,18 @@
+{% extends 'xref/modals/modal-base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+  {% if object %}
+    {% trans 'Update ' %} {{ object_type }} {{ object }}
+  {% else %}
+    {% trans 'Create a new ' %} {{ object_type }}
+  {% endif %}
+</h3>
+{% if not object %}
+{{ help_text }}
+{% endif %}
+<form method="POST" action="{{request.path}}">
+{% crispy form %}
+</form>
+{% endblock %}

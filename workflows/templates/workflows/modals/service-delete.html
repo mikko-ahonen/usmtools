@@ -1,0 +1,38 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+<h3>{% trans 'Delete service' %} {{ service }}</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    {% comment %}
+    {% with total_children=service.descendants.count %}
+    {% if total_children > 0 %}
+    <p>
+      {% blocktranslate trimmed with count=total_children %}
+      Deleting this service will delete {{count}} child services as well.
+      {% endblocktranslate %}
+    </p>
+    {% endif %}
+    {% endwith %}
+    {% endcomment %}
+    <p>
+      {% trans 'Are you sure you want to delete it?' %}
+    </p>
+    <p>
+      {% if service.workflows.count %}
+      {% trans 'Additionally, this will also delete all the workflows below, including their steps, activities, and responsibility assignments:' %}
+
+      <ul>
+        {% for workflow in service.workflows.all %}
+        <li>
+            {{ workflow.name }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </p>
+    <p> 
+      <a class="button btn btn-secondary" href="{% url 'workflows:service-list' tenant.id %}">Cancel</a>
+      <input class="button btn btn-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

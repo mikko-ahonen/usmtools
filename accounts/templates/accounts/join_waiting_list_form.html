@@ -1,0 +1,36 @@
+{% extends "accounts/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans "Join waiting list" %}{% endblock %}
+
+{% block regcontent %}
+<h3>{% trans 'Join waiting list' %}</h3>
+{% if invite %}
+<p>
+    {% trans 'You have been invited by' %} {{ invite.entry.email }} {% trans 'to join the waiting list for this service.' %}
+</p>
+{% endif %}
+
+<p>
+    {% blocktrans trimmed %}
+    This service is not yet open to the public. 
+    {% endblocktrans %}
+</p>
+
+<p>
+    {% blocktrans trimmed %}
+    You can join our waiting list by filling your email address below and answering a few 
+    questions below. 
+    {% endblocktrans %}
+</p>
+
+<p>
+    {% blocktrans trimmed %}
+    Optionally, you can also send an invite to your friends, and if they also join, you will increase the position for 
+    all of you in the waiting list.
+    {% endblocktrans %}
+</p>
+
+{% crispy form %}
+{% endblock %}

@@ -1,0 +1,33 @@
+services :
+  web:
+    build: 
+      context: ../
+      dockerfile: dev/Dockerfile.dev
+    command: /src/deploy/docker-entrypoint.sh
+    ports:
+      - "8000:8000"
+      - "6900:6900"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    volumes:
+      - ../:/src
+    environment:
+      - DJANGO_DEBUG=True
+      - POSTGRES_PASSWORD=S3cret
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=15432
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=db
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 15432:15432
+    volumes:
+      - ../postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=S3cret
+      - POSTGRES_USER=postgres
+      - POSTGRES_PORT=15432
+      - POSTGRES_DB=db

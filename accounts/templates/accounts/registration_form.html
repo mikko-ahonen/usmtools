@@ -1,0 +1,26 @@
+{% extends "accounts/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans "Register for an account" %}{% endblock %}
+
+{% block regcontent %}
+<div class="row">
+    <div class="col-md-12">
+        <h3>{% trans 'You have been invited to participate in beta testing the USM site' %}.</h3>
+
+        <p>
+        {% trans 'Already have an account? Please ' %}<a href="{% url 'accounts:auth_login' %}?next={{ request.path | urlencode }}">{% trans 'log in' %}</a>. {% trans 'Otherwise, register below.' %}
+        </p>
+    </div>
+</div>
+{% if not user.is_authenticated %}
+<div class="row mt-3">
+</div>
+<div class="row">
+  <div class="col-md-12">
+    {% crispy form %}
+  </div>
+</div>
+{% endif %}
+{% endblock regcontent %}

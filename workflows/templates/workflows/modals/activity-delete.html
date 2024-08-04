@@ -1,0 +1,14 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% load i18n %}
+{% block content %}
+<h3>{% trans 'Delete activity' %} {{ activity }}</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    <p>
+      {% trans 'Are you sure you want to delete this activity?' %}
+    </p>
+    <p> 
+      <input class="button btn btn-primary" type="submit" value="OK">
+      <a class="button btn btn-secondary" href="{% url 'workflows:workflow-detail' tenant.id activity.step.workflow_id %}">Cancel</a>
+    </p>
+</form>
+{% endblock content %}

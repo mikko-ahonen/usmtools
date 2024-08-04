@@ -1,0 +1,17 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'compliances' %}
+<h3>{% trans 'Compliance domains' %}</h3>
+  {% for domain in domains %}
+  <p>
+    <h5>{% url 'compliances:domain-detail' domain.slug %}{{ domain.name }}</h5>
+    <small class="text-muted">{{ domain.description }}</small>
+  </p>
+  {% endfor %}
+</div>
+</section>
+{% endblock %}

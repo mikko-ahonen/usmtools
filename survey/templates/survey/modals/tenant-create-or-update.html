@@ -1,0 +1,21 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+  {% if object %}
+    {% trans 'Update tenant' %} {{ object }}
+  {% else %}
+    {% trans 'Create a new tenant' %}
+  {% endif %}
+</h3>
+{% if not object %}
+<p>
+You should create a new tenant for each organization that may share customers, profiles, services, organization structure, and workflows.
+</p>
+
+{% endif %}
+<form method="POST" action="{{request.path}}">
+{% crispy form %}
+</form>
+{% endblock %}

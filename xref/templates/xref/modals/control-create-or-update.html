@@ -1,0 +1,18 @@
+{% extends 'xref/modals/modal-base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+  {% if object %}
+    {% trans 'Update control' %} {{ object }}
+  {% else %}
+    {% trans 'Create a new control' %}
+  {% endif %}
+</h3>
+{% if not object %}
+Control corresponds to the controls that your framework or standard supports.
+{% endif %}
+<form method="POST" action="{{request.path}}">
+{% crispy form %}
+</form>
+{% endblock %}

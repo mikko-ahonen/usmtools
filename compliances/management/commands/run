@@ -1,0 +1,2 @@
+python xref.py iso27001.xref  > iso27001.l
+python -m logica iso27001.l run $1

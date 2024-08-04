@@ -1,0 +1,21 @@
+{% extends "accounts/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Account Activated" %}{% endblock %}
+
+{% block regcontent %}
+<h3>{% trans "Account" %} {{ username }} {% trans 'activated' %}</h3>
+<p>
+    <p>
+    {% trans "Your account is now activated." %}
+    </p>
+
+    <p>
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'workflows:tenant-list' %}">{% trans 'Continue' %}</a> {% trans 'by setting up a new tenant.' %}
+    {% else %}
+      {% trans "You can " %} <a href="{% url 'accounts:auth_login' %}?next={% url 'workflows:tenant-list' %}">{% trans "log in" %}</a>.
+    {% endif %}
+    </p>
+</p>
+{% endblock regcontent %}

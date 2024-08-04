@@ -1,0 +1,27 @@
+{% extends "workflows/modals/modal-base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h3>
+  {% trans 'Workflow shares' %}
+</h3>
+
+{% for share in shares %}
+<div class="row">
+    <div class="col col-md-4">
+    {% trans 'Share name' %}
+    </div>
+    <div class="col col-md-2">
+    {% trans 'Created' %}
+    </div>
+    <div class="col col-md-2">
+    {% trans 'Last accessed' %}
+    </div>
+</div>
+{% endfor %}
+
+<form method="POST" action="{{request.path}}">
+{% crispy form %}
+</form>
+{% endblock %}

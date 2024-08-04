@@ -1,0 +1,178 @@
+{% extends 'workflows/base.html' %}
+{% load i18n %}
+{% load indent %}
+{% load step_process_badge %}
+{% load breadcrumbs %}
+{% block content %}
+<div class="content">
+<section class="app">
+{% breadcrumbs tenant True 'services' workflow %}
+
+<h1>
+  {{ workflow.name }}
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:workflow-update' tenant.id workflow.id %}" href="{% url 'workflows:workflow-update' tenant.id workflow.id %}"><i class="bi bi-pencil"></i></a>
+  <a class="btn btn-primary" href="{% url 'workflows:workflow-detail-printable' tenant.id workflow.id %}"><i class="bi bi-printer"></i></a>
+</h1>
+<p>
+  {{ workflow.description|linebreaks }}
+</p>
+<div class="row mb-3">
+{% include 'workflows/fragments/workflow-steps-diagram.html' with workflow=workflow %}
+</div>
+
+{% for step in workflow.steps.all %}
+{% with indent=step.process_depth|default:0|indent:40 %}
+<div id="step-{{step.id}}" class="">
+  <div class="row">
+    <div class="col col-md-1">
+      <div class="col col-md-8 vertical-step-circle {{ step.process }}-bg">
+        <span class="vertical-step-circle-text align-middle">{{ forloop.counter }}</span>
+      </div>
+    </div>
+    <div class="col col-md-11 mt-2">
+      <h2>{{ step.name }} {{ step|step_process_badge }} <a class="step-description-collapse btn btn-primary collapsed" role="button" data-bs-toggle="collapse" href="#step-{{ step.id }}-description"><i class="bi bi-file-text"></i></a></h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-md-1">{% if not forloop.last %}<div class="vertical-line"></div>{% endif %}</div>
+    <div id="step-{{step.id }}-description" class="collapse col col-md-11">
+      <p>
+      <span class="fst-italic">{{ step.description|linebreaks }}</span> <a role="button" data-bs-toggle="collapse" href="#step-{{ step.id }}-description"><i class="bi bi-box-arrow-up-right"></i></a>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-md-1">{% if not forloop.last %}<div class="vertical-line"></div>{% endif %}</div>
+    <div class="col col-md-11">
+      {% for activity in step.activities.all %}
+      <div id="activity-{{ activity.id }}" class="row">
+        <div class="col col-md-12">
+          <div class="card bg-dark text-light mb-3">
+            <div class="card-body">
+              <div class="row">
+                <div class="col col-md-12">
+                  <h5>
+                    {{ forloop.counter }}. {{ activity.name }}&nbsp;
+                    <a class="btn btn-light open-popup" data-popup-url="{% url 'workflows:activity-update' tenant.id activity.id %}" href="{% url 'workflows:activity-update' tenant.id activity.id %}"><i class="bi bi-pencil"></i></a>
+                    <a class="btn btn-light open-popup" data-popup-url="{% url 'workflows:activity-delete' tenant.id activity.id %}" href="{% url 'workflows:activity-delete' tenant.id activity.id %}"><i class="bi bi-trash3"></i></a>
+                    {% if not forloop.first %}
+                    <a class="btn btn-light activity-down" href="{% url 'workflows:activity-up' tenant.id activity.id %}"><i class="bi bi-arrow-up"></i></a>
+                    {% endif %}
+                    {% if not forloop.last %}
+                    <a class="btn btn-light activity-down" href="{% url 'workflows:activity-down' tenant.id activity.id %}"><i class="bi bi-arrow-down"></i></a>
+                    {% endif %}
+                    <a class="btn btn-light activity-description-toggle" data-activity="{{ activity.id }}"><i class="bi bi-chevron-down"></i></a>
+                  </h5>
+                  <div class="activity-description text-wrap line-clamp">
+                    {{ activity.description|linebreaks }}
+                  </div>
+                  <div>
+                    {% include 'workflows/fragments/responsibles.html' with tenant=tenant responsibles=activity.responsibles only %}
+                  </div>
+                  <div class="row m-1 d-grid">
+                    <a class="col-md-3 btn btn-light open-popup" href="{% url 'workflows:responsible-create' tenant.id activity.id %}" data-popup-url="{% url 'workflows:responsible-create' tenant.id activity.id %}">{% trans 'Add a new responsibility' %}</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+        <p>
+          {% trans 'No activities. You should probably create one.' %}
+        </p>
+      {% endfor %}
+      <div class="row">
+        <div class="col col-md-12">
+          <a class="btn btn-primary open-popup" href="{% url 'workflows:activity-create' tenant.id step.id %}" data-popup-url="{% url 'workflows:activity-create' tenant.id step.id %}">{% trans 'Create a new activity' %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if not forloop.last %}
+  <div class="row spacer">
+    <div class="col col-md-1"><div class="vertical-line"></div></div>
+    <div class="col col-md-11">
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endwith %}
+{% endfor %}
+</section>
+</div>
+{% include 'workflows/fragments/modal.html' %}
+{% endblock content %}
+
+{% block footer-scripts %}
+<script>
+$(document).on("click", ".activity-description-toggle", function () {
+    var elem = $(this);
+    var expanded = elem.hasClass('expanded');
+    var activity = elem.data('activity');
+    var i = elem.find('i');
+    $("#activity-" + activity + " .activity-description").each(function () {
+        var d = $(this);
+        if (expanded) {
+            elem.removeClass('expanded');
+            d.addClass('line-clamp');
+            i.addClass('bi-chevron-down');
+            i.removeClass('bi-chevron-up');
+        } else {
+            elem.addClass('expanded');
+            d.removeClass('line-clamp');
+            i.addClass('bi-chevron-up');
+            i.removeClass('bi-chevron-down');
+        }
+    });
+});
+
+$(document).on("change", ".responsibility-checkbox", function (e) {
+    var action = null;
+    if ($(this).is(":checked")) {
+        action = 'add-responsibilities';
+    } else {
+        action = 'remove-responsibilities';
+    }
+    var rtype = $(this).data('rtype');
+    var tenant_id = '{{ tenant.id }}';
+    var url = '/app/' + tenant_id + '/responsibles/' + $(this).data('responsible') + '/' + action + '/' + rtype + '/';
+    console.log(url);
+
+    $.ajax({
+        url: url
+    }).then(function(data) {
+        console.log(data);
+    });
+});
+
+$(document).on("click", ".activity-up", function (e) {
+    var activity = $(this).data('activity');
+    var tenant_id = '{{ tenant.id }}';
+    var url = '/app/' + tenant_id + '/activities/' + activity + '/up/';
+    console.log(url);
+
+    $.ajax({
+        url: url
+    }).then(function(data) {
+        console.log(data);
+    });
+});
+
+$(document).on("click", ".activity-down", function (e) {
+    var activity = $(this).data('activity');
+    var tenant_id = '{{ tenant.id }}';
+    var url = '/app/' + tenant_id + '/activities/' + activity + '/down/';
+    console.log(url);
+
+    $.ajax({
+        url: url
+    }).then(function(data) {
+        console.log(data);
+    });
+});
+</script>
+{% endblock footer-scripts %}

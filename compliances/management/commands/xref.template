@@ -1,0 +1,94 @@
+@Engine("sqlite");
+
+#############################################################################################################################
+#
+# Utilities
+#
+
+DefaultZero(n) = (
+  if n then
+    n
+  else
+    0
+);
+
+#############################################################################################################################
+#
+# Test data
+#
+
+{% for term in terms %}
+{{ term.entity_type }}(id:"E{{ loop.index}}", name:"{{ term.name }}"{% for clause in term.with %}{% if not clause is string %}, {{ clause[0] }}:"{{ clause[2] }}"{% endif %}{% endfor %});
+{% if term.classification %}
+Classification(source_id: "E{{ loop.index }}", classification: "{{ term.classification }}");
+{% endif %}
+{% if term.entity_type == "Training" %}
+TrainingOrganized(training_id: "E{{loop.index}}", date: "2024-01-01");
+{% set outer_loop = loop %}
+{% for term in terms %}
+{% if term.entity_type == "Employee" %}
+TrainingAttended(employee_id: "E{{ loop.index }}", training_id: "E{{ outer_loop.index }}", date: "2024-01-01");
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+Employee(id:"E9", name:"Employee 9");
+Classification(source_id: "E9", classification: "hr-employee");
+Employee(id:"E10", name:"Employee 10");
+#Classification(source_id: "E10", classification: "security-employee");
+Employee(id:"E11", name:"Employee 11");
+#Classification(source_id: "E11", classification: "security-employee");
+
+#############################################################################################################################
+#
+# Terms
+#
+
+{% for term in terms %}
+{{ term.name }}(id:id, name:name) :- {{ term.entity_type }}(id:, name:{% for clause in term.with %}{% if not clause is string %}, {{ clause[0] }}:{% endif %}{% endfor %}), {% if term.classification %}Classification(source_id:id, classification:"{{ term.classification }}"){% endif %}{% for clause in term.with %}{% if not clause is string %}{% if loop.first %}, {% endif %}{{ clause[0] }}{{ clause[1] }}{% if clause[2] is string %}"{% endif %}{{ clause[2] }}{% if clause[2] is string %}"{% endif %}{% elif clause == "and" %}, {% elif clause == "or" %} | {% elif clause == "not" %}~{% endif %}{% endfor %};
+{% endfor %}
+
+#############################################################################################################################
+#
+# Requirements
+#
+
+{% for section in sections %}
+{% for requirement in section.requirements %}
+{% for constraint in requirement.constraints %}
+{% if constraint.exists %}
+_Count{{ constraint.exists.name }}(count? += 1) distinct :- {{ constraint.exists.name }}(id:);
+_Exists{{ constraint.exists.name }}() :- 
+  _Count{{ constraint.exists.name }}(count:), 
+  count > 0{% if constraint.exists.organized %},
+  TrainingOrganized(training_id:training_id, date:d),
+  d >= "{{ constraint.exists.organized.within }}"
+  {% endif %}
+  ;
+
+{% elif constraint.every %}
+{% if constraint.every.attended %}
+{% for term in terms %}
+{% if term.name == constraint.every.name %}
+_Attended{{ constraint.every.attended.name }}(employee_id:) :-
+    {{ constraint.every.attended.name }}(id:training_id),
+    TrainingAttended(employee_id:, training_id:, date:d),
+    d >= "{{ constraint.every.attended.within }}";
+
+_{{ constraint.every.name }}NotAttended{{ constraint.every.attended.name }}() :-
+  {{ constraint.every.name }}(id:employee_id),
+  ~_Attended{{ constraint.every.attended.name }}(employee_id:employee_id);
+
+_Count{{ constraint.every.name }}NotAttended{{ constraint.every.attended.name }}(count? += 1) distinct :-
+  _{{ constraint.every.name }}NotAttended{{ constraint.every.attended.name }}();
+
+_Every{{ constraint.every.name }}Attended{{ constraint.every.attended.name }}() :-
+  _CountSecurityEmployeeNotAttended{{ constraint.every.attended.name }}(count:),
+  DefaultZero(count) == 0;
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}

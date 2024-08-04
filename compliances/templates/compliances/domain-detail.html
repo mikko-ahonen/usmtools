@@ -1,0 +1,27 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'compliances' %}
+<h3>{{ domain.name }}</h3>
+  <small class="text-muted">{{ domain.description }}</small>
+  {% for requirement in domain.requirements %}
+  <div class="card bg-dark text-light mb-3">
+    <div class="card-header">
+      <div class="text-wrap line-clamp">
+        {{ requirement.text|linebreaks }}
+      </div>
+    </div>
+    <div class="card-body">
+        <div class="text-wrap line-clamp">
+            {{ statement.description|linebreaks }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</section>
+{% endblock %}

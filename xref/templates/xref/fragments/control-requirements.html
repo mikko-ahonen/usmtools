@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load as_params %}
+{% load status_badge %}
+<h3>{% trans 'Requirements' %}</h3>
+{% for r in control.requirements.all %}
+  <p>
+    {% if r == selected_requirement %}<span class="bg-dark text-light">{% else %}<a href="{% url 'xref:requirement-detail' control.id r.id %}">{% endif %}{{ r.text }}{% if r == selected_requirement %}</span>{% else %}</a>{% endif %} {{ r|status_badge }}
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:requirement-update' r.id %}?{{ selections|as_params }}" href="{% url 'xref:requirement-update' r.id %}?{{ selections|as_params }}"><i class="bi bi-pencil"></i></a>
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:requirement-delete' r.id %}?{{ selections|as_params }}" href="{% url 'xref:requirement-delete' r.id %}?{{ selections|as_params }}"><i class="bi bi-trash3"></i></a>
+  </p>
+{% empty %}
+  <p>
+    {% trans 'The control has no requirements.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:requirement-create' control.id %}?{{ selections|as_params }}" href="{% url 'xref:requirement-create' control.id %}?{( selections|as_params }}">{% trans 'Add a new requirement' %}</a>
+</p>

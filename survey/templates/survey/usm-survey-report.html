@@ -1,0 +1,37 @@
+{% extends 'survey/base.html' %}
+{% load i18n %}
+{% load answer %}
+{% load score %}
+{% block content %}
+<h3>
+{% trans 'USM Survey Report: ' %} {{ object.name | default:"Undisclosed organization" }}
+</h3>
+<p>
+<small>{% now "jS F Y H:i" %}</small>
+</p>
+<div class="d-flex justify-content-center">
+  <img class="img-fluid" src="{% url 'survey:usm-survey-diagram' object.id %}" width="800px"/>
+</div>
+{% for field in fields %}
+  <div class="row mt-5 d-flex align-items-center">
+    <div class="d-block d-md-none">
+      <h3>{{ field.verbose_name }} ({{ object | score:field }}%)</h3>
+      <img class="img-fluid" src="{% url 'survey:usm-survey-diagram' object.id field.name %}"/>
+    </div>
+    {% if forloop.counter|divisibleby:2 %}
+    <div class="d-none d-md-block col-md-6">
+      <img class="img-fluid" src="{% url 'survey:usm-survey-diagram' object.id field.name %}" width="480px"/>
+    </div>
+    {% endif %}
+    <div class="col-12 col-md-6">
+      <h3 class="d-none d-md-block">{{ field.verbose_name }} ({{ object | score:field }}%)</h3>
+      {{ object | answer:field | linebreaks }}
+    </div>
+    {% if not forloop.counter|divisibleby:2 %}
+    <div class="d-none d-md-block col-md-6 d-flex align-items-center">
+      <img class="img-fluid" src="{% url 'survey:usm-survey-diagram' object.id field.name %}" width="480px"/>
+    </div>
+    {% endif %}
+  </div>
+{% endfor %}
+{% endblock %}

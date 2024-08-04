@@ -1,0 +1,16 @@
+{% extends 'survey/base.html' %}
+{% load i18n %}
+{% block content %}
+<h3>
+{% trans 'Thank you' %}
+</h3>
+<p>
+Thank you for requesting to participate in the USM Survey.
+</p>
+
+{% if object.email and object.report_ok %}
+<p>
+We will send you further instructons to your email address {{ object.email }}.
+</p>
+{% endif %}
+{% endblock %}

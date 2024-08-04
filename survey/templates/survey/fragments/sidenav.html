@@ -1,0 +1,70 @@
+{% load i18n %}
+{% load static %}
+  <div class="sidebar collapse h-100 show bg-dark" id="sidebar-narrow">
+    <button class="mb-5 btn btn-primary shadow-none rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wide" aria-controls="sidebar-wide" aria-expanded="false">
+      <span class="fs-2">
+        <i class="bi bi-caret-right"></i>
+      </span>
+    </button>
+    <ul class="nav flex-column align-items-start">
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link active text-left" aria-current="page" href="{% url 'survey:tenant-list' %}">
+            <i class="bi bi-house"></i>
+          </a>
+        </h5>
+      </li>
+      {% if tenant %}
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link active text-left" aria-current="page" href="{% url 'survey:survey-list' tenant.id %}">
+            <i class="bi bi-ui-checks"></i>
+          </a>
+        </h5>
+      </li>
+      {% if survey %}
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'survey:batch-list' tenant.id survey.id %}">
+            <i class="bi bi-people-fill"></i>
+          </a>
+        </h5>
+      </li>
+      {% endif %}
+      {% endif %}
+    </ul>
+  </div>
+  <div class="sidebar collapse h-100 bg-dark" id="sidebar-wide">
+    <button class="mb-5 btn btn-primary shadow-none rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-narrow" aria-controls="sidebar-narrow" aria-expanded="false">
+      <span class="fs-2">
+        <i class="bi bi-caret-left"></i>
+      </span>
+    </button>
+    <ul class="nav flex-column align-items-start">
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link active text-left" aria-current="page" href="{% url 'survey:tenant-list' %}">
+            <i class="bi bi-house"></i>&nbsp;&nbsp;{% trans 'Tenants' %}
+          </a>
+        </h5>
+      </li>
+      {% if tenant %}
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link active text-left" aria-current="page" href="{% url 'survey:survey-list' tenant.id %}">
+            <i class="bi bi-ui-checks"></i>&nbsp;&nbsp;{% trans 'Surveys' %}
+          </a>
+        </h5>
+      </li>
+      {% if survey %}
+      <li class="nav-item">
+        <h5>
+          <a class="nav-link" href="{% url 'survey:batch-list' tenant.id survey.id %}">
+            <i class="bi bi-people-fill"></i>&nbsp;&nbsp;{% trans 'Batches' %}
+          </a>
+        </h5>
+      </li>
+      {% endif %}
+      {% endif %}
+    </ul>
+  </div>

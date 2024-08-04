@@ -1,0 +1,87 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% load i18n %}
+{% load datetime %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+  {% trans 'Manage shares for the service' %} {{ service }}
+</h3>
+{% for share in shares %}
+{% if forloop.first %}
+<div class="row mt-5">
+    <div class="col col-md-3">
+    <strong>{% trans 'Share name' %}</strong>
+    </div>
+    <div class="col col-md-2">
+    <strong>{% trans 'Scope' %} / {% trans 'Workflow' %}</strong>
+    </div>
+    <div class="col col-md-2">
+    <strong>{% trans 'Created' %}</strong>
+    </div>
+    <div class="col col-md-2">
+    <strong>{% trans 'Last accessed' %}</strong>
+    </div>
+    <div class="col col-md-3">
+    </div>
+</div>
+{% endif %}
+<div class="row mb-1">
+    <div class="col col-md-3">
+    {{ share.name }}
+    </div>
+    <div class="col col-md-2">
+    {{ share.get_scope_display }} / {{ share.workflow }}
+    </div>
+    <div class="col col-md-2">
+    {{ share.created_at|datetime }}
+    </div>
+    <div class="col col-md-2">
+    {% translate "Never" as never %}
+    {{ share.last_access|datetime:never }}
+    </div>
+    <div class="col col-md-3">
+    <form method="GET" action="{% url 'workflows:share-delete' tenant.id share.pk %}">
+        <input type='submit' class="btn btn-primary btn-sm" value="{% trans 'Expire' %}"/>
+        {% if share.show %}
+        <a class="btn btn-primary btn-sm share-show" data-share-id='{{ share.pk }}'>{% trans 'Show' %}</a>
+        <a class="btn btn-primary btn-sm share-copy" data-share-id='{{ share.pk }}'>{% trans 'Copy' %}</a>
+        {% endif %}
+    </form>
+    </div>
+</div>
+{% empty %}
+<p class="mt-5">
+{% blocktranslate trimmed %}
+Shares are links that be be used to access resources, such as workflows.
+{% endblocktranslate %}
+</p>
+
+<p>
+{% blocktranslate trimmed %}
+As anybody with the link can access the resources without further
+authentication, you need to be careful when sharing the link.
+{% endblocktranslate %}
+</p>
+{% endfor %}
+
+<form class="mt-5" method="POST" action="{{request.path}}">
+  {% crispy form %}
+</form>
+</div>
+</section>
+{% endblock %}
+{% block footer-scripts %}
+<script>
+$(document).on("click", ".share-show", function (e) {
+    var share_id = $(this).data('share_id');
+    var url = '/app/{{ tenant.id }}/shares/' + share_id + '/link/';
+    console.log(url);
+
+    $.ajax({
+        url: url
+    }).then(function(data) {
+        console.log(data);
+    });
+});
+</script>
+{% endblock footer-scripts %}

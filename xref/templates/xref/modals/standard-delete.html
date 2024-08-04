@@ -1,0 +1,15 @@
+{% extends 'xref/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+{% load danger %}
+<h3>{% trans 'Delete standard' %} {{ standard }}</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    {% danger %}
+        {% trans 'This will permanently delete the standard and everything under it. Are you sure you want to delete it?' %}
+    {% enddanger %}
+    <p> 
+      <a class="button btn btn-secondary" href="{% url 'xref:standard-list' %}">Cancel</a>
+      <input class="button btn btn-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

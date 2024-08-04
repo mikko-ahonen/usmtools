@@ -1,0 +1,24 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+<h3>{% trans 'Tenants' %}</h3>
+{% for tenant in tenants %}
+  {% include 'workflows/fragments/tenant.html' with tenant=tenant user=user only %}
+{% empty %}
+  <p>
+    {% trans 'You have not created any tenants yet.' %}
+  </p>
+  <p>
+    {% trans 'You should create a new tenant for each organization that may share customers, profiles, services, organization structure, and workflows.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:tenant-create' %}" href="{% url 'workflows:tenant-create' %}">{% trans 'Create a new tenant' %}</a>
+</p>
+</div>
+</section>
+{% include 'workflows/fragments/modal.html' %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'services' %}
+<h3>{% trans 'Your services:' %}</h3>
+{% for service in services %}
+  {% include 'workflows/fragments/service.html' with tenant=tenant service=service level=0 user=user only %}
+{% empty %}
+  <p>
+  {% trans 'You have not defined any services yet.' %}
+  </p>
+
+  <p>
+  {% trans 'Examples where to look for services: functions, organization units, virtual teams etc. You can later organize the services into a service map.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:service-create' tenant.id %}" href="{% url 'workflows:service-create' tenant.id %}">{% trans 'Create a new service' %}</a>
+</p>
+</div>
+</section>
+{% include 'workflows/fragments/modal.html' %}
+{% endblock %}

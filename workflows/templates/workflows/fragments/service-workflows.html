@@ -1,0 +1,14 @@
+{% load i18n %}
+<h3>{% trans 'Workflows' %}</h3>
+{% for workflow in workflows %}
+  <p>
+    <a href="{% url 'workflows:workflow-detail' tenant.id workflow.id %}">{{ workflow.name }}</a> <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:workflow-delete' tenant.id workflow.id %}" href="{% url 'workflows:workflow-delete' tenant.id workflow.id %}"><i class="bi bi-trash3"></i></a>
+  </p>
+{% empty %}
+  <p>
+    {% trans 'No workflows.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:workflow-create' tenant.id service.id %}" href="{% url 'workflows:workflow-create' tenant.id service.id %}">{% trans 'Create a new workflow' %}</a>
+</p>

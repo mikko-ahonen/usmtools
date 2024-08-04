@@ -1,0 +1,21 @@
+{% extends 'xref/modals/modal-base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+  {% if object %}
+    {% trans 'Update standard' %} {{ object }}
+  {% else %}
+    {% trans 'Create a new standard' %}
+  {% endif %}
+</h3>
+{% if not object %}
+<p>
+You should create a new standard for each standard or framework you want to map to USM.
+</p>
+
+{% endif %}
+<form method="POST" action="{{request.path}}">
+{% crispy form %}
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'survey/base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+{% trans 'USM Survey Background' %}
+</h3>
+
+<p>
+To better analyze the results, we kindly ask you to answer a few questions about your organization. 
+This way we can analyze the results for example by geographic region, industry and organization size.
+</p>
+
+<p>
+Based on your answers, we can also give you guidance where USM could help you and your organization to
+thrive, in form of a free report. This report is based on your answers.  If you want to receive the report, 
+include your organization name and email address. The organization name will be included in the report, and a 
+link to the report will be sent to your email.
+</p>
+
+<p>
+Later, if you wish, we can also provide a more comprehensive report, which will contain analysis by
+industry, organization type and geographical region relevant to you.
+</p>
+
+<form method="POST" action="{{request.path}}">
+{% crispy form %}
+</form>
+{% endblock %}

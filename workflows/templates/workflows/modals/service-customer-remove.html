@@ -1,0 +1,17 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% load i18n %}
+{% block content %}
+<h3>{% trans 'Remove customer' %} {{ service_customer.customer }} {% trans 'from service' %} {{ service_customer.service }}</h3>
+<form method="post" action="{{ request.path }}">{% csrf_token %}
+    <p>
+      {% trans 'Are you sure you want to remove the customer from this service?' %}
+    </p>
+    <p>
+      {% trans 'This will not delete the information related to the customer. The customer information can still be accessed through the customer list view.' %}
+    </p>
+    <p> 
+      <a class="button btn btn-secondary" href="{% url 'workflows:service-detail' tenant.id service_customer.service_id %}">Cancel</a>
+      <input class="button btn btn-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

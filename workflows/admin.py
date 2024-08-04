@@ -1,0 +1,86 @@
+from django.contrib import admin
+
+from ordered_model.admin import OrderedModelAdmin
+
+from .models import OrganizationUnit, Service, Workflow, Profile, Step, Activity, Responsible, Account, WorkInstruction, Tenant, Customer
+
+
+class BaseAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.modified_by = request.user
+        super().save_model(request, obj, form, change)
+
+    # This is copy-paste from admin.ModelAdmin
+    def get_queryset(self, request):
+        """
+        Returns a QuerySet of all model instances that can be edited by the
+        admin site. This is used by changelist_view.
+        """
+        qs = self.model.unscoped.get_queryset()
+        # TODO: this should be handled by some parameter to the ChangeList.
+        ordering = self.get_ordering(request)
+        if ordering:
+            qs = qs.order_by(*ordering)
+        return qs
+
+
+class AccountAdmin(admin.ModelAdmin):
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.modified_by = request.user
+        super().save_model(request, obj, form, change)
+
+    exclude = ['created_by', 'modified_by',]
+
+
+class OrganizationUnitAdmin(BaseAdmin):
+    list_display = ('tenant', 'id', 'name', 'parent')
+
+class TenantAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.modified_by = request.user
+        super().save_model(request, obj, form, change)
+
+    list_display = ('id', 'name')
+
+class ServiceAdmin(BaseAdmin):
+    list_display = ('tenant', 'id', 'name', 'is_meta', 'is_global_template', 'parent')
+
+class WorkflowAdmin(BaseAdmin, OrderedModelAdmin):
+    list_display = ('id', 'name', 'is_template', 'is_public', 'move_up_down_links')
+
+class ProfileAdmin(BaseAdmin, OrderedModelAdmin):
+    list_display = ('tenant', 'id', 'name', 'move_up_down_links')
+
+class StepAdmin(BaseAdmin, OrderedModelAdmin):
+    list_display = ('tenant', 'id', 'name', 'workflow', 'move_up_down_links')
+    
+class ActivityAdmin(BaseAdmin, OrderedModelAdmin):
+    list_display = ('tenant', 'id', 'name', 'step', 'move_up_down_links')
+
+class ResponsibleAdmin(BaseAdmin, OrderedModelAdmin):
+    list_display = ('tenant', 'id', 'types', 'activity', 'profile', 'move_up_down_links')
+
+class WorkInstructionAdmin(BaseAdmin):
+    list_display = ('tenant', 'id', 'responsible')
+
+class CustomerAdmin(BaseAdmin):
+    list_display = ('tenant', 'id', 'name', 'customer_type')
+
+admin.site.register(Tenant, TenantAdmin)
+admin.site.register(Account, AccountAdmin)
+admin.site.register(OrganizationUnit, OrganizationUnitAdmin)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(Workflow, WorkflowAdmin)
+admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Step, StepAdmin)
+admin.site.register(Activity, ActivityAdmin)
+admin.site.register(Responsible, ResponsibleAdmin)
+admin.site.register(WorkInstruction, WorkInstructionAdmin)
+admin.site.register(Customer, CustomerAdmin)

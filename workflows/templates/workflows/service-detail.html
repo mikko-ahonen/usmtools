@@ -1,0 +1,38 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+
+{% breadcrumbs tenant True 'services' service %}
+
+<h1>{% trans 'Service:' %} {{ service.name }} <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:service-update' tenant.id service.id %}" href="{% url 'workflows:service-update' tenant.id service.id %}"><i class="bi bi-pencil"></i></a> {% comment %}<a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:service-share' tenant.id service.id %}" href="{% url 'workflows:service-share' tenant.id service.id %}"><i class="bi bi-share"></i></a>{% endcomment %}</h1>
+<p class="text-small">
+{{ service.description|linebreaks }}
+</p>
+{% include 'workflows/fragments/service-customers.html' with tenant=tenant service=service customers=service.customers.all only %}
+{% comment %}
+{% include 'workflows/fragments/service-profiles.html' with tenant=tenant service=service profiles=service.profiles.all only %}
+{% endcomment %}
+{% include 'workflows/fragments/service-workflows.html' with tenant=tenant service=service workflows=service.workflows.all only %}
+</div>
+</section>
+{% include 'workflows/fragments/modal.html' with modal_size='xl' %}
+{% endblock %}
+
+{% block footer-scripts %}
+<script>
+  $('#popup').on('show.bs.modal', function () {
+    console.log("MODAL SHOWN");
+  });
+
+  {% if open_share_popup %}
+  var popup = $("#popup");
+  var popup_url = "{% url 'workflows:service-share' tenant.id service.id %}";
+  $(".modal-body", popup).load(popup_url, function () {
+    popup.modal("show");
+  });
+  {% endif %}
+</script>
+{% endblock footer-scripts %}

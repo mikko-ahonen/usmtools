@@ -1,0 +1,17 @@
+{% load i18n %}
+{% load as_params %}
+<h3>{% trans 'Substatements' %}</h3>
+{% for s in selected_statement.substatements.all %}
+  <p>
+    {{ s.subject }} {{ s.predicate }} {{ s.object }}
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:substatement-update' selected_statement.id s.id %}?{{ selections|as_params }}" href="{% url 'xref:substatement-update' selected_statement.id s.id %}?{{ selections|as_params }}"><i class="bi bi-pencil"></i></a>
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:substatement-delete' selected_statement.id s.id %}?{{ selections|as_params }}" href="{% url 'xref:substatement-delete' selected_statement.id s.id %}?{{ selections|as_params }}"><i class="bi bi-trash3"></i></a>
+  </p>
+{% empty %}
+  <p>
+    {% trans 'The selected statement has no substatements.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:substatement-create' selected_statement.id %}?{{ selections|as_params }}" href="{% url 'xref:statement-create' selected_statement.id %}?{{ selections|as_params }}">{% trans 'Add a new substatement' %}</a>
+</p>

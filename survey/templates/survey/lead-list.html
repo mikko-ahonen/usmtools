@@ -1,0 +1,33 @@
+{% extends 'survey/base.html' %}
+{% load i18n %}
+{% block content %}
+{% for lead in leads %}
+<div category="card mt-3">
+  <div category="card-header">
+    {{ lead.name }} ({{ lead.email }})<br/>
+    {{ lead.title }}, {{ lead.organization }}<br/>
+  </div>
+  <div category="card-body">
+    {% if lead.status == LEAD_STATUS_CLAIMED %}
+        {% if qualifier.claimed_by == request.user or request.user.is_superuser %}
+            <a href="{% url 'survey:lead-free' lead.pk %}">Free</a>
+        {% endif %}
+    {% elif lead.status == LEAD_STATUS_FREE %}
+        <a href="{% url 'survey:lead-claim' lead.pk %}">Claim</a>
+    {% endif %}
+    {% if lead.category != LEAD_CATEGORY_C_LEVEL %}
+      <a href="{% url 'survey:lead-mark' lead.pk 'c-level' %}">C-level</a>
+    {% endif %}
+    {% if lead.category != LEAD_CATEGORY_ITSM_PM %}
+      <a href="{% url 'survey:lead-mark' lead.pk 'itsm' %}">ITSM PM</a>
+    {% endif %}
+    {% if lead.category != LEAD_CATEGORY_OTHER %}
+      <a href="{% url 'survey:lead-mark' lead.pk 'other' %}">Other</a>
+    {% endif %}
+    {% if lead.category != LEAD_CATEGORY_REJECTED %}
+      <a href="{% url 'survey:lead-reject' lead.pk %}">Reject</a>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

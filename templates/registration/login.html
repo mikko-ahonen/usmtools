@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<section class="app">
+<div class="container">
+<h1>{% trans 'Login' %}</h1>
+
+<form method="POST" action="{{request.path}}">
+  {% csrf_token %}
+  {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+  {% endif %}
+  {{ form.username|as_crispy_field }}
+  {{ form.password|as_crispy_field }}
+  <button class="btn btn-primary" type="submit">{% trans 'Login' %}</button>
+</form>
+
+</div>
+</section>
+{% endblock %}

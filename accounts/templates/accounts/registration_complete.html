@@ -1,0 +1,9 @@
+{% extends "accounts/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Activation email sent" %}{% endblock %}
+
+{% block regcontent %}
+<h3>{% trans "Activation email was sent" %}</h3>
+<p>{% trans "Please click the link in your email to complete the registration process." %}</p>
+{% endblock regcontent %}

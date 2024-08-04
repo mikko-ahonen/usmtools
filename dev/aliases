@@ -1,0 +1,3 @@
+alias db='fly pg connect -a tanssikalenteri-db -d tanssikalenteri'
+alias rs="python manage.py runserver"
+alias ldb='psql -h postgres -U postgres db'

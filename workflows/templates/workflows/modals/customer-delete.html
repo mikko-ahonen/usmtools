@@ -1,0 +1,26 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+<h3>{% trans 'Delete customer ' %} {{ customer }}</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    {% if customer.service_customers.count %}
+    <p>
+        {% trans 'Deleting the customer will also remove them from the following services:' %}
+        <ul>
+        {% for cs in customer.service_customers.all %}
+            <li>
+                {{ cs.service }}
+            </li>
+        {% endfor %}
+        </ul>
+    </p>
+    {% endif %}
+    <p>
+      {% trans 'Are you sure you want to delete it?' %}
+    </p>
+    <p> 
+      <a class="button btn btn-secondary" href="{% url 'workflows:customer-list' tenant.id %}">Cancel</a>
+      <input class="button btn btn-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

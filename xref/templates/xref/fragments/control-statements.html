@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load as_params %}
+{% load status_badge %}
+<h3>{% trans 'Statements' %}</h3>
+{% for s in selected_requirement.statements.all %}
+  <p>
+    {% if s == selected_statement %}<span class="bg-dark text-light">{% else %}<a href="{% url 'xref:statement-detail' control.id selected_requirement.id s.id %}">{% endif %}{{ s.text }}{% if s == selected_statement %}</span>{% else %}</a>{% endif %} {{ s|status_badge }}
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:statement-update' s.id %}?{{ selections|as_params }}" href="{% url 'xref:statement-update' s.id %}?{{ selections|as_params }}"><i class="bi bi-pencil"></i></a>
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:statement-delete' s.id %}?{{ selections|as_params }}" href="{% url 'xref:statement-delete' s.id %}?{{ selections|as_params }}"><i class="bi bi-trash3"></i></a>
+  </p>
+{% empty %}
+  <p>
+    {% trans 'The selected requirement has no statements.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:statement-create' selected_requirement.id %}?{{ selections|as_params }}" href="{% url 'xref:statement-create' selected_requirement.id %}?{{ selections|as_params }}">{% trans 'Add a new statement' %}</a>
+</p>

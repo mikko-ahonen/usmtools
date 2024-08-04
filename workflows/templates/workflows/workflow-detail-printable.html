@@ -1,0 +1,87 @@
+{% extends 'workflows/base.html' %}
+{% load i18n %}
+{% load indent %}
+{% load step_process_badge %}
+{% block content %}
+<div class="content">
+<section class="app">
+
+<h1>
+  {{ workflow.name }}
+</h1>
+<p>
+  {{ workflow.description|linebreaks }}
+</p>
+
+{% include 'workflows/fragments/workflow-steps-diagram.html' with workflow=workflow %}
+
+{% for step in workflow.steps.all %}
+{% with indent=step.process_depth|default:0|indent:40 %}
+<div id="step-{{step.id}}" class="">
+  <div class="row">
+    <div class="col col-md-1">
+      <div class="col col-md-8 vertical-step-circle {{ step.process }}-bg">
+        <span class="vertical-step-circle-text align-middle">{{ forloop.counter }}</span>
+      </div>
+    </div>
+    <div class="col col-md-11 mt-2">
+      <h2>{{ step.name }} {{ step|step_process_badge }}</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-md-1">{% if not forloop.last %}<div class="vertical-line"></div>{% endif %}</div>
+    <div class="col col-md-11">
+      <p>{{ step.description|linebreaks }}</p>
+      {% for activity in step.activities.all %}
+        <h3>{{ activity.name }}</h5>
+
+        <p>{{ activity.description|linebreaks }}</p>
+
+        <h5>{% trans 'Responsibilities' %}</h5>
+
+        {% for responsible in activity.responsibles.all %}
+          <p>
+            <strong>
+            {% if responsible.profile %}
+                {{ responsible.profile }} / {{ responsible.organization_unit|default:'No organization' }}
+            {% else %}
+                {{ responsible.organization_unit|default:'No organization' }}
+            {% endif %}
+            ({{ responsible.get_types_display }})
+            </strong>
+          </p>
+          {% for wi in responsible.work_instructions.all %}
+          <p>
+            {{ wi.description|linebreaks }}
+          </p>
+          {% empty %}
+          <p>
+            {% trans 'No work instructions.' %}
+          </p>
+          {% endfor %}
+        {% empty %}
+        <p>
+          {% trans 'No responsibilities in this activity.' %}
+        </p>
+        {% endfor %}
+      {% empty %}
+        <p>
+          {% trans 'No activities in this step.' %}
+        </p>
+      {% endfor %}
+    </div>
+  </div>
+  {% if not forloop.last %}
+  <div class="row spacer">
+    <div class="col col-md-1"><div class="vertical-line"></div></div>
+    <div class="col col-md-11">
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endwith %}
+{% endfor %}
+</section>
+</div>
+{% endblock content %}

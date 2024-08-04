@@ -1,0 +1,15 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+  {% if object %}
+    {% trans 'Update profile' %} {{ object }}
+  {% else %}
+    {% trans 'Create a profile' %}
+  {% endif %}
+</h3>
+<form method="POST" action="{{request.path}}">
+{% crispy form %}
+</form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'survey/base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+{% trans 'USM Survey Invitation Link' %}
+</h3>
+<p>
+Here is a link that you can share with your customers. It contains all the information for the invitee, 
+plus your unique identifier for your account.
+</p>
+
+<p>
+<a href="{{ link }}">{{ link }}</a>
+</p>
+{% endblock %}

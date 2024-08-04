@@ -1,0 +1,15 @@
+{% extends "accounts/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Delete account" %}{% endblock %}
+
+{% block regcontent %}
+
+<form method="post">{% csrf_token %}
+     
+<p>{% trans 'Are you sure that you want to delete your account? Account cannot be restored after it is deleted.' %}</p>
+    <a class="btn btn-secondary" type="button" href="{% url 'profiles:detail-redirect' user.username %}">{% trans 'I do not want to delete my account' %}</a>
+    <input class="btn btn-primary" type="submit" value="{% trans 'I want to delete my account' %}">
+</form>
+
+{% endblock regcontent %}

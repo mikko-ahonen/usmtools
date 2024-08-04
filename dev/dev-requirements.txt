@@ -1,0 +1,2 @@
+pudb==2024.1
+django-template-breakpoint==0.0.1

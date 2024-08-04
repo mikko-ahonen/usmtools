@@ -1,0 +1,22 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+{% load verbose_name %}
+{% load referred_foreign_keys %}
+{% load danger %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% with verbose_name=object|verbose_name %}
+<h3>
+  {% if object %}
+    {% trans 'Update the ' %} {{ verbose_name }} {{ object }}
+  {% else %}
+    {% trans 'Add a new ' %} {{ verbose_name }}
+  {% endif %}
+</h3>
+
+<form method="POST" action="{{ request.path }}">
+{% crispy form %}
+</form>
+{% endwith %}
+{% endblock %}

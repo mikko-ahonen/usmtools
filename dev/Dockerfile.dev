@@ -1,0 +1,64 @@
+ARG PYTHON_VERSION=3.12-slim-bullseye
+
+FROM python:${PYTHON_VERSION}
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /src
+
+RUN apt update
+RUN apt install -y locales-all build-essential uwsgi uwsgi-plugin-python3 
+RUN apt install -y libffi-dev
+RUN apt install -y libzbar0
+RUN apt install -y npm
+RUN apt install -y curl
+RUN apt install -y libmagic1
+RUN apt install -y vim zip unzip curl git screen gettext
+RUN apt install -y python3-bs4
+RUN apt install -y vim zip unzip git screen gettext
+RUN apt install -y lsb-release
+
+RUN apt install -y postgresql-common
+RUN YES=yes /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+RUN apt install -y postgresql-client-16
+
+RUN npm install -g node-sass
+
+RUN curl -L https://fly.io/install.sh | sh
+RUN curl -sL https://sentry.io/get-cli/ | sh
+
+#COPY 3rd_party/ /tmp/3rd_party
+COPY requirements.txt /tmp/requirements.txt
+COPY dev/dev-requirements.txt /tmp/dev-requirements.txt
+RUN set -ex && \
+    cd /tmp && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    pip install -r /tmp/dev-requirements.txt && \
+    rm -rf /root/.cache/
+
+RUN (type -p wget >/dev/null || (apt update && apt-get install wget -y)) \
+  && mkdir -p -m 755 /etc/apt/keyrings \
+  && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+  && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+  && apt update \
+  && apt install gh -y
+
+ENV LANG fi_FI.UTF-8  
+ENV LANGUAGE fi_FI:fi
+ENV LC_ALL fi_FI.UTF-8 
+
+COPY dev/exrc /root/.exrc
+COPY dev/screenrc /root/.screenrc
+RUN mkdir -p /root/.ssh
+COPY dev/id_rsa* /root/.ssh/
+
+RUN echo 'export FLYCTL_INSTALL="/root/.fly"' >> /root/.bash_profile
+RUN echo 'export PATH="$FLYCTL_INSTALL/bin:$PATH"' >> /root/.bash_profile
+
+RUN echo "alias db='fly pg connect -a tanssikalenteri-db -d tanssikalenteri'" >> /root/.bashrc
+RUN echo "alias rs='python manage.py runserver'" >> /root/.bashrc
+RUN echo "alias ldb='PGPASSWORD=S3cret psql -h postgres -U postgres db'" >> /root/.bashrc

@@ -1,0 +1,324 @@
+//$font-family-sans-serif: Roboto, Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif !default;
+//$font-family-serif:      Georgia, "Times New Roman", Times, serif !default;
+//$font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+//$font-family-base:       $font-family-sans-serif !default;
+
+@page {
+  size: a4 landscape;
+}
+
+$usm-blue: #36589C !default;
+$usm-yellow: #F4DE4C !default;
+$usm-red: #B43924 !default;
+$usm-green: #50A94A !default;
+$usm-orange: #DF8412 !default;
+$black: #212529 !default;
+
+$body-bg:                #fefefe; 
+$primary:                $usm-blue;
+$dark:                   #36589C;
+$secondary:              $usm-yellow;
+
+$transition-collapse: height .05s ease;
+
+.sidebar .nav-item .nav-link,
+.sidebar .nav-item .nav-link:focus,
+.sidebar .nav-item .nav-link:hover {
+    color: #fefefe;
+}
+
+.gray-bg {
+    background-color: #adb5bd;
+}
+
+.agree-bg {
+    background-color: $usm-blue;
+    color: #fefefe;
+}
+
+.agree-fg {
+    color: $usm-blue;
+}
+
+.change-bg {
+    background-color: $usm-yellow;
+    color: $black !important; 
+}
+
+.change-fg {
+    color: $usm-yellow;
+}
+
+.recover-bg {
+    background-color: $usm-red;
+    color: #fefefe;
+}
+
+.recover-fg {
+    color: $usm-red;
+}
+
+.operate-bg {
+    background-color: $usm-green;
+    color: #fefefe;
+}
+
+.operate-fg {
+    color: $usm-green;
+}
+
+.improve-bg {
+    background-color: $usm-orange;
+    color: #fefefe;
+}
+
+.improve-fg {
+    color: $usm-orange;
+}
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+html {
+    scroll-behavior: auto;
+}
+
+.wide-icon {
+    overflow: visible;
+    margin-left: -2px;
+    margin-right: -2px;
+}
+
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+.step-button {
+    border: 0px;
+    border-radius: 50%;
+}
+
+.agree {
+}
+
+.rounded-image {
+    height: 100px;
+    border: 0px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.button {
+}
+
+.big-icon {
+    font-size: 32px;
+}
+
+.page-footer {
+  //bottom: 0px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  width: 100%;
+  background: #37474f;
+  color: #fefefe;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+.page-footer a {
+    color: #039be5 !important;
+}
+
+.footer-contact-list {
+    line-height: 2.5em;
+}
+
+.app {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: $body-bg;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+section {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: $body-bg;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.subtitle {
+    font-size: 2.5rem;
+    position: relative;
+    top: 8px;
+    font-weight: 550;
+    color: #36589C;
+}
+
+.content {
+    margin-top: 10px;
+}
+
+.table {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing:0 20px;
+}
+
+.th {
+    width: 50px;
+}
+
+/*
+nav {
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar-custom {
+    background-color: #36589C;
+    color: #fefefe;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 90px;
+    line-height: 80px;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: #fefefe;
+}
+
+.navbar-collapse {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:focus .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    background-color: #314f8c;
+}
+
+*/
+
+/*
+.navbar-toggler {
+    color: #fefefe;
+
+}
+*/
+
+.navbar-custom a.dropdown-toggle, a:focus.dropdown-toggle, a:hover.dropdown-toggle {
+    color: #fefefe;
+    text-decoration: none;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: #fefefe;
+}
+
+/* Extra spacing before first h3 */
+
+h3:not(:first-of-type) {
+    padding-top: 50px;
+}
+
+h3:first-of-type {
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+/* Hide button when step description is visible (there is another button) */
+
+.step-description-collapse:not(.collapsed) {display:none}
+.step-description-collapse.collapsed {display:inline}
+
+/* Workflow steps */
+
+.spacer {
+    height: 30px;
+}
+
+.small-badge {
+  font-size: 0.75rem;
+}
+
+$step-circle-border-width: 2px !default;
+$step-circle-border-color: $gray-500 !default;
+$step-text-color: $black !default;
+$step-line-color: $gray-500 !default;
+
+.horizontal-step-circle {
+  border-radius: 50% !important;
+  width: 150px; 
+  height: 57px;
+  border: $step-circle-border-width solid $step-circle-border-color;
+}
+
+.horizontal-step-circle-text {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  //flex-direction: column;
+  justify-content: center;
+}
+
+.horizontal-step-line {
+  height: 0;
+  border-top: 3px solid $step-circle-border-color;
+  text-align: center;
+  margin-top: 28px;
+  margin-bottom: 28px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.horizontal-step-text {
+  color: $step-text-color;
+  word-break: break-word;
+  margin-top: 0.25em;
+  text-align: center;
+  max-width: 100px;
+}
+
+.horizontal-step-circle a, a:focus, a:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+.vertical-line {
+  border-left: 2px solid #adb5bd;
+  border-left: 2px solid $step-line-color;
+  height: 100%;
+  width: 100%;
+  margin-left: 28px;
+}
+
+.vertical-step-circle {
+  border-radius: 50% !important;
+  width: 57px; 
+  height: 57px;
+  border: $step-circle-border-width solid $step-circle-border-color;
+}
+
+.vertical-step-circle-text {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  //flex-direction: column;
+  justify-content: center;
+}
+
+.activity-description {
+    
+}

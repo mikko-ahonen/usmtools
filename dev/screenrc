@@ -1,0 +1,29 @@
+#3.3
+# Do not remove the above line. This screen rc file was updated
+# by the newsyntax script.
+# activity <message>
+startup_message off
+autodetach on
+bell '~bell in window %'
+activity '~activity in window %'
+#chdir
+crlf off
+escape ^@@
+defflow on
+nethack off
+hardstatus on
+# password
+# pow_detach_msg
+defscrollback 4098
+# shellaka shelli
+# shell /bin/sh
+# sleep 1
+# term vt100
+# terminfo vt* hs:eslok
+vbell off
+vbell_msg 'ping'
+defwrap on
+#deflogin off
+#screen -l 0
+#screen -ln 1 irc
+#screen -ln 2 bug

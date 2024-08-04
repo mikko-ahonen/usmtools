@@ -1,0 +1,16 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% block content %}
+<section>
+<div class="container">
+<h3>{% trans 'Services you have access to:' %}</h3>
+{% for service in services %}
+  {% include 'workflows/fragments/user-service.html' with tenant=tenant service=service level=0 only %}
+{% empty %}
+  <p>
+  {% trans 'You do not have access to any services.' %}
+  </p>
+{% endfor %}
+</div>
+</section>
+{% endblock %}

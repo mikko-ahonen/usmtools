@@ -1,0 +1,36 @@
+{% extends "xref/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+
+<div class="row">
+    <div class="col-md-3">
+        {% include 'xref/fragments/control-info.html' with control=control only %}
+    </div>
+    <div class="col-md-3">
+        {% include 'xref/fragments/control-requirements.html' with control=control %}
+    </div>
+    <div class="col-md-3">
+        {% if selected_requirement %}
+            {% include 'xref/fragments/control-statements.html' with control=control %}
+        {% endif %}
+    </div>
+    <div class="col-md-3">
+        {% if selected_statement %}
+            {% include 'xref/fragments/control-substatements.html' with control=control %}
+        {% endif %}
+    </div>
+</div>
+</section>
+{% include 'xref/fragments/modal.html' with modal_size='xl' %}
+{% endblock %}
+
+{% block footer-scripts %}
+<script>
+  $('#popup').on('show.bs.modal', function () {
+    console.log("modal shown");
+  });
+</script>
+{% endblock footer-scripts %}

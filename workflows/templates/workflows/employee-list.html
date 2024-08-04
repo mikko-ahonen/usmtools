@@ -1,0 +1,24 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'employees' %}
+<h3>{% trans 'Employees' %}</h3>
+{% for employee in employees %}
+  <p>
+    <h5>{{ employee }} <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:employee-update' tenant.id employee.id %}" href="{% url 'workflows:employee-update' tenant.id employee.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:employee-delete' tenant.id employee.id %}" href="{% url 'workflows:employee-delete' tenant.id employee.id %}"><i class="bi bi-trash3"></i></a></h5>
+  </p>
+{% empty %}
+  <p>
+    {% trans 'You have not defined any employees yet.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:employee-create' tenant.id %}" href="{% url 'workflows:employee-create' tenant.id %}">{% trans 'Create a new employee' %}</a>
+</p>
+</div>
+</section>
+{% include 'workflows/fragments/modal.html' %}
+{% endblock %}
