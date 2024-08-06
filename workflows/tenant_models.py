@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from ordered_model.models import OrderedModelBase, OrderedModelManager
 from tree_queries.models import TreeNode, TreeQuerySet
+from sequences import get_next_value
 
 from .tenant_aware import TenantAwareManager, TenantAwareOrderedManager, TenantAwareTreeManager, TenantAwareTreeQuerySet
 
@@ -36,14 +37,24 @@ class TenantAwareOrderedModelBase(OrderedModelBase):
     objects = TenantAwareOrderedManager()
     unscoped = OrderedModelManager()
 
+    @classmethod
+    def get_unscoped_manager_name(cls):
+        manager_cls = cls.unscoped
+        module = manager_cls.__module__
+        return module + '.' + manager_cls.__class__.__name__
+
     class Meta:
         abstract = True
+
+
+def get_next_index():
+    return get_next_value('index')
 
 class OrderedModel(TenantAwareOrderedModelBase):
     """
     An abstract base class for ordered models.
     """
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=get_next_index)
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')

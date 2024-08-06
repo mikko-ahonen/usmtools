@@ -1,26 +1,40 @@
 {% extends "compliances/base.html" %}
 {% load i18n %}
 {% load breadcrumbs %}
+{% load constraint %}
 {% block content %}
 <section class="app">
 <div class="container">
 {% breadcrumbs tenant True 'compliances' %}
-<h3>{{ domain.name }}</h3>
-  <small class="text-muted">{{ domain.description }}</small>
-  {% for requirement in domain.requirements %}
-  <div class="card bg-dark text-light mb-3">
-    <div class="card-header">
-      <div class="text-wrap line-clamp">
-        {{ requirement.text|linebreaks }}
-      </div>
-    </div>
-    <div class="card-body">
-        <div class="text-wrap line-clamp">
-            {{ statement.description|linebreaks }}
+<h1 class="mb-0 pb-0">{{ domain.name }}</h1>
+  <small class="mt-0 pt-0 text-muted">{{ domain.description | linebreaks }}</small>
+  {% for section in domain.sections.all %}
+  <h3 class="mb-0 pb-0">{{ section.title}}</h3>
+  <small class="mt-0 pt-0 text-muted">{{ section.description | linebreaks }}</small>
+  {% for requirement in section.requirements.all %}
+    <h5>{{ requirement.name }}</h5>
+    <div class="card border-secondary mb-3">
+      <div class="card-header">
+        <div class="card-text text-wrap">
+          {{ requirement.text }}
         </div>
       </div>
+      <div class="card-body">
+        {% for constraint in requirement.constraints.all %}
+        <div class="row d-inline-flex align-items-center flex-wrap">
+          <div class="col-1">
+            {{ constraint | constraint_status }}
+          </div>
+          <div class="col-11">
+            <div class="card-text text-wrap">
+              {{ constraint.text }}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
-  </div>
+    {% endfor %}
   {% endfor %}
 </div>
 </section>

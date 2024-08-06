@@ -8,7 +8,7 @@
 <h3>{% trans 'Compliance domains' %}</h3>
   {% for domain in domains %}
   <p>
-    <h5>{% url 'compliances:domain-detail' domain.slug %}{{ domain.name }}</h5>
+    <h5><a href="{% url 'compliances:domain-detail' tenant.id domain.id %}">{{ domain.name }}</a></h5>
     <small class="text-muted">{{ domain.description }}</small>
   </p>
   {% endfor %}

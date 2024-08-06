@@ -65,6 +65,7 @@ _Exists{{ constraint.exists.name }}() :-
   d >= "{{ constraint.exists.organized.within }}"
   {% endif %}
   ;
+_Goal_{{ goal(domain, section, requirement, constraint) }}() :- _Exists{{ constraint.exists.name }}();
 
 {% elif constraint.every %}
 {% if constraint.every.attended %}
@@ -85,6 +86,9 @@ _Count{{ constraint.every.name }}NotAttended{{ constraint.every.attended.name }}
 _Every{{ constraint.every.name }}Attended{{ constraint.every.attended.name }}() :-
   _CountSecurityEmployeeNotAttended{{ constraint.every.attended.name }}(count:),
   DefaultZero(count) == 0;
+
+_Goal_{{ goal(domain, section, requirement, constraint) }}() :- 
+  _Every{{ constraint.every.name }}Attended{{ constraint.every.attended.name }}();
 {% endif %}
 {% endfor %}
 {% endif %}
