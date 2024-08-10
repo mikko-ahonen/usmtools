@@ -1,0 +1,125 @@
+{% load component_tags %}
+<div 
+  class="typeahead"
+  x-data="{
+      open: false,
+      search: null,
+      planned_date: null,
+      parent_selected: null,
+      selected_id: null,
+      selected_index: -1,
+      highlighted_index: -1,
+      setSelected(elem) {
+        console.log('select');
+        this.parent_selected = {
+            'id': elem.getAttribute('data-item-id'),
+            'name': elem.getAttribute('data-item-name'),
+            'type': elem.getAttribute('data-item-type'),
+            'index': elem.getAttribute('data-item-index'),
+        };
+        this.clear();
+        console.log('/select');
+      },
+      clear() {
+        console.log('clear');
+        this.open = false;
+        this.search = null;
+        this.selected_id = null;
+        this.highlighted_index = -1;
+        console.log('/clear');
+      },
+      highlightNext() {
+        console.log('highlightNext');
+        if (this.highlighted_index < this.$refs.typeahead_results.children.length - 1) {
+          console.log('match highlightNext');
+          this.highlighted_index = this.highlighted_index + 1;
+          this.scrollIntoView();
+          var elem = this.$refs.typeahead_results.children[this.highlighted_index];
+        }
+        console.log('/highlightNext');
+      },
+      highlightPrevious() {
+        console.log('highlightPrevious');
+        if (this.highlighted_index > 0) {
+          console.log('match highlightPrevious')
+          this.highlighted_index = this.highlighted_index - 1;
+          this.scrollIntoView();
+          var elem = this.$refs.typeahead_results.children[this.highlighted_index];
+        }
+        console.log('/highlightPrevious');
+      },
+      closeResults() {
+          console.log('closeResults');
+          this.open = false;
+          console.log('/closeResults');
+      },
+      openResults() {
+          console.log('openResults');
+          this.open = true;
+          if (this.$refs && this.$refs.typeahead_results.children.length > 0) {
+              var elem = this.$refs.typeahead_results.children[0];
+              this.highlighted_index = 0;
+          }
+          console.log('/openResults');
+      },
+      scrollIntoView() {
+        if (this.$refs.typeahead_results) {
+            this.$refs.typeahead_results.children[this.highlighted_index].scrollIntoView({
+              block: 'nearest',
+              behavior: 'smooth'
+            });
+        }
+      },
+      keyboardSelect() {
+        console.log('keyboardSelect');
+        if (this.highlighted_index > 0) {
+            var elem = this.$refs.typeahead_results.children[this.highlighted_index];
+            this.setSelected(elem);
+        }
+        console.log('/keyboardSelect');
+      },
+      mouseSelect(index) {
+        var elem = this.$refs.typeahead_results.children[index];
+        console.log('mouseSelect');
+        //console.log(elem);
+        this.highlighted_index = index;
+        console.log(this.highlighted_index);
+        console.log(this.selected_id);
+        var selected_id = this.selected_id;
+        this.setSelected(elem);
+        console.log('/mouseSelect');
+      },
+      showResults() {
+        console.log('showResults');
+        console.log(this.$refs.typeahead_results);
+        if (this.$refs.typeahead_results && this.$refs.typeahead_results.children.length > 0) {
+            this.openResults();
+        } else {
+            this.closeResults();
+        }
+        console.log('/showResults');
+      }
+    }"
+    x-modelable="parent_selected"
+    x-model="{{ x_model | escapejs }}">
+    <input
+        class="search form-control form-control-sm"
+        hx-post="{% url 'components:typeahead-search' %}"
+        hx-trigger="keyup changed delay:500ms"
+        hx-target="#typeahead_results_container_{{ component_id }}"
+        hx-vals='{"t": "{{ target | escapejs }}"}'
+        type="search"
+        name="q"
+        x-model="search"
+        x-on:keydown.arrow-down.stop.prevent="highlightNext()"
+        x-on:keydown.escape.stop.prevent="closeResults()"
+        x-on:keydown.enter.stop.prevent="keyboardSelect()"
+        x-on:keydown.arrow-up.stop.prevent="highlightPrevious()"
+        autocomplete="off"
+        placeholder="{{ placeholder | default:'' | escapejs }}">
+        <div id="typeahead_results_container_{{ component_id }}"
+            x-show="open"
+            x-on:htmx:after-settle="showResults()"
+            x-on:click.away="closeResults()">
+        </div>
+</div>

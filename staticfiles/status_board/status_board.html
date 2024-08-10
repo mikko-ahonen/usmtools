@@ -1,0 +1,12 @@
+{% load by_status %}
+{% load component_tags %}
+<div class="status_board">
+  <div class="row">
+  {% for column in columns %}
+    <div class="col">
+      {% with column_entities=entities|by_status:column.status %}
+      {% component "status_board_column" column=column entities=column_entities %}
+    </div>
+  {% endfor %}
+  </div>
+</div>

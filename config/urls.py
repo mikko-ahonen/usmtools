@@ -22,6 +22,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     #path('survey/', include('survey.urls')),
     path('compliances/', include('compliances.urls')),
+    #path('boards/', include('boards.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

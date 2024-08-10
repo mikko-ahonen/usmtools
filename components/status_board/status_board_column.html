@@ -1,0 +1,18 @@
+{% load by_status %}
+{% load component_tags %}
+<div class="status_board_column bg-primary">
+  {% for entity in entities %}
+   <div class="card border-dark mb-3 bg-light">
+      <div class="card-header">
+        <div class="card-text text-wrap">
+          {{ entity.text }}
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-text text-wrap">
+          {{ entity.description }}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

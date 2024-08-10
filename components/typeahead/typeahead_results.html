@@ -1,0 +1,28 @@
+        <div id="typeahead_results_{{ component_id }}" x-ref="typeahead_results">
+          {% for result in results %}
+            <div
+              class="result-item"
+              :class="{
+                'selected': {{ forloop.counter0 }} === highlighted_index
+              }"
+              @click="mouseSelect({{ forloop.counter0 }})"
+              data-item-id="{{ result.id }}"
+              data-item-index="{{ forloop.counter0 }}"
+              data-item-name="{{ result.name }}"
+              data-item-type="{{ result.type }}">
+                <span>
+                  {{ result.name }}
+                </span>
+                {% if result.type_name %}
+                <span class="badge bg-secondary text-dark">
+                  {{ result.type_name }}
+                </span><br/>
+                {% endif %}
+                {% if result.description %}
+                <span>
+                  <small>{{ result.description }}</small>
+                </span>
+                {% endif %}
+            </div>
+          {% endfor %}
+        </div>
