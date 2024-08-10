@@ -160,6 +160,48 @@ class Employee(TenantAwareModelBase):
         default_related_name = 'employees'
 
 
+class TrainingAttended(TenantAwareModelBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    employee = models.ForeignKey(Employee, null=True, on_delete=models.SET_NULL, related_name='attended')
+    training = models.ForeignKey(Training, null=True, on_delete=models.SET_NULL, related_name='attendants')
+    date = models.DateTimeField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+    modified_at = models.DateTimeField(auto_now=True)
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+
+    
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('training attended')
+        verbose_name_plural = _('trainings attended')
+        default_related_name = 'trainings_attended'
+
+
+class TrainingOrganized(TenantAwareModelBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    training = models.ForeignKey(Training, null=True, on_delete=models.SET_NULL, related_name='organized')
+    date = models.DateTimeField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+    modified_at = models.DateTimeField(auto_now=True)
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+
+    
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('training organized')
+        verbose_name_plural = _('trainings organized')
+        default_related_name = 'trainings_organized'
+
+
 class Customer(TenantAwareModelBase):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -223,17 +265,17 @@ class Workflow(TenantAwareOrderedModelBase):
 
     PROCESS_AGREE = "agree"
     PROCESS_CHANGE = "change"
-    PROCESS_INCIDENT = "incident"
+    PROCESS_RECOVER = "recover"
     PROCESS_OPERATION = "operation"
     PROCESS_RISK = "risk"
     PROCESSES = [
         (PROCESS_AGREE, _("Agree")),
         (PROCESS_CHANGE, _("Change")),
-        (PROCESS_INCIDENT, _("Incident")),
+        (PROCESS_RECOVER, _("Recover")),
         (PROCESS_OPERATION, _("Operation")),
         (PROCESS_RISK, _("Risk")),
     ]
-    process = models.CharField(max_length=32, choices=PROCESSES, default=PROCESS_INCIDENT)
+    process = models.CharField(max_length=32, choices=PROCESSES, default=PROCESS_RECOVER)
     tags = TaggableManager(through=UUIDTaggedItem)
 
     order_field_name = 'index'
@@ -418,6 +460,20 @@ class Responsible(TenantAwareOrderedModelBase):
         verbose_name_plural = _('responsibles')
         ordering = ['modified_at',]
         default_related_name = 'responsibles'
+
+#class Category(TenantAwareModelBase):
+#    tag = models.SlugField()
+#    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+#    object_id = models.UUIDField()
+#    content_object = GenericForeignKey("content_type", "object_id")
+#
+#    def __str__(self):
+#        return self.tag
+#
+#    class Meta:
+#        indexes = [
+#            models.Index(fields=["content_type", "object_id"]),
+#        ]
 
 class WorkInstruction(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -5,8 +5,6 @@ from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
 
-from dal import autocomplete
-
 from taggit.models import Tag
 
 from django.urls import reverse
@@ -492,6 +490,7 @@ class TrainingCreate(TenantMixin, CreateView):
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
         self.object.save()
+        form.save_m2m()
         return HttpResponseRedirect(self.get_success_url()) 
 
     def get_success_url(self):
@@ -554,6 +553,7 @@ class EmployeeCreate(TenantMixin, CreateView):
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
         self.object.save()
+        form.save_m2m()
         return HttpResponseRedirect(self.get_success_url()) 
 
     def get_success_url(self):
@@ -833,6 +833,7 @@ class WorkflowCreate(TenantMixin, GetServiceMixin, CreateView):
         self.object.tenant = tenant
         self.object.service = service
         self.object.save()
+        form.save_m2m()
         template = form.cleaned_data['template'] 
         if not template.is_template or not template.is_public:
             raise PermissionDenied("Template is not a template or is not public")

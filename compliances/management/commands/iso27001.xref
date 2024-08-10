@@ -2,7 +2,7 @@
 ISO-27001 V.2024 standard compliance
 """
 domain iso27001 [name:"ISO-27001"] {
-    SecurityIncidentWorkflow := Workflow classified as "security-incident" with status="published" and type="incident";
+    SecurityIncidentWorkflow := Workflow classified as "security-incident" with process="recover";
 
     SecurityEmployee := Employee classified as "security-employee";
 
@@ -45,7 +45,7 @@ domain iso27001 [name:"ISO-27001"] {
             """
             Basic security training exists and has been organized within 3 years.
             """
-            basic-training-exists: there exists BasicSecurityTraining organized within 1 year;
+            basic-training-exists: there exists BasicSecurityTraining organized within 3 year;
         }
 
         """

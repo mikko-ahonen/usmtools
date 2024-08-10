@@ -47,6 +47,11 @@ class Requirement(OrderedModel):
         ordering = ('index',)
         unique_together = ('section', 'index',)
 
+class Term(OrderedModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    definition = models.CharField(max_length=255, blank=True, null=True)
+
 class Constraint(OrderedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)

@@ -133,9 +133,31 @@ class Command(BaseCommand):
         domain = Domain.unscoped.get(slug=domain_slug)
         for section in domain.sections(manager='unscoped').all():
             for requirement in section.requirements(manager='unscoped').all():
-                for constraint in requirement.constraints(manager='unscoped').filter(status__in=[Constraint.STATUS_IMPLEMENTED, Constraint.STATUS_NON_COMPLIANT]):
+                for constraint in requirement.constraints(manager='unscoped').filter(status__in=[Constraint.STATUS_IMPLEMENTED, Constraint.STATUS_NON_COMPLIANT, Constraint.STATUS_COMPLIANT]):
                     goal = constraint.get_goal()
                     result = logica_lib.RunPredicateFromString(logica_source, "_Goal_" + goal)
+                    try:
+                        new_status = None
+                        if int(result['r'].values[0]) == 1:
+                            new_status = Constraint.STATUS_COMPLIANT
+                        else:
+                            new_status = Constraint.STATUS_NON_COMPLIANT
+                        if new_status != constraint.status:
+                            breakpoint()
+                            if new_status == Constraint.STATUS_COMPLIANT:
+                                self.stdout.write(self.style.SUCCESS(f'Constraint {constraint.slug} status changed to compliant'))
+                            else:
+                                assert new_status == Constraint.STATUS_NON_COMPLIANT, "Must be non-compliant"
+                                if constraint.status == Constraint.STATUS_COMPLIANT:
+                                    self.stdout.write(self.style.WARNING(f'Constraint {constraint.slug} status regressed from compliant back to non-compliant'))
+                                else:
+                                    self.stdout.write(self.style.WARNING(f'Constraint {constraint.slug} status changed to non-compliant'))
+                            constraint.status = new_status
+                            constraint.save()
+                    except Exception as ex:
+                        print(str(ex))
+                        breakpoint()
+                        pass
 
     def handle(self, *args, **options):
         tenant_id = options['tenant']

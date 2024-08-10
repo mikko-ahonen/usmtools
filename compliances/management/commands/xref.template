@@ -1,16 +1,24 @@
 @Engine("sqlite");
 
+{# 
+@AttachDatabase("db", "db.sqlite3");
+
+@Ground(Workflow, "db.workflows_workflow");
+@Ground(UUIDTaggedItem, "db.workflows_uuidtaggeditem");
+@Ground(Tag, "db.taggit_tag");
+@Ground(Training, "db.workflows_training");
+@Ground(TrainingOrganized, "db.workflows_trainingorganized");
+@Ground(Employee, "db.workflows_employee");
+@Ground(TrainingAttended, "db.workflows_trainingattended");
+
+Classification(source_id:source_id, classification:classification) :- Tag(id:id, slug:classification), UUIDTaggedItem(object_id:source_id, tag_id:id);
+#}
+
 #############################################################################################################################
 #
 # Utilities
 #
-
-DefaultZero(n) = (
-  if n then
-    n
-  else
-    0
-);
+Every(count) = (if count > 0 then 0 else 1);
 
 #############################################################################################################################
 #
@@ -58,37 +66,32 @@ Employee(id:"E11", name:"Employee 11");
 {% for constraint in requirement.constraints %}
 {% if constraint.exists %}
 _Count{{ constraint.exists.name }}(count? += 1) distinct :- {{ constraint.exists.name }}(id:);
-_Exists{{ constraint.exists.name }}() :- 
+_Goal_{{ goal(domain, section, requirement, constraint) }}(r: true) :- 
   _Count{{ constraint.exists.name }}(count:), 
   count > 0{% if constraint.exists.organized %},
   TrainingOrganized(training_id:training_id, date:d),
   d >= "{{ constraint.exists.organized.within }}"
   {% endif %}
   ;
-_Goal_{{ goal(domain, section, requirement, constraint) }}() :- _Exists{{ constraint.exists.name }}();
+
 
 {% elif constraint.every %}
 {% if constraint.every.attended %}
 {% for term in terms %}
 {% if term.name == constraint.every.name %}
+
 _Attended{{ constraint.every.attended.name }}(employee_id:) :-
     {{ constraint.every.attended.name }}(id:training_id),
     TrainingAttended(employee_id:, training_id:, date:d),
     d >= "{{ constraint.every.attended.within }}";
 
-_{{ constraint.every.name }}NotAttended{{ constraint.every.attended.name }}() :-
+_CountGoal_{{ goal(domain, section, requirement, constraint) }}(count? += 0) distinct;
+_CountGoal_{{ goal(domain, section, requirement, constraint) }}(count? += 1) distinct :- 
   {{ constraint.every.name }}(id:employee_id),
-  ~_Attended{{ constraint.every.attended.name }}(employee_id:employee_id);
+  ~_Attended{{ constraint.every.attended.name }}(employee_id:);
 
-_Count{{ constraint.every.name }}NotAttended{{ constraint.every.attended.name }}(count? += 1) distinct :-
-  _{{ constraint.every.name }}NotAttended{{ constraint.every.attended.name }}();
+_Goal_{{ goal(domain, section, requirement, constraint) }}(r:Every(count)) :- _CountGoal_{{ goal(domain, section, requirement, constraint) }}(count:);
 
-_Every{{ constraint.every.name }}Attended{{ constraint.every.attended.name }}() :-
-  _CountSecurityEmployeeNotAttended{{ constraint.every.attended.name }}(count:),
-  DefaultZero(count) == 0;
-
-_Goal_{{ goal(domain, section, requirement, constraint) }}() :- 
-  _Every{{ constraint.every.name }}Attended{{ constraint.every.attended.name }}();
 {% endif %}
 {% endfor %}
 {% endif %}
