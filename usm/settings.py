@@ -30,8 +30,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '2%pN;M1G8?vWnsB$icrD?=a9u&b6i?sq<kG')
 DEBUG = os.environ.get('DJANGO_DEBUG') == "True"
 
 # Redirect to HTTPS by default, unless explicitly disabled
-SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT') != "False"
+#SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT') != "False"
 
+SITE_ID = 1
+SITE_NAME = "usm.tools"
+
+APP_NAME = os.environ.get("FLY_APP_NAME")
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", f"{APP_NAME}.fly.dev", f"www.{APP_NAME}.fly.dev", "usm.tools", "www.usm.tools"]
+CSRF_TRUSTED_ORIGINS=[f"https://{APP_NAME}.fly.dev", f"https://www.{APP_NAME}.fly.dev", "https://usm.tools"]
 
 # Application definition
 
@@ -74,11 +80,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'config.middleware.SetTenantMiddleware',
+    'usm.middleware.SetTenantMiddleware',
     #'webmention.middleware.webmention_middleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'usm.urls'
 
 TEMPLATES = [
     {
@@ -103,7 +109,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'usm.wsgi.application'
 
 
 # Database

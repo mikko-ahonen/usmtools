@@ -1,1 +1,1 @@
-docker compose --project-directory=dev up
+docker compose up

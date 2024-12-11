@@ -9,6 +9,10 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
+    locales-all \
+    build-essential \
+    uwsgi \
+    uwsgi-plugin-python3 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /code

@@ -11,9 +11,9 @@ class Migration(migrations.Migration):
     is_postgres = connection.vendor == "postgres"
     operations = [
         migrations.RunSQL(
-            'ALTER INDEX workflows_organizationunit_parent_id_3fe1089d rename TO workflows_organizationunit_old_parent_id_3fe1089d' if is_postgres else "",
+            'ALTER INDEX workflows_organizationunit_parent_id_3fe1089d rename TO workflows_organizationunit_old_parent_id_3fe1089d',
         ),
         migrations.RunSQL(
-            'ALTER INDEX workflows_service_parent_id_049871f4 rename TO workflows_service_old_parent_id_049871f4≈' if is_postgres else "",
+            'ALTER INDEX workflows_service_parent_id_049871f4 rename TO workflows_service_old_parent_id_049871f4≈',
         ),
     ]

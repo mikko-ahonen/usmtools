@@ -12,7 +12,7 @@ import jinja2
 
 from django.core.management.base import BaseCommand, CommandError
 
-from config.settings import BASE_DIR
+from usm.settings import BASE_DIR
 from .grammar import XREF_GRAMMAR
 from ...models import Domain, Section, Requirement, Constraint
 

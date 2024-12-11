@@ -1,1 +1,1 @@
-docker compose --project-directory=dev exec -it web /bin/bash
+docker compose --project-directory=. exec -it usm /bin/bash
