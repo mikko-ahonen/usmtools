@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 
 from workflows.views import TenantMixin
 
@@ -16,9 +16,9 @@ class DomainDetail(TenantMixin, DetailView):
     template_name = 'compliances/domain-detail.html'
     context_object_name = 'domain'
 
-class DomainBoard(TenantMixin, DetailView):
+class DeploymentBoard(TenantMixin, DetailView):
     model = Domain
-    template_name = 'compliances/domain-board.html'
+    template_name = 'compliances/deployment-board.html'
     context_object_name = 'domain'
 
     def get_context_data(self, **kwargs):
@@ -26,28 +26,16 @@ class DomainBoard(TenantMixin, DetailView):
         domain_id = self.kwargs['pk']
         context['columns'] = [
             {
-                'name': _("New"),
-                'status': 'new',
-            },
-            {
-                'name': _("Implemented"),
-                'status': 'implemented',
-            },
-            {
                 'name': _("Non-compliant"),
-                'status': 'non-compliant',
-            },
-            {
-                'name': _("Failed"),
-                'status': 'failed',
+                'statuses': ['new', 'ongoing', 'implemented', 'non-compliant', 'failed'],
             },
             {
                 'name': _("Compliant"),
-                'status': 'compliant',
+                'statuses': ['compliant'],
             },
             {
                 'name': _("Audited"),
-                'status': 'audited',
+                'statuses': ['audited'],
             },
         ]
         context['constraints'] = Constraint.objects.filter(requirement__section__domain_id=domain_id).select_related('requirement', 'requirement__section', 'requirement__section__domain')

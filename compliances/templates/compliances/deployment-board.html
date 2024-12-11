@@ -7,7 +7,8 @@
 <div class="container">
 {% breadcrumbs tenant True 'compliances' %}
 <h1 class="mb-0 pb-0">{% trans 'Board' %} {{ domain.name }}</h1>
-  {% component 'status_board' columns=status_columns entities=constraints %}
+  {% component 'status_board' root=domain columns=columns entities=constraints %}
+  {% endcomponent %}
 </div>
 </section>
 {% endblock %}

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from ordered_model.admin import OrderedModelAdmin
 
-from .models import Standard, Control, Requirement, Statement, Substatement
+from .models import Standard, Control, Requirement, Statement, Task
 
 class BaseAdmin(OrderedModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -23,11 +23,11 @@ class RequirementAdmin(BaseAdmin):
 class StatementAdmin(BaseAdmin):
     list_display = ('id', 'text', 'status')
 
-class SubstatementAdmin(BaseAdmin):
+class TaskAdmin(BaseAdmin):
     list_display = ('id', 'subject', 'predicate', 'object')
 
 admin.site.register(Standard, StandardAdmin)
 admin.site.register(Control, ControlAdmin)
 admin.site.register(Requirement, RequirementAdmin)
 admin.site.register(Statement, StatementAdmin)
-admin.site.register(Substatement, SubstatementAdmin)
+admin.site.register(Task, TaskAdmin)

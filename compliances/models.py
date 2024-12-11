@@ -60,6 +60,7 @@ class Constraint(OrderedModel):
     description = models.TextField(blank=True, null=True)
 
     STATUS_NEW = "new"
+    STATUS_ONGOING = "ongoing"
     STATUS_IMPLEMENTED = "implemented"
     STATUS_FAILED = "failed"
     STATUS_NON_COMPLIANT = "non-compliant"
@@ -67,6 +68,7 @@ class Constraint(OrderedModel):
     STATUS_AUDITED = "audited"
     STATUSES = [
         (STATUS_NEW, _("New")),
+        (STATUS_ONGOING, _("Ongoing")),
         (STATUS_IMPLEMENTED, _("Implemented")),
         (STATUS_FAILED, _("Failed")),
         (STATUS_NON_COMPLIANT, _("Non-compliant")),

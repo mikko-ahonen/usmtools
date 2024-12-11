@@ -9,6 +9,7 @@ urlpatterns = [
     path("create_board", views.create_board, name="create_board"),
     path("<uuid:board_uuid>", views.board, name="board"),
     # lists:
+
     path("<uuid:board_uuid>/create_list", views.create_list, name="create_list"),
     path(
         "<uuid:board_uuid>/<uuid:list_uuid>/delete_list",

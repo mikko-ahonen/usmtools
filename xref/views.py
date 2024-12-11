@@ -7,8 +7,8 @@ from django.utils.translation import gettext_lazy as _
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
-from .models import Standard, Control, Requirement, Statement, Substatement
-from .forms import StandardCreateOrUpdate, ControlCreateOrUpdate, RequirementCreateOrUpdate, StatementCreateOrUpdate, SubstatementCreateOrUpdate
+from .models import Standard, Control, Requirement, Statement, Task
+from .forms import StandardCreateOrUpdate, ControlCreateOrUpdate, RequirementCreateOrUpdate, StatementCreateOrUpdate, TaskCreateOrUpdate
 
 class UpdateModifiedByMixin():
     def form_valid(self, form):
@@ -307,16 +307,16 @@ class StatementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         return reverse_lazy('xref:control-detail', kwargs={'pk': self.object.requirement.control_id})
 
 
-class SubstatementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = Substatement
+class TaskCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Task
     template_name = 'xref/modals/create-or-update.html'
-    form_class = SubstatementCreateOrUpdate
-    permission_required = 'xref.add_substatement'
+    form_class = TaskCreateOrUpdate
+    permission_required = 'xref.add_task'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('substatement')
-        context['help_text'] = _('You should create one or more formal substatements to cover the USM statement.')
+        context['object_type'] = _('task')
+        context['help_text'] = _('You should create one or more formal tasks to cover the USM statement.')
         return context
 
     def form_valid(self, form):
@@ -331,37 +331,37 @@ class SubstatementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView
         return HttpResponseRedirect(reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.control_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id}))
 
 
-class SubstatementUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
-    model = Substatement
+class TaskUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
+    model = Task
     template_name = 'xref/modals/create-or-update.html'
-    form_class = SubstatementCreateOrUpdate
-    permission_required = 'xref.change_substatement'
+    form_class = TaskCreateOrUpdate
+    permission_required = 'xref.change_task'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('substatement')
-        context['help_text'] = _('You should create one or more formal substatements to cover the USM statement.')
+        context['object_type'] = _('task')
+        context['help_text'] = _('You should create one or more formal tasks to cover the USM statement.')
         return context
 
     def get_success_url(self):
-        substatement_id = self.kwargs['pk']
+        task_id = self.kwargs['pk']
         statement_id = self.kwargs['statement_id']
         statement = get_object_or_404(Statement, pk=statement_id)
         return reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.control_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id})
 
 
-class SubstatementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    model = Substatement
+class TaskDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Task
     template_name = 'xref/modals/delete.html'
-    permission_required = 'xref.delete_substatement'
+    permission_required = 'xref.delete_task'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('substatement')
+        context['object_type'] = _('task')
         return context
 
     def get_success_url(self):
-        substatement_id = self.kwargs['pk']
+        task_id = self.kwargs['pk']
         statement_id = self.kwargs['statement_id']
         statement = get_object_or_404(Statement, pk=statement_id)
         return reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.control_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id})

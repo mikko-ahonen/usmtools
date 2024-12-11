@@ -15,14 +15,15 @@ urlpatterns = [
     #path('public/', include('public.urls')),
     #path('webmention/', include('webmention.urls')),
     path('workflows/', include('workflows.urls')),
-    #path('xref/', include('xref.urls')),
+    ##path('xref/', include('xref.urls')),
     #path("accounts/", include("django.contrib.auth.urls")),
     #path('i18n/', include('django.conf.urls.i18n')),
     path('sentry-debug/', trigger_error),
     path('accounts/', include('accounts.urls')),
     #path('survey/', include('survey.urls')),
     path('compliances/', include('compliances.urls')),
-    #path('boards/', include('boards.urls')),
+    path('boards/', include('boards.urls')),
+    path('components/', include('components.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

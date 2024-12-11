@@ -1,5 +1,5 @@
 {% load static %}<!DOCTYPE html>
-<html lang="de" class="h-full">
+<html class="h-full">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,9 +9,9 @@
     {% comment %} <link rel="shortcut icon" href="{% static "images/favicon.ico" %}"> {% endcomment %}
 
     {% block css %}
-      {% comment %}
+    {% comment %}
       <link rel="stylesheet" type="text/css" href="{% static '@fontsource/inter/variable.css' %}">
-      {% endcomment %}
+    {% endcomment %}
       <link href="{% static 'css/boards.css' %}" rel="stylesheet">
     {% endblock %}
 
@@ -38,11 +38,10 @@
 
     {% block javascript %}
       <script type="text/javascript" src="{% static 'js/boards.js' %}"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+      <script src="https://unpkg.com/@alpinejs/focus@3.13.10/dist/cdn.min.js"></script>
       <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/htmx.org@1.3.3/dist/htmx.min.js"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/htmx.org@1.3.3/dist/htmx.min.js"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+      <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js" integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     {% endblock javascript %}
   </body>
 

@@ -2,10 +2,12 @@
 {% load component_tags %}
 <div class="status_board">
   <div class="row">
-  {% for column in columns %}
-    <div class="col">
-      {% with column_entities=entities|by_status:column.status %}
-      {% component "status_board_column" column=column entities=column_entities %}
+  {% for slug, column in columns.items %}
+    <div class="col g-1">
+      {% with column_entities=entities|by_status:column.statuses %}
+      {% component "status_board_column" root_id=root_id column_slug=slug column=column entities=column_entities %}
+      {% endcomponent %}
+      {% endwith %}
     </div>
   {% endfor %}
   </div>

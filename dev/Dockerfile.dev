@@ -24,20 +24,21 @@ RUN apt install -y postgresql-common
 RUN YES=yes /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
 RUN apt install -y postgresql-client-16
 
-RUN npm install -g node-sass
-
-RUN curl -L https://fly.io/install.sh | sh
-RUN curl -sL https://sentry.io/get-cli/ | sh
-
 #COPY 3rd_party/ /tmp/3rd_party
 COPY requirements.txt /tmp/requirements.txt
 COPY dev/dev-requirements.txt /tmp/dev-requirements.txt
 RUN set -ex && \
     cd /tmp && \
     pip install --upgrade pip && \
+    pip install setuptools && \
     pip install -r /tmp/requirements.txt && \
     pip install -r /tmp/dev-requirements.txt && \
     rm -rf /root/.cache/
+
+RUN npm install -g node-sass
+
+RUN curl -L https://fly.io/install.sh | sh
+RUN curl -sL https://sentry.io/get-cli/ | sh
 
 RUN (type -p wget >/dev/null || (apt update && apt-get install wget -y)) \
   && mkdir -p -m 755 /etc/apt/keyrings \

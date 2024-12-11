@@ -85,10 +85,8 @@ class Requirement(OrderedModelBase):
     class Meta:
         ordering = ('index',)
 
-
     def __str__(self):
         return self.name
-
 
 class Statement(OrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -116,38 +114,20 @@ class Statement(OrderedModelBase):
     class Meta:
         ordering = ('index',)
 
-
     def __str__(self):
         return self.text
 
 
-class StatementToSubstatement(OrderedModelBase):
-    statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
-    substatement = models.ForeignKey('Substatement', on_delete=models.CASCADE)
-
-    order_with_respect_to = 'statement'
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    order_field_name = 'index'
-
-    class Meta:
-        ordering = ('index',)
-
-
-    class Meta:
-        ordering = ('substatement',)
-        unique_together = (('statement', 'substatement'),)
-
-
-class Substatement(OrderedModelBase):
+class Task(OrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    statements = models.ManyToManyField(Statement, related_name='substatements', through='StatementToSubstatement')
+    statements = models.ManyToManyField(Statement, related_name='tasks', through='TaskStatement')
     subject = models.CharField(max_length=255)
     predicate = models.CharField(max_length=255)
     object = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='substatements_created')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='substatements_modified')
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     order_field_name = 'index'
 
@@ -157,3 +137,17 @@ class Substatement(OrderedModelBase):
 
     def __str__(self):
         return self.subject + ' ' + self.predicate + ' ' + self.object
+
+class TaskStatement(OrderedModelBase):
+    statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
+
+    order_with_respect_to = 'statement'
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    order_field_name = 'index'
+
+    class Meta:
+        ordering = ('index',)
+        unique_together = (('statement', 'task'),)
+
+

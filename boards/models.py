@@ -2,11 +2,12 @@ import uuid
 
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext as _
 
 
 class Board(models.Model):
-    name = models.CharField("Name", max_length=255)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    name = models.CharField(verbose_name=_("Name"), max_length=255)
+    uuid = models.UUIDField(verbose_name=_("UUID"), default=uuid.uuid4, editable=False, unique=True)
 
     def get_absolute_url(self):
         return reverse("boards:board", kwargs={"board_uuid": self.uuid})
@@ -33,11 +34,11 @@ class List(models.Model):
 
 
 class Task(models.Model):
-    label = models.TextField("Beschriftung")
+    label = models.TextField("Label")
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
     order = models.SmallIntegerField(default=1000, db_index=True)
-    description = models.TextField("Beschreibung", blank=True)
+    description = models.TextField(verbose_name=_("Description"), blank=True)
 
     def __str__(self) -> str:
         return self.label

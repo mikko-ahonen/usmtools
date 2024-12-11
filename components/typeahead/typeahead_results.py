@@ -1,7 +1,7 @@
 #import logging
 from django_components import component
 
-from cal.search import search_venues, search_municipalities, search_compositions, search_performers, search_regions
+#from cal.search import search_venues, search_municipalities, search_compositions, search_performers, search_regions
 
 #logger = logging.getLogger(__name__)
 

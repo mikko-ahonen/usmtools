@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build:css": "npx tailwindcss -i ./static/styles/base.css -o ./static/styles/styles.css",
     "compile-styles": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 styles/styles.scss static/css/styles.css",
     "css-minify": "cleancss --level 1 --format breaksWith=lf --source-map --source-map-inline-sources --output static/css/lovezone.min.css static/css/lovezone.css",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
-from .models import Standard, Control, Requirement, Statement, Substatement
+from .models import Standard, Control, Requirement, Statement, Task
 
 class StandardCreateOrUpdate(ModelForm):
 
@@ -54,10 +54,10 @@ class StatementCreateOrUpdate(ModelForm):
         self.helper.form_tag = False
         self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
 
-class SubstatementCreateOrUpdate(ModelForm):
+class TaskCreateOrUpdate(ModelForm):
 
     class Meta:
-        model = Substatement
+        model = Task
         fields = ['subject', 'predicate', 'object']
 
     def __init__(self, *args, **kwargs):

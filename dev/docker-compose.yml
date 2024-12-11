@@ -5,8 +5,8 @@ services :
       dockerfile: dev/Dockerfile.dev
     command: /src/deploy/docker-entrypoint.sh
     ports:
-      - "8000:8000"
-      - "6900:6900"
+      - "8030:8000"
+      - "6930:6900"
     depends_on:
       - postgres
     links:

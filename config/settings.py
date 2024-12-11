@@ -42,22 +42,27 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    #'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_extensions',
     'extra_views',
     'crispy_forms',
     'crispy_bootstrap5',
     'ordered_model',
+    'django_components',
+    'django_components.safer_staticfiles',
     #'public',
     'taggit',
     'sequences',
+    'widget_tweaks',
+    #'components',
     'onboarding',
     'workflows',
     'compliances',
-    'xref',
+    #'xref',
     'accounts',
     'survey',
+    'boards',
 ]
 
 MIDDLEWARE = [
@@ -158,7 +163,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
   os.path.join(BASE_DIR, 'static/'),
-  os.path.join(BASE_DIR, "components/"),
+  os.path.join(BASE_DIR, "components"),
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -323,3 +328,9 @@ LOGGING = {
         },
     },
 }
+
+#
+# Django components
+#
+
+COMPONENTS = { 'RENDER_DEPENDENCIES': True }
