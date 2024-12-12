@@ -1,13 +1,1 @@
 {% extends "base.html" %}
-{% block sidenav %}
-{% include "workflows/fragments/sidenav.html" %}
-{% endblock sidenav %}
-{% block sidenav-scripts %}
-<script>
-$("#sidenav-container .collapse").on('shown.bs.collapse', function () {    
-    console.log($(this));
-    //when a collapsed div is shown hide all other collapsible divs that are visible
-    $("#sidenav-container .collapse").not($(this)).collapse('hide');
-});
-</script>
-{% endblock %}

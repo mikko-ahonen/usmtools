@@ -48,78 +48,7 @@
         {% block sidenav %}{% endblock %}
     </div>
     <div class="col">
-    {% block header %}
-    <div id="header">
-
-      <nav class="navbar navbar-custom navbar-expand-md sticky-top navbar-dark bg-dark d-print-none">
-        <div class="container-fluid">
-
-        <a class="navbar-brand" href="/"><img height="45px" style="margin-left: 20px" src="{% static 'img/usm_coach_logo_blue_375x200.png' %}" alt="Logo"/></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
-          <ul class="list-unstyled navbar-nav"> {% comment %}bootstrap 4 is broken, and does not allow styling this in the class {% endcomment %}
-            {% if user.is_authenticated %}
-            <li class="nav-item {% if "/app" in request.path %}active{% endif %}">
-              <a class="nav-link" href="/app/">{% trans 'BPM Tool' %} <span class="badge bg-danger">beta</span></a>
-            </li>
-            {% for group in request.user.groups.all %}
-                {% if group.name == 'XREF' %}
-                <li class="nav-item {% if "/xref" in request.path %}active{% endif %}">
-                  <a class="nav-link" href="/xref/">{% trans 'XREF tool' %} <span class="badge bg-danger">beta</span></a>
-                </li>
-                {% endif %}
-            {% endfor %}
-            {% endif %}
-          </ul>
-        </div>
-        <div class="collapse navbar-collapse justify-content-end me-3" id="navbarSupportedContent">
-          <ul class="list-unstyled navbar-nav"> {% comment %}bootstrap 4 is broken, and does not allow styling this in the class {% endcomment %}
-            {% comment %}
-            {% get_current_language as current_language %}
-            {% get_available_languages as LANGUAGES %}
-            {% get_language_info_list for LANGUAGES as languages %}
-            {% for language in languages %}
-              {% if current_language != language.code %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'public.lang' language.code %}?next={{ request.path | urlencode }}"><img height="20" src="/static/img/lang_{{ language.code }}.png" alt="{{ language.code }}"/></a>
-                </li>
-              {% endif %}
-            {% endfor %}
-            {% endcomment %}
-
-            {% if user.is_authenticated %}
-              <li class="nav-item dropdown">
-
-                <a class="dropdown-toggle" role="button" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ user }}
-                </a>
-
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                  <li><a class="dropdown-item" href="{% url 'accounts:auth_logout' %}">{% trans "Log out" %}</a></li>
-                  <li><a class="dropdown-item" href="{% url 'accounts:auth_password_change' %}">{% trans "Change password" %}</a></li>
-                  {% if user.is_staff %}
-                    <li><a class="dropdown-item" href="/admin">{% trans "Site admin" %}</a></li>
-                  {% endif %}
-                </ul>
-              </li>
-              {% comment %}
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
-                  </ul>
-              {% endcomment %}
-            {% else %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'accounts:auth_login' %}">{% trans "Log In" %}</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
-        </div>
-      </nav>
-    {% endblock header %}
+    {% include 'fragments/header.html' %}
     </div>
 
     <div id="content">
