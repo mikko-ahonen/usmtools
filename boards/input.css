@@ -5,17 +5,17 @@
 
 .sortable-drag {
     opacity: 1 !important;
-    @apply border border-gray-200 rotate-3;
+    @apply tw-border tw-border-gray-200 tw-rotate-3;
 }
 
 .sortable-ghost {
-    @apply bg-slate-300 text-slate-300 shadow-inner;
+    @apply tw-bg-slate-300 tw-text-slate-300 tw-shadow-inner;
 }
 
 .sortable-ghost:hover {
-    @apply bg-slate-300 text-slate-300 shadow-inner !important;
+    @apply tw-bg-slate-300 tw-text-slate-300 tw-shadow-inner !important;
 }
 
 .sortable-ghost * {
-    @apply invisible;
+    @apply tw-invisible;
 }

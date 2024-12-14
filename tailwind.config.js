@@ -1,5 +1,6 @@
 module.exports = {
   content: ["./**/*.py", "./*/templates/**/*.html", "./templates/**/*.html"],
+  prefix: 'tw-',
   theme: {
     fontFamily: {
       sans: ["InterVariable", "sans-serif"],
@@ -21,6 +22,9 @@ module.exports = {
         },
       },
     },
+  },
+  corePlugins: {
+    preflight: false,
   },
   plugins: [require('@tailwindcss/forms')],
 }

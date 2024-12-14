@@ -1,5 +1,5 @@
 {% load static %}<!DOCTYPE html>
-<html class="h-full">
+<html class="tw-h-full">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,25 +9,22 @@
     {% comment %} <link rel="shortcut icon" href="{% static "images/favicon.ico" %}"> {% endcomment %}
 
     {% block css %}
-    {% comment %}
       <link rel="stylesheet" type="text/css" href="{% static '@fontsource/inter/variable.css' %}">
-    {% endcomment %}
-      <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.19/dist/full.min.css" rel="stylesheet" type="text/css" />
       <link href="{% static 'css/boards.css' %}" rel="stylesheet">
     {% endblock %}
 
     {% block extrahead %}{% endblock %}
   </head>
 
-  <body class="font-sans text-gray-800 antialiased bg-gray-100" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  <body class="tw-font-sans tw-text-gray-800 tw-antialiased tw-bg-gray-100" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
    
     {% comment %} {% block navbar %}{% include "navbar.html" %}{% endblock navbar %}
 
     {% include "messages.html" %} {% endcomment %}
 
     {% block outerContent %}
-      <div class="mx-auto max-w-7xl mt-8 md:mt-16 mb-64">
-        <div class="mx-4 md:mx-8">
+      <div class="tw-mx-auto tw-max-w-7xl tw-mt-8 tw-md:tw-mt-16 tw-mb-64">
+        <div class="tw-mx-4 tw-md:tw-mx-8">
           {% block content %}{% endblock content %}
         </div>
       </div>
