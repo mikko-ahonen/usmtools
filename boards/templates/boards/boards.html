@@ -1,16 +1,25 @@
 {% extends 'boards/base.html' %}
+{%load i18n %}
 
 {% block content %}
-<div class="tw-mb-8">
-    <button class="tw-bg-green-600 tw-text-white tw-font-bold tw-text-sm tw-rounded-md tw-px-4 tw-py-1" hx-get="{% url 'boards:create_board' %}" hx-swap="outerHTML">New board</button>
+<div class="container mt-3">
+  <a class="" href="/">{% trans 'Boards' %}</a>
+
+{% for board in boards %}
+<a class="text-decoration-none" href="{{ board.get_absolute_url }}">
+  <div class="board-card card border-primary mt-2 mb-2">
+    <div class="card-body">
+      <div class="card-text text-wrap">
+        {{ board.name }}
+      </div>
+    </div>
+  </div>
+</a>
+{% endfor %}
+
+<div class="mt-3 mb-5">
+    <button class="btn btn-primary" hx-get="{% url 'boards:create_board' %}" hx-swap="outerHTML">New board</button>
 </div>
 
-<div class="tw-flex tw-flex-wrap tw--mx-4">
-    {% for board in boards %}
-        <div class="tw-relative tw-bg-white tw-shadow tw-p-3 tw-rounded-md tw-h-16 tw-w-48 hover:tw-shadow-xl tw-m-4">
-            <span class="tw-text-sm">{{ board.name }}</span>
-            <a class="tw-absolute tw-inset-0" href="{{ board.get_absolute_url }}"></a>
-        </div>
-    {% endfor %}
 </div>
 {% endblock %}

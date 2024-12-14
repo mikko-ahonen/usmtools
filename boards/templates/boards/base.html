@@ -1,46 +1,9 @@
-{% load static %}<!DOCTYPE html>
-<html class="tw-h-full">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    {% comment %} <link rel="shortcut icon" href="{% static "images/favicon.ico" %}"> {% endcomment %}
-
-    {% block css %}
-      <link rel="stylesheet" type="text/css" href="{% static '@fontsource/inter/variable.css' %}">
-      <link href="{% static 'css/boards.css' %}" rel="stylesheet">
-    {% endblock %}
-
-    {% block extrahead %}{% endblock %}
-  </head>
-
-  <body class="tw-font-sans tw-text-gray-800 tw-antialiased tw-bg-gray-100" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-   
-    {% comment %} {% block navbar %}{% include "navbar.html" %}{% endblock navbar %}
-
-    {% include "messages.html" %} {% endcomment %}
-
-    {% block outerContent %}
-      <div class="tw-mx-auto tw-max-w-7xl tw-mt-8 tw-md:tw-mt-16 tw-mb-64">
-        <div class="tw-mx-4 tw-md:tw-mx-8">
-          {% block content %}{% endblock content %}
-        </div>
-      </div>
-    {% endblock outerContent %}
-
-    {% comment %} {% block footer %}
-      {% include "footer.html" %}
-    {% endblock footer %} {% endcomment %}
-
-    {% block javascript %}
-      <script type="text/javascript" src="{% static 'js/boards.js' %}"></script>
-      <script src="https://unpkg.com/@alpinejs/focus@3.13.10/dist/cdn.min.js"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-      <script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js" integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-    {% endblock javascript %}
-  </body>
-
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+  <link rel="stylesheet" type="text/css" href="{% static '@fontsource/inter/variable.css' %}">
+  <link href="{% static 'css/boards.css' %}" rel="stylesheet">
+{% endblock styles %}
+{% block scripts %}
+  <script type="text/javascript" src="{% static 'js/boards.js' %}"></script>
+{% endblock scripts %}

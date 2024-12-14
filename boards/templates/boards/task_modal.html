@@ -1,21 +1,19 @@
 {% load widget_tweaks %}
 <div x-data="{modalOpen: true}" class="tw-modal">
-    <div x-cloak x-show="modalOpen" @keydown.escape.window="modalOpen=false" class="tw-relative tw-z-30" role="dialog" aria-modal="true">
+    <div x-cloak x-show="modalOpen" @keydown.escape.window="modalOpen=false" style="z-index: 5000" class="tw-relative tw-z-30" role="dialog" aria-modal="true">
         <div class="tw-fixed tw-inset-0 tw-bg-gray-500 tw-bg-opacity-25 tw-transition-opacity"></div>
         <div class="tw-fixed tw-z-10 tw-inset-0 tw-overflow-y-auto">
             <div class="tw-flex tw-items-start tw-justify-center tw-min-h-full tw-p-4 tw-text-center tw-sm:tw-p-0">
                 <div class="tw-relative tw-bg-white tw-rounded-lg tw-px-4 tw-pt-5 tw-pb-4 tw-text-left tw-overflow-hidden tw-shadow-xl tw-transform tw-transition-all tw-sm:tw-my-8 tw-max-w-2xl tw-w-full tw-sm:tw-p-6 tw-min-h-[30rem]"
                         x-trap.noscroll.inert="modalOpen" @click.outside="modalOpen=false" x-show="modalOpen">
 
-                    <form hx-post="{{ request.path }}" hx-target="closest .modal">
+                    <form hx-post="{{ request.path }}" hx-target="closest .tw-modal">
 
                         <div class="tw-flex tw-items-start tw-justify-between tw-mb-2">
-                            {% render_field form.label class="tw-text-xl tw-font-semibold tw-flex-1 tw-border-none tw-p-0 tw-w-full tw-resize-none" rows="1" %}
+                            {% render_field form.label class="form-control" rows="1" %}
 
-                            <button type="button" @click="modalOpen=false" class="tw-text-gray-500 hover:tw-bg-gray-200 tw-rounded-full tw-p-2 tw--mt-2 tw--mr-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                            <button type="button" @click="modalOpen=false" class="btn btn-primary">
+                                X
                             </button>
                         </div>
 
@@ -25,7 +23,7 @@
                         {% render_field form.description class="tw-text-sm tw-border-gray-200 tw-w-full tw-rounded tw-resize-none" rows="2" %}
 
                         <div class="tw-mt-4">
-                            <button class="tw-bg-green-600 tw-rounded-full tw-py-1.5 tw-px-4 hover:tw-bg-green-700 twe-text-sm tw-text-white tw-font-semibold" type="submit">Save</button>
+                            <button class="btn btn-primary" type="submit">Save</button>
                         </div>
                     </form>
 

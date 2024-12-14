@@ -1,23 +1,16 @@
 {% extends 'boards/base.html' %}
 
 {% block content %}
-<a href="/" class="tw-inline-flex tw-group tw-space-x-1 tw-items-center tw-mb-6 tw-text-sm tw-text-gray-500 hover:tw-text-gray-700">
-  <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5 tw-text-gray-400 group-hover:tw-text-gray-500" fill="none"
-    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-  </svg>
+<div class="container">
+<a href="/">
   <span>Boards</span>
 </a>
-
+<div class="container">
 {% include "boards/_board.html" %}
-
+</div>
 {% endblock %}
 
-
-{% block javascript %}
-{{ block.super }}
-
-
+{% block footer-scripts %}
 <script>
 htmx.onLoad(function (content) {
   htmx.logAll();

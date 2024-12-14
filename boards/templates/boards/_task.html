@@ -1,4 +1,4 @@
-<div class="task tw-relative tw-group tw-bg-white tw-shadow tw-p-3 tw-rounded-md tw-text-sm tw-cursor-pointer hover:tw-shadow-lg" id="{{ task.uuid }}">
+<div class="task tw-relative group tw-bg-white tw-shadow tw-p-3 tw-rounded-md tw-text-sm tw-cursor-pointer hover:tw-shadow-lg" id="{{ task.uuid }}">
     <a href="#" class="tw-absolute tw-inset-0"
         hx-get="{% url 'boards:task_modal' task.uuid %}" hx-swap="beforeend" hx-target="body" hx-trigger="click"></a>
 

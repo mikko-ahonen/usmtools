@@ -19,3 +19,8 @@
 .sortable-ghost * {
     @apply tw-invisible;
 }
+
+.board-card:hover {
+   color: white;
+   background-color: #36589C;
+}
