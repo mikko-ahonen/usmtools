@@ -1,0 +1,2 @@
+#PGPASSWORD=S3cret psql -h usm-postgres -p 5432 -U postgres db
+docker compose exec postgres psql -U postgres db
