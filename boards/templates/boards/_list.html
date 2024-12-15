@@ -1,6 +1,6 @@
 {% load i18n %}
-<div class="list w-64 bg-slate-200 rounded-md px-3 pt-1 pb-3 shrink-0" id="{{ list.uuid }}">
-    <div class="list-handle tw-cursor-grab tw-flex tw-items-center tw-justify-between">
+    <div class="list mx-3" id="{{ list.uuid }}">
+      <div class="list-handle tw-cursor-grab tw-flex tw-items-center tw-justify-between">
         <h2>
             <span>{{ list.name }}</span>
             <span class="badge rounded-pill bg-primary">{{ list.tasks.count }}</span>

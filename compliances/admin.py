@@ -27,16 +27,16 @@ class BaseAdmin(admin.ModelAdmin):
 
 
 class FooDomainAdmin(BaseAdmin):
-    list_display = ('id', 'slug', 'name', 'description')
+    list_display = ('tenant_id', 'id', 'slug', 'name', 'description')
 
 class SectionAdmin(BaseAdmin):
-    list_display = ('id', 'slug', 'title', 'description')
+    list_display = ('tenant_id', 'id', 'slug', 'title', 'description')
 
 class RequirementAdmin(BaseAdmin):
-    list_display = ('id', 'slug', 'text')
+    list_display = ('tenant_id', 'id', 'slug', 'text')
 
 class ConstraintAdmin(BaseAdmin):
-    list_display = ('id', 'slug', 'text')
+    list_display = ('tenant_id', 'id', 'slug', 'text')
 
 admin.site.register(FooDomain, FooDomainAdmin)
 admin.site.register(Section, SectionAdmin)

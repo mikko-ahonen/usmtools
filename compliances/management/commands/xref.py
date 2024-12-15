@@ -6,6 +6,7 @@ import json
 import argparse
 #from slugify import slugify
 from logica.common import logica_lib
+from django.utils import timezone
 
 from pyparsing import ParseException, pprint
 import jinja2
@@ -15,6 +16,7 @@ from django.core.management.base import BaseCommand, CommandError
 from usm.settings import BASE_DIR
 from .grammar import XREF_GRAMMAR
 from ...models import Domain, Section, Requirement, Constraint
+from workflows.tenant_models import Tenant
 
 def strip(s):
     return re.sub(r"^[\s\n\t]*(.*)[\s\n\t\r]*", r"\1", s)
@@ -70,14 +72,16 @@ class Command(BaseCommand):
 
     def update_structure(self, tenant_id, domain_slug, tokens):
         domain_qualifiers = self.get_qualifiers(tokens['domain'])
-        domain, _ = Domain.unscoped.update_or_create(tenant_id=tenant_id, slug=domain_slug, defaults={"name": domain_qualifiers['name'], "description": strip(tokens['domain']['doc'])})
-        for section_token in tokens['domain']['sections']:
+
+        now = timezone.now()
+        domain, _ = Domain.unscoped.update_or_create(tenant_id=tenant_id, slug=domain_slug, defaults={"name": domain_qualifiers['name'], "description": strip(tokens['domain']['doc'])}) #, 'created_at': now, 'modified_at': now})
+        for section_index, section_token in enumerate(tokens['domain']['sections']):
             section_qualifiers = self.get_qualifiers(section_token)
-            section, _ = Section.unscoped.update_or_create(tenant_id=tenant_id, slug=section_token['slug'], domain_id=domain.id, defaults={"title": section_qualifiers['title'], "description": strip(section_token['doc'])})
-            for req_token in section_token['requirements']:
-                req, _ = Requirement.unscoped.update_or_create(tenant_id=tenant_id, slug=req_token['slug'], section_id=section.id, defaults={"text": strip(req_token['doc'])})
-                for constr_token in req_token['constraints']:
-                    constraint, _ = Constraint.unscoped.update_or_create(tenant_id=tenant_id, slug=constr_token['slug'], requirement_id=req.id, defaults={"text": strip(constr_token['doc'])})
+            section, _ = Section.unscoped.update_or_create(tenant_id=tenant_id, index=section_index, slug=section_token['slug'], domain_id=domain.id, defaults={"title": section_qualifiers['title'], "description": strip(section_token['doc'])})
+            for req_index, req_token in enumerate(section_token['requirements']):
+                req, _ = Requirement.unscoped.update_or_create(tenant_id=tenant_id, index=req_index, slug=req_token['slug'], section_id=section.id, defaults={"text": strip(req_token['doc'])})
+                for constr_index, constr_token in enumerate(req_token['constraints']):
+                    constraint, _ = Constraint.unscoped.update_or_create(tenant_id=tenant_id, index=constr_index, slug=constr_token['slug'], requirement_id=req.id, defaults={"text": strip(constr_token['doc'])})
 
     def validate_constraint(self, tenant_id, constraint, constraint_token, for_update=False):
         return True
@@ -163,6 +167,10 @@ class Command(BaseCommand):
         tenant_id = options['tenant']
         if not tenant_id:
             raise CommandError("tenant is required")
+        breakpoint()
+        tenant = Tenant.objects.filter(id=tenant_id).first()
+        if not tenant:
+            raise CommandError("tenant not found")
         domain_slug = options['domain']
         if not domain_slug:
             raise CommandError("domain is required")

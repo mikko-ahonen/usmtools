@@ -1,14 +1,16 @@
 {% load i18n %}
 <div id="board">
-    <h1>{{ board.name }}</h1>
-    <div class="sortable-lists tw-flex tw-space-x-2 tw-items-start tw-overflow-x-auto">
-        {% for list in board.lists.all %}
-            {% include "boards/_list.html" %}
-        {% endfor %}
+  <h1>{{ board.name }}</h1>
+  <div class="mb-5 sortable-lists tw-flex tw-space-x-2 tw-items-start tw-overflow-x-auto">
+    {% for list in board.lists.all %}
+      {% include "boards/_list.html" %}
+    {% endfor %}
 
-        <div x-data="{open: false}" @keydown.escape.window="open=false" class="tw-w-64">
-            <button type="button" class="create-list-button btn btn-primary"
-                @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add list</button>
+      <div x-data="{open: false}" @keydown.escape.window="open=false" class="tw-w-64">
+        <h2>
+          <button type="button" class="create-list-button btn btn-primary"
+              @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add list</button>
+        </h2>
     
             <form class="create-list-form" x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_list' board.uuid %}" hx-target="this">
                 <div class="tw-form tw-bg-white tw-shadow tw-rounded-md tw-p-4 tw-inline-block">

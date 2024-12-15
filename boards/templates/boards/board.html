@@ -1,8 +1,8 @@
 {% extends 'boards/base.html' %}
 
 {% block content %}
-<div class="container">
-<a href="/">
+<div class="container mt-3">
+<a href="/boards/">
   <span>Boards</span>
 </a>
 <div class="container">
@@ -19,9 +19,23 @@ htmx.onLoad(function (content) {
       forceFallback: true,
       animation: 0,
       group: "tasks",
+      chosenClass: "sortable-chosen",
       ghostClass: "sortable-ghost",
       dragClass: "sortable-drag",
+      onChoose: function(e) {
+        e.target.classList.add('grabbing');
+      },
+      onUnchoose: function(e) {
+        e.target.classList.remove('grabbing');
+      },
+      onStart: function(e) {
+        e.target.classList.add('grabbing');
+      },
+      onMove: function(e) {
+        e.target.classList.add('grabbing');
+      },
       onEnd: function (event) {
+        event.target.classList.remove('grabbing');
         htmx.ajax("POST", "{% url 'boards:task_move' board.uuid %}", {
           target: "#board",
           swap: "outerHTML",

@@ -4,24 +4,32 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from workflows.tenant_models import Model, OrderedModel, TreeModel
+from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase
 
-class Domain(OrderedModel):
+class Domain(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255)
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
 
     def __str__(self):
         return self.name or self.slug
 
-class Section(OrderedModel):
+    class Meta:
+        ordering = ('index',)
+
+class Section(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='sections')
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
+    order_field_name = 'index'
     order_with_respect_to = 'domain'
 
     def __str__(self):
@@ -31,13 +39,15 @@ class Section(OrderedModel):
         ordering = ('index',)
         unique_together = ('domain', 'index',)
 
-class Requirement(OrderedModel):
+class Requirement(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='requirements')
     text = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
+    order_field_name = 'index'
     order_with_respect_to = 'section'
 
     def __str__(self):
@@ -47,17 +57,24 @@ class Requirement(OrderedModel):
         ordering = ('index',)
         unique_together = ('section', 'index',)
 
-class Term(OrderedModel):
+class Term(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, blank=True, null=True)
     definition = models.CharField(max_length=255, blank=True, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
-class Constraint(OrderedModel):
+    order_field_name = 'index'
+
+    class Meta:
+        ordering = ('index',)
+
+class Constraint(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE, null=True, related_name='constraints')
     text = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
     STATUS_NEW = "new"
     STATUS_ONGOING = "ongoing"
@@ -77,6 +94,7 @@ class Constraint(OrderedModel):
     ]
     status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
 
+    order_field_name = 'index'
     order_with_respect_to = 'requirement'
 
     def __str__(self):

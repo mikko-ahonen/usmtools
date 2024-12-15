@@ -1,0 +1,41 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load constraint %}
+{% block content %}
+<div class="container">
+<section class="app">
+{% breadcrumbs tenant True 'compliances' %}
+<h1 class="mb-0 pb-0">{% trans 'Setup domain' %} {{ domain.name }}</h1>
+<table>
+  <thead>
+    {% for section in domain.sections.all %}
+    <th syle="text-orientation: sideways; writing-mode: vertical-rl;>{{ section.title }}</th>
+    {% endfor %}
+  </thead>
+  <tbody>
+    <td>
+        Foo
+    </td>
+    <td>
+        Bar
+    </td>
+    <td>
+        Zap
+    </td>
+    {% for section in domain.sections.all %}
+    <td>
+        <input type="checkbox"/>
+    </td>
+    <td>
+        <input type="checkbox"/>
+    </td>
+    <td>
+        <input type="checkbox"/>
+    </td>
+    {% endfor %}
+  </tbody>
+</table>
+</section>
+</div>
+{% endblock %}

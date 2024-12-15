@@ -11,6 +11,11 @@ class DomainList(TenantMixin, ListView):
     template_name = 'compliances/domain-list.html'
     context_object_name = 'domains'
 
+class DomainSetup(TenantMixin, DetailView):
+    model = Domain
+    template_name = 'compliances/domain-setup.html'
+    context_object_name = 'domain'
+
 class DomainDetail(TenantMixin, DetailView):
     model = Domain
     template_name = 'compliances/domain-detail.html'

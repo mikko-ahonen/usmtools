@@ -21,6 +21,16 @@
 }
 
 .board-card:hover {
-   color: white;
-   background-color: #36589C;
+  color: white;
+  background-color: #36589C;
+}
+
+.grabbing {
+  cursor: grabbing !important;
+}
+
+task.sortable-drag {
+}
+
+task.sortable-chosen {
 }

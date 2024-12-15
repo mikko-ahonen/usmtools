@@ -1,5 +1,7 @@
 services :
   usm:
+    stdin_open: true
+    tty: true
     build: 
       context: .
       dockerfile: dev/Dockerfile.dev
