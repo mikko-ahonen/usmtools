@@ -4,8 +4,6 @@
 <form hx-post="{{ request.path }}">
   <div class="form-group m-4 d-inline-block">
     {% render_field form.name placeholder="Name" class="form-control my-2" autofocus="true" %}
-    {% render_field form.text placeholder="Text" class="form-control my-2" autofocus="true" rows="1" %}
-
     <div class="d-flex align-items-center">
       <button class="btn btn-primary" type="submit">{% trans 'Save' %}</button>
     </div>

@@ -1,5 +1,8 @@
 {% load i18n %}
-<div id="board">
+<div id="targets">
+
+
+
   <h1>{{ board.name }}</h1>
   <div class="mb-5 sortable-lists tw-flex tw-space-x-2 tw-items-start tw-overflow-x-auto">
     {% for list in board.lists.all %}

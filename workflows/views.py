@@ -24,7 +24,6 @@ from extra_views import ModelFormSetView
 
 from django.contrib import messages
 
-from .tenant import set_tenant_id
 from .raci import RACI
 
 from . import forms

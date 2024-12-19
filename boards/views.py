@@ -17,7 +17,7 @@ def boards(request):
 class BoardForm(forms.ModelForm):
     class Meta:
         model = Board
-        fields = ["name"]
+        fields = ["name", "text"]
 
 
 def create_board(request):

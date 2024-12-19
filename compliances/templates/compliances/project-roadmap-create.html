@@ -1,0 +1,44 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load constraint %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+<section class="app">
+{% breadcrumbs tenant True 'compliances' %}
+<h1 class="mb-3 pb-0">{% trans 'Create a roadmap for project ' %} {{ project.name }}</h1>
+
+{% if form %}
+<p>
+{% blocktrans %}
+On this page, you can create an initial roadmap for the project. This form will automatically 
+create releases based on the parameters below, and epics based on your audit targets, and place the
+epics within the releases. You can refine the roadmap on the roadmap board after it has been created, 
+but the roadmap can be only created once.
+{% endblocktrans %}
+</p>
+
+<form method="post" action="{{request.path}}">
+{% crispy form %}
+<button type="submit" class="btn btn-primary">{% trans 'Preview' %}</button>
+</form>
+{% elif releases %}
+<h3>{% trans 'Preview: Project board' %} {{ board.name }}</h3>
+
+{% for release in releases %}
+<h5>{{ release.name }}</h5>
+<ul>
+    {% for epic in epics|item:release.id %}
+    <li>
+        {{ epic.name }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+{% trans 'Some kind of problem' %}
+{% endif %}
+
+</section>
+</div>
+{% endblock %}

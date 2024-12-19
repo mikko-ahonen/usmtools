@@ -1,0 +1,13 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load constraint %}
+{% block content %}
+<div class="container">
+<section class="app">
+{% breadcrumbs tenant True 'compliances' %}
+<h1 class="mb-3 pb-0">{% trans 'Setup project' %} {{ project.name }} {% trans 'for domain' %} {{ project.domain.name }}</h1>
+{% include 'compliances/_targets.html' with tenant_id=tenant.id project=project targets=targets only %}
+</section>
+</div>
+{% endblock %}
