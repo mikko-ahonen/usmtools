@@ -9,9 +9,9 @@ domain iso27001 [name:"ISO-27001"] {
     BasicSecurityTraining := Training classified as "basic-security-training";
 
     """
-    Requirements related to processes
+    Requirements related to management
     """
-    section A [title:"Processes"] {
+    section A [title:"Management"] {
         """
         The organization has a process for security incidents.
         """
@@ -19,7 +19,7 @@ domain iso27001 [name:"ISO-27001"] {
             """
             There is published workflow classified as security incident workflow with process RECOVER.
             """
-            wf-exists: there exists SecurityIncidentWorkflow;
+            wf-exists [category:Processes]: there exists SecurityIncidentWorkflow;
         }
 
     }
@@ -27,7 +27,7 @@ domain iso27001 [name:"ISO-27001"] {
     """
     Requirements related to the organization and personnel
     """
-    section B [title:"Personnel"] {
+    section B [title:"People"] {
         """
         There are specific people that are responsible for security in the organization.
         """
@@ -35,7 +35,7 @@ domain iso27001 [name:"ISO-27001"] {
             """
             There is at least one employee classified as security employee.
             """
-            employee-exists: there exists SecurityEmployee;
+            employee-exists [category:People]: there exists SecurityEmployee;
         }
 
         """
@@ -45,7 +45,7 @@ domain iso27001 [name:"ISO-27001"] {
             """
             Basic security training exists and has been organized within 3 years.
             """
-            basic-training-exists: there exists BasicSecurityTraining organized within 3 year;
+            basic-training-exists [category:People]: there exists BasicSecurityTraining organized within 3 year;
         }
 
         """
@@ -55,7 +55,7 @@ domain iso27001 [name:"ISO-27001"] {
             """
             Each security employee has attended basic security training within 3 years.
             """
-            basic-training-attended: every SecurityEmployee has attended BasicSecurityTraining within 3 years;
+            basic-training-attended [category:People]: every SecurityEmployee has attended BasicSecurityTraining within 3 years;
         }
     }
 }

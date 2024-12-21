@@ -9,11 +9,12 @@ register = template.Library()
 def mode(edit, tenant):
     edit_trans = _("Edit")
     view_trans = _("View")
+    tenant_id = tenant if isinstance(tenant, str) else tenant.id
     if edit:
-        view_url = reverse('workflows:user-service-list', kwargs={'tenant_id': tenant.id})
+        view_url = reverse('workflows:user-service-list', kwargs={'tenant_id': tenant_id})
         return f'<a href="{view_url}">{view_trans}</a> | <strong>{edit_trans}</strong>'
     else:
-        edit_url = reverse('workflows:service-list', kwargs={'tenant_id': tenant.id})
+        edit_url = reverse('workflows:service-list', kwargs={'tenant_id': tenant_id})
         return f'<strong>{view_trans}</strong> | <a href="{edit_url}">{edit_trans}</a>'
 
 def header():

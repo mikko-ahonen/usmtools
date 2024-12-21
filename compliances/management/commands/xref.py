@@ -3,10 +3,12 @@ import re
 import os
 import sys
 import json
+import glob
 import argparse
 #from slugify import slugify
 from logica.common import logica_lib
 from django.utils import timezone
+from pathlib import Path
 
 from pyparsing import ParseException, pprint
 import jinja2
@@ -15,7 +17,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from usm.settings import BASE_DIR
 from .grammar import XREF_GRAMMAR
-from ...models import Domain, Section, Requirement, Constraint
+from ...models import Domain, Section, Requirement, Constraint, Category
 from workflows.tenant_models import Tenant
 
 def strip(s):
@@ -31,6 +33,14 @@ class Command(BaseCommand):
         parser.add_argument('--domain', type=str, help="Slug for the domain to be updated")
         parser.add_argument('--tenant', type=str, help="Tenant for the domain to be updated")
         parser.add_argument('--update-structure', help="Update the database structure. Defaults to only verifying that the structure corresponds to the source code.", nargs='?', const=True)
+
+    def get_domain_slug(self, domain_slug):
+        if domain_slug:
+            return domain_slug
+        fl = glob.glob(os.path.join(BASE_DIR, f'compliances/management/commands/*.xref'))
+        if len(fl) == 1:
+            return Path(fl[0]).stem
+        raise CommandError("domain is required")
 
     def process_xref_source(self, domain_slug):
         try:
@@ -81,7 +91,14 @@ class Command(BaseCommand):
             for req_index, req_token in enumerate(section_token['requirements']):
                 req, _ = Requirement.unscoped.update_or_create(tenant_id=tenant_id, index=req_index, slug=req_token['slug'], section_id=section.id, defaults={"text": strip(req_token['doc'])})
                 for constr_index, constr_token in enumerate(req_token['constraints']):
-                    constraint, _ = Constraint.unscoped.update_or_create(tenant_id=tenant_id, index=constr_index, slug=constr_token['slug'], requirement_id=req.id, defaults={"text": strip(constr_token['doc'])})
+                    constraint_qualifiers = self.get_qualifiers(constr_token)
+                    category = self.get_category(tenant_id=tenant_id, name=constraint_qualifiers["category"], domain=domain)
+                    breakpoint()
+                    constraint, _ = Constraint.unscoped.update_or_create(tenant_id=tenant_id, index=constr_index, slug=constr_token['slug'], requirement_id=req.id, defaults={"text": strip(constr_token['doc']), "category": category})
+
+    def get_category(self, tenant_id, name, domain):
+        category, created = Category.objects.get_or_create(tenant_id=tenant_id, name=name, domain=domain)
+        return category
 
     def validate_constraint(self, tenant_id, constraint, constraint_token, for_update=False):
         return True
@@ -147,7 +164,6 @@ class Command(BaseCommand):
                         else:
                             new_status = Constraint.STATUS_NON_COMPLIANT
                         if new_status != constraint.status:
-                            breakpoint()
                             if new_status == Constraint.STATUS_COMPLIANT:
                                 self.stdout.write(self.style.SUCCESS(f'Constraint {constraint.slug} status changed to compliant'))
                             else:
@@ -160,25 +176,26 @@ class Command(BaseCommand):
                             constraint.save()
                     except Exception as ex:
                         print(str(ex))
-                        breakpoint()
                         pass
 
     def handle(self, *args, **options):
         tenant_id = options['tenant']
-        if not tenant_id:
-            raise CommandError("tenant is required")
         breakpoint()
-        tenant = Tenant.objects.filter(id=tenant_id).first()
+        if not tenant_id:
+            qs = Tenant.objects.all()
+            if len(qs) == 1:
+                tenant = qs.first()
+            else:
+                raise CommandError("tenant is required")
+        else:
+            tenant = Tenant.objects.filter(id=tenant_id).first()
         if not tenant:
             raise CommandError("tenant not found")
-        domain_slug = options['domain']
-        if not domain_slug:
-            raise CommandError("domain is required")
+        domain_slug = self.get_domain_slug(options['domain'])
         tokens = self.process_xref_source(domain_slug)
         self.validate_structure(tenant_id, domain_slug, tokens, for_update=options['update_structure'])
         if options['update_structure']:
             self.update_structure(tenant_id, domain_slug, tokens)
-        domain_slug = options['domain']
         logica_source = self.render_xref(tenant_id, domain_slug, tokens)
         print(logica_source)
         self.update_status(tenant_id, domain_slug, tokens, logica_source)

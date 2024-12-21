@@ -26,17 +26,48 @@ class Project(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255, blank=True, null=True)
     prefix = models.CharField(max_length=255, blank=True, null=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='projects')
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
+
+    def __str__(self):
+        return self.name or ""
+
+    class Meta:
+        ordering = ('index',)
+
+
 
 class Release(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, blank=True, null=True)
     start_date = models.DateField()
     end_date = models.DateField()
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, related_name='releases')
+
+    order_field_name = 'index'
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('index',)
 
 class Epic(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, blank=True, null=True)
     release = models.ForeignKey(Release, on_delete=models.CASCADE, null=True, related_name='epics')
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('index',)
+
 
 class Section(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -85,21 +116,22 @@ class Term(TenantAwareOrderedModelBase):
     class Meta:
         ordering = ('index',)
 
-class Category(TenantAwareModelBase):
+
+class Category(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True, related_name='categories')
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
 
     def __str__(self):
         return self.name or self.slug
 
-class ConstraintCategory(TenantAwareModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    constraint = models.ForeignKey('Constraint', on_delete=models.CASCADE, null=True, related_name='constraints')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name='categories')
+    class Meta:
+        ordering = ('index',)
 
-    def __str__(self):
-        return self.constraint + " / " + self.category
 
 class Constraint(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -108,7 +140,7 @@ class Constraint(TenantAwareOrderedModelBase):
     text = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    categories = models.ManyToManyField(Category, through=ConstraintCategory)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, related_name='constraints')
 
     STATUS_NEW = "new"
     STATUS_ONGOING = "ongoing"
@@ -141,14 +173,17 @@ class Constraint(TenantAwareOrderedModelBase):
     def get_goal(self):
         return (self.requirement.section.domain.slug + '_' + self.requirement.section.slug + '_' + self.requirement.slug + '_' + self.slug).replace("-", "_")
 
+
 class Target(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, related_name='targets')
+    sections = models.ManyToManyField(Section, through='TargetSection')
 
     def __str__(self):
         return self.name or self.slug
+
 
 class TargetSection(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -200,7 +200,9 @@ def XREF_GRAMMAR():
 
         constraintDef = Group(
             Optional(docString).set_results_name("doc")
-            + identifier.set_results_name("slug") + colon
+            + identifier.set_results_name("slug")
+            + Optional(lbrack + qualifiersDef + rbrack)
+            + colon
             + constraintTerm
             + Suppress(semi)
         )

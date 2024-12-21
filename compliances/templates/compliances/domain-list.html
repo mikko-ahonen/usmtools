@@ -9,9 +9,11 @@
   {% for domain in domains %}
   <p>
     <h5><a href="{% url 'compliances:domain-detail' tenant.id domain.id %}">{{ domain.name }}</a>
-      <a class="btn btn-primary" href="{% url 'compliances:domain-setup' tenant.id domain.id %}"><i class="bi bi-pencil"></i></a>
     </h5>
     <small class="text-muted">{{ domain.description }}</small>
+  </p>
+  <p>
+    <a class="btn btn-primary" href="{% url 'compliances:domain-create-project' tenant.id domain.id %}">Create project</a>
   </p>
   {% endfor %}
 </div>

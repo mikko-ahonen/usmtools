@@ -26,8 +26,8 @@ class List(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="lists")
     order = models.SmallIntegerField(default=1000, db_index=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.UUIDField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.UUIDField(null=True, blank=True)
     content_object = GenericForeignKey("content_type", "object_id")
 
     LIST_TYPE_RELEASE = "release"
@@ -55,8 +55,8 @@ class Task(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
     order = models.SmallIntegerField(default=1000, db_index=True)
     description = models.TextField(verbose_name=_("Description"), blank=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.UUIDField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.UUIDField(null=True, blank=True)
     content_object = GenericForeignKey("content_type", "object_id")
 
     TASK_TYPE_EPIC = "epic"

@@ -33,7 +33,7 @@
               @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add target</button>
         </h2>
     
-        <form class="create-target-form" x-show="open" @click.outside="open=false" hx-post="{% url 'compliances:create_target' tenant_id project.id %}" hx-target="this">
+        <form class="create-target-form" x-show="open" @click.outside="open=false" hx-post="{% url 'compliances:project-create-target' tenant_id project.id %}" hx-target="this">
           <div class="form-group d-inline-block">
             <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control" placeholder="{% trans 'Name' %}" required id="id_label">
             <div class="d-flex align-items-center">

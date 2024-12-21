@@ -1,0 +1,19 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'compliances' %}
+<h3>{% trans 'Projects' %}</h3>
+  {% for project in projects %}
+  <p>
+    <h5>{{ project.name }}</h5>
+    </h5>
+    <a class="btn btn-primary" href="{% url 'compliances:project-setup' tenant.id project.id %}">{% trans 'Project setup' %}</i></a>
+    <a class="btn btn-primary" href="{% url 'compliances:project-create-roadmap' tenant.id project.id %}">{% trans 'Create roadmap' %}</i></a>
+  </p>
+  {% endfor %}
+</div>
+</section>
+{% endblock %}

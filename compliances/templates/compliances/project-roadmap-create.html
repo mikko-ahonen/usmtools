@@ -29,12 +29,13 @@ but the roadmap can be only created once.
 {% for release in releases %}
 <h5>{{ release.name }}</h5>
 <ul>
-    {% for epic in epics|item:release.id %}
+    {% for epic in epics|dict_key:release.id %}
     <li>
         {{ epic.name }}
     </li>
     {% endfor %}
 </ul>
+{% endfor %}
 {% else %}
 {% trans 'Some kind of problem' %}
 {% endif %}

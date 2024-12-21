@@ -2,8 +2,7 @@ from django.contrib import admin
 
 from ordered_model.admin import OrderedModelAdmin
 
-from .models import Domain as FooDomain
-from .models import Section, Requirement, Constraint
+from .models import Domain, Section, Requirement, Constraint, Project, Release, Epic, Term, Category
 
 class BaseAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -26,8 +25,17 @@ class BaseAdmin(admin.ModelAdmin):
         return qs
 
 
-class FooDomainAdmin(BaseAdmin):
+class DomainAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'name', 'description')
+
+class ProjectAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'name', 'prefix', 'domain')
+
+class ReleaseAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date', 'project')
+
+class EpicAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'name', 'release')
 
 class SectionAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'title', 'description')
@@ -35,10 +43,27 @@ class SectionAdmin(BaseAdmin):
 class RequirementAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'text')
 
-class ConstraintAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'slug', 'text')
+class TermAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'name', 'definition')
 
-admin.site.register(FooDomain, FooDomainAdmin)
+class CategoryAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'slug', 'name')
+
+#class CategoryInline(admin.TabularInline):
+#    model = Constraint.categories.through
+#    verbose_name = "Category"
+#    verbose_name_plural = "Categories"
+    
+class ConstraintAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'slug', 'text', 'category')
+#    inlines = (CategoryInline,)
+
+admin.site.register(Domain, DomainAdmin)
+admin.site.register(Project, ProjectAdmin)
+admin.site.register(Release, ReleaseAdmin)
+admin.site.register(Epic, EpicAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Requirement, RequirementAdmin)
+admin.site.register(Term, TermAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Constraint, ConstraintAdmin)

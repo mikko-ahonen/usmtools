@@ -1,14 +1,18 @@
+from collections import defaultdict
+
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, RedirectView
 from django.utils.translation import gettext as _
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
+from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from .models import Domain, Requirement, Constraint, Target, TargetSection
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Project, Release, Epic, Category
 from . import forms
 
 class DomainList(TenantMixin, ListView):
@@ -16,16 +20,36 @@ class DomainList(TenantMixin, ListView):
     template_name = 'compliances/domain-list.html'
     context_object_name = 'domains'
 
+class ProjectList(TenantMixin, ListView):
+    model = Project
+    template_name = 'compliances/project-list.html'
+    context_object_name = 'projects'
+
+    def get_queryset(self, **kwargs):
+        if self.request.user.is_superuser:
+            return Project.unscoped.all()
+        else:
+            return Project.objects.all()
+        return qs
+
 class ProjectSetup(TenantMixin, DetailView):
-    model = Domain
+    model = Project
     template_name = 'compliances/project-setup.html'
     context_object_name = 'project'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         project_id = self.kwargs['pk']
-        context['targets'] = Target.objects.filter(domain_id=domain_id)
+        context['targets'] = Target.objects.filter(project_id=project_id)
         return context
+
+class DomainCreateProject(TenantMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        tenant_id = self.kwargs['tenant_id']
+        domain_id = self.kwargs['pk']
+        domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
+        project, created = Project.objects.get_or_create(tenant_id=tenant_id, domain=domain, defaults={'name': _('Project for ') + domain.name})
+        return reverse_lazy('compliances:project-setup', kwargs={"tenant_id": tenant_id, "pk": project.id})
 
 class DomainDetail(TenantMixin, DetailView):
     model = Domain
@@ -37,10 +61,12 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
     form_class = forms.RoadmapCreateForm
 
     def get_releases_and_epics(self, project, targets, start_date, release_length_in_days, epics_in_release):
-        for target in targets.order_by('priority', 'index'):
-            for category in project.domain.categories.order_by('index'):
+        breakpoint()
+        epics = []
+        for target in targets.order_by('name'):
+            for category in Category.objects.filter(domain=project.domain).order_by('index'):
                 epics.append(Epic(name=category.name + " " + target))
-        number_of_releases = len(epics)/epics_in_release + 1
+        number_of_releases = int(len(epics)/epics_in_release) + 1
         releases = []
         epics_in_release = defaultdict(list)
         for i in range(number_of_releases):
@@ -55,9 +81,10 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
         epics_in_release[release_epic.id].append(release_epic)
         return releases, epics_in_release
 
-    def post(self, request):
+    def post(self, request, tenant_id, pk):
 
         form = self.form_class(request.POST)
+        tenant = get_object_or_404(Tenant, pk=tenant_id)
 
         if form.is_valid():
 
@@ -65,13 +92,14 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
             release_length_in_days =  form.cleaned_data['release_length_in_days']
             epics_in_release =  form.cleaned_data['epics_in_release']
 
-            project_id = self.kwargs['pk']
+            #tenant_id = self.kwargs['tenant_id']
+            #project_id = self.kwargs['pk']
             project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
             targets = Target.objects.filter(project_id=pk).prefetch_related('target_sections', 'target_sections__section')
 
             releases, epics = self.get_releases_and_epics(project, targets, start_date, release_length_in_days, epics_in_release)
 
-            if form.cleaned_data['confirm']:
+            if 'confirm' in form.cleaned_data:
                 with transaction.atomic():
                     board = Board.objects.create(name=project.name + ' ' + _('roadmap'), type=Board.BOARD_TYPE_ROADMAP, project=project)
                 
@@ -92,21 +120,25 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
                 context = {
                     'releases': releases,
                     'epics': epics,
+                    'tenant': tenant,
                 }
-                return render(request, self.template, context)
+                return render(request, self.template_name, context)
 
         # if there were errors in form
         # we have to display same page with errors
         context = {
             'form': form,
+            'tenant': tenant,
         }
 
-        return render(request, self.template, context)
+        return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
         pk = self.kwargs['pk']
+        tenant_id = self.kwargs['tenant_id']
         project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
         targets = Target.objects.filter(project_id=pk).prefetch_related('target_sections', 'target_sections__section')
+        context = super().get_context_data(**kwargs)
         context['project'] = project
         context['targets'] = targets
         return context
