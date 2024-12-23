@@ -4,6 +4,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
+from projects.models import Project
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 
 class Domain(TenantAwareOrderedModelBase):
@@ -12,6 +13,8 @@ class Domain(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    projects = models.ManyToManyField(Project)
+
 
     order_field_name = 'index'
 
@@ -20,54 +23,6 @@ class Domain(TenantAwareOrderedModelBase):
 
     class Meta:
         ordering = ('index',)
-
-class Project(TenantAwareOrderedModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    prefix = models.CharField(max_length=255, blank=True, null=True)
-    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='projects')
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-
-    order_field_name = 'index'
-
-    def __str__(self):
-        return self.name or ""
-
-    class Meta:
-        ordering = ('index',)
-
-
-
-class Release(TenantAwareOrderedModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, related_name='releases')
-
-    order_field_name = 'index'
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('index',)
-
-class Epic(TenantAwareOrderedModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    release = models.ForeignKey(Release, on_delete=models.CASCADE, null=True, related_name='epics')
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-
-    order_field_name = 'index'
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('index',)
-
 
 class Section(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

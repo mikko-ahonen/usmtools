@@ -9,24 +9,22 @@ from workflows.tenant import current_tenant_id
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 
 class Board(TenantAwareModelBase):
+    _max_columns = 4
+
     name = models.CharField(verbose_name=_("Name"), max_length=255)
     uuid = models.UUIDField(verbose_name=_("UUID"), default=uuid.uuid4, editable=False, unique=True)
     text = models.TextField(verbose_name=_("Text"), null=True, blank=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
-    object_id = models.UUIDField(null=True, blank=True)
-    content_object = GenericForeignKey("content_type", "object_id")
-    max_columns = models.SmallIntegerField(default=4)
-    list_entity_name = models.CharField(verbose_name=_("List entity name"), default=_("list"), max_length=255)
-    task_entity_name = models.CharField(verbose_name=_("Task entity name"), default=_("task"), max_length=255)
-    show_list_count = models.BooleanField(default=True)
 
+    BOARD_TYPE_GENERIC = "generic"
     BOARD_TYPE_ROADMAP = "roadmap"
-    BOARD_TYPE_CURRENT = "current"
+    BOARD_TYPE_BACKLOG = "backlog"
+    BOARD_TYPE_SPRINT = "sprint"
     BOARD_TYPES = [
+        (BOARD_TYPE_GENERIC, _("Board")),
         (BOARD_TYPE_ROADMAP, _("Roadmap")),
-        (BOARD_TYPE_CURRENT, _("Current")),
+        (BOARD_TYPE_BACKLOG, _("Backlog")),
+        (BOARD_TYPE_SPRINT, _("Sprint")),
     ]
-    type = models.CharField(max_length=32, choices=BOARD_TYPES, default=BOARD_TYPE_ROADMAP)
 
     def get_absolute_url(self):
         tenant_id = current_tenant_id()
@@ -36,18 +34,20 @@ class Board(TenantAwareModelBase):
         for name in ["Todo", "Doing", "Done"]:
             List.objects.create(name=name, board=self)
 
+    class Meta:
+        verbose_name = "board"
+        verbose_name_plural = "boards"
+
     def __str__(self) -> str:
         return self.name
 
-
 class List(TenantAwareOrderedModelBase):
+    _show_list_count = False
+
     name = models.CharField("Name", max_length=255)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="lists")
     index = models.SmallIntegerField(default=1000, db_index=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
-    object_id = models.UUIDField(null=True, blank=True)
-    content_object = GenericForeignKey("content_type", "object_id")
 
     LIST_TYPE_RELEASE = "release"
     LIST_TYPE_SPRINT = "sprint"
@@ -57,7 +57,6 @@ class List(TenantAwareOrderedModelBase):
         (LIST_TYPE_SPRINT, _("Sprint")),
         (LIST_TYPE_STATUS, _("Status")),
     ]
-    type = models.CharField(max_length=32, choices=LIST_TYPES, default=LIST_TYPE_RELEASE)
 
     order_field_name = 'index'
 
@@ -65,6 +64,9 @@ class List(TenantAwareOrderedModelBase):
         return f"{self.name} ({self.index})"
 
     class Meta:
+        verbose_name = "list"
+        verbose_name_plural = "lists"
+        
         ordering = ["index"]
         indexes = [
             models.Index(fields=["content_type", "object_id"]),
@@ -76,9 +78,6 @@ class Task(TenantAwareOrderedModelBase):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
     index = models.SmallIntegerField(default=1000, db_index=True)
     description = models.TextField(verbose_name=_("Description"), blank=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
-    object_id = models.UUIDField(null=True, blank=True)
-    content_object = GenericForeignKey("content_type", "object_id")
 
     TASK_TYPE_EPIC = "epic"
     TASK_TYPE_STORY = "story"
@@ -86,7 +85,6 @@ class Task(TenantAwareOrderedModelBase):
         (TASK_TYPE_EPIC, _("Epic")),
         (TASK_TYPE_STORY, _("Story")),
     ]
-    type = models.CharField(max_length=32, choices=TASK_TYPES, default=TASK_TYPE_EPIC)
 
     order_field_name = 'index'
 
@@ -94,6 +92,8 @@ class Task(TenantAwareOrderedModelBase):
         return self.label
 
     class Meta:
+        verbose_name = "task"
+        verbose_name_plural = "tasks"
         ordering = ["index"]
         indexes = [
             models.Index(fields=["content_type", "object_id"]),
