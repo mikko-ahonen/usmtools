@@ -63,7 +63,7 @@ class Command(BaseCommand):
         except Exception as ex:
             raise CommandError("Failed to read and process XREF source: " + str(ex))
 
-    def render_xref(self, tenant_id, domain_slug, tokens):
+    def render_xref(self, tenant, domain_slug, tokens):
         TEMPLATE_FILE = 'compliances/management/commands/xref.template'
         try:
             templateLoader = jinja2.FileSystemLoader(searchpath=BASE_DIR)
@@ -80,54 +80,53 @@ class Command(BaseCommand):
     def get_qualifiers(self, token):
         return dict((q['name'], q['value']) for q in token['qualifiers'])
 
-    def update_structure(self, tenant_id, domain_slug, tokens):
+    def update_structure(self, tenant, domain_slug, tokens):
         domain_qualifiers = self.get_qualifiers(tokens['domain'])
 
         now = timezone.now()
-        domain, _ = Domain.unscoped.update_or_create(tenant_id=tenant_id, slug=domain_slug, defaults={"name": domain_qualifiers['name'], "description": strip(tokens['domain']['doc'])}) #, 'created_at': now, 'modified_at': now})
+        domain, _ = Domain.unscoped.update_or_create(tenant=tenant, slug=domain_slug, defaults={"name": domain_qualifiers['name'], "description": strip(tokens['domain']['doc'])}) #, 'created_at': now, 'modified_at': now})
         for section_index, section_token in enumerate(tokens['domain']['sections']):
             section_qualifiers = self.get_qualifiers(section_token)
-            section, _ = Section.unscoped.update_or_create(tenant_id=tenant_id, index=section_index, slug=section_token['slug'], domain_id=domain.id, defaults={"title": section_qualifiers['title'], "description": strip(section_token['doc'])})
+            section, _ = Section.unscoped.update_or_create(tenant=tenant, index=section_index, slug=section_token['slug'], domain_id=domain.id, defaults={"title": section_qualifiers['title'], "description": strip(section_token['doc'])})
             for req_index, req_token in enumerate(section_token['requirements']):
-                req, _ = Requirement.unscoped.update_or_create(tenant_id=tenant_id, index=req_index, slug=req_token['slug'], section_id=section.id, defaults={"text": strip(req_token['doc'])})
+                req, _ = Requirement.unscoped.update_or_create(tenant=tenant, index=req_index, slug=req_token['slug'], section_id=section.id, defaults={"text": strip(req_token['doc'])})
                 for constr_index, constr_token in enumerate(req_token['constraints']):
                     constraint_qualifiers = self.get_qualifiers(constr_token)
-                    category = self.get_category(tenant_id=tenant_id, name=constraint_qualifiers["category"], domain=domain)
-                    breakpoint()
-                    constraint, _ = Constraint.unscoped.update_or_create(tenant_id=tenant_id, index=constr_index, slug=constr_token['slug'], requirement_id=req.id, defaults={"text": strip(constr_token['doc']), "category": category})
+                    category = self.get_category(tenant=tenant, name=constraint_qualifiers["category"], domain=domain)
+                    constraint, _ = Constraint.unscoped.update_or_create(tenant=tenant, index=constr_index, slug=constr_token['slug'], requirement_id=req.id, defaults={"text": strip(constr_token['doc']), "category": category})
 
-    def get_category(self, tenant_id, name, domain):
-        category, created = Category.objects.get_or_create(tenant_id=tenant_id, name=name, domain=domain)
+    def get_category(self, tenant, name, domain):
+        category, created = Category.objects.get_or_create(tenant_id=tenant.id, name=name, domain=domain)
         return category
 
-    def validate_constraint(self, tenant_id, constraint, constraint_token, for_update=False):
+    def validate_constraint(self, tenant, constraint, constraint_token, for_update=False):
         return True
 
-    def validate_requirement(self, tenant_id, requirement, requirement_token, for_update=False):
+    def validate_requirement(self, tenant, requirement, requirement_token, for_update=False):
         constraints = dict((x['slug'], x) for x in requirement_token['constraints'])
         for constraint in requirement.constraints(manager='unscoped').all():
             if constraint.slug not in constraints:
                 raise CommandError(f"Validating structure failed: database constraint '{constraint.slug}' does not exist in XREF file")
             constraint_token = constraints[constraint.slug]
             del constraints[constraint.slug]
-            self.validate_constraint(tenant_id, constraint, constraint_token, for_update=for_update)
+            self.validate_constraint(tenant, constraint, constraint_token, for_update=for_update)
         if not for_update:
             for slug, requirement in constraints.items():
                 raise CommandError(f"Validating structure failed: XREF constraint '{slug}' does not exist in the database")
 
-    def validate_section(self, tenant_id, section, section_token, for_update=False):
+    def validate_section(self, tenant, section, section_token, for_update=False):
         requirements = dict((x['slug'], x) for x in section_token['requirements'])
         for requirement in section.requirements(manager='unscoped').all():
             if requirement.slug not in requirements:
                 raise CommandError(f"Validating structure failed: database requirement '{requirement.slug}' does not exist in XREF file")
             requirement_token = requirements[requirement.slug]
             del requirements[requirement.slug]
-            self.validate_requirement(tenant_id, requirement, requirement_token, for_update=for_update)
+            self.validate_requirement(tenant, requirement, requirement_token, for_update=for_update)
         if not for_update:
             for slug, requirement in requirements.items():
                 raise CommandError(f"Validating structure failed: XREF requirement '{slug}' does not exist in the database")
 
-    def validate_domain(self, tenant_id, domain_slug, tokens, for_update=False):
+    def validate_domain(self, tenant, domain_slug, tokens, for_update=False):
         domain = None
         try:
             domain = Domain.unscoped.get(slug=domain_slug)
@@ -142,15 +141,15 @@ class Command(BaseCommand):
                 raise CommandError(f"Validating structure failed: database section '{section.slug}' does not exist in XREF file")
             section_token = sections[section.slug]
             del sections[section.slug]
-            self.validate_section(tenant_id, section, section_token, for_update=for_update)
+            self.validate_section(tenant, section, section_token, for_update=for_update)
         if not for_update:
             for slug, section in sections.items():
                 raise CommandError(f"Validating structure failed: XREF section '{slug}' does not exist in the database")
 
-    def validate_structure(self, tenant_id, domain_slug, tokens, for_update=False):
-        self.validate_domain(tenant_id, domain_slug, tokens, for_update=for_update)
+    def validate_structure(self, tenant, domain_slug, tokens, for_update=False):
+        self.validate_domain(tenant, domain_slug, tokens, for_update=for_update)
 
-    def update_status(self, tenant_id, domain_slug, tokens, logica_source):
+    def update_status(self, tenant, domain_slug, tokens, logica_source):
         domain = Domain.unscoped.get(slug=domain_slug)
         for section in domain.sections(manager='unscoped').all():
             for requirement in section.requirements(manager='unscoped').all():
@@ -180,7 +179,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         tenant_id = options['tenant']
-        breakpoint()
         if not tenant_id:
             qs = Tenant.objects.all()
             if len(qs) == 1:
@@ -193,12 +191,12 @@ class Command(BaseCommand):
             raise CommandError("tenant not found")
         domain_slug = self.get_domain_slug(options['domain'])
         tokens = self.process_xref_source(domain_slug)
-        self.validate_structure(tenant_id, domain_slug, tokens, for_update=options['update_structure'])
+        self.validate_structure(tenant, domain_slug, tokens, for_update=options['update_structure'])
         if options['update_structure']:
-            self.update_structure(tenant_id, domain_slug, tokens)
-        logica_source = self.render_xref(tenant_id, domain_slug, tokens)
+            self.update_structure(tenant, domain_slug, tokens)
+        logica_source = self.render_xref(tenant, domain_slug, tokens)
         print(logica_source)
-        self.update_status(tenant_id, domain_slug, tokens, logica_source)
+        self.update_status(tenant, domain_slug, tokens, logica_source)
 
 if __name__ == "__main__":
     main()

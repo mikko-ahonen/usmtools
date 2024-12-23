@@ -5,13 +5,32 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.contrib.contenttypes.fields import GenericForeignKey, ContentType
 
-class Board(models.Model):
+from workflows.tenant import current_tenant_id
+from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
+
+class Board(TenantAwareModelBase):
     name = models.CharField(verbose_name=_("Name"), max_length=255)
     uuid = models.UUIDField(verbose_name=_("UUID"), default=uuid.uuid4, editable=False, unique=True)
     text = models.TextField(verbose_name=_("Text"), null=True, blank=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
+    object_id = models.UUIDField(null=True, blank=True)
+    content_object = GenericForeignKey("content_type", "object_id")
+    max_columns = models.SmallIntegerField(default=4)
+    list_entity_name = models.CharField(verbose_name=_("List entity name"), default=_("list"), max_length=255)
+    task_entity_name = models.CharField(verbose_name=_("Task entity name"), default=_("task"), max_length=255)
+    show_list_count = models.BooleanField(default=True)
+
+    BOARD_TYPE_ROADMAP = "roadmap"
+    BOARD_TYPE_CURRENT = "current"
+    BOARD_TYPES = [
+        (BOARD_TYPE_ROADMAP, _("Roadmap")),
+        (BOARD_TYPE_CURRENT, _("Current")),
+    ]
+    type = models.CharField(max_length=32, choices=BOARD_TYPES, default=BOARD_TYPE_ROADMAP)
 
     def get_absolute_url(self):
-        return reverse("boards:board", kwargs={"board_uuid": self.uuid})
+        tenant_id = current_tenant_id()
+        return reverse("boards:board", kwargs={"tenant_id": tenant_id, "board_uuid": self.uuid})
 
     def create_default_lists(self):
         for name in ["Todo", "Doing", "Done"]:
@@ -21,11 +40,11 @@ class Board(models.Model):
         return self.name
 
 
-class List(models.Model):
+class List(TenantAwareOrderedModelBase):
     name = models.CharField("Name", max_length=255)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="lists")
-    order = models.SmallIntegerField(default=1000, db_index=True)
+    index = models.SmallIntegerField(default=1000, db_index=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.UUIDField(null=True, blank=True)
     content_object = GenericForeignKey("content_type", "object_id")
@@ -40,20 +59,22 @@ class List(models.Model):
     ]
     type = models.CharField(max_length=32, choices=LIST_TYPES, default=LIST_TYPE_RELEASE)
 
+    order_field_name = 'index'
+
     def __str__(self) -> str:
-        return f"{self.name} ({self.order})"
+        return f"{self.name} ({self.index})"
 
     class Meta:
-        ordering = ["order"]
+        ordering = ["index"]
         indexes = [
             models.Index(fields=["content_type", "object_id"]),
         ]
 
-class Task(models.Model):
+class Task(TenantAwareOrderedModelBase):
     label = models.TextField("Label")
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
-    order = models.SmallIntegerField(default=1000, db_index=True)
+    index = models.SmallIntegerField(default=1000, db_index=True)
     description = models.TextField(verbose_name=_("Description"), blank=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.UUIDField(null=True, blank=True)
@@ -67,11 +88,13 @@ class Task(models.Model):
     ]
     type = models.CharField(max_length=32, choices=TASK_TYPES, default=TASK_TYPE_EPIC)
 
+    order_field_name = 'index'
+
     def __str__(self) -> str:
         return self.label
 
     class Meta:
-        ordering = ["order"]
+        ordering = ["index"]
         indexes = [
             models.Index(fields=["content_type", "object_id"]),
         ]

@@ -10,32 +10,46 @@
 <h1 class="mb-3 pb-0">{% trans 'Create a roadmap for project ' %} {{ project.name }}</h1>
 
 {% if form %}
-<p>
-{% blocktrans %}
-On this page, you can create an initial roadmap for the project. This form will automatically 
-create releases based on the parameters below, and epics based on your audit targets, and place the
-epics within the releases. You can refine the roadmap on the roadmap board after it has been created, 
-but the roadmap can be only created once.
-{% endblocktrans %}
-</p>
+<div class="row">
+  <div class="col-6">
+    <p>
+    <small>
+    {% blocktrans %}
+    Here you can create an initial roadmap with the releases and epics. You can edit them later.
+    {% endblocktrans %}
+    On this page, you can create an initial roadmap for the project. Initial roadmap will contain
+    releases and epics based on the parameters below, and your audit targets, and automatically place the
+    epics within the releases. You can refine the roadmap on the roadmap board after it has been created, 
+    but this tool will create a new roadmap.
+    </small>
+    </p>
 
-<form method="post" action="{{request.path}}">
-{% crispy form %}
-<button type="submit" class="btn btn-primary">{% trans 'Preview' %}</button>
-</form>
-{% elif releases %}
-<h3>{% trans 'Preview: Project board' %} {{ board.name }}</h3>
+    <form method="post" action="{{request.path}}">
+      {% crispy form %}
+      <input type="submit" name="Preview" class="btn btn-primary" value="{% trans 'Preview' %}"/>
+      <input type="submit" name="create" class="btn btn-primary" value="{% trans 'Create' %}"/>
+    </form>
+  </div>
+  <div class="col-6">
+  {% if releases %}
+    <h3>{% trans 'Preview' %} {{ project.name }}</h3>
 
-{% for release in releases %}
-<h5>{{ release.name }}</h5>
-<ul>
-    {% for epic in epics|dict_key:release.id %}
-    <li>
+    {% for release in releases %}
+    <h5>{{ release.name }}</h5>
+    <small>
+      {{ release.start_date }} &mdash; {{ release.end_date }}
+    </small>
+    <ul>
+      {% for epic in epics|dict_key:release.id %}
+      <li>
         {{ epic.name }}
-    </li>
+      </li>
+      {% endfor %}
+    </ul>
     {% endfor %}
-</ul>
-{% endfor %}
+  {% endif %}
+  </div>
+</div>
 {% else %}
 {% trans 'Some kind of problem' %}
 {% endif %}

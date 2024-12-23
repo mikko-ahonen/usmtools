@@ -1,5 +1,9 @@
 from collections import defaultdict
+from datetime import timedelta
+from django.utils.dateparse import parse_date
+import math
 
+from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, FormView, RedirectView
 from django.utils.translation import gettext as _
@@ -7,12 +11,14 @@ from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.db import transaction
 
 from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
 from .models import Domain, Requirement, Constraint, Target, TargetSection, Project, Release, Epic, Category
+from boards.models import Board, List, Task
 from . import forms
 
 class DomainList(TenantMixin, ListView):
@@ -24,6 +30,16 @@ class ProjectList(TenantMixin, ListView):
     model = Project
     template_name = 'compliances/project-list.html'
     context_object_name = 'projects'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project_type = ContentType.objects.get_for_model(Project)
+        boards = {}
+        for project in self.get_queryset().all():
+            pk = project.id
+            boards[pk] = Board.objects.filter(content_type=project_type, object_id=pk)
+        context['boards'] = boards
+        return context
 
     def get_queryset(self, **kwargs):
         if self.request.user.is_superuser:
@@ -48,7 +64,7 @@ class DomainCreateProject(TenantMixin, RedirectView):
         tenant_id = self.kwargs['tenant_id']
         domain_id = self.kwargs['pk']
         domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
-        project, created = Project.objects.get_or_create(tenant_id=tenant_id, domain=domain, defaults={'name': _('Project for ') + domain.name})
+        project, created = Project.objects.get_or_create(tenant_id=tenant_id, domain=domain, defaults={'name': domain.name + _('project')})
         return reverse_lazy('compliances:project-setup', kwargs={"tenant_id": tenant_id, "pk": project.id})
 
 class DomainDetail(TenantMixin, DetailView):
@@ -56,30 +72,53 @@ class DomainDetail(TenantMixin, DetailView):
     template_name = 'compliances/domain-detail.html'
     context_object_name = 'domain'
 
+class ProjectBacklogCreate(TenantMixin, RedirectView):
+
+    def get_sprints_and_stories(self, project):
+        for release in project.releases:
+            stories = []
+            for epic in release.epics:
+                for constraint in epic.category.constraints:
+                    story = Story(name=constraint, type=TASK_TYPE_STORY)
+                    Task.objects.create(name=constraint.name, description=constraint.description, type=Task.TASK_TYPE_STORY, content_object=story)
+
+    def get_redirect_url(self, *args, **kwargs):
+        tenant_id = self.kwargs['tenant_id']
+        project_id = self.kwargs['pk']
+        domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
+        project, created = Project.objects.get_or_create(tenant_id=tenant_id, domain=domain, defaults={'name': domain.name + _('project')})
+        return reverse_lazy('compliances:project-setup', kwargs={"tenant_id": tenant_id, "pk": project.id})
+
 class ProjectRoadmapCreate(TenantMixin, FormView):
     template_name = 'compliances/project-roadmap-create.html'
     form_class = forms.RoadmapCreateForm
 
     def get_releases_and_epics(self, project, targets, start_date, release_length_in_days, epics_in_release):
-        breakpoint()
-        epics = []
+        epic_names = {}
         for target in targets.order_by('name'):
             for category in Category.objects.filter(domain=project.domain).order_by('index'):
-                epics.append(Epic(name=category.name + " " + target))
-        number_of_releases = int(len(epics)/epics_in_release) + 1
+                epic_name = str(category) + " " + str(target)
+                epic_names[epic_name] = 1
+        epics = [Epic(name=name) for name in epic_names.keys()]
+        number_of_releases = math.ceil(len(epics)/epics_in_release)
         releases = []
-        epics_in_release = defaultdict(list)
+        release_epics = defaultdict(list)
+        if isinstance(start_date, str):
+            start_date = parse_date(start_date)
         for i in range(number_of_releases):
-            release = Release(name=f'0.{i}.0')
-            release_epics = epics[100 * i:100 * (i + 1)]
-            for epic in release_epics:
-                epics_in_release[release.id].append(epic)
+            end_date = start_date + timedelta(release_length_in_days)
+            release = Release(name=f'0.{i + 1}.0', start_date=start_date, end_date=end_date)
+            this_release_epics = epics[epics_in_release * i:epics_in_release * (i + 1)]
+            for epic in this_release_epics:
+                release_epics[release.id].append(epic)
             releases.append(release)
-        final_release = Release(name='1.0.0')
+            start_date = end_date + timedelta(days=1)
+        end_date = start_date + timedelta(release_length_in_days)
+        final_release = Release(name='1.0.0', start_date=start_date, end_date=end_date)
         releases.append(final_release)
         release_epic = Epic(name=_("Project finalization"), release=final_release)
-        epics_in_release[release_epic.id].append(release_epic)
-        return releases, epics_in_release
+        release_epics[final_release.id].append(release_epic)
+        return releases, release_epics
 
     def post(self, request, tenant_id, pk):
 
@@ -97,29 +136,34 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
             project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
             targets = Target.objects.filter(project_id=pk).prefetch_related('target_sections', 'target_sections__section')
 
-            releases, epics = self.get_releases_and_epics(project, targets, start_date, release_length_in_days, epics_in_release)
+            releases, epics_in_releases = self.get_releases_and_epics(project, targets, start_date, release_length_in_days, epics_in_release)
 
-            if 'confirm' in form.cleaned_data:
+            if request.POST.get("create", False):
                 with transaction.atomic():
-                    board = Board.objects.create(name=project.name + ' ' + _('roadmap'), type=Board.BOARD_TYPE_ROADMAP, project=project)
-                
+                    board = Board.objects.create(name=project.name + ' ' + _('roadmap'), type=Board.BOARD_TYPE_ROADMAP, content_object=project, tenant_id=tenant.id, task_entity_name=_('epic'), list_entity_name=_("release"), max_columns=1, show_list_count=False)
+
                     for release in releases:
+                        release.tenant_id = tenant.id
+                        release.project_id = project.id
                         release.save()
 
-                    for release_id, epic in epics.items():
-                        epic.release_id = release_id
-                        epic.save()
+                    for release_id, epics in epics_in_releases.items():
+                        for epic in epics:
+                            epic.tenant_id = tenant.id
+                            epic.release_id = release_id
+                            epic.save()
 
-                    for release in releases:
-                        l = List.objects.create(name=release.name, board=board, type=List.LIST_TYPE_RELEASE, content_object=release)
-                        for epic in release.epics:
-                            Task.objects.create(name=epic.name, list=l, type=Task.TASK_TYPE_EPIC, content_object=epic)
+                    for release_idx, release in enumerate(releases):
+                        l = List.objects.create(name=release.name, board=board, type=List.LIST_TYPE_RELEASE, content_object=release, tenant_id=tenant.id, index=release_idx)
+                        for epic_idx, epic in enumerate(epics_in_releases[release.id]):
+                            Task.objects.create(label=epic.name, list=l, type=Task.TASK_TYPE_EPIC, content_object=epic, tenant_id=tenant.id, index=epic_idx)
 
-                return redirect("boards:board", uuid=board.uuid)
+                return redirect("boards:board", board_uuid=board.uuid)
             else:
                 context = {
+                    'form': form,
                     'releases': releases,
-                    'epics': epics,
+                    'epics': epics_in_releases,
                     'tenant': tenant,
                 }
                 return render(request, self.template_name, context)
