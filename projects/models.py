@@ -8,11 +8,11 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
-from compliances import Domain
 
 class Project(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, blank=True, null=True)
+    prefix = models.CharField(max_length=255, blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
     order_field_name = 'index'
@@ -20,7 +20,7 @@ class Project(TenantAwareOrderedModelBase):
     def __str__(self):
         return self.name or ""
 
-    class Meta:
+    class Meta(TenantAwareOrderedModelBase.Meta):
         ordering = ('index',)
 
 class Roadmap(Board):
@@ -42,7 +42,7 @@ class Backlog(Board):
     start_date = models.DateField()
     end_date = models.DateField()
 
-    class Meta:
+    class Meta(TenantAwareOrderedModelBase.Meta):
         verbose_name = "backlog"
         verbose_name_plural = "backlogs"
 
@@ -53,7 +53,7 @@ class Release(List):
     start_date = models.DateField()
     end_date = models.DateField()
 
-    class Meta:
+    class Meta(TenantAwareOrderedModelBase.Meta):
         verbose_name = "release"
         verbose_name_plural = "releases"
 
@@ -66,7 +66,7 @@ class Sprint(Board, List):
     start_date = models.DateField()
     end_date = models.DateField()
 
-    class Meta:
+    class Meta(TenantAwareOrderedModelBase.Meta):
         verbose_name = "sprint"
         verbose_name_plural = "sprints"
 
@@ -80,6 +80,6 @@ class Epic(Task):
 class Story(Task):
     task_type = Task.TASK_TYPE_STORY
 
-    class Meta:
+    class Meta(TenantAwareOrderedModelBase.Meta):
         verbose_name = "story"
         verbose_name_plural = "stories"

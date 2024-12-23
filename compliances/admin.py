@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from ordered_model.admin import OrderedModelAdmin
 
-from .models import Domain, Section, Requirement, Constraint, Project, Release, Epic, Term, Category
+from .models import Domain, Section, Requirement, Constraint, Term, Category
 
 class BaseAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -28,15 +28,6 @@ class BaseAdmin(admin.ModelAdmin):
 class DomainAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'name', 'description')
 
-class ProjectAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'prefix', 'domain')
-
-class ReleaseAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date', 'project')
-
-class EpicAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'release')
-
 class SectionAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'title', 'description')
 
@@ -59,9 +50,6 @@ class ConstraintAdmin(BaseAdmin):
 #    inlines = (CategoryInline,)
 
 admin.site.register(Domain, DomainAdmin)
-admin.site.register(Project, ProjectAdmin)
-admin.site.register(Release, ReleaseAdmin)
-admin.site.register(Epic, EpicAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Requirement, RequirementAdmin)
 admin.site.register(Term, TermAdmin)

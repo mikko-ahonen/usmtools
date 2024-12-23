@@ -13,7 +13,7 @@
     </h5>
     <a class="btn btn-primary" href="{% url 'compliances:project-setup' tenant.id project.id %}">{% trans 'Project setup' %}</i></a>
     <a class="btn btn-primary" href="{% url 'compliances:project-create-roadmap' tenant.id project.id %}">{% trans 'Create roadmap' %}</i></a>
-    {% for board in boards|dict_key:project.id %}
+    {% for roadmap in project.roadmaps %}
       <a class="btn btn-primary" href="{% url 'boards:board' tenant.id board.uuid %}">{% trans 'View roadmap' %}</i></a>
     {% endfor %}
   </p>

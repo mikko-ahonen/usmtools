@@ -17,8 +17,9 @@ from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from .models import Domain, Requirement, Constraint, Target, TargetSection, Project, Release, Epic, Category
-from boards.models import Board, List, Task
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Category
+from projects.models import Project, Release, Epic
+#from boards.models import Board, List, Task
 from . import forms
 
 class DomainList(TenantMixin, ListView):
@@ -30,16 +31,6 @@ class ProjectList(TenantMixin, ListView):
     model = Project
     template_name = 'compliances/project-list.html'
     context_object_name = 'projects'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        project_type = ContentType.objects.get_for_model(Project)
-        boards = {}
-        for project in self.get_queryset().all():
-            pk = project.id
-            boards[pk] = Board.objects.filter(content_type=project_type, object_id=pk)
-        context['boards'] = boards
-        return context
 
     def get_queryset(self, **kwargs):
         if self.request.user.is_superuser:
@@ -140,25 +131,23 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
 
             if request.POST.get("create", False):
                 with transaction.atomic():
-                    board = Board.objects.create(name=project.name + ' ' + _('roadmap'), type=Board.BOARD_TYPE_ROADMAP, content_object=project, tenant_id=tenant.id, task_entity_name=_('epic'), list_entity_name=_("release"), max_columns=1, show_list_count=False)
+                    roadmap = Roadmap.objects.create(name=project.name + ' ' + _('roadmap'), tenant_id=tenant.id)
 
                     for release in releases:
                         release.tenant_id = tenant.id
+                        release.board_id = roadmap.id
                         release.project_id = project.id
+                        release.index = release_idx
                         release.save()
 
                     for release_id, epics in epics_in_releases.items():
-                        for epic in epics:
+                        for epic_idx, epic in enumerate(epics):
                             epic.tenant_id = tenant.id
                             epic.release_id = release_id
+                            epic.index = epic_idx
                             epic.save()
 
-                    for release_idx, release in enumerate(releases):
-                        l = List.objects.create(name=release.name, board=board, type=List.LIST_TYPE_RELEASE, content_object=release, tenant_id=tenant.id, index=release_idx)
-                        for epic_idx, epic in enumerate(epics_in_releases[release.id]):
-                            Task.objects.create(label=epic.name, list=l, type=Task.TASK_TYPE_EPIC, content_object=epic, tenant_id=tenant.id, index=epic_idx)
-
-                return redirect("boards:board", board_uuid=board.uuid)
+                return redirect("boards:board", board_uuid=roadmap.uuid)
             else:
                 context = {
                     'form': form,

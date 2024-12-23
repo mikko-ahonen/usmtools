@@ -8,11 +8,16 @@ from django.contrib.contenttypes.fields import GenericForeignKey, ContentType
 from workflows.tenant import current_tenant_id
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 
-class Board(TenantAwareModelBase):
+class BoardBase():
+    name = models.CharField(verbose_name=_("Name"), max_length=255)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+class Board(TenantAwareModelBase, BoardBase):
     _max_columns = 4
 
-    name = models.CharField(verbose_name=_("Name"), max_length=255)
-    uuid = models.UUIDField(verbose_name=_("UUID"), default=uuid.uuid4, editable=False, unique=True)
     text = models.TextField(verbose_name=_("Text"), null=True, blank=True)
 
     BOARD_TYPE_GENERIC = "generic"
@@ -38,14 +43,9 @@ class Board(TenantAwareModelBase):
         verbose_name = "board"
         verbose_name_plural = "boards"
 
-    def __str__(self) -> str:
-        return self.name
-
-class List(TenantAwareOrderedModelBase):
+class List(TenantAwareOrderedModelBase, BoardBase):
     _show_list_count = False
 
-    name = models.CharField("Name", max_length=255)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="lists")
     index = models.SmallIntegerField(default=1000, db_index=True)
 
@@ -68,13 +68,8 @@ class List(TenantAwareOrderedModelBase):
         verbose_name_plural = "lists"
         
         ordering = ["index"]
-        indexes = [
-            models.Index(fields=["content_type", "object_id"]),
-        ]
 
-class Task(TenantAwareOrderedModelBase):
-    label = models.TextField("Label")
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+class Task(TenantAwareOrderedModelBase, BoardBase):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
     index = models.SmallIntegerField(default=1000, db_index=True)
     description = models.TextField(verbose_name=_("Description"), blank=True)
@@ -88,13 +83,7 @@ class Task(TenantAwareOrderedModelBase):
 
     order_field_name = 'index'
 
-    def __str__(self) -> str:
-        return self.label
-
     class Meta:
         verbose_name = "task"
         verbose_name_plural = "tasks"
         ordering = ["index"]
-        indexes = [
-            models.Index(fields=["content_type", "object_id"]),
-        ]

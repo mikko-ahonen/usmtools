@@ -57,7 +57,7 @@ def test_move_list(live_server, driver: WebDriver, board: Board):
 
 
 def test_move_tasks_from_list_to_list(live_server, driver: WebDriver, board):
-    task = Task.objects.create(label="Test Task", list=board.lists.first())
+    task = Task.objects.create(name="Test Task", list=board.lists.first())
 
     driver.get(f"{live_server.url}{board.get_absolute_url()}")
     task_element = driver.find_element(By.CLASS_NAME, "task")

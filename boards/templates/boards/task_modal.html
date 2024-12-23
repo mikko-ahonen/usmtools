@@ -10,7 +10,7 @@
                     <form hx-post="{{ request.path }}" hx-target="closest .tw-modal">
 
                         <div class="tw-flex tw-items-start tw-justify-between tw-mb-2">
-                            {% render_field form.label class="form-control" rows="1" %}
+                            {% render_field form.name class="form-control" rows="1" %}
 
                             <button type="button" @click="modalOpen=false" class="btn btn-outline-primary">
                                 X

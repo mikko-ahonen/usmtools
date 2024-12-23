@@ -17,7 +17,7 @@
     
             <form class="create-list-form" x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_list' tenant_id board.uuid %}" hx-target="this">
                 <div class="tw-form tw-bg-white tw-shadow tw-rounded-md tw-p-4 tw-inline-block">
-                    <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control" placeholder="{% trans 'Name' %}" required id="id_label">
+                    <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control" placeholder="{% trans 'Name' %}" required id="id_name">
                     <div class="tw-mt-4 tw-flex tw-items-center tw-space-x-1">
                         <button class="btn btn-outline-primary" type="submit">
                             Save

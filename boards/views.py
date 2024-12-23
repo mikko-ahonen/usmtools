@@ -82,7 +82,7 @@ def delete_list(request, tenant_id, board_uuid, list_uuid):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["label", "description"]
+        fields = ["name", "description"]
 
 
 def create_task(request, tenant_id, board_uuid, list_uuid):
