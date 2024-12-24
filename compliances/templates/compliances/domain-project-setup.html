@@ -9,6 +9,7 @@
 {% with domain=project.domains.all.0 %}
 <h1 class="mb-3 pb-0">{% trans 'Setup' %} {{ project.name }} {% trans 'for domain' %} {{ domain.name }}</h1>
 {% include 'compliances/_targets.html' with tenant_id=tenant.id project=project targets=targets domain=domain only %}
+<a href="{% url 'compliances:domain-list' tenant.id %}" class="btn btn-outline-primary">{% trans 'Continue' %}</a>
 </section>
 </div>
 {% endwith %}

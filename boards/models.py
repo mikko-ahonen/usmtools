@@ -20,6 +20,8 @@ class BoardBase(models.Model):
 
 class Board(TenantAwareModelBase, BoardBase):
     _max_columns = 4
+    _list_class = None
+    _task_class = None
 
     text = models.TextField(verbose_name=_("Text"), null=True, blank=True)
 
@@ -36,8 +38,7 @@ class Board(TenantAwareModelBase, BoardBase):
 
     def get_absolute_url(self):
         tenant_id = current_tenant_id()
-        return reverse("boards:board", kwargs={"tenant_id": tenant_id, "board_uuid": self.uuid})
-
+        return reverse("boards:board", kwargs={"tenant_id": tenant_id, "board_type": self.board_type, "board_uuid": self.uuid})
     def create_default_lists(self):
         for name in ["Todo", "Doing", "Done"]:
             List.objects.create(name=name, board=self)

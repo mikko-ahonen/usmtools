@@ -36,7 +36,7 @@
       {{ release.start_date }} &mdash; {{ release.end_date }}
     </small>
     <ul>
-      {% for epic in epics|dict_key:release.id %}
+      {% for epic in epics|dict_key:release.name %}
       <li>
         {{ epic.name }}
       </li>

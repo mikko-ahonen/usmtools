@@ -24,11 +24,14 @@ class Domain(TenantAwareOrderedModelBase):
         return self.project() is not None
 
     def is_project_setup_complete(self):
-        project = self.project()
-        return len(project.targets.all()) > 0
+        if project := self.project():
+            if targets := project.targets:
+                return len(project.targets.all()) > 0
+        return False
 
     def is_project_roadmap_created(self):
-        project = self.project()
+        if project := self.project():
+            return project.roadmap is not None
         return False
 
     def is_project_backlog_created(self):

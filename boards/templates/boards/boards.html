@@ -18,7 +18,8 @@
 {% endfor %}
 
 <div class="mt-3 mb-5">
-    <button class="btn btn-outline-primary" hx-get="{% url 'boards:create_board' tenant_id %}" hx-swap="outerHTML">New board</button>
+    <button class="btn btn-outline-primary" hx-get="{% url 'boards:create_board' tenant_id 'roadmap' %}" hx-swap="outerHTML">New roadmap</button>
+    <button class="btn btn-outline-primary" hx-get="{% url 'boards:create_board' tenant_id 'backlog' %}" hx-swap="outerHTML">New backlog</button>
 </div>
 
 </div>

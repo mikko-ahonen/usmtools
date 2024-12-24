@@ -23,7 +23,7 @@ from .models import Project, Release, Epic
 
 class ProjectList(TenantMixin, ListView):
     model = Project
-    template_name = 'compliances/project-list.html'
+    template_name = 'projects/project-list.html'
     context_object_name = 'projects'
 
     def get_queryset(self, **kwargs):

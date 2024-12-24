@@ -10,7 +10,15 @@
   {% for project in projects %}
   <p>
     <h5>{{ project.name }}</h5>
-    </h5>
+    {% if project.roadmap %}
+    <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.roadmap.board_type project.roadmap.uuid %}">{% trans 'Roadmap' %}</a>
+    {% endif %}
+    {% if project.backlog %}
+    <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.board.board_type project.board.id %}">{% trans 'Backlog' %}</a>
+    {% endif %}
+    {% if project.sprint %}
+    <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.board.board_type project.board.id %}">{% trans 'Sprint' %}</a>
+    {% endif %}
   </p>
   {% endfor %}
 </div>

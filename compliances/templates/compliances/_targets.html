@@ -19,7 +19,7 @@
       {% for section in domain.sections.all %}
       <td width="50px" class="align-bottom text-center">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="selected" {{ target|target_section_checked:section }} hx-post="{% url 'compliances:target-section-select' tenant_id target.id section.id %}" hx-swap="none"/>
+          <input class="form-check-input border-dark" type="checkbox" name="selected" {{ target|target_section_checked:section }} hx-post="{% url 'compliances:target-section-select' tenant_id target.id section.id %}" hx-swap="none"/>
         </div>
       </td>
     {% endfor %}
@@ -29,18 +29,18 @@
     <tr x-cloak x-data="{open: false}" @keydown.escape.window="open=false">
       <td>
         <h2>
-          <button type="button" class="create-target-button btn btn-primary"
+          <button type="button" class="create-target-button btn btn-outline-primary btn-sm"
               @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add target</button>
         </h2>
     
         <form class="create-target-form" x-show="open" @click.outside="open=false" hx-post="{% url 'compliances:project-create-target' tenant_id project.id %}" hx-target="this">
           <div class="form-group d-inline-block">
-            <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control" placeholder="{% trans 'Name' %}" required id="id_label">
             <div class="d-flex align-items-center">
-              <button class="btn btn-primary" type="submit">
+              <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control form-control-sm mx-1" placeholder="{% trans 'Name' %}" required id="id_label">
+              <button class="mx-1 btn btn-outline-primary btn-sm" type="submit">
                 {% trans 'Save' %}
               </button>
-              <button type="button" title="Cancel" @click="open=false" class="btn btn-primary">
+              <button type="button" title="Cancel" @click="open=false" class="mx-1 btn btn-outline-primary btn-sm">
                 {% trans 'Cancel' %}
               </button>
             </div>

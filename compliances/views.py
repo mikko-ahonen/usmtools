@@ -17,7 +17,8 @@ from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from projects.models import Project, Release, Epic
+from projects.models import Project, Release, Epic, Roadmap
+from boards.models import Board
 from .models import Domain, Requirement, Constraint, Target, TargetSection, Category
 from . import forms
 
@@ -46,30 +47,32 @@ class DomainCreateProject(TenantMixin, RedirectView):
         domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
         project, created = Project.objects.get_or_create(tenant_id=tenant_id, defaults={'name': domain.name + ' ' + _('project')})
         project.domains.add(domain)
-        return reverse('compliances:domain-list')
+        return reverse('compliances:domain-list', kwargs={"tenant_id": tenant_id})
 
 class DomainDetail(TenantMixin, DetailView):
     model = Domain
     template_name = 'compliances/domain-detail.html'
     context_object_name = 'domain'
 
-class ProjectBacklogCreate(TenantMixin, RedirectView):
+class DomainProjectCreateBacklog(TenantMixin, RedirectView):
 
-    def get_sprints_and_stories(self, project):
+    def create_backlog(self, project, stories_in_sprint):
+        backlog = Backlog(project=project)
         for release in project.releases:
             stories = []
             for epic in release.epics:
                 for constraint in epic.category.constraints:
-                    story = Story(name=constraint, type=TASK_TYPE_STORY)
-                    Task.objects.create(name=constraint.name, description=constraint.description, type=Task.TASK_TYPE_STORY, content_object=story)
+                    story = Story(name=epic.target + ': ' + constraint.text, description=constraint.description, epic=epic)
+        number_of_sprints = math.ceil(len(stories)/stories_in_sprint)
 
     def get_redirect_url(self, *args, **kwargs):
         tenant_id = self.kwargs['tenant_id']
-        project_id = self.kwargs['pk']
+        domain_id = self.kwargs['domain_id']
         domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
-        project, created = Project.objects.get_or_create(tenant_id=tenant_id, defaults={'name': domain.name + _('project')})
-        project.domains.add(domain)
-        return reverse('compliances:domain-list')
+        project_id = self.kwargs['project_id']
+        project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
+        backlog = self.create_backlog(domain, project)
+        return reverse('boards:board', kwargs={"tenant_id": tenant_id, "board_type": backlog.board_type, "board_uuid": backlog.uuid})
 
 class DomainProjectCreateRoadmap(TenantMixin, FormView):
     template_name = 'compliances/domain-project-create-roadmap.html'
@@ -77,8 +80,8 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
 
     def get_releases_and_epics(self, project, targets, start_date, release_length_in_days, epics_in_release):
         epic_names = {}
+        domain = project.domains.all().first()
         for target in targets.order_by('name'):
-            domain = project.domains.all().first()
             for category in Category.objects.filter(domain=domain).order_by('index'):
                 epic_name = str(category) + " " + str(target)
                 epic_names[epic_name] = 1
@@ -90,17 +93,18 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
             start_date = parse_date(start_date)
         for i in range(number_of_releases):
             end_date = start_date + timedelta(release_length_in_days)
-            release = Release(name=f'0.{i + 1}.0', start_date=start_date, end_date=end_date)
+            release_name = f'0.{i + 1}.0'
+            release = Release(name=release_name, start_date=start_date, end_date=end_date)
             this_release_epics = epics[epics_in_release * i:epics_in_release * (i + 1)]
             for epic in this_release_epics:
-                release_epics[release.id].append(epic)
+                release_epics[release_name].append(epic)
             releases.append(release)
             start_date = end_date + timedelta(days=1)
         end_date = start_date + timedelta(release_length_in_days)
         final_release = Release(name='1.0.0', start_date=start_date, end_date=end_date)
         releases.append(final_release)
         release_epic = Epic(name=_("Project finalization"), list=final_release)
-        release_epics[final_release.id].append(release_epic)
+        release_epics[final_release.name].append(release_epic)
         return releases, release_epics
 
     def post(self, request, tenant_id, pk, project_id):
@@ -121,23 +125,25 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
 
             if request.POST.get("create", False):
                 with transaction.atomic():
-                    roadmap = Roadmap.objects.create(name=project.name + ' ' + _('roadmap'), tenant_id=tenant.id)
+                    roadmap = Roadmap.objects.create(name=project.name + ' ' + _('roadmap'), tenant_id=tenant.id, project=project)
 
-                    for release in releases:
+                    releases_by_name = {}
+                    for release_idx, release in enumerate(releases):
                         release.tenant_id = tenant.id
                         release.board_id = roadmap.id
                         release.project_id = project.id
                         release.index = release_idx
+                        releases_by_name[release.name] = release
                         release.save()
 
-                    for release_id, epics in epics_in_releases.items():
+                    for release_name, epics in epics_in_releases.items():
                         for epic_idx, epic in enumerate(epics):
                             epic.tenant_id = tenant.id
-                            epic.release_id = release_id
+                            epic.list_id = releases_by_name[release_name].id
                             epic.index = epic_idx
                             epic.save()
 
-                return redirect("boards:board", board_uuid=roadmap.uuid)
+                return redirect("boards:board", tenant_id=tenant.id, board_type=Board.BOARD_TYPE_ROADMAP, board_uuid=roadmap.uuid)
             else:
                 context = {
                     'form': form,
