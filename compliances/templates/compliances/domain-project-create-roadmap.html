@@ -7,7 +7,7 @@
 <div class="container">
 <section class="app">
 {% breadcrumbs tenant True 'compliances' %}
-<h1 class="mb-3 pb-0">{% trans 'Create a roadmap for project ' %} {{ project.name }}</h1>
+<h1 class="mb-3 pb-0">{% trans 'Create a roadmap for' %} {{ project.name }}</h1>
 
 {% if form %}
 <div class="row">
@@ -15,14 +15,10 @@
     <p>
     <small>
     {% blocktrans %}
-    Here you can create an initial roadmap with the releases and epics. You can edit them later.
-    {% endblocktrans %}
     On this page, you can create an initial roadmap for the project. Initial roadmap will contain
     releases and epics based on the parameters below, and your audit targets, and automatically place the
-    epics within the releases. You can refine the roadmap on the roadmap board after it has been created, 
-    but this tool will create a new roadmap.
-    </small>
-    </p>
+    epics within the releases. You can refine the roadmap on the roadmap board after it has been created. 
+    {% endblocktrans %} </small> </p>
 
     <form method="post" action="{{request.path}}">
       {% crispy form %}

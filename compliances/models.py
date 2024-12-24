@@ -13,10 +13,32 @@ class Domain(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    projects = models.ManyToManyField(Project)
-
+    projects = models.ManyToManyField(Project, related_name="domains")
 
     order_field_name = 'index'
+
+    def project(self):
+        return self.projects.all().first()
+
+    def is_project_created(self):
+        return self.project() is not None
+
+    def is_project_setup_complete(self):
+        project = self.project()
+        return len(project.targets.all()) > 0
+
+    def is_project_roadmap_created(self):
+        project = self.project()
+        return False
+
+    def is_project_backlog_created(self):
+        return False
+
+    def is_project_deployment_completed(self):
+        return False
+
+    def is_audit_completed(self):
+        return False
 
     def __str__(self):
         return self.name or self.slug

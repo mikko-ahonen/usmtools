@@ -26,16 +26,16 @@ class BaseAdmin(admin.ModelAdmin):
 
 
 class ProjectAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'prefix', 'domain')
+    list_display = ('tenant_id', 'id', 'name', 'prefix')
 
 class ReleaseAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date', 'project')
+    list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date')
 
 class RoadmapAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date', 'project')
+    list_display = ('tenant_id', 'id', 'name', 'project')
 
 class SprintAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date', 'project')
+    list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date')
 
 class BacklogAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date', 'project')

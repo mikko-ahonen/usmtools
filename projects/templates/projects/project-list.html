@@ -1,0 +1,18 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load dict_key %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'compliances' %}
+<h3>{% trans 'Projects' %}</h3>
+  {% for project in projects %}
+  <p>
+    <h5>{{ project.name }}</h5>
+    </h5>
+  </p>
+  {% endfor %}
+</div>
+</section>
+{% endblock %}

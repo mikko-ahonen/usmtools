@@ -23,6 +23,7 @@ urlpatterns = [
     #path('survey/', include('survey.urls')),
     path('compliances/', include('compliances.urls')),
     path('boards/', include('boards.urls')),
+    path('projects/', include('projects.urls')),
     path('components/', include('components.urls')),
 ]
 

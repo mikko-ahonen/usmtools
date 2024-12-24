@@ -10,16 +10,15 @@ from django.utils.translation import gettext as _
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.db import transaction
 
 from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from .models import Domain, Requirement, Constraint, Target, TargetSection, Category
 from projects.models import Project, Release, Epic
-#from boards.models import Board, List, Task
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Category
 from . import forms
 
 class DomainList(TenantMixin, ListView):
@@ -27,26 +26,16 @@ class DomainList(TenantMixin, ListView):
     template_name = 'compliances/domain-list.html'
     context_object_name = 'domains'
 
-class ProjectList(TenantMixin, ListView):
+class DomainProjectSetup(TenantMixin, DetailView):
     model = Project
-    template_name = 'compliances/project-list.html'
-    context_object_name = 'projects'
-
-    def get_queryset(self, **kwargs):
-        if self.request.user.is_superuser:
-            return Project.unscoped.all()
-        else:
-            return Project.objects.all()
-        return qs
-
-class ProjectSetup(TenantMixin, DetailView):
-    model = Project
-    template_name = 'compliances/project-setup.html'
+    template_name = 'compliances/domain-project-setup.html'
     context_object_name = 'project'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs['tenant_id']
         project_id = self.kwargs['pk']
+        project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
         context['targets'] = Target.objects.filter(project_id=project_id)
         return context
 
@@ -55,8 +44,9 @@ class DomainCreateProject(TenantMixin, RedirectView):
         tenant_id = self.kwargs['tenant_id']
         domain_id = self.kwargs['pk']
         domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
-        project, created = Project.objects.get_or_create(tenant_id=tenant_id, domain=domain, defaults={'name': domain.name + _('project')})
-        return reverse_lazy('compliances:project-setup', kwargs={"tenant_id": tenant_id, "pk": project.id})
+        project, created = Project.objects.get_or_create(tenant_id=tenant_id, defaults={'name': domain.name + ' ' + _('project')})
+        project.domains.add(domain)
+        return reverse('compliances:domain-list')
 
 class DomainDetail(TenantMixin, DetailView):
     model = Domain
@@ -77,17 +67,19 @@ class ProjectBacklogCreate(TenantMixin, RedirectView):
         tenant_id = self.kwargs['tenant_id']
         project_id = self.kwargs['pk']
         domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
-        project, created = Project.objects.get_or_create(tenant_id=tenant_id, domain=domain, defaults={'name': domain.name + _('project')})
-        return reverse_lazy('compliances:project-setup', kwargs={"tenant_id": tenant_id, "pk": project.id})
+        project, created = Project.objects.get_or_create(tenant_id=tenant_id, defaults={'name': domain.name + _('project')})
+        project.domains.add(domain)
+        return reverse('compliances:domain-list')
 
-class ProjectRoadmapCreate(TenantMixin, FormView):
-    template_name = 'compliances/project-roadmap-create.html'
+class DomainProjectCreateRoadmap(TenantMixin, FormView):
+    template_name = 'compliances/domain-project-create-roadmap.html'
     form_class = forms.RoadmapCreateForm
 
     def get_releases_and_epics(self, project, targets, start_date, release_length_in_days, epics_in_release):
         epic_names = {}
         for target in targets.order_by('name'):
-            for category in Category.objects.filter(domain=project.domain).order_by('index'):
+            domain = project.domains.all().first()
+            for category in Category.objects.filter(domain=domain).order_by('index'):
                 epic_name = str(category) + " " + str(target)
                 epic_names[epic_name] = 1
         epics = [Epic(name=name) for name in epic_names.keys()]
@@ -107,11 +99,11 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
         end_date = start_date + timedelta(release_length_in_days)
         final_release = Release(name='1.0.0', start_date=start_date, end_date=end_date)
         releases.append(final_release)
-        release_epic = Epic(name=_("Project finalization"), release=final_release)
+        release_epic = Epic(name=_("Project finalization"), list=final_release)
         release_epics[final_release.id].append(release_epic)
         return releases, release_epics
 
-    def post(self, request, tenant_id, pk):
+    def post(self, request, tenant_id, pk, project_id):
 
         form = self.form_class(request.POST)
         tenant = get_object_or_404(Tenant, pk=tenant_id)
@@ -122,10 +114,8 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
             release_length_in_days =  form.cleaned_data['release_length_in_days']
             epics_in_release =  form.cleaned_data['epics_in_release']
 
-            #tenant_id = self.kwargs['tenant_id']
-            #project_id = self.kwargs['pk']
-            project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
-            targets = Target.objects.filter(project_id=pk).prefetch_related('target_sections', 'target_sections__section')
+            project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
+            targets = Target.objects.filter(project_id=project_id).prefetch_related('target_sections', 'target_sections__section')
 
             releases, epics_in_releases = self.get_releases_and_epics(project, targets, start_date, release_length_in_days, epics_in_release)
 
@@ -167,16 +157,16 @@ class ProjectRoadmapCreate(TenantMixin, FormView):
         return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
-        pk = self.kwargs['pk']
+        project_id = self.kwargs['project_id']
         tenant_id = self.kwargs['tenant_id']
-        project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
-        targets = Target.objects.filter(project_id=pk).prefetch_related('target_sections', 'target_sections__section')
+        project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
+        targets = Target.objects.filter(project_id=project_id).prefetch_related('target_sections', 'target_sections__section')
         context = super().get_context_data(**kwargs)
         context['project'] = project
         context['targets'] = targets
         return context
 
-class DeploymentBoard(TenantMixin, DetailView):
+class DomainProjectTargetAudit(TenantMixin, DetailView):
     model = Domain
     template_name = 'compliances/deployment-board.html'
     context_object_name = 'domain'
@@ -205,7 +195,8 @@ def targets(request, project):
     tenant_id = current_tenant_id()
     targets = Target.objects.filter(project_id=project.id)
     template = "compliances/_targets.html"
-    response = render(request, template, {"tenant_id": tenant_id, "project": project, "targets": targets})
+    domain = project.domains.first()
+    response = render(request, template, {"tenant_id": tenant_id, "project": project, "targets": targets, "domain": domain})
     response["HX-Retarget"] = "#targets"
     return response
 

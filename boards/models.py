@@ -8,12 +8,15 @@ from django.contrib.contenttypes.fields import GenericForeignKey, ContentType
 from workflows.tenant import current_tenant_id
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 
-class BoardBase():
+class BoardBase(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=255)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        abstract = True
 
 class Board(TenantAwareModelBase, BoardBase):
     _max_columns = 4
@@ -42,6 +45,7 @@ class Board(TenantAwareModelBase, BoardBase):
     class Meta:
         verbose_name = "board"
         verbose_name_plural = "boards"
+        abstract = True
 
 class List(TenantAwareOrderedModelBase, BoardBase):
     _show_list_count = False
@@ -66,8 +70,8 @@ class List(TenantAwareOrderedModelBase, BoardBase):
     class Meta:
         verbose_name = "list"
         verbose_name_plural = "lists"
-        
         ordering = ["index"]
+        abstract = True
 
 class Task(TenantAwareOrderedModelBase, BoardBase):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")
@@ -87,3 +91,4 @@ class Task(TenantAwareOrderedModelBase, BoardBase):
         verbose_name = "task"
         verbose_name_plural = "tasks"
         ordering = ["index"]
+        abstract = True

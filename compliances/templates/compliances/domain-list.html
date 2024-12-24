@@ -1,5 +1,6 @@
 {% extends "compliances/base.html" %}
 {% load i18n %}
+{% load compliances %}
 {% load breadcrumbs %}
 {% block content %}
 <section class="app">
@@ -7,14 +8,156 @@
 {% breadcrumbs tenant True 'compliances' %}
 <h3>{% trans 'Compliance domains' %}</h3>
   {% for domain in domains %}
+  {% with project=domain.projects.all.first %}
   <p>
-    <h5><a href="{% url 'compliances:domain-detail' tenant.id domain.id %}">{{ domain.name }}</a>
+    <h5>{% comment %}<a href="{% url 'compliances:domain-detail' tenant.id domain.id %}">{{ domain.name }}</a>{% endcomment %}
+        {{ domain.name }}
     </h5>
     <small class="text-muted">{{ domain.description }}</small>
   </p>
-  <p>
-    <a class="btn btn-primary" href="{% url 'compliances:domain-create-project' tenant.id domain.id %}">Create project</a>
-  </p>
+  <table class="table">
+  <tr class>
+    <td width="5%" class="align-middle">
+      {% if domain.is_project_created %}
+        {{ 'ok' | status_icon }}
+      {% else %}
+        {{ 'not-ok' | status_icon }}
+      {% endif %}
+    </div>
+    <td class="align-middle">
+      {% if domain.is_project_created %}
+        {% trans 'Project created' %}
+      {% else %}
+        {% trans 'Create a project for the domain' %}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_project_created %}
+        <a class="btn btn-outline-primary" href="{% url 'projects:project-detail' tenant.id project.id %}">{% trans 'View' %}</a>
+      {% else %}
+        <a class="btn btn-outline-primary" href="{% url 'compliances:domain-create-project' tenant.id domain.id %}">{% trans 'Create' %}</a>
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td class="align-middle">
+      {% if domain.is_project_setup_complete %}
+        {{ 'ok' | status_icon }}
+      {% else %}
+        {{ 'not-ok' | status_icon }}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_project_setup_complete %}
+        {% trans 'Project setup complete' %}
+      {% else %}
+        {% trans 'Setup the project' %}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_project_setup_complete %}
+        {% trans 'Targets' %}: 
+        {% for target in project.targets.all %}{{ target.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+      {% else %}
+        <a class="btn btn-outline-primary" {% if not domain.is_project_created %}disabled{% endif %} href="{% url 'compliances:domain-project-setup' tenant.id domain.id project.id %}">{% trans 'Setup' %}</a>
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td class="align-middle">
+      {% if domain.is_project_roadmap_created %}
+        {{ 'ok' | status_icon }}
+      {% else %}
+        {{ 'not-ok' | status_icon }}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_project_roadmap_created %}
+        {% trans 'Project has roadmap' %}
+      {% else %}
+        {% trans 'Create a project roadmap' %}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if not domain.is_project_roadmap_created %}
+        <a class="btn btn-outline-primary" {% if not domain.is_project_setup_complete %}disabled{% endif %} href="{% url 'compliances:domain-project-create-roadmap' tenant.id domain.id project.id %}">{% trans 'Create' %}</a>
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td class="align-middle">
+      {% if domain.is_project_backlog_created %}
+        {{ 'ok' | status_icon }}
+      {% else %}
+        {{ 'not-ok' | status_icon }}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_project_backlog_created %}
+        {% trans 'Project has backlog' %}
+      {% else %}
+        {% trans 'Create backlog for the project' %}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if not domain.is_project_backlog_created %}
+        <a class="btn btn-outline-primary" {% if not domain.is_project_roadmap_created %}disabled{% endif %} href="{% url 'compliances:domain-project-create-roadmap' tenant.id domain.id project.id %}">{% trans 'Create' %}</a>
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td class="align-middle">
+      {% if domain.is_project_deployment_completed %}
+        {{ 'ok' | status_icon }}
+      {% else %}
+        {{ 'not-ok' | status_icon }}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_project_deployment_completed %}
+        {% trans 'Deployment has been completed' %}
+      {% else %}
+        {% trans 'Deployment project' %}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if not domain.is_project_deployment_completed %}
+        <a class="btn btn-outline-primary" {% if not domain.is_project_backlog_created %}disabled{% endif %} href="{% url 'projects:project-detail' tenant.id project.id %}">{% trans 'View project' %}</a>
+      {% endif %}
+    </td>
+  </tr>
+
+  {% comment %}
+  <tr>
+    <td class="align-middle">
+      {% if domain.is_audit_completed %}
+        {{ 'ok' | status_icon }}
+      {% else %}
+        {{ 'not-ok' | status_icon }}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_audit_completed %}
+        {% trans 'Audit has been completed' %}
+      {% else %}
+        {% trans 'Complete audit' %}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if not domain.is_audit_completed %}
+        {% for target in project.targets.all %}
+          <a class="btn btn-outline-primary" {% if not domain.is_project_backlog_created %}disabled{% endif %} href="{% url 'compliances:audit-view' tenant.id domain.id target.id %}">{% trans 'View report for' %} {{ target.name }}</a>
+        {% endfor %}
+      {% endif %}
+    </td>
+  </tr>
+  {% endcomment %}
+  </table>
+  {% endwith %}
   {% endfor %}
 </div>
 </section>
