@@ -56,14 +56,28 @@ class DomainDetail(TenantMixin, DetailView):
 
 class DomainProjectCreateBacklog(TenantMixin, RedirectView):
 
-    def create_backlog(self, project, stories_in_sprint):
+    def create_backlog_from_roadmap(self, tenant, project, sprint_length_in_days, number_of_stories_in_sprint):
         backlog = Backlog(project=project)
-        for release in project.releases:
+        backlog.save()
+        for release in project.roadmap.releases:
             stories = []
             for epic in release.epics:
-                for constraint in epic.category.constraints:
-                    story = Story(name=epic.target + ': ' + constraint.text, description=constraint.description, epic=epic)
-        number_of_sprints = math.ceil(len(stories)/stories_in_sprint)
+                for constraint in epic.statement.constraints:
+                    story = Story(name=epic.target + ': ' + constraint.text, description=constraint.description, epic=epic, tenant_id=tenant.id, constraint=constraint)
+                    stories.append(story)
+        number_of_sprints = math.ceil(len(stories)/number_of_stories_in_sprint)
+        for i in range(number_of_sprints):
+            end_date = start_date + timedelta(sprint_length_in_days)
+            sprint_name = f'Sprint {i + 1}'
+            sprint = Sprint(name=sprint_name, start_date=start_date, end_date=end_date, board=backlog, tenant_id=tenant.id)
+            sprint.save()
+            this_sprint_stories = stories[number_of_stories_in_sprint * i:number_of_stories_in_sprint * (i + 1)]
+            for story in this_sprint_stories:
+                story.sprint = sprint
+                story.save()
+            backlog.sprints.add(sprint)
+            start_date = end_date + timedelta(days=1)
+        end_date = start_date + timedelta(sprin_length_in_days)
 
     def get_redirect_url(self, *args, **kwargs):
         tenant_id = self.kwargs['tenant_id']
