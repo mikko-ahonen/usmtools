@@ -26,7 +26,7 @@ class BaseAdmin(admin.ModelAdmin):
 
 
 class ProjectAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'prefix')
+    list_display = ('tenant_id', 'id', 'name', 'prefix', 'start_date')
 
 class ReleaseAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'name', 'start_date', 'end_date')

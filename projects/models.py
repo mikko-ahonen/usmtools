@@ -14,6 +14,11 @@ class Project(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255, blank=True, null=True)
     prefix = models.CharField(max_length=255, blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    start_date = models.DateField(null=True, blank=True)
+    sprint_length_in_days = models.PositiveSmallIntegerField(default=21)
+    release_length_in_days = models.PositiveSmallIntegerField(default=21)
+    epics_per_release = models.PositiveSmallIntegerField(default=2)
+    storypoints_per_sprint = models.PositiveSmallIntegerField(default=10)
 
     order_field_name = 'index'
 

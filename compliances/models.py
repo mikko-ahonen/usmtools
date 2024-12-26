@@ -49,10 +49,12 @@ class Domain(TenantAwareOrderedModelBase):
     class Meta:
         ordering = ('index',)
 
-class Section(TenantAwareOrderedModelBase):
+class Section(TenantAwareTreeModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
+    #parent = models.ForeignKey('Section', on_delete=models.CASCADE, null=True, related_name='subsections')
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='sections')
+    docid = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
@@ -67,11 +69,12 @@ class Section(TenantAwareOrderedModelBase):
         ordering = ('index',)
         unique_together = ('domain', 'index',)
 
-class Requirement(TenantAwareOrderedModelBase):
+class Control(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
-    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name='requirements')
-    text = models.CharField(max_length=255, blank=True, null=True)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True, related_name='controls')
+    docid = models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
@@ -79,16 +82,36 @@ class Requirement(TenantAwareOrderedModelBase):
     order_with_respect_to = 'section'
 
     def __str__(self):
-        return self.text or self.slug
+        return self.title or self.slug
 
     class Meta:
         ordering = ('index',)
         unique_together = ('section', 'index',)
 
-class Term(TenantAwareOrderedModelBase):
+class Requirement(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    definition = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length=255, blank=True, null=True)
+    docid = models.CharField(max_length=255, blank=True, null=True)
+    control = models.ForeignKey(Control, on_delete=models.CASCADE, related_name='requirements', null=True)
+    text = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
+    order_with_respect_to = 'control'
+
+    def __str__(self):
+        return self.text or self.slug
+
+    class Meta:
+        ordering = ('index',)
+        unique_together = ('control', 'index',)
+
+
+class Definition(TenantAwareOrderedModelBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    term = models.CharField(max_length=255, blank=True, null=True)
+    definition = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
     order_field_name = 'index'
@@ -113,11 +136,28 @@ class Category(TenantAwareOrderedModelBase):
         ordering = ('index',)
 
 
+class Statement(TenantAwareOrderedModelBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    slug = models.SlugField(max_length=255, blank=True, null=True)
+    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE, null=True, related_name='statements')
+    text = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
+
+    def __str__(self):
+        return self.slug
+
+    class Meta:
+        ordering = ('index',)
+
+
 class Constraint(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
-    requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE, null=True, related_name='constraints')
-    text = models.CharField(max_length=255, blank=True, null=True)
+    statement = models.ForeignKey(Statement, on_delete=models.CASCADE, null=True, related_name='constraints')
+    text = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, related_name='constraints')
@@ -141,18 +181,17 @@ class Constraint(TenantAwareOrderedModelBase):
     status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
 
     order_field_name = 'index'
-    order_with_respect_to = 'requirement'
+    order_with_respect_to = 'statement'
 
     def __str__(self):
         return self.text or self.slug
 
     class Meta:
         ordering = ('index',)
-        unique_together = ('requirement', 'index',)
+        unique_together = ('statement', 'index',)
 
     def get_goal(self):
-        return (self.requirement.section.domain.slug + '_' + self.requirement.section.slug + '_' + self.requirement.slug + '_' + self.slug).replace("-", "_")
-
+        return (self.category.slug + '_' + self.slug).replace("-", "_")
 
 class Target(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

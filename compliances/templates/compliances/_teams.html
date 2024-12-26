@@ -1,0 +1,53 @@
+{% load i18n %}
+{% load compliances %}
+<div id="teams">
+<table>
+  <thead>
+    <tr>
+      <th width="300px"></th>
+      {% for category in domain.categories.all %}
+      <th width="50px" class=""><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ category.name }}</span></th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for team in teams %}
+    <tr>
+      <td>
+        {{ team.name }}
+      </td>
+      {% for category in domain.categories.all %}
+      <td width="50px" class="align-bottom text-center">
+        <div class="form-check">
+          <input class="form-check-input border-dark" type="checkbox" name="selected" {{ team|team_category_checked:category }} hx-post="{% url 'compliances:team-category-select' tenant_id team.id category.id %}" hx-swap="none"/>
+        </div>
+      </td>
+    {% endfor %}
+    </tr>
+    {% endfor %}
+
+    <tr x-cloak x-data="{open: false}" @keydown.escape.window="open=false">
+      <td>
+        <h2>
+          <button type="button" class="create-team-button btn btn-outline-primary btn-sm"
+              @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add team</button>
+        </h2>
+    
+        <form class="create-team-form" x-show="open" @click.outside="open=false" hx-post="{% url 'compliances:project-create-team' tenant_id project.id %}" hx-target="this">
+          <div class="form-group d-inline-block">
+            <div class="d-flex align-items-center">
+              <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control form-control-sm mx-1" placeholder="{% trans 'Name' %}" required id="id_label">
+              <button class="mx-1 btn btn-outline-primary btn-sm" type="submit">
+                {% trans 'Save' %}
+              </button>
+              <button type="button" title="Cancel" @click="open=false" class="mx-1 btn btn-outline-primary btn-sm">
+                {% trans 'Cancel' %}
+              </button>
+            </div>
+          </div>
+        </form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

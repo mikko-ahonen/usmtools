@@ -1,0 +1,14 @@
+{% extends 'projects/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+<h3>{% trans 'Delete project' %} {{ project }}</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    <p>
+      {% trans 'Are you sure you want to delete it?' %}
+    </p>
+    <p> 
+      <a class="button btn btn-outline-secondary" href="{% url 'projects:project-list' tenant.id %}">Cancel</a>
+      <input class="button btn btn-outline-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from ordered_model.admin import OrderedModelAdmin
 
-from .models import Domain, Section, Requirement, Constraint, Term, Category
+from .models import Domain, Section, Control, Requirement, Statement, Constraint, Definition, Category
 
 class BaseAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -31,11 +31,17 @@ class DomainAdmin(BaseAdmin):
 class SectionAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'title', 'description')
 
+class ControlAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'slug', 'title', 'description')
+
+class StatementAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'slug', 'text')
+
 class RequirementAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'text')
 
-class TermAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'name', 'definition')
+class DefinitionAdmin(BaseAdmin):
+    list_display = ('tenant_id', 'id', 'term', 'definition')
 
 class CategoryAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'name')
@@ -52,6 +58,6 @@ class ConstraintAdmin(BaseAdmin):
 admin.site.register(Domain, DomainAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Requirement, RequirementAdmin)
-admin.site.register(Term, TermAdmin)
+admin.site.register(Definition, DefinitionAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Constraint, ConstraintAdmin)

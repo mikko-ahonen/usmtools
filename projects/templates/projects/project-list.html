@@ -10,6 +10,8 @@
   {% for project in projects %}
   <p>
     <h5>{{ project.name }}</h5>
+    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-update' tenant.id project.id %}" href="{% url 'projects:project-update' tenant.id project.id %}">{% trans 'Edit' %}</a>
+    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-delete' tenant.id project.id %}" href="{% url 'projects:project-delete' tenant.id project.id %}">{% trans 'Delete' %}</a>
     {% if project.roadmap %}
     <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.roadmap.board_type project.roadmap.uuid %}">{% trans 'Roadmap' %}</a>
     {% endif %}
@@ -21,6 +23,10 @@
     {% endif %}
   </p>
   {% endfor %}
+  <p>
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'projects:project-create' tenant.id %}" href="{% url 'projects:project-create' tenant.id %}">{% trans 'Create a new project' %}</a>
+  </p>
 </div>
 </section>
+{% include 'projects/fragments/modal.html' %}
 {% endblock %}

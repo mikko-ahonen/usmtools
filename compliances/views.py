@@ -38,6 +38,7 @@ class DomainProjectSetup(TenantMixin, DetailView):
         project_id = self.kwargs['pk']
         project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
         context['targets'] = Target.objects.filter(project_id=project_id)
+        context['teams'] = Team.objects.filter(project_id=project_id)
         return context
 
 class DomainCreateProject(TenantMixin, RedirectView):
@@ -54,7 +55,9 @@ class DomainDetail(TenantMixin, DetailView):
     template_name = 'compliances/domain-detail.html'
     context_object_name = 'domain'
 
-class DomainProjectCreateBacklog(TenantMixin, RedirectView):
+class DomainProjectCreateBacklog(TenantMixin, FormView):
+    template_name = 'compliances/domain-project-create-backlog.html'
+    #form_class = forms.BakclogCreateForm
 
     def create_backlog_from_roadmap(self, tenant, project, sprint_length_in_days, number_of_stories_in_sprint):
         backlog = Backlog(project=project)

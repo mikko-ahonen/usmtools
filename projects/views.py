@@ -1,25 +1,73 @@
+import math
+import logging
+
 from collections import defaultdict
 from datetime import timedelta
-from django.utils.dateparse import parse_date
-import math
 
+from django.http import HttpResponseRedirect
+from django.utils.dateparse import parse_date
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, FormView, RedirectView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext as _
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.db import transaction
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-#from compliances.models import Domain, Requirement, Constraint, Target, TargetSection, Category
 from .models import Project, Release, Epic
-#from boards.models import Board, List, Task
+from . import forms
+
+logger = logging.getLogger(__name__)
+
+class GetTenantMixin():
+    tenant = None
+
+    def get_tenant(self, tenant_id=None):
+        if self.tenant is None:
+            if tenant_id is None:
+                tenant_id = self.kwargs['tenant_id']
+            self.tenant = Tenant.objects.get(pk=tenant_id)
+        return self.tenant
+
+
+class TenantMixin(LoginRequiredMixin, GetTenantMixin, UserPassesTestMixin):
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['tenant'] = self.get_tenant()
+        return context
+
+    def test_func(self):
+        user = self.request.user
+        if user.is_superuser:
+            return True
+        tenant = self.get_tenant()
+        return tenant.owner_id == user.pk
+
+
+class GetProjectMixin():
+    project = None
+
+    def get_project(self, id):
+        if self.project is None:
+            self.project = Project.objects.get(pk=id)
+        return self.project
+
+
+class UpdateModifiedByMixin():
+    def form_valid(self, form):
+       object = form.save(commit=False)
+       form.modified_by = self.request.user
+       form.save()
+       return super().form_valid(form)
+
 
 class ProjectList(TenantMixin, ListView):
     model = Project
@@ -37,3 +85,56 @@ class ProjectDetail(TenantMixin, DetailView):
     model = Project
     template_name = 'projects/project-detail.html'
     context_object_name = 'project'
+
+
+class ProjectUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
+    model = Project
+    template_name = 'projects/modals/project-create-or-update.html'
+    form_class = forms.ProjectCreateOrUpdate
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('projects:project-list', kwargs={'tenant_id': tenant_id})
+
+
+class ProjectCreate(TenantMixin, CreateView):
+    model = Project
+    template_name = 'projects/modals/project-create-or-update.html'
+    context_object_name = 'project'
+    form_class = forms.ProjectCreateOrUpdate
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        tenant = self.get_tenant()
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.modified_by = self.request.user
+        self.object.tenant = tenant
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url()) 
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('projects:project-list', kwargs={'tenant_id': tenant_id})
+
+
+class ProjectDelete(TenantMixin, DeleteView):
+    model = Project
+    template_name = 'projects/modals/project-delete.html'
+    context_object_name = 'project'
+
+    def delete(self, request, *args, **kwargs):
+        """Display error message if integrity error"""
+        try:
+            return(super().delete(request, *args, **kwargs))
+        except IntegrityError:
+            messages.error(request, "Project can be deleted only if it has no children")
+            return render(request, template_name=self.template_name, context=self.get_context_data())
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('projects:project-list', kwargs={'tenant_id': tenant_id})
