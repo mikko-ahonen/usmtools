@@ -9,9 +9,7 @@
 <h3>{% trans 'Compliance domains' %}</h3>
   {% for domain in domains %}
   <p>
-    <h5>{% comment %}<a href="{% url 'compliances:domain-detail' tenant.id domain.id %}">{{ domain.name }}</a>{% endcomment %}
-        {{ domain.name }}
-    </h5>
+    <h5><a href="{% url 'compliances:domain-spec' tenant.id domain.id %}">{{ domain.name }}</a></h5>
     <small class="text-muted">{{ domain.description }}</small>
   </p>
   {% with project=domain.projects.all.first %}

@@ -19,7 +19,7 @@ from workflows.tenant import current_tenant_id
 
 from projects.models import Project, Release, Epic, Roadmap
 from boards.models import Board
-from .models import Domain, Requirement, Constraint, Target, TargetSection, Category
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, Team
 from . import forms
 
 class DomainList(TenantMixin, ListView):
@@ -53,6 +53,11 @@ class DomainCreateProject(TenantMixin, RedirectView):
 class DomainDetail(TenantMixin, DetailView):
     model = Domain
     template_name = 'compliances/domain-detail.html'
+    context_object_name = 'domain'
+
+class DomainSpec(TenantMixin, DetailView):
+    model = Domain
+    template_name = 'compliances/domain-spec.html'
     context_object_name = 'domain'
 
 class DomainProjectCreateBacklog(TenantMixin, FormView):
