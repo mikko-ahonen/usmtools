@@ -188,6 +188,9 @@ class Command(BaseCommand):
 
                 section_docid, control_docid, req_docid = self.parse_docids(line[2])
 
+                if doc != "Annex A":
+                    breakpoint()
+
                 if doc != "Annex A" and not control_docid:
                     control = None
                     requirement = None
