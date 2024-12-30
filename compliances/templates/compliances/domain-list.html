@@ -10,7 +10,10 @@
   {% for domain in domains %}
   <p>
     <h5><a href="{% url 'compliances:domain-spec' tenant.id domain.id %}">{{ domain.name }}</a></h5>
-    <small class="text-muted">{{ domain.description }}</small>
+    <small class="text-muted">{{ domain.description }}
+    </small>
+    <a class="btn btn-outline-primary" href="{% url 'compliances:domain-spec' tenant.id domain.id %}">Spec</a>
+    <a class="btn btn-outline-primary" href="{% url 'compliances:domain-constraints' tenant.id domain.id %}">Constraints</a>
   </p>
   {% with project=domain.projects.all.first %}
   <table class="table">

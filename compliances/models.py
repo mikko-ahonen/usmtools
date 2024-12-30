@@ -50,6 +50,10 @@ class Domain(TenantAwareOrderedModelBase):
     def categories(self):
         return self.category_set(manager='unscoped')
 
+    @property
+    def constraints(self):
+        return self.constraint_set(manager='unscoped')
+
     def __str__(self):
         return self.name or self.slug
 
@@ -150,10 +154,6 @@ class Category(TenantAwareOrderedModelBase):
 
     order_field_name = 'index'
 
-    @property
-    def constraints(self):
-        return self.constraint_set(manager="unscoped")
-
     def __str__(self):
         return self.name or self.slug
 
@@ -169,14 +169,14 @@ class Statement(TenantAwareOrderedModelBase):
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
-    order_field_name = 'index'
-
     @property
     def constraints(self):
-        return self.constraint_set(manager="unscoped")
+        return [cs.constraint for cs in self.constraint_statements(manager='unscoped').all()]
+
+    order_field_name = 'index'
 
     def __str__(self):
-        return self.slug
+        return self.slug or self.text or str(self.id)
 
     class Meta:
         ordering = ('index',)
@@ -200,11 +200,12 @@ class Team(TenantAwareOrderedModelBase):
 class Constraint(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
-    statement = models.ForeignKey(Statement, on_delete=models.CASCADE, null=True)
+    statements = models.ManyToManyField(Statement, through="ConstraintStatement")
     text = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True)
 
     STATUS_NEW = "new"
     STATUS_ONGOING = "ongoing"
@@ -225,17 +226,30 @@ class Constraint(TenantAwareOrderedModelBase):
     status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
 
     order_field_name = 'index'
-    order_with_respect_to = 'statement'
+
+    @property
+    def statements(self):
+        return [cs.statement for cs in self.constraint_statements(manager='unscoped').all()]
 
     def __str__(self):
         return self.text or self.slug
 
     class Meta:
         ordering = ('index',)
-        unique_together = ('statement', 'index',)
 
     def get_goal(self):
         return (self.category.slug + '_' + self.slug).replace("-", "_")
+
+class ConstraintStatement(TenantAwareOrderedModelBase):
+    constraint = models.ForeignKey(Constraint, on_delete=models.CASCADE, null=True, related_name='constraint_statements')
+    statement = models.ForeignKey(Statement, on_delete=models.CASCADE, null=True, related_name='constraint_statements')
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
+    order_with_respect_to = 'statement'
+
+    class Meta:
+        ordering = ('index',)
 
 class Target(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

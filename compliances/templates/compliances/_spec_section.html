@@ -1,0 +1,40 @@
+  <li>{{ section.id }} {{ section.doc }} {{ section.docid }} {{ section.title }}
+  INCLUDE SPEC SECTION
+  <ul>
+  {% for subsection in section.subsections.all %}
+    {% include 'compliances/_spec_section.html' with section=subsection only %}
+    <ul>
+    {% for control in subsection.controls.all %}
+      <li id="{{ control.id }}">
+        <p>
+          [{{ control.id }}] {{ control.doc_id }} {{ control.text }} {{ control.description }}
+        </p>
+        <ul>
+        {% for req in control.requirements.all %}
+          <li id="{{ req.id }}">
+            <p>
+              [{{ req.id }}] {{ req.doc_id }} {{ req.text }}
+            </p>
+            <ul>
+            {% for statement in req.statements.all %}
+            <li id="{{ statement.id }}">
+              [{{ statement.id }}] {{ statement.text }}
+              <ul>
+              {% for constraint in statement.constraints %}
+              <li id="{{ constraint.id }}">
+                [{{ constraint.id }}] {{ constraint.text }}
+              </li>
+              {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endfor %}
+  </ul>
+  </li>

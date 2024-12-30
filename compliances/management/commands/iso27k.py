@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 import csv
 import re
 #import os
@@ -21,7 +21,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 #from usm.settings import BASE_DIR
 #from .grammar import XREF_GRAMMAR
-from ...models import Domain, Section, Control, Requirement, Constraint, Category, Statement
+from ...models import Domain, Section, Control, Requirement, Constraint, Category, Statement, ConstraintStatement
 from workflows.tenant_models import Tenant
 
 def strip(s):
@@ -29,6 +29,8 @@ def strip(s):
 
 def isnan(s):
     if s == None:
+        return True
+    if s == "nan":
         return True
     if s == np.nan:
         return True
@@ -84,24 +86,24 @@ class Command(BaseCommand):
 
     def parse_section_title(self, line):
         if isnan(line[3]):
-            return line[1]
+            return str(line[1])
         else:
-            return line[3]
+            return str(line[3])
 
     def parse_control_title(self, line):
         return line[4]
 
     def parse_requirement_text(self, line):
-        if line[2].startswith("Annex"):
-            return line[4]
+        if str(line[2]).startswith("Annex"):
+            return str(line[4])
         else:
-            return line[4]
+            return str(line[4])
 
     def parse_statement_text(self, line):
-        return line[5]
+        return str(line[5])
 
     def parse_constraint_text(self, line):
-        return line[6]
+        return str(line[6])
 
     def get_category(self, tenant, domain, line):
         name = 'No category'
@@ -111,7 +113,7 @@ class Command(BaseCommand):
         try:
             for i in range(7, 9):
                 if not isnan(line[i]):
-                    name = line[i]
+                    name = str(line[i])
         except IndexError:
             pass
             breakpoint()
@@ -137,25 +139,27 @@ class Command(BaseCommand):
             requirement_idx = 0
             statement_idx = 0
             constraint_idx = 0
+            constraint_statement_idx = 0
             doc = None
             for line in df.values.tolist():
 
                 if "ANNEX A" in str(line[1]):
                     doc = "Annex A"
                     continue
+
                 if line[1] == "ISO/IEC 27001 Main clauses":
                     doc = "Main clauses"
                     continue
+
                 if len(line) < 3:
                     print("\n".join(line))
                     continue
 
                 if isnan(line[1]) and isnan(line[2]):
-                    breakpoint()
                     continue
 
                 if isnan(line[4]):
-                    if m := re.match(r"^([\d\.]+) (.*)", str(line[2])):
+                    if m := re.search(r"^([\d\.]+) (.*)", str(line[2])):
                         section_docid = m.group(1)
                         section_title = m.group(2)
                     else:
@@ -170,7 +174,7 @@ class Command(BaseCommand):
                     if not parent_section_docid:
                         parent = None
                     else:
-                        parent = parent_sections[parent_section_docid]
+                        parent = parent_sections[doc + '-' + parent_section_docid]
 
                     try:
                         parent_section = Section.unscoped.get(tenant=tenant, doc=doc, domain_id=domain.id, docid=section_docid)
@@ -178,13 +182,20 @@ class Command(BaseCommand):
                         if isnan(section_title):
                             breakpoint()
                         parent_section = Section.unscoped.create(tenant=tenant, doc=doc, docid=section_docid, domain_id=domain.id, index=section_idx, title=section_title, parent=parent)
-                        parent_sections[section_docid] = parent_section
+                        parent_sections[doc + '-' + section_docid] = parent_section
 
                     continue
 
                 section_docid, control_docid, req_docid = self.parse_docids(line[2])
 
+                if doc != "Annex A" and not control_docid:
+                    control = None
+                    requirement = None
+                    statement = None
+                    constraint = None
+
                 if not section_docid:
+                    section = None
                     continue
 
                 print(section_docid)
@@ -196,7 +207,7 @@ class Command(BaseCommand):
                     if parent_section_docid is None:
                         parent = None
                     else:
-                        parent = parent_sections[parent_section_docid]
+                        parent = parent_sections[doc + '-' + parent_section_docid]
                     section_title = self.parse_section_title(line)
                     section_idx += 1
                     try:
@@ -210,7 +221,7 @@ class Command(BaseCommand):
 
                 if doc == "Annex A":
                     control_title = self.parse_control_title(line)
-                elif (control_docid and (control_docid == last_control_docid or re.match(r'.#\d+$', control_docid))):
+                elif (control_docid and control and (control_docid == last_control_docid or re.search(r'.#\d+$', control_docid))):
                     control_title = self.parse_control_title(line)
                     if control_title != last_control_title:
                         control.description += "\n" + control_title
@@ -218,6 +229,7 @@ class Command(BaseCommand):
                         last_control_title = control_title
 
                 if doc == "Annex A" or (control_docid and control_docid != last_control_docid):
+                    control_title = self.parse_control_title(line)
                     if control_title != last_control_title:
                         control_idx += 1
                         last_control_title = control_title
@@ -229,16 +241,25 @@ class Command(BaseCommand):
                         req, _ = Requirement.unscoped.update_or_create(tenant=tenant, docid=req_docid, control_id=control.id, defaults={"text": req_text, "index": requirement_idx})
 
                     statement_text = self.parse_statement_text(line)
-                    if statement_text != last_statement_text:
+                    #if isnan(statement) or 
+                    if not isnan(statement_text) and statement_text != last_statement_text:
                         statement_idx += 1
-                        statement, _ = Statement.unscoped.update_or_create(tenant=tenant, requirement_id=req.id, defaults={"text": statement_text, "index": statement_idx})
+                        if isnan(statement_text):
+                            statement_text = "Not defined"
+                        statement, _ = Statement.unscoped.update_or_create(tenant=tenant, requirement_id=req.id, text=statement_text, defaults={"index": statement_idx})
                         last_statement_text = statement_text
 
                     constraint_text = self.parse_constraint_text(line)
-                    if constraint_text != last_constraint_text:
+                    if not isnan(constraint_text) and constraint_text != last_constraint_text:
                         constraint_idx += 1
                         constraint_category = self.get_category(tenant, domain, line)
-                        constraint, _ = Constraint.unscoped.update_or_create(tenant=tenant, statement_id=statement.id, defaults={"text": constraint_text, "category": constraint_category, "index": constraint_idx})
+                        try:
+                            constraint = Constraint.unscoped.get(tenant=tenant, domain_id=domain.id, text=constraint_text)
+                        except Constraint.DoesNotExist:
+                            constraint = Constraint.unscoped.create(tenant=tenant, domain_id=domain.id, text=constraint_text, category=constraint_category, index=constraint_idx)
+                        constraint_statement_idx += 1
+
+                        ConstraintStatement.unscoped.create(tenant=tenant, statement=statement, constraint=constraint, index=constraint_statement_idx)
                         last_constraint_text = constraint_text
 
     def handle(self, *args, **options):

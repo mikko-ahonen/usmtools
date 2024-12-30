@@ -1,0 +1,25 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load constraint %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'compliances' %}
+<h1 class="mb-0 pb-0">{{ domain.name }} constraints</h1>
+  <ul>
+  {% for constraint in constraints.all %}
+    <li id="{{ constraint.id }}">
+      {{ constraint.id }} {{ constraint.text }}
+      <ul>
+      {% for statement in constraint.statements %}
+        <li id="{{ statement.id }}">
+            [<a href="{% url 'compliances:domain-spec' tenant.id domain.id %}#{{ statement.id }}">{{ statement.id }}</a>] {{ statement }}</li>
+      {% endfor %}
+      </ul>
+    </li>
+  {% endfor %}
+  </ul>
+</div>
+</section>
+{% endblock %}

@@ -60,6 +60,25 @@ class DomainSpec(TenantMixin, DetailView):
     template_name = 'compliances/domain-spec.html'
     context_object_name = 'domain'
 
+class DomainConstraints(TenantMixin, ListView):
+    model = Constraint
+    template_name = 'compliances/domain-constraints.html'
+    context_object_name = 'constraints'
+
+    def get_queryset(self, **kwargs):
+        tenant_id = self.kwargs['tenant_id']
+        domain_id = self.kwargs['pk']
+        qs = Constraint.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id)
+        return qs.order_by('text')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs['tenant_id']
+        domain_id = self.kwargs['pk']
+        domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
+        context['domain'] = domain
+        return context
+
 class DomainProjectCreateBacklog(TenantMixin, FormView):
     template_name = 'compliances/domain-project-create-backlog.html'
     #form_class = forms.BakclogCreateForm
