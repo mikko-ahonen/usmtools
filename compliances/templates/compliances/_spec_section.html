@@ -1,8 +1,16 @@
-  <li>{{ section.id }} {{ section.doc }} {{ section.docid }} {{ section.title }}
-  INCLUDE SPEC SECTION
+  {% if level < 3 %}
+  </ul>
+  <h{{ level }}>
+    {{ section.id }} {{ section.doc }} {{ section.docid }} {{ section.title }}
+  </h{{ level }}>
+  <ul>
+  {% else %}
+  <li>
+    {{ section.id }} {{ section.doc }} {{ section.docid }} {{ section.title }}
+  {% endif %}
   <ul>
   {% for subsection in section.subsections.all %}
-    {% include 'compliances/_spec_section.html' with section=subsection only %}
+    {% include 'compliances/_spec_section.html' with section=subsection level=level|add:"1" only %}
     <ul>
     {% for control in subsection.controls.all %}
       <li id="{{ control.id }}">

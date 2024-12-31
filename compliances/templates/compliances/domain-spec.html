@@ -10,7 +10,7 @@
   <small class="mt-0 pt-0 text-muted">{{ domain.description | linebreaks }}</small>
   <ul>
   {% for section in domain.root_sections %}
-    {% include 'compliances/_spec_section.html' with section=section only %}
+    {% include 'compliances/_spec_section.html' with section=section level=1 only %}
   {% endfor %}
   </ul>
 </div>

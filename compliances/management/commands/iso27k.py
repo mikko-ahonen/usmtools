@@ -149,6 +149,12 @@ class Command(BaseCommand):
 
                 if line[1] == "ISO/IEC 27001 Main clauses":
                     doc = "Main clauses"
+                    statement = None
+                    control = None
+                    requirement = None
+                    last_statement_text = None
+                    last_constraint_text = None
+                    section = None
                     continue
 
                 if len(line) < 3:
@@ -188,14 +194,14 @@ class Command(BaseCommand):
 
                 section_docid, control_docid, req_docid = self.parse_docids(line[2])
 
-                if doc != "Annex A":
+                if doc != "Annex A" and section_docid == "4.2":
                     breakpoint()
 
-                if doc != "Annex A" and not control_docid:
-                    control = None
-                    requirement = None
-                    statement = None
-                    constraint = None
+                #if doc != "Annex A" and not control_docid:
+                #    control = None
+                #    requirement = None
+                #    statement = None
+                #    constraint = None
 
                 if not section_docid:
                     section = None
@@ -224,7 +230,7 @@ class Command(BaseCommand):
 
                 if doc == "Annex A":
                     control_title = self.parse_control_title(line)
-                elif (control_docid and control and (control_docid == last_control_docid or re.search(r'.#\d+$', control_docid))):
+                elif control_docid and control and control_docid == last_control_docid: # or re.search(r'.#\d+$', control_docid))):
                     control_title = self.parse_control_title(line)
                     if control_title != last_control_title:
                         control.description += "\n" + control_title
@@ -244,8 +250,9 @@ class Command(BaseCommand):
                         req, _ = Requirement.unscoped.update_or_create(tenant=tenant, docid=req_docid, control_id=control.id, defaults={"text": req_text, "index": requirement_idx})
 
                     statement_text = self.parse_statement_text(line)
-                    #if isnan(statement) or 
-                    if not isnan(statement_text) and statement_text != last_statement_text:
+                    if ((doc != "Annex A" and not statement) or (not isnan(statement_text))) and statement_text != last_statement_text:
+                        #if isnan(statement) and doc == "Annex A":
+                        #    breakpoint()
                         statement_idx += 1
                         if isnan(statement_text):
                             statement_text = "Not defined"
