@@ -8,11 +8,9 @@
 {% breadcrumbs tenant True 'compliances' %}
 <h1 class="mb-0 pb-0">{{ domain.name }}</h1>
   <small class="mt-0 pt-0 text-muted">{{ domain.description | linebreaks }}</small>
-  <ul>
   {% for section in domain.root_sections %}
     {% include 'compliances/_spec_section.html' with section=section level=1 only %}
   {% endfor %}
-  </ul>
 </div>
 </section>
 {% endblock %}

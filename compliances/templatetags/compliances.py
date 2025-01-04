@@ -13,6 +13,12 @@ def target_section_checked(target, section):
         return 'checked'
     return ''
 
+@register.filter
+def team_category_checked(team, category):
+    if category.team_id == team.id:
+        return 'checked'
+    return ''
+
 @register.filter 
 def status_icon(status, tooltip=""):
     if status == "ok":

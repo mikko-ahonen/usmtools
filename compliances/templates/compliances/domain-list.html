@@ -12,8 +12,10 @@
     <h5><a href="{% url 'compliances:domain-spec' tenant.id domain.id %}">{{ domain.name }}</a></h5>
     <small class="text-muted">{{ domain.description }}
     </small>
-    <a class="btn btn-outline-primary" href="{% url 'compliances:domain-spec' tenant.id domain.id %}">Spec</a>
-    <a class="btn btn-outline-primary" href="{% url 'compliances:domain-constraints' tenant.id domain.id %}">Constraints</a>
+    <p>
+      <a class="btn btn-outline-primary" href="{% url 'compliances:domain-spec' tenant.id domain.id %}">Spec</a>
+      <a class="btn btn-outline-primary" href="{% url 'compliances:domain-constraints' tenant.id domain.id %}">Constraints</a>
+    </p>
   </p>
   {% with project=domain.projects.all.first %}
   <table class="table">
@@ -27,7 +29,7 @@
     </div>
     <td class="align-middle">
       {% if domain.is_project_created %}
-        {% trans 'Project created' %}
+        {% trans 'Project' %} "{{ domain.project.name }}" {% trans 'created' %}
       {% else %}
         {% trans 'Create a project for the domain' %}
       {% endif %}
@@ -35,6 +37,7 @@
     <td class="align-middle">
       {% if domain.is_project_created %}
         <a class="btn btn-outline-primary" href="{% url 'projects:project-detail' tenant.id project.id %}">{% trans 'View' %}</a>
+      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-update' tenant.id project.id %}" href="{% url 'projects:project-update' tenant.id project.id %}">{% trans 'Edit' %}</a>
       {% else %}
         <a class="btn btn-outline-primary" href="{% url 'compliances:domain-create-project' tenant.id domain.id %}">{% trans 'Create' %}</a>
       {% endif %}
@@ -51,18 +54,20 @@
     </td>
     <td class="align-middle">
       {% if domain.is_project_setup_complete %}
-        {% trans 'Project setup complete' %}
+        {% trans 'Project setup complete' %}<br/>
+        <small class="text-muted">
+          {% trans 'Targets' %}:
+          {% for target in project.targets.all %}{{ target.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          <br/>
+          {% trans 'Teams' %}:
+          {% for team in project.teams.all %}{{ team.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </small>
       {% else %}
         {% trans 'Setup the project' %}
       {% endif %}
     </td>
     <td class="align-middle">
-      {% if domain.is_project_setup_complete %}
-        {% trans 'Targets' %}: 
-        {% for target in project.targets.all %}{{ target.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
-      {% else %}
-        <a class="btn btn-outline-primary" {% if not domain.is_project_created %}disabled href="#"{% else %}href="{% url 'compliances:domain-project-setup' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Setup' %}</a>
-      {% endif %}
+      <a class="btn btn-outline-primary" {% if not domain.is_project_created %}disabled href="#"{% else %}href="{% url 'compliances:domain-project-setup' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Setup' %}</a>
     </td>
   </tr>
 
@@ -107,7 +112,7 @@
     </td>
     <td class="align-middle">
       {% if not domain.is_project_backlog_created %}
-        <a class="btn btn-outline-primary" {% if not domain.is_project_roadmap_created %}disabled href="#"{% else %} href="{% url 'compliances:domain-project-create-roadmap' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Create' %}</a>
+        <a class="btn btn-outline-primary" {% if not domain.is_project_roadmap_created %}disabled href="#"{% else %} href="{% url 'compliances:domain-project-create-backlog' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Create' %}</a>
       {% endif %}
     </td>
   </tr>
@@ -164,4 +169,5 @@
   {% endfor %}
 </div>
 </section>
+{% include 'projects/fragments/modal.html' %}
 {% endblock %}

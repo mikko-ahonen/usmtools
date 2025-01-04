@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from ordered_model.admin import OrderedModelAdmin
 
-from .models import Domain, Section, Control, Requirement, Statement, Constraint, Definition, Category
+from .models import Domain, Section, Requirement, Statement, Constraint, Definition, Category
 
 class BaseAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -29,9 +29,6 @@ class DomainAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'name', 'description')
 
 class SectionAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'slug', 'title', 'description')
-
-class ControlAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'title', 'description')
 
 class StatementAdmin(BaseAdmin):

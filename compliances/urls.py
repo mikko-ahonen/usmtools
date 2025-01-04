@@ -15,7 +15,10 @@ urlpatterns = [
     path('<uuid:tenant_id>/domains/<uuid:pk>/projects/create/', views.DomainCreateProject.as_view(), name='domain-create-project'),
     path('<uuid:tenant_id>/domains/<uuid:domain_id>/projects/<uuid:pk>/setup/', views.DomainProjectSetup.as_view(), name='domain-project-setup'),
     path('<uuid:tenant_id>/domains/<uuid:pk>/projects/<uuid:project_id>/roadmaps/create/', views.DomainProjectCreateRoadmap.as_view(), name='domain-project-create-roadmap'),
+    path('<uuid:tenant_id>/domains/<uuid:pk>/projects/<uuid:project_id>/backlogs/create/', views.DomainProjectCreateBacklog.as_view(), name='domain-project-create-backlog'),
     path('<uuid:tenant_id>/domains/<uuid:pk>/projects/<uuid:project_id>/targets/<uuid:target_id>/audit/', views.DomainProjectTargetAudit.as_view(), name='domain-target-audit'),
     path("<uuid:tenant_id>/projects/<uuid:pk>/create-target/", views.create_target_for_project, name="project-create-target"),
-    path("<uuid:tenant_id>/targets/<uuid:target_id>/<uuid:section_id>/", views.target_section_select, name="target-section-select"),
+    path("<uuid:tenant_id>/projects/<uuid:pk>/create-team/", views.create_team_for_project, name="project-create-team"),
+    path("<uuid:tenant_id>/targets/<uuid:target_id>/<uuid:section_id>/select/", views.target_section_select, name="target-section-select"),
+    path("<uuid:tenant_id>/teams/<uuid:team_id>/<uuid:category_id>/select/", views.team_category_select, name="team-category-select"),
 ]

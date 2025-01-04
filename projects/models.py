@@ -18,7 +18,7 @@ class Project(TenantAwareOrderedModelBase):
     sprint_length_in_days = models.PositiveSmallIntegerField(default=21)
     release_length_in_days = models.PositiveSmallIntegerField(default=21)
     epics_per_release = models.PositiveSmallIntegerField(default=2)
-    storypoints_per_sprint = models.PositiveSmallIntegerField(default=10)
+    storypoints_in_sprint = models.PositiveSmallIntegerField(default=10)
 
     order_field_name = 'index'
 
@@ -66,6 +66,8 @@ class Epic(Task):
     _default_task_type = Task.TASK_TYPE_EPIC
     list = models.ForeignKey(Release, on_delete=models.CASCADE, related_name="tasks")
 
+    category = models.ForeignKey('compliances.Category', null=True, blank=True, on_delete=models.PROTECT)
+
     class Meta(Task.Meta):
         verbose_name = "epic"
         verbose_name_plural = "epics"
@@ -74,6 +76,9 @@ class Story(Task):
     list = models.ForeignKey(Sprint, on_delete=models.CASCADE, related_name="tasks")
 
     task_type = Task.TASK_TYPE_STORY
+
+    epic = models.ForeignKey(Epic, null=True, blank=True, on_delete=models.SET_NULL)
+    constraint = models.ForeignKey('compliances.Constraint', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta(Task.Meta):
         verbose_name = "story"

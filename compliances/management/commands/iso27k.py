@@ -21,7 +21,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 #from usm.settings import BASE_DIR
 #from .grammar import XREF_GRAMMAR
-from ...models import Domain, Section, Control, Requirement, Constraint, Category, Statement, ConstraintStatement
+from ...models import Domain, Section, Requirement, Requirement, Constraint, Category, Statement, ConstraintStatement
 from workflows.tenant_models import Tenant
 
 def strip(s):
@@ -59,7 +59,7 @@ class Command(BaseCommand):
         section_identifier = re.sub(r"(\d)#(\d)$", r"\1.#\2", section_identifier)
         annex = False
 
-        control_docid = None
+        requirement_docid = None
         section_identifier = str(section_identifier)
         if section_identifier == 'nan':
             return None, None, None
@@ -75,14 +75,14 @@ class Command(BaseCommand):
         else:
             req_docid = None
         if not annex and len(rv) > 1:
-            control_docid = rv.pop(-1)
+            requirement_docid = rv.pop(-1)
         try:
             section_docid = rv.pop(-1)
         except IndexError:
             breakpoint()
             pass
 
-        return section_docid, control_docid, req_docid
+        return section_docid, requirement_docid, req_docid
 
     def parse_section_title(self, line):
         if isnan(line[3]):
@@ -90,8 +90,8 @@ class Command(BaseCommand):
         else:
             return str(line[3])
 
-    def parse_control_title(self, line):
-        return line[4]
+    #def parse_requirement_title(self, line):
+    #    return line[4]
 
     def parse_requirement_text(self, line):
         if str(line[2]).startswith("Annex"):
@@ -117,7 +117,7 @@ class Command(BaseCommand):
         except IndexError:
             pass
             breakpoint()
-        category, created = Category.objects.get_or_create(tenant_id=tenant.id, name=name, domain_id=domain.id)
+        category, created = Category.unscoped.get_or_create(tenant_id=tenant.id, domain_id=domain.id, name=name)
         return category
 
     def update_structures(self, tenant):
@@ -128,14 +128,14 @@ class Command(BaseCommand):
         if True:
             #tsv_file = csv.reader(f) #, dialect=csv.excel_tab) #delimiter="\t")
             last_section_docid = None
-            last_control_docid = None
-            last_control_title = None
+            last_requirement_docid = None
+            last_requirement_title = None
             last_req_text = None
             last_statement_text = None
             last_constraint_text = None
             parent_section = None
             section_idx = 0
-            control_idx = 0
+            requirement_idx = 0
             requirement_idx = 0
             statement_idx = 0
             constraint_idx = 0
@@ -150,7 +150,6 @@ class Command(BaseCommand):
                 if line[1] == "ISO/IEC 27001 Main clauses":
                     doc = "Main clauses"
                     statement = None
-                    control = None
                     requirement = None
                     last_statement_text = None
                     last_constraint_text = None
@@ -192,13 +191,13 @@ class Command(BaseCommand):
 
                     continue
 
-                section_docid, control_docid, req_docid = self.parse_docids(line[2])
+                section_docid, requirement_docid, req_docid = self.parse_docids(line[2])
 
                 if doc != "Annex A" and section_docid == "4.2":
                     breakpoint()
 
-                #if doc != "Annex A" and not control_docid:
-                #    control = None
+                #if doc != "Annex A" and not requirement_docid:
+                #    requirement = None
                 #    requirement = None
                 #    statement = None
                 #    constraint = None
@@ -208,7 +207,7 @@ class Command(BaseCommand):
                     continue
 
                 print(section_docid)
-                print(control_docid)
+                print(requirement_docid)
                 print(req_docid)
 
                 if section_docid != last_section_docid:
@@ -229,34 +228,36 @@ class Command(BaseCommand):
                     last_section_docid = section_docid
 
                 if doc == "Annex A":
-                    control_title = self.parse_control_title(line)
-                elif control_docid and control and control_docid == last_control_docid: # or re.search(r'.#\d+$', control_docid))):
-                    control_title = self.parse_control_title(line)
-                    if control_title != last_control_title:
-                        control.description += "\n" + control_title
-                        control.save()
-                        last_control_title = control_title
+                    requirement_title = self.parse_requirement_text(line)
+                elif requirement_docid and requirement and requirement_docid == last_requirement_docid: # or re.search(r'.#\d+$', requirement_docid))):
+                    requirement_title = self.parse_requirement_text(line)
+                    if requirement_title != last_requirement_title:
+                        requirement.text += "\n" + requirement_title
+                        requirement.save()
+                        last_requirement_title = requirement_title
 
-                if doc == "Annex A" or (control_docid and control_docid != last_control_docid):
-                    control_title = self.parse_control_title(line)
-                    if control_title != last_control_title:
-                        control_idx += 1
-                        last_control_title = control_title
-                        control, _ = Control.unscoped.update_or_create(tenant=tenant, docid=control_docid, section_id=section.id, defaults={"index": control_idx ,"description": control_title})
-
-                    req_text = self.parse_requirement_text(line)
-                    if req_text != last_req_text:
+                if doc == "Annex A" or (requirement_docid and requirement_docid != last_requirement_docid):
+                    requirement_title = self.parse_requirement_text(line)
+                    if requirement_title != last_requirement_title:
                         requirement_idx += 1
-                        req, _ = Requirement.unscoped.update_or_create(tenant=tenant, docid=req_docid, control_id=control.id, defaults={"text": req_text, "index": requirement_idx})
+                        last_requirement_title = requirement_title
+                        requirement, _ = Requirement.unscoped.update_or_create(tenant=tenant, docid=requirement_docid, section_id=section.id, defaults={"index": requirement_idx ,"text": requirement_title})
+                        last_req_text = None
+                        statement = None
+                        last_statement_text = None
+                        constraint = None
+                        last_constraint_text = None
 
                     statement_text = self.parse_statement_text(line)
                     if ((doc != "Annex A" and not statement) or (not isnan(statement_text))) and statement_text != last_statement_text:
+                        if requirement is None:
+                            breakpoint()
                         #if isnan(statement) and doc == "Annex A":
                         #    breakpoint()
                         statement_idx += 1
                         if isnan(statement_text):
                             statement_text = "Not defined"
-                        statement, _ = Statement.unscoped.update_or_create(tenant=tenant, requirement_id=req.id, text=statement_text, defaults={"index": statement_idx})
+                        statement, _ = Statement.unscoped.update_or_create(tenant=tenant, requirement_id=requirement.id, text=statement_text, defaults={"index": statement_idx})
                         last_statement_text = statement_text
 
                     constraint_text = self.parse_constraint_text(line)

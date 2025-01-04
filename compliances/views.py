@@ -5,7 +5,7 @@ import math
 
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, FormView, RedirectView
+from django.views.generic import ListView, DetailView, FormView, RedirectView, TemplateView
 from django.utils.translation import gettext as _
 from django.conf import settings
 from django.http import HttpResponse, Http404
@@ -17,7 +17,7 @@ from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from projects.models import Project, Release, Epic, Roadmap
+from projects.models import Project, Release, Epic, Roadmap, Story, Backlog
 from boards.models import Board
 from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, Team
 from . import forms
@@ -79,41 +79,109 @@ class DomainConstraints(TenantMixin, ListView):
         context['domain'] = domain
         return context
 
-class DomainProjectCreateBacklog(TenantMixin, FormView):
+class DomainProjectCreateBacklog(TenantMixin, TemplateView):
     template_name = 'compliances/domain-project-create-backlog.html'
-    #form_class = forms.BakclogCreateForm
+    #form_class = forms.BacklogCreateForm
 
-    def create_backlog_from_roadmap(self, tenant, project, sprint_length_in_days, number_of_stories_in_sprint):
+    def get_sprints_and_stories(self, tenant, project):
+        sprint_stories = defaultdict(list)
+        team_sprints = defaultdict(list)
+        sprints = []
+        team_stories = defaultdict(list)
+        for release in project.roadmap.releases.all().order_by('start_date'):
+            for epic in release.epics.all().order_by('index'):
+                # No category => Create generic story for all the teams
+                if not epic.category:
+                    for team in project.teams:
+                        story = Story(tenant=tenant, name=_('Common') + ': ' + epic.name, description=epic.description, epic=epic, tenant_id=tenant.id, constraint=None)
+                        team_id = str(team.id)
+                        team_stories[team_id].append(story)
+                    continue
+                for constraint in epic.category.constraints.all():
+                    story = Story(tenant=tenant, name=epic.category.name + ': ' + constraint.text, description=constraint.text, epic=epic, tenant_id=tenant.id, constraint=constraint, team=epic.category.team)
+                    team_id = str(team.id)
+                    team_stories[team_id].append(story)
+
+        teams = defaultdict(dict)
+
+        for team in project.teams:
+            team_id = str(team.id)
+            team_sprints, team_sprint_stories = self.get_team_sprints_and_stories(tenant, project, team, team_stories[team_id])
+            teams[team_id] = {
+                'team': team,
+                'sprints': team_sprints,
+                'sprint_stories': team_sprint_stories,
+            }
+
+        return teams
+
+    def get_team_sprints_and_stories(self, tenant, project, team, stories):
+
+        number_of_sprints = self.get_number_of_sprints(stories, project.storypoints_in_sprint)
+
+        start_date = None
+        end_date = None
+        for i in range(number_of_sprints):
+            if not start_date:
+                start_date = project.start_date
+            else:
+                start_date = end_date + timedelta(days=1)
+
+            end_date = start_date + timedelta(project.sprint_length_in_days)
+            sprint_name = f'Team {team.name} sprint {i + 1}'
+            sprint = Sprint(tenant=tenant, name=sprint_name, start_date=start_date, end_date=end_date, tenant_id=tenant.id, team=team)
+            sprints.append(sprint)
+
+            for story in self.get_sprint_stories(stories, project.storypoints_in_sprint, i):
+                sprint_stories[sprint.name].append(story)
+
+        return sprints, sprint_stories
+
+    # TODO: does not use story points
+    def get_number_of_sprints(self, stories, number_of_storypoints_in_sprint):
+        return math.ceil(len(stories)/number_of_storypoints_in_sprint)
+
+    # TODO: does not use story points
+    def get_sprint_stories(self, stories, number_of_storypoints_in_sprint, i):
+        return stories[number_of_storypoints_in_sprint * i:number_of_storypoints_in_sprint * (i + 1)]
+
+    def create_backlog(self, project, sprints, stories_in_sprints):
         backlog = Backlog(project=project)
         backlog.save()
-        for release in project.roadmap.releases:
-            stories = []
-            for epic in release.epics:
-                for constraint in epic.statement.constraints:
-                    story = Story(name=epic.target + ': ' + constraint.text, description=constraint.description, epic=epic, tenant_id=tenant.id, constraint=constraint)
-                    stories.append(story)
-        number_of_sprints = math.ceil(len(stories)/number_of_stories_in_sprint)
-        for i in range(number_of_sprints):
-            end_date = start_date + timedelta(sprint_length_in_days)
-            sprint_name = f'Sprint {i + 1}'
-            sprint = Sprint(name=sprint_name, start_date=start_date, end_date=end_date, board=backlog, tenant_id=tenant.id)
+        for sprint in sprints:
+            sprint.board = backlog
             sprint.save()
-            this_sprint_stories = stories[number_of_stories_in_sprint * i:number_of_stories_in_sprint * (i + 1)]
-            for story in this_sprint_stories:
+            for story in stories_in_sprints[sprint.name]:
                 story.sprint = sprint
                 story.save()
-            backlog.sprints.add(sprint)
-            start_date = end_date + timedelta(days=1)
-        end_date = start_date + timedelta(sprin_length_in_days)
+        return backlog
 
-    def get_redirect_url(self, *args, **kwargs):
-        tenant_id = self.kwargs['tenant_id']
-        domain_id = self.kwargs['domain_id']
-        domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
-        project_id = self.kwargs['project_id']
-        project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
-        backlog = self.create_backlog(domain, project)
-        return reverse('boards:board', kwargs={"tenant_id": tenant_id, "board_type": backlog.board_type, "board_uuid": backlog.uuid})
+    def post(self, request, tenant_id, pk, project_id):
+        context = self.get_context(request, tenant_id, pk, project_id)
+
+        if request.POST.get("create", False):
+            with transaction.atomic():
+                backlog = self.create_backlog(context['domain'], context['project'], context['sprints'], context['stories_in_sprints'])
+                return reverse('compliances:domain-list', kwargs={"tenant_id": tenant_id, "pk": pk})
+        else:
+            return render(request, self.template_name, context)
+
+
+    def get_context(self, request, tenant_id, pk, project_id):
+        tenant = get_object_or_404(Tenant, pk=tenant_id)
+        domain = get_object_or_404(Domain, pk=pk)
+        project = get_object_or_404(Project, pk=project_id)
+        team_sprints_and_stories = self.get_sprints_and_stories(tenant, project)
+        return {
+            'domain': domain,
+            'project': project,
+            'team_sprints_and_stories': team_sprints_and_stories,
+            'tenant': tenant,
+        }
+
+    def get(self, request, tenant_id, pk, project_id):
+        context = self.get_context(request, tenant_id, pk, project_id)
+        return render(request, self.template_name, context)
 
 class DomainProjectCreateRoadmap(TenantMixin, FormView):
     template_name = 'compliances/domain-project-create-roadmap.html'
@@ -125,8 +193,8 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
         for target in targets.order_by('name'):
             for category in Category.objects.filter(domain=domain).order_by('index'):
                 epic_name = str(category) + " " + str(target)
-                epic_names[epic_name] = 1
-        epics = [Epic(name=name) for name in epic_names.keys()]
+                epic_names[epic_name] = category
+        epics = [Epic(name=name, category=category) for name, category in epic_names.items()]
         number_of_releases = math.ceil(len(epics)/epics_in_release)
         releases = []
         release_epics = defaultdict(list)
@@ -247,6 +315,15 @@ def targets(request, project):
     response["HX-Retarget"] = "#targets"
     return response
 
+def teams(request, project):
+    tenant_id = current_tenant_id()
+    teams = Team.objects.filter(project_id=project.id)
+    template = "compliances/_teams.html"
+    domain = project.domains.first()
+    response = render(request, template, {"tenant_id": tenant_id, "project": project, "teams": teams, "domain": domain})
+    response["HX-Retarget"] = "#teams"
+    return response
+
 # TODO: check permissions
 def create_target_for_project(request, tenant_id, pk):
     project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
@@ -258,6 +335,18 @@ def create_target_for_project(request, tenant_id, pk):
         target = form.save()
 
     return targets(request, project)
+
+# TODO: check permissions
+def create_team_for_project(request, tenant_id, pk):
+    project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
+    form = forms.TeamForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        form.instance.tenant_id = tenant_id
+        form.instance.project_id = pk
+        team = form.save()
+
+    return teams(request, project)
 
 def target_section_select(request, tenant_id, target_id, section_id):
     if request.method == "POST":
@@ -271,6 +360,19 @@ def target_section_select(request, tenant_id, target_id, section_id):
         else:
             if qs.exists():
                 qs.delete()
+
+        return HttpResponse("OK")
+    else:
+        raise Http404(f"Invalid method: {request.method}")
+
+def team_category_select(request, tenant_id, team_id, category_id):
+    if request.method == "POST":
+        new_value = (request.POST.get("selected", "off") == "on")
+
+        category = get_object_or_404(Category, tenant_id=tenant_id, id=category_id)
+        team = get_object_or_404(Team, tenant_id=tenant_id, id=team_id)
+
+        category.team_id = team.id
 
         return HttpResponse("OK")
     else:

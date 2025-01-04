@@ -76,29 +76,6 @@ class Section(TenantAwareTreeModelBase):
         return self.section_set(manager="unscoped")
 
     @property
-    def controls(self):
-        return self.control_set(manager="unscoped")
-
-    def __str__(self):
-        return self.title or self.slug
-
-    class Meta:
-        ordering = ('index',)
-        unique_together = ('domain', 'parent', 'index',)
-
-class Control(TenantAwareOrderedModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = models.SlugField(max_length=255, blank=True, null=True)
-    section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
-    docid = models.CharField(max_length=255, blank=True, null=True)
-    title = models.CharField(max_length=255, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-
-    order_field_name = 'index'
-    order_with_respect_to = 'section'
-
-    @property
     def requirements(self):
         return self.requirement_set(manager="unscoped")
 
@@ -107,15 +84,14 @@ class Control(TenantAwareOrderedModelBase):
 
     class Meta:
         ordering = ('index',)
-        unique_together = ('section', 'index',)
+        unique_together = ('domain', 'parent', 'index',)
 
 class Requirement(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     docid = models.CharField(max_length=255, blank=True, null=True)
-    control = models.ForeignKey(Control, on_delete=models.CASCADE, null=True)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
     text = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
     @property
@@ -123,14 +99,14 @@ class Requirement(TenantAwareOrderedModelBase):
         return self.statement_set(manager="unscoped")
 
     order_field_name = 'index'
-    order_with_respect_to = 'control'
+    order_with_respect_to = 'section'
 
     def __str__(self):
         return self.text or self.slug
 
     class Meta:
         ordering = ('index',)
-        unique_together = ('control', 'index',)
+        unique_together = ('section', 'index',)
 
 
 class Definition(TenantAwareOrderedModelBase):
@@ -151,8 +127,13 @@ class Category(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255, blank=True, null=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    team = models.ForeignKey('Team', on_delete=models.CASCADE, null=True, related_name='categories')
 
     order_field_name = 'index'
+
+    @property
+    def constraints(self):
+        return self.constraint_set(manager='unscoped')
 
     def __str__(self):
         return self.name or self.slug
@@ -160,6 +141,10 @@ class Category(TenantAwareOrderedModelBase):
     class Meta:
         ordering = ('index',)
 
+    @classmethod
+    def get_category_by_name(self, tenant_id, domain_id, name):
+        category, created = Category.unscoped.get_or_create(tenant_id=tenant_id, domain_id=domain_id, name=name)
+        return category
 
 class Statement(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -187,6 +172,7 @@ class Team(TenantAwareOrderedModelBase):
     slug = models.SlugField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, related_name='teams')
 
     order_field_name = 'index'
 
@@ -195,7 +181,6 @@ class Team(TenantAwareOrderedModelBase):
 
     class Meta:
         ordering = ('index',)
-
 
 class Constraint(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -240,6 +225,7 @@ class Constraint(TenantAwareOrderedModelBase):
     def get_goal(self):
         return (self.category.slug + '_' + self.slug).replace("-", "_")
 
+
 class ConstraintStatement(TenantAwareOrderedModelBase):
     constraint = models.ForeignKey(Constraint, on_delete=models.CASCADE, null=True, related_name='constraint_statements')
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE, null=True, related_name='constraint_statements')
@@ -250,6 +236,7 @@ class ConstraintStatement(TenantAwareOrderedModelBase):
 
     class Meta:
         ordering = ('index',)
+
 
 class Target(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

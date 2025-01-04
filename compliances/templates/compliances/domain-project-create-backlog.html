@@ -1,0 +1,108 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load constraint %}
+{% block content %}
+<div class="container">
+<section class="app">
+{% breadcrumbs tenant True 'compliances' %}
+<h1 class="mb-3 pb-0">{% trans 'Create a backlog for' %} {{ project.name }}</h1>
+
+<div class="row">
+  <div class="col-6">
+    <p>
+    <small>
+    {% blocktrans %}
+    On this page, you can create an initial project backlog based on the project roadmap. One backlog
+    will be created for all the teams participating in the project. The backlog will contain sprints and 
+    stories based on the project parameters (such as the categories for each team) and the epics on the roadmap. 
+    {% endblocktrans %}
+    </small>
+    </p>
+
+    <p>
+    <small>
+    {% blocktrans %}
+    While the backlog is shared by the teams, each team will have their own sprints. If you filter the
+    backlog by the team, you will get the team backlog, with the stories either assigned to that team
+    or unassigned.
+    {% endblocktrans %}
+    </small>
+    </p>
+
+    <p>
+    <small>
+    {% blocktrans %}
+    The stories will be automatically placed in the the sprints according to the ordering of the epics on the roadmap.
+    Each story will have a size estimation in story points. According to the agile estimation methodology,
+    story point is only relative to other stories, not an absolute number. Each sprint will be filled with 
+    stories so that the maximum story points is not exceeded. You can refine the backlog after it has been created.
+    {% endblocktrans %}
+    </small>
+    </p>
+
+    <form method="post" action="{{request.path}}">
+      <table class="table">
+        <tr>
+          <th>
+            {% trans 'Project prefix' %}
+          </th>
+          <td>
+            {{ project.prefix }}-
+          </td>
+        </tr>
+        <tr>
+          <th>
+            {% trans 'Start date' %}
+          </th>
+          <td>
+            {{ project.start_date }}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            {% trans 'Sprint length (in days)' %}
+          </th>
+          <td>
+            {{ project.sprint_length_in_days }}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            {% trans 'Story points in sprint' %}
+          </th>
+          <td>
+            {{ project.storypoints_in_sprint }}
+          </td>
+        </tr>
+      </table>
+      <input type="submit" name="Preview" class="btn btn-primary" value="{% trans 'Preview' %}"/>
+      <input type="submit" name="create" class="btn btn-primary" value="{% trans 'Create' %}"/>
+    </form>
+  </div>
+  <div class="col-6">
+  {% if teams %}
+    <h3>{% trans 'Preview' %} {{ project.name }}</h3>
+
+    {% for tss in team_sprint_and_stories.values %}
+    <h4>{{ tss.team.name  }}</h4>
+    {% for sprint in tss.sprints %}
+    <h5>{{ sprint.name }}</h5>
+    <small>
+      {{ sprint.team.name }} | {{ sprint.start_date }} &mdash; {{ sprint.end_date }}
+    </small>
+    <ul>
+      {% for story in tss.sprint_stories|dict_key:sprint.name %}
+      <li>
+        {{ story.title }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  {% endif %}
+  </div>
+</div>
+
+</section>
+</div>
+{% endblock %}

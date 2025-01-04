@@ -1,48 +1,33 @@
-  {% if level < 3 %}
-  </ul>
-  <h{{ level }}>
-    {{ section.id }} {{ section.doc }} {{ section.docid }} {{ section.title }}
-  </h{{ level }}>
-  <ul>
-  {% else %}
-  <li>
-    {{ section.id }} {{ section.doc }} {{ section.docid }} {{ section.title }}
-  {% endif %}
-  <ul>
-  {% for subsection in section.subsections.all %}
-    {% include 'compliances/_spec_section.html' with section=subsection level=level|add:"1" only %}
-    <ul>
-    {% for control in subsection.controls.all %}
-      <li id="{{ control.id }}">
+{% if level < 6 %}
+<h{{ level }}>
+  {{ section.id }} {{ section.doc }} {{ section.docid }} {{ section.title }}
+</h{{ level }}>
+{% else %}
+<p>
+{{ section.id }} {{ section.doc }} {{ section.docid }} {{ section.title }}
+</p>
+{% endif %}
+{% for subsection in section.subsections.all %}
+  {% include 'compliances/_spec_section.html' with section=subsection level=level|add:"1" only %}
+  {% for req in subsection.requirements.all %}
+    <div class="card">
+      <div class="card-header">
+        [{{ req.id }}] {{ req.doc_id }} {{ req.text }}
+      </div>
+      <div class="card-body">
+      {% for statement in req.statements.all %}
+        <p id="{{ statement.id }}">
+          [{{ statement.id }}] {{ statement.text }}
         <p>
-          [{{ control.id }}] {{ control.doc_id }} {{ control.text }} {{ control.description }}
-        </p>
         <ul>
-        {% for req in control.requirements.all %}
-          <li id="{{ req.id }}">
-            <p>
-              [{{ req.id }}] {{ req.doc_id }} {{ req.text }}
-            </p>
-            <ul>
-            {% for statement in req.statements.all %}
-            <li id="{{ statement.id }}">
-              [{{ statement.id }}] {{ statement.text }}
-              <ul>
-              {% for constraint in statement.constraints %}
-              <li id="{{ constraint.id }}">
-                [{{ constraint.id }}] {{ constraint.text }}
-              </li>
-              {% endfor %}
-              </ul>
-            </li>
-            {% endfor %}
-            </ul>
+        {% for constraint in statement.constraints %}
+          <li id="{{ constraint.id }}">
+            [{{ constraint.id }}] {{ constraint.text }}
           </li>
         {% endfor %}
         </ul>
-      </li>
-    {% endfor %}
-    </ul>
+      {% endfor %}
+      </div>
+    </div>
   {% endfor %}
-  </ul>
-  </li>
+{% endfor %}

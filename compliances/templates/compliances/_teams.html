@@ -6,7 +6,7 @@
     <tr>
       <th width="300px"></th>
       {% for category in domain.categories.all %}
-      <th width="50px" class=""><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ category.name }}</span></th>
+      <th width="50px" class="align-bottom text-center"><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ category.name }}</span></th>
       {% endfor %}
     </tr>
   </thead>
