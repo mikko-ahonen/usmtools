@@ -12,6 +12,7 @@
         <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
           <ul class="list-unstyled navbar-nav"> {% comment %}bootstrap 4 is broken, and does not allow styling this in the class {% endcomment %}
             {% if user.is_authenticated %}
+            {% if not tenant %}
             <li class="nav-item px-2">
              <h5>
                <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
@@ -19,6 +20,7 @@
                </a>
               </h5>
             </li>
+            {% endif %}
             {% if tenant %}
             <li class="nav-item px-2">
               <h5>
@@ -29,48 +31,9 @@
             </li>
             <li class="nav-item px-2">
               <h5>
-                <a class="nav-link" href="{% url 'workflows:organization-unit-list' tenant.id %}">
-                  <i class="bi bi-diagram-3"></i>&nbsp;&nbsp;{% trans 'Organizations' %}
-                </a>
-              </h5>
-            </li>
-            <li class="nav-item px-2">
-              <h5>
-                <a class="nav-link" href="{% url 'workflows:profile-list' tenant.id %}">
-                  <i class="bi bi-person-badge"></i>
-                  &nbsp;&nbsp;{% trans 'Profiles' %}
-                </a>
-              </h5>
-            </li>
-            <li class="nav-item px-2">
-              <h5>
-                <a class="nav-link" href="{% url 'workflows:customer-list' tenant.id %}">
-                  <img src="{% static 'img/handshake-white.png' %}" width='19px'/>
-                  &nbsp;&nbsp;{% trans 'Customers' %}
-                </a>
-              </h5>
-            </li>
-            <li class="nav-item px-2">
-              <h5>
-                <a class="nav-link" href="{% url 'workflows:training-list' tenant.id %}">
-                  <i class="bi bi-person-workspace"></i>
-                  &nbsp;&nbsp;{% trans 'Trainings' %}
-                </a>
-              </h5>
-            </li>
-            <li class="nav-item px-2">
-              <h5>
-                <a class="nav-link" href="{% url 'workflows:employee-list' tenant.id %}">
-                  <i class="bi bi-people-fill"></i>
-                  &nbsp;&nbsp;{% trans 'Employees' %}
-                </a>
-              </h5>
-            </li>
-            <li class="nav-item px-2">
-              <h5>
-                <a class="nav-link" href="{% url 'projects:project-list' tenant.id %}">
-                  <i class="bi bi-kanban-fill"></i>
-                  &nbsp;&nbsp;{% trans 'Projects' %}
+                <a class="nav-link" href="{% url 'mir:entity-list' tenant.id %}">
+                  <i class="bi bi-diagram-3"></i>
+                  &nbsp;&nbsp;{% trans 'Infrastructure' %}
                 </a>
               </h5>
             </li>
@@ -78,7 +41,7 @@
               <h5>
                 <a class="nav-link" href="{% url 'compliances:domain-list' tenant.id %}">
                   <i class="bi bi-ui-checks"></i>
-                  &nbsp;&nbsp;{% trans 'Compliances' %}
+                  &nbsp;&nbsp;{% trans 'Compliance' %}
                 </a>
               </h5>
             </li>

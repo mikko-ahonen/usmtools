@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     #'components',
     'onboarding',
+    'mir',
     'workflows',
     'compliances',
     #'xref',

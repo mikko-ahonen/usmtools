@@ -11,8 +11,7 @@ from tree_queries.forms import TreeNodeChoiceField
 #from dal import autocomplete
 #from dal_select2_taggit.widgets import TaggitSelect2
 
-from .models import Workflow, Activity, Responsible, Profile, Service, WorkInstruction, Customer, OrganizationUnit, Share, Tenant, ServiceCustomer, Training, Employee
-from .tenant import current_tenant_id
+from .models import Workflow, Activity, Responsible, Profile, Service, WorkInstruction, Customer, OrganizationUnit, Share, Tenant, ServiceCustomer
 
 
 class UUIDModelChoiceField(ModelChoiceField):
@@ -157,48 +156,7 @@ class CustomerCreateOrUpdate(ModelForm):
         self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
 
 
-class TrainingCreateOrUpdate(ModelForm):
-
-    class Meta:
-        model = Training
-        fields = ['name', 'description', 'tags']
-        widgets = {
-            'description': Textarea(attrs={'rows': 4}),
-            #'tags': TaggitSelect2("/foobar"),
-        }
-
-    def __init__(self, *args, **kwargs):
-        tenant_id = kwargs.pop('tenant_id')
-        #self.__class__.Meta.widgets['tags'] = autocomplete.TaggitSelect2(reverse('workflows:tag-autocomplete', kwargs={"tenant_id": tenant_id}))
-        super().__init__(*args, **kwargs)
-        print(self.fields.keys())
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
-
-
-class EmployeeCreateOrUpdate(ModelForm):
-
-    class Meta:
-        model = Employee
-        fields = ['first_name', 'last_name', 'title', 'description', 'email', 'tags']
-        widgets = {
-            'description': Textarea(attrs={'rows': 4}), 
-            #'tags': TaggitSelect2("/foobar"),
-        }
-
-    def __init__(self, *args, **kwargs):
-        tenant_id = kwargs.pop('tenant_id')
-        #self.__class__.Meta.widgets['tags'] = autocomplete.TaggitSelect2(reverse('workflows:tag-autocomplete', kwargs={"tenant_id": tenant_id}))
-        super().__init__(*args, **kwargs)
-        pprint.pprint(self.__class__.Meta)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
-
-
 class ResponsibleCreateOrUpdate(ModelForm):
-
     profile_choices = [('none', 'none'), ('use', 'use'), ('create', 'create')]
     use_existing_profile = ChoiceField(widget=RadioSelect(choices=profile_choices), choices=profile_choices, required=False) # initial value as radio checked on the template
     profile = ModelChoiceField(

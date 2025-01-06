@@ -99,7 +99,6 @@ class ProjectDashboard(TenantMixin, DetailView):
         tenant_id = self.kwargs.get('tenant_id')
         context = super().get_context_data(*args, **kwargs)
         project = self.get_object()
-        breakpoint()
         context['domain'] = project.domains.first()
         return context
 

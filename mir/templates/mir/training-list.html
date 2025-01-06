@@ -1,0 +1,25 @@
+{% extends "mir/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'trainings' %}
+{% include 'mir/fragments/mir_tabs.html' %}
+<h3>{% trans 'Trainings' %}</h3>
+{% for training in trainings %}
+  <p>
+    <h5>{{ training }} <a class="btn btn-primary open-popup" data-popup-url="{% url 'mir:training-update' tenant.id training.id %}" href="{% url 'mir:training-update' tenant.id training.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-primary open-popup" data-popup-url="{% url 'mir:training-delete' tenant.id training.id %}" href="{% url 'mir:training-delete' tenant.id training.id %}"><i class="bi bi-trash3"></i></a></h5>
+  </p>
+{% empty %}
+  <p>
+    {% trans 'You have not defined any trainings yet.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'mir:training-create' tenant.id %}" href="{% url 'mir:training-create' tenant.id %}">{% trans 'Create a new training' %}</a>
+</p>
+</div>
+</section>
+{% include 'mir/fragments/modal.html' %}
+{% endblock %}

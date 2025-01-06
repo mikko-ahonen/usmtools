@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 
 from . import forms
 
+from workflows.models import Tenant
 from .models import Training, Employee
 
 logger = logging.getLogger(__name__)
@@ -59,13 +60,13 @@ class UpdateModifiedByMixin():
 
 class TrainingList(TenantMixin, ListView):
     model = Training
-    template_name = 'workflows/training-list.html'
+    template_name = 'mir/training-list.html'
     context_object_name = 'trainings'
 
 
 class TrainingUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     model = Training
-    template_name = 'workflows/modals/training-create-or-update.html'
+    template_name = 'mir/modals/training-create-or-update.html'
     form_class = forms.TrainingCreateOrUpdate
 
     def get_form_kwargs(self):
@@ -76,11 +77,11 @@ class TrainingUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:training-list', kwargs={'tenant_id': tenant_id})
+        return reverse_lazy('mir:training-list', kwargs={'tenant_id': tenant_id})
 
 class TrainingCreate(TenantMixin, CreateView):
     model = Training
-    template_name = 'workflows/modals/training-create-or-update.html'
+    template_name = 'mir/modals/training-create-or-update.html'
     context_object_name = 'training'
     form_class = forms.TrainingCreateOrUpdate
 
@@ -102,17 +103,17 @@ class TrainingCreate(TenantMixin, CreateView):
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:training-list', kwargs={'tenant_id': tenant_id})
+        return reverse_lazy('mir:training-list', kwargs={'tenant_id': tenant_id})
 
 
 class TrainingDelete(TenantMixin, DeleteView):
     model = Training
-    template_name = 'workflows/modals/training-delete.html'
+    template_name = 'mir/modals/training-delete.html'
     context_object_name = 'training'
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:training-list', kwargs={'tenant_id': tenant_id})
+        return reverse_lazy('mir:training-list', kwargs={'tenant_id': tenant_id})
 
     
 #######################################################################################################################
@@ -122,13 +123,13 @@ class TrainingDelete(TenantMixin, DeleteView):
 
 class EmployeeList(TenantMixin, ListView):
     model = Employee
-    template_name = 'workflows/employee-list.html'
+    template_name = 'mir/employee-list.html'
     context_object_name = 'employees'
 
 
 class EmployeeUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     model = Employee
-    template_name = 'workflows/modals/employee-create-or-update.html'
+    template_name = 'mir/modals/employee-create-or-update.html'
     form_class = forms.EmployeeCreateOrUpdate
 
     def get_form_kwargs(self):
@@ -139,11 +140,11 @@ class EmployeeUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:employee-list', kwargs={'tenant_id': tenant_id})
+        return reverse_lazy('mir:employee-list', kwargs={'tenant_id': tenant_id})
 
 class EmployeeCreate(TenantMixin, CreateView):
     model = Employee
-    template_name = 'workflows/modals/employee-create-or-update.html'
+    template_name = 'mir/modals/employee-create-or-update.html'
     context_object_name = 'employee'
     form_class = forms.EmployeeCreateOrUpdate
 
@@ -165,14 +166,14 @@ class EmployeeCreate(TenantMixin, CreateView):
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:employee-list', kwargs={'tenant_id': tenant_id})
+        return reverse_lazy('mir:employee-list', kwargs={'tenant_id': tenant_id})
 
 
 class EmployeeDelete(TenantMixin, DeleteView):
     model = Employee
-    template_name = 'workflows/modals/employee-delete.html'
+    template_name = 'mir/modals/employee-delete.html'
     context_object_name = 'employee'
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:employee-list', kwargs={'tenant_id': tenant_id})
+        return reverse_lazy('mir:employee-list', kwargs={'tenant_id': tenant_id})

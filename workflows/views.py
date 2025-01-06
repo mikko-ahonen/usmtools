@@ -27,7 +27,7 @@ from django.contrib import messages
 from .raci import RACI
 
 from . import forms
-from .models import Service, Workflow, Step, Profile, Activity, Responsible, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer, Training, Employee
+from .models import Service, Workflow, Step, Profile, Activity, Responsible, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer
 from .export import export_as_usm_dif
 
 logger = logging.getLogger(__name__)
@@ -106,24 +106,6 @@ class GetCustomerMixin():
         if self.customer is None:
             self.customer = Customer.objects.get(pk=customer_id)
         return self.customer
-
-
-class GetTrainingMixin():
-    training = None
-
-    def get_training(self, training_id):
-        if self.training is None:
-            self.training = Training.objects.get(pk=training_id)
-        return self.training
-
-
-class GetEmployeeMixin():
-    employee = None
-
-    def get_employee(self, employee_id):
-        if self.employee is None:
-            self.employee = Employee.objects.get(pk=employee_id)
-        return self.employee
 
 
 class GetServiceCustomerMixin():
@@ -442,132 +424,6 @@ class CustomerDelete(TenantMixin, DeleteView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         return reverse_lazy('workflows:customer-list', kwargs={'tenant_id': tenant_id})
-
-    
-#######################################################################################################################
-#
-# Training
-#
-
-class TrainingList(TenantMixin, ListView):
-    model = Training
-    template_name = 'workflows/training-list.html'
-    context_object_name = 'trainings'
-
-
-class TrainingUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
-    model = Training
-    template_name = 'workflows/modals/training-create-or-update.html'
-    form_class = forms.TrainingCreateOrUpdate
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        tenant_id = self.kwargs.get('tenant_id')
-        kwargs['tenant_id'] = tenant_id
-        return kwargs
-
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:training-list', kwargs={'tenant_id': tenant_id})
-
-class TrainingCreate(TenantMixin, CreateView):
-    model = Training
-    template_name = 'workflows/modals/training-create-or-update.html'
-    context_object_name = 'training'
-    form_class = forms.TrainingCreateOrUpdate
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        tenant_id = self.kwargs.get('tenant_id')
-        kwargs['tenant_id'] = tenant_id
-        return kwargs
-
-    def form_valid(self, form):
-        tenant = self.get_tenant()
-        self.object = form.save(commit=False)
-        self.object.tenant = tenant
-        self.object.created_by = self.request.user
-        self.object.modified_by = self.request.user
-        self.object.save()
-        form.save_m2m()
-        return HttpResponseRedirect(self.get_success_url()) 
-
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:training-list', kwargs={'tenant_id': tenant_id})
-
-
-class TrainingDelete(TenantMixin, DeleteView):
-    model = Training
-    template_name = 'workflows/modals/training-delete.html'
-    context_object_name = 'training'
-
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:training-list', kwargs={'tenant_id': tenant_id})
-
-    
-#######################################################################################################################
-#
-# Employee
-#
-
-class EmployeeList(TenantMixin, ListView):
-    model = Employee
-    template_name = 'workflows/employee-list.html'
-    context_object_name = 'employees'
-
-
-class EmployeeUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
-    model = Employee
-    template_name = 'workflows/modals/employee-create-or-update.html'
-    form_class = forms.EmployeeCreateOrUpdate
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        tenant_id = self.kwargs.get('tenant_id')
-        kwargs['tenant_id'] = tenant_id
-        return kwargs
-
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:employee-list', kwargs={'tenant_id': tenant_id})
-
-class EmployeeCreate(TenantMixin, CreateView):
-    model = Employee
-    template_name = 'workflows/modals/employee-create-or-update.html'
-    context_object_name = 'employee'
-    form_class = forms.EmployeeCreateOrUpdate
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        tenant_id = self.kwargs.get('tenant_id')
-        kwargs['tenant_id'] = tenant_id
-        return kwargs
-
-    def form_valid(self, form):
-        tenant = self.get_tenant()
-        self.object = form.save(commit=False)
-        self.object.tenant = tenant
-        self.object.created_by = self.request.user
-        self.object.modified_by = self.request.user
-        self.object.save()
-        form.save_m2m()
-        return HttpResponseRedirect(self.get_success_url()) 
-
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:employee-list', kwargs={'tenant_id': tenant_id})
-
-
-class EmployeeDelete(TenantMixin, DeleteView):
-    model = Employee
-    template_name = 'workflows/modals/employee-delete.html'
-    context_object_name = 'employee'
-
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:employee-list', kwargs={'tenant_id': tenant_id})
 
     
 #######################################################################################################################

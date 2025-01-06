@@ -9,6 +9,11 @@ from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
 
 from workflows.tenant_models import Tenant, TenantAwareOrderedModelBase, TenantAwareModelBase, TenantAwareTreeModelBase
 
+class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
+
 class Training(TenantAwareModelBase):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

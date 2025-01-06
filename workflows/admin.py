@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from ordered_model.admin import OrderedModelAdmin
 
-from .models import OrganizationUnit, Service, Workflow, Profile, Step, Activity, Responsible, Account, WorkInstruction, Tenant, Customer, Training, Employee, TrainingOrganized, TrainingAttended
+from .models import OrganizationUnit, Service, Workflow, Profile, Step, Activity, Responsible, Account, WorkInstruction, Tenant, Customer
 
 
 class BaseAdmin(admin.ModelAdmin):
@@ -73,18 +73,6 @@ class WorkInstructionAdmin(BaseAdmin):
 class CustomerAdmin(BaseAdmin):
     list_display = ('tenant', 'id', 'name', 'customer_type')
 
-class TrainingAdmin(BaseAdmin):
-    list_display = ('id', 'name')
-
-class EmployeeAdmin(BaseAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'email')
-
-class TrainingAttendedAdmin(BaseAdmin):
-    list_display = ('id', 'employee', 'date', 'training')
-
-class TrainingOrganizedAdmin(BaseAdmin):
-    list_display = ('id', 'training', 'date')
-
 admin.site.register(Tenant, TenantAdmin)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(OrganizationUnit, OrganizationUnitAdmin)
@@ -96,7 +84,3 @@ admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Responsible, ResponsibleAdmin)
 admin.site.register(WorkInstruction, WorkInstructionAdmin)
 admin.site.register(Customer, CustomerAdmin)
-admin.site.register(Training, TrainingAdmin)
-admin.site.register(Employee, EmployeeAdmin)
-admin.site.register(TrainingOrganized, TrainingOrganizedAdmin)
-admin.site.register(TrainingAttended, TrainingAttendedAdmin)

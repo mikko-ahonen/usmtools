@@ -55,7 +55,6 @@ def create_board(request, tenant_id, board_type):
 
 
 def board(request, tenant_id, board_type, board_uuid, partial=False):
-    breakpoint()
     board_cls = get_board_class_by_type(board_type)
     board = get_object_or_404(
         board_cls.unscoped.filter(tenant_id=tenant_id).prefetch_related("lists__tasks"), uuid=board_uuid

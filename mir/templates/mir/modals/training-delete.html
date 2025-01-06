@@ -1,4 +1,4 @@
-{% extends 'workflows/modals/modal-base.html' %}
+{% extends 'mir/modals/modal-base.html' %}
 {% block content %}
 {% load i18n %}
 <h3>{% trans 'Delete training' %} {{ training }}</h3>
@@ -7,7 +7,7 @@
       {% trans 'Are you sure you want to delete it?' %}
     </p>
     <p> 
-      <a class="button btn btn-secondary" href="{% url 'workflows:training-list' tenant.id %}">Cancel</a>
+      <a class="button btn btn-secondary" href="{% url 'mir:training-list' tenant.id %}">Cancel</a>
       <input class="button btn btn-primary" type="submit" value="OK">
     </p>
 </form>

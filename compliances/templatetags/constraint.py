@@ -7,7 +7,7 @@ register = template.Library()
 from ..models import Constraint
 
 @register.filter
-def constraint_status(constraint):
+def foo_constraint_status(constraint):
     status = constraint.get_status_display()
     css_class = ''
     if constraint.status in [Constraint.STATUS_NEW, Constraint.STATUS_IMPLEMENTED, Constraint.STATUS_NON_COMPLIANT]:
