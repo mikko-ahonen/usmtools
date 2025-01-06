@@ -41,7 +41,7 @@ class DomainProjectSetup(TenantMixin, DetailView):
         domain = get_object_or_404(Domain, tenant_id=tenant_id, id=domain_id)
         context['targets'] = Target.objects.filter(project_id=project_id)
         context['root_sections'] = domain.root_sections.order_by('-doc', 'index')
-        context['ordered_categories'] = domain.categories.filter(tenant_id=tenant_id, domain=domain_id).order_by('index')
+        context['ordered_categories'] = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id).order_by('index')
         context['teams'] = Team.objects.filter(project_id=project_id)
         return context
 
@@ -256,7 +256,7 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
                             epic.index = epic_idx
                             epic.save()
 
-                return redirect("boards:board", tenant_id=tenant.id, board_type=Board.BOARD_TYPE_ROADMAP, board_uuid=roadmap.uuid)
+                return redirect("compliances:domain-list", tenant_id=tenant.id)
             else:
                 context = {
                     'form': form,
@@ -388,7 +388,11 @@ def team_category_select(request, tenant_id, team_id, category_id):
         category = get_object_or_404(Category, tenant_id=tenant_id, id=category_id)
         team = get_object_or_404(Team, tenant_id=tenant_id, id=team_id)
 
-        category.team_id = team.id
+        if new_value:
+            category.team_id = team.id
+        else:
+            category.team_id = None
+        category.save()
 
         return HttpResponse("OK")
     else:

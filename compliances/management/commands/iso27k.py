@@ -119,13 +119,18 @@ class Command(BaseCommand):
             name = random.choice(names)
         except IndexError:
             pass
-            breakpoint()
         category, created = Category.unscoped.get_or_create(tenant_id=tenant.id, domain_id=domain.id, name=name)
         return category
+
+    def create_categories(self, tenant, domain):
+        for i, name in enumerate("CTM CHM MIR INC OPS RIM TECH SDC ORG SERV".split()):
+            Category.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, name=name, index=i)
+        Category.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, name="No category", index=9999)
 
     def update_structures(self, tenant):
         now = timezone.now()
         domain, _ = Domain.unscoped.update_or_create(tenant=tenant, slug="iso-27001", defaults={"name": "ISO 27001", "description": "ISO 27001 V.2022"})
+        self.create_categories(tenant, domain)
         parent_sections = {}
         df = pd.read_excel("fixtures/iso27k/iso27k.xlsx", sheet_name=1, dtype=str, header=None)
         if True:
