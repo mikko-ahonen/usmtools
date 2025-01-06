@@ -1,0 +1,29 @@
+{% block modal %}
+<div id="popup" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-{{ modal_size|default:'lg' }}">
+    <div class="modal-content">
+      <div class="modal-body"></div>
+        {% comment %}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">
+          {% trans 'Close' %}
+        </button>
+      </div>
+        {% endcomment %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block modal-scripts %}
+<script>
+  $(document).on("click", ".open-popup", function (e) {
+    e.preventDefault();
+    var $popup = $("#popup");
+    var popup_url = $(this).data("popup-url");
+    $(".modal-body", $popup).load(popup_url, function () {
+      $popup.modal("show");
+    });
+  });
+</script>
+{% endblock modal-scripts %}
