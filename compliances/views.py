@@ -12,12 +12,14 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.db import transaction
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from projects.models import Project, Release, Epic, Roadmap, Story, Backlog
+from projects.models import Project, Release, Epic, Roadmap, Story, Backlog, Sprint
 from boards.models import Board
 from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, Team
 from . import forms
@@ -83,6 +85,7 @@ class DomainConstraints(TenantMixin, ListView):
         context['domain'] = domain
         return context
 
+@method_decorator(csrf_exempt, name='dispatch')
 class DomainProjectCreateBacklog(TenantMixin, TemplateView):
     template_name = 'compliances/domain-project-create-backlog.html'
     #form_class = forms.BacklogCreateForm
@@ -96,7 +99,7 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
             for epic in release.epics.all().order_by('index'):
                 # No category => Create generic story for all the teams
                 if not epic.category:
-                    for team in project.teams:
+                    for team in project.teams.all():
                         story = Story(tenant=tenant, name=_('Common') + ': ' + epic.name[:100], description=epic.description, epic=epic, tenant_id=tenant.id, constraint=None)
                         team_id = str(team.id)
                         team_stories[team_id].append(story)
@@ -108,7 +111,7 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
 
         teams = defaultdict(dict)
 
-        for team in project.teams:
+        for team in project.teams.all():
             team_id = str(team.id)
             team_sprints, team_sprint_stories = self.get_team_sprints_and_stories(tenant, project, team, team_stories[team_id])
             teams[team_id] = {
@@ -125,6 +128,8 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
 
         start_date = None
         end_date = None
+        sprints = []
+        sprint_stories = defaultdict(list)
         for i in range(number_of_sprints):
             if not start_date:
                 start_date = project.start_date
@@ -149,15 +154,16 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
     def get_sprint_stories(self, stories, number_of_storypoints_in_sprint, i):
         return stories[number_of_storypoints_in_sprint * i:number_of_storypoints_in_sprint * (i + 1)]
 
-    def create_backlog(self, project, sprints, stories_in_sprints):
-        backlog = Backlog(project=project)
+    def create_backlog(self, domain, project, team_sprints_and_stories):
+        backlog = Backlog(tenant_id=domain.tenant_id, project=project)
         backlog.save()
-        for sprint in sprints:
-            sprint.board = backlog
-            sprint.save()
-            for story in stories_in_sprints[sprint.name]:
-                story.sprint = sprint
-                story.save()
+        for tss in team_sprints_and_stories.values():
+            for sprint in tss['sprints']:
+                sprint.board = backlog
+                sprint.save()
+                for story in tss['sprint_stories'][sprint.name]:
+                    story.list = sprint
+                    story.save()
         return backlog
 
     def post(self, request, tenant_id, pk, project_id):
@@ -165,8 +171,8 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
 
         if request.POST.get("create", False):
             with transaction.atomic():
-                backlog = self.create_backlog(context['domain'], context['project'], context['sprints'], context['stories_in_sprints'])
-                return reverse('compliances:domain-list', kwargs={"tenant_id": tenant_id, "pk": pk})
+                backlog = self.create_backlog(context['domain'], context['project'], context['team_sprints_and_stories'])
+                return redirect(reverse('compliances:domain-list', kwargs={"tenant_id": tenant_id}))
         else:
             return render(request, self.template_name, context)
 

@@ -33,8 +33,8 @@ class Release(List):
     list_type = List.LIST_TYPE_RELEASE
     board = models.ForeignKey('Roadmap', on_delete=models.CASCADE, related_name="lists")
 
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
 
     @property
     def epics(self):
@@ -50,9 +50,10 @@ class Sprint(List, Board):
     board_type = Board.BOARD_TYPE_SPRINT
     list_type = List.LIST_TYPE_SPRINT
     board = models.ForeignKey('Backlog', on_delete=models.CASCADE, related_name="lists")
+    team = models.ForeignKey('compliances.Team', null=True, blank=True, on_delete=models.PROTECT)
 
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
 
     @property
     def stories(self):
@@ -132,8 +133,8 @@ class Backlog(Board):
         related_name='backlog',
     )
 
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
 
     @property
     def sprints(self):
