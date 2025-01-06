@@ -157,7 +157,7 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
     def create_backlog(self, domain, project, team_sprints_and_stories):
         backlog = Backlog(tenant_id=domain.tenant_id, project=project)
         backlog.save()
-        for tss in team_sprints_and_stories.values():
+        for tss in team_sprints_and_stories:
             for sprint in tss['sprints']:
                 sprint.board = backlog
                 sprint.save()
@@ -168,6 +168,7 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
 
     def post(self, request, tenant_id, pk, project_id):
         context = self.get_context(request, tenant_id, pk, project_id)
+        breakpoint()
 
         if request.POST.get("create", False):
             with transaction.atomic():
@@ -185,7 +186,7 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
         return {
             'domain': domain,
             'project': project,
-            'team_sprints_and_stories': team_sprints_and_stories,
+            'team_sprints_and_stories': team_sprints_and_stories.values(),
             'tenant': tenant,
         }
 

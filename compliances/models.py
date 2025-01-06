@@ -230,6 +230,10 @@ class Constraint(TenantAwareOrderedModelBase):
     order_field_name = 'index'
 
     @property
+    def stories(self):
+        return self.story_set(manager='unscoped')
+
+    @property
     def statements(self):
         return [cs.statement for cs in self.constraint_statements(manager='unscoped').all()]
 

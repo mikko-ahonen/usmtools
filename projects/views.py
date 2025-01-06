@@ -95,6 +95,13 @@ class ProjectDashboard(TenantMixin, DetailView):
     template_name = 'projects/project-dashboard.html'
     context_object_name = 'project'
 
+    def get_context_data(self, *args, **kwargs):
+        tenant_id = self.kwargs.get('tenant_id')
+        context = super().get_context_data(*args, **kwargs)
+        project = self.get_object()
+        breakpoint()
+        context['domain'] = project.domains.first()
+        return context
 
 class ProjectRoadmap(TenantMixin, DetailView):
     model = Project
