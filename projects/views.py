@@ -87,6 +87,36 @@ class ProjectDetail(TenantMixin, DetailView):
     context_object_name = 'project'
 
 
+class ProjectDashboard(TenantMixin, DetailView):
+    model = Project
+    template_name = 'projects/project-dashboard.html'
+    context_object_name = 'project'
+
+
+class ProjectRoadmap(TenantMixin, DetailView):
+    model = Project
+    template_name = 'projects/project-roadmap.html'
+    context_object_name = 'project'
+
+
+class ProjectBacklog(TenantMixin, DetailView):
+    model = Project
+    template_name = 'projects/project-backlog.html'
+    context_object_name = 'project'
+
+
+class ProjectSprint(TenantMixin, DetailView):
+    model = Project
+    template_name = 'projects/project-sprint.html'
+    context_object_name = 'project'
+
+
+class ProjectReports(TenantMixin, DetailView):
+    model = Project
+    template_name = 'projects/project-reports.html'
+    context_object_name = 'project'
+
+
 class ProjectUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     model = Project
     template_name = 'projects/modals/project-create-or-update.html'

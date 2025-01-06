@@ -13,6 +13,8 @@ from boards.models import Board, List, Task
 def get_board_class_by_type(board_type):
     if board_type == 'roadmap':
         return apps.get_model('projects', 'Roadmap')
+    elif board_type == 'backlog':
+        return apps.get_model('projects', 'Backlog')
     else:
         raise ValueError(f"Invalid board type: {board_type}")
 
@@ -53,9 +55,10 @@ def create_board(request, tenant_id, board_type):
 
 
 def board(request, tenant_id, board_type, board_uuid, partial=False):
+    breakpoint()
     board_cls = get_board_class_by_type(board_type)
     board = get_object_or_404(
-        board_cls.objects.all().prefetch_related("lists__tasks"), uuid=board_uuid
+        board_cls.unscoped.filter(tenant_id=tenant_id).prefetch_related("lists__tasks"), uuid=board_uuid
     )
     template = "boards/_board.html" if partial else "boards/board.html"
     tenant_id = current_tenant_id()

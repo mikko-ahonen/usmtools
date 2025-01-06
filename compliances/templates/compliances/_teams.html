@@ -5,8 +5,8 @@
   <thead>
     <tr>
       <th width="300px"></th>
-      {% for category in domain.categories.all %}
-      <th width="50px" class="align-bottom text-center"><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ category.name }}</span></th>
+      {% for category in ordered_categories %}
+        <th width="50px" class="align-bottom text-center"><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ category.name }}</span></th>
       {% endfor %}
     </tr>
   </thead>
@@ -16,7 +16,7 @@
       <td>
         {{ team.name }}
       </td>
-      {% for category in domain.categories.all %}
+      {% for category in ordered_categories %}
       <td width="50px" class="align-bottom text-center">
         <div class="form-check">
           <input class="form-check-input border-dark" type="checkbox" name="selected" {{ team|team_category_checked:category }} hx-post="{% url 'compliances:team-category-select' tenant_id team.id category.id %}" hx-swap="none"/>

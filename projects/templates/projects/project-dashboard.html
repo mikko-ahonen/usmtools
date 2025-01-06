@@ -2,11 +2,18 @@
 {% load i18n %}
 {% load breadcrumbs %}
 {% load dict_key %}
+{% load compliances %}
 {% block content %}
 <section class="app">
 <div class="container">
-{% breadcrumbs tenant True 'compliances' %}
-<h1>{% trans 'Project' %} {{ project.name }}</h1>
+{% breadcrumbs tenant True 'projects' project 'dashboard' %}
+
+{% include 'projects/fragments/tabs.html' %}
+
+{% if domain %}
+{% include 'projects/fragments/audit_dashboard.html' with sections=domain.root_sections only %}
+{% endif %}
+
 {% if project.roadmap %}
   <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.roadmap.board_type project.roadmap.uuid %}">{% trans 'Roadmap' %}</a>
 {% endif %}

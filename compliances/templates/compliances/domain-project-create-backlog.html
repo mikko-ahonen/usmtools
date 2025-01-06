@@ -81,24 +81,25 @@
     </form>
   </div>
   <div class="col-6">
-  {% if teams %}
-    <h3>{% trans 'Preview' %} {{ project.name }}</h3>
+  {% if team_sprints_and_stories %}
+    <h3>{% trans 'Preview' %}</h3>
 
-    {% for tss in team_sprint_and_stories.values %}
+    {% for tss in team_sprints_and_stories %}
     <h4>{{ tss.team.name  }}</h4>
     {% for sprint in tss.sprints %}
-    <h5>{{ sprint.name }}</h5>
-    <small>
-      {{ sprint.team.name }} | {{ sprint.start_date }} &mdash; {{ sprint.end_date }}
-    </small>
-    <ul>
-      {% for story in tss.sprint_stories|dict_key:sprint.name %}
-      <li>
-        {{ story.title }}
-      </li>
-      {% endfor %}
-    </ul>
+      <h5>{{ sprint.name }}</h5>
+      <small>
+        {{ sprint.team.name }} | {{ sprint.start_date }} &mdash; {{ sprint.end_date }}
+      </small>
+      <ul>
+        {% for story in tss.sprint_stories|dict_key:sprint.name %}
+        <li>
+          {{ story.name }}
+        </li>
+        {% endfor %}
+      </ul>
     {% endfor %}
+  {% endfor %}
   {% endif %}
   </div>
 </div>

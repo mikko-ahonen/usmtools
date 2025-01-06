@@ -6,25 +6,28 @@
 <section class="app">
 <div class="container">
 {% breadcrumbs tenant True 'compliances' %}
-<h3>{% trans 'Projects' %}</h3>
+<h1>{% trans 'Projects' %}</h1>
   {% for project in projects %}
   <p>
-    <h5>{{ project.name }}</h5>
-    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-update' tenant.id project.id %}" href="{% url 'projects:project-update' tenant.id project.id %}">{% trans 'Edit' %}</a>
-    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-delete' tenant.id project.id %}" href="{% url 'projects:project-delete' tenant.id project.id %}">{% trans 'Delete' %}</a>
+    <h3>
+      <a href="{% url 'projects:project-detail' tenant.id project.id %}">{{ project.name }}</a>
+      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-update' tenant.id project.id %}" href="{% url 'projects:project-update' tenant.id project.id %}"><i class="bi bi-pencil"></i></a>
+      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-delete' tenant.id project.id %}" href="{% url 'projects:project-delete' tenant.id project.id %}"><i class="bi bi-trash3"></i></a>
+    </h3>
     {% if project.roadmap %}
-    <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.roadmap.board_type project.roadmap.uuid %}">{% trans 'Roadmap' %}</a>
+      {{ project.roadmap }}
+      <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.roadmap.board_type project.roadmap.uuid %}">{% trans 'Roadmap' %}</a>
     {% endif %}
     {% if project.backlog %}
-    <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.board.board_type project.board.id %}">{% trans 'Backlog' %}</a>
+      <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.backlog.board_type project.backlog.uuid %}">{% trans 'Backlog' %}</a>
     {% endif %}
-    {% if project.sprint %}
-    <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.board.board_type project.board.id %}">{% trans 'Sprint' %}</a>
+    {% if project.current_sprint %}
+      <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.current_sprint.board_type project.current_sprint.uuid %}">{% trans 'Sprint' %}</a>
     {% endif %}
   </p>
   {% endfor %}
   <p>
-    <a class="btn btn-primary open-popup" data-popup-url="{% url 'projects:project-create' tenant.id %}" href="{% url 'projects:project-create' tenant.id %}">{% trans 'Create a new project' %}</a>
+    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-create' tenant.id %}" href="{% url 'projects:project-create' tenant.id %}">{% trans 'Create a new project' %}</a>
   </p>
 </div>
 </section>

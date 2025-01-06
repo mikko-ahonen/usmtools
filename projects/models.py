@@ -80,6 +80,19 @@ class Story(Task):
     epic = models.ForeignKey(Epic, null=True, blank=True, on_delete=models.SET_NULL)
     constraint = models.ForeignKey('compliances.Constraint', null=True, blank=True, on_delete=models.PROTECT)
 
+    STATUS_NEW = "new"
+    STATUS_ONGOING = "ongoing"
+    STATUS_READY = "ready"
+    STATUS_CLOSED = "closed"
+    STATUSES = [
+        (STATUS_NEW, _("New")),
+        (STATUS_READY, _("Ready")),
+        (STATUS_ONGOING, _("Ongoing")),
+        (STATUS_CLOSED, _("Closed")),
+    ]
+    status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
+
+
     class Meta(Task.Meta):
         verbose_name = "story"
         verbose_name_plural = "stories"

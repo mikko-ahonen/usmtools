@@ -1,0 +1,12 @@
+{% load compliances %}
+{% for section in sections.all %}
+<fieldset class="border rounded-3 p-3">
+  <legend class="float-none w-auto px-3">
+    {{ section.title }}
+  </legend>
+  {% for requirement in section.requirements.all %}
+    {{ requirement | requirement_status }}
+  {% endfor %}
+  {% include 'projects/fragments/audit_dashboard.html' with sections=section.subsections only %}
+</fieldset>
+{% endfor %}

@@ -3,6 +3,7 @@ from django.utils.html import mark_safe
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from workflows.models import Service, Workflow
+from projects.models import Project
 
 register = template.Library()
 
@@ -50,7 +51,7 @@ def breadcrumb_item(name, translate=False, active=False, url=None):
     return f'<li class="breadcrumb-item {active_class}" {aria_current}>{name_with_url}</a></li>'
 
 @register.simple_tag
-def breadcrumbs(tenant=None, edit=False, page=None, entity=None):
+def breadcrumbs(tenant=None, edit=False, page=None, entity=None, subpage=None):
     #text = mode(edit, tenant)
     text = ''
     text += header()
@@ -64,11 +65,19 @@ def breadcrumbs(tenant=None, edit=False, page=None, entity=None):
         text += breadcrumb_item('Profiles', translate=True, active=True, url=reverse('workflows:profile-list', kwargs={'tenant_id': tenant.id}))
     elif page == 'customers':
         text += breadcrumb_item('Customers', translate=True, active=True, url=reverse('workflows:customer-list', kwargs={'tenant_id': tenant.id}))
+    elif page == 'projects':
+        text += breadcrumb_item('Projects', translate=True, active=True, url=reverse('projects:project-list', kwargs={'tenant_id': tenant.id}))
+    elif page == 'compliances':
+        text += breadcrumb_item('Compliances', translate=True, active=True, url=reverse('compliances:domain-list', kwargs={'tenant_id': tenant.id}))
     else:
         text += breadcrumb_item('Others', translate=True, active=True, url=reverse('workflows:service-list', kwargs={'tenant_id': tenant.id}))
 
     if isinstance(entity, Service):
         text += breadcrumb_item(_("Service") + ": " + str(entity), active=True, url=reverse('workflows:service-detail', kwargs={'tenant_id': tenant.id, 'pk': entity.id}))
+
+    if isinstance(entity, Project):
+        text += breadcrumb_item(_("Project") + ": " + str(entity), active=True, url=reverse('projects:project-detail', kwargs={'tenant_id': tenant.id, 'pk': entity.id}))
+
     if isinstance(entity, Workflow):
         if tenant and entity and entity.service:
             service_detail_url = reverse('workflows:service-detail', kwargs={'tenant_id': tenant.id, 'pk': entity.service.id})

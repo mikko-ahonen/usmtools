@@ -95,6 +95,10 @@ class Requirement(TenantAwareOrderedModelBase):
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
     @property
+    def statement(self):
+        return self.statement_set(manager="unscoped").first()
+
+    @property
     def statements(self):
         return self.statement_set(manager="unscoped")
 
@@ -134,6 +138,10 @@ class Category(TenantAwareOrderedModelBase):
     @property
     def constraints(self):
         return self.constraint_set(manager='unscoped')
+
+    @property
+    def stories(self):
+        return self.story_set(manager='unscoped')
 
     def __str__(self):
         return self.name or self.slug
