@@ -13,6 +13,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 import math
+import random
 
 #from pyparsing import ParseException, pprint
 #import jinja2
@@ -111,9 +112,11 @@ class Command(BaseCommand):
             pass
             breakpoint()
         try:
-            for i in range(7, 9):
+            names = []
+            for i in range(7, 17):
                 if not isnan(line[i]):
-                    name = str(line[i])
+                    names.append(str(line[i]))
+            name = random.choice(names)
         except IndexError:
             pass
             breakpoint()
@@ -192,9 +195,6 @@ class Command(BaseCommand):
                     continue
 
                 section_docid, requirement_docid, req_docid = self.parse_docids(line[2])
-
-                if doc != "Annex A" and section_docid == "4.2":
-                    breakpoint()
 
                 #if doc != "Annex A" and not requirement_docid:
                 #    requirement = None

@@ -23,6 +23,12 @@ class Domain(TenantAwareOrderedModelBase):
     def is_project_created(self):
         return self.project() is not None
 
+    def is_project_configured(self):
+        project = self.project()
+        if project is not None:
+            return project.start_date != None
+        return False
+
     def is_project_setup_complete(self):
         if project := self.project():
             if targets := project.targets:
@@ -35,6 +41,8 @@ class Domain(TenantAwareOrderedModelBase):
         return False
 
     def is_project_backlog_created(self):
+        if project := self.project():
+            return project.backlog is not None
         return False
 
     def is_project_deployment_completed(self):
@@ -43,8 +51,9 @@ class Domain(TenantAwareOrderedModelBase):
     def is_audit_completed(self):
         return False
 
+    @property
     def root_sections(self):
-        return self.section_set(manager='unscoped').filter(parent=None).all()
+        return self.section_set(manager='unscoped').filter(parent=None)
 
     @property
     def categories(self):
@@ -55,7 +64,7 @@ class Domain(TenantAwareOrderedModelBase):
         return self.constraint_set(manager='unscoped')
 
     def __str__(self):
-        return self.name or self.slug
+        return self.name or self.slug or str(self.id)
 
     class Meta:
         ordering = ('index',)
@@ -80,7 +89,7 @@ class Section(TenantAwareTreeModelBase):
         return self.requirement_set(manager="unscoped")
 
     def __str__(self):
-        return self.title or self.slug
+        return self.title or self.slug or str(self.id)
 
     class Meta:
         ordering = ('index',)
@@ -106,7 +115,7 @@ class Requirement(TenantAwareOrderedModelBase):
     order_with_respect_to = 'section'
 
     def __str__(self):
-        return self.text or self.slug
+        return self.text or self.slug or str(self.id)
 
     class Meta:
         ordering = ('index',)
@@ -144,7 +153,7 @@ class Category(TenantAwareOrderedModelBase):
         return self.story_set(manager='unscoped')
 
     def __str__(self):
-        return self.name or self.slug
+        return self.name or self.slug or str(self.id)
 
     class Meta:
         ordering = ('index',)
@@ -185,7 +194,7 @@ class Team(TenantAwareOrderedModelBase):
     order_field_name = 'index'
 
     def __str__(self):
-        return self.slug
+        return self.name or self.slug or str(self.id)
 
     class Meta:
         ordering = ('index',)
@@ -254,7 +263,7 @@ class Target(TenantAwareModelBase):
     sections = models.ManyToManyField(Section, through='TargetSection')
 
     def __str__(self):
-        return self.name or self.slug
+        return self.name or self.slug or str(self.id)
 
 
 class TargetSection(TenantAwareModelBase):

@@ -77,6 +77,7 @@ class Story(Task):
 
     task_type = Task.TASK_TYPE_STORY
 
+    team = models.ForeignKey('compliances.Team', null=True, blank=True, on_delete=models.PROTECT)
     epic = models.ForeignKey(Epic, null=True, blank=True, on_delete=models.SET_NULL)
     constraint = models.ForeignKey('compliances.Constraint', null=True, blank=True, on_delete=models.PROTECT)
 

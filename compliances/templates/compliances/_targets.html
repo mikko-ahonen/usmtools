@@ -5,7 +5,7 @@
   <thead>
     <tr>
       <th width="300px"></th>
-      {% for section in domain.root_sections.all %}
+      {% for section in root_sections.all %}
         <th width="50px" class="align-bottom text-center"><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ section.doc }} {{ section.docid }}: {{ section.title }}</span></th>
       {% endfor %}
     </tr>
@@ -16,7 +16,7 @@
       <td>
         {{ target.name }}
       </td>
-      {% for section in domain.root_sections.all %}
+      {% for section in root_sections.all %}
       <td width="50px" class="align-bottom text-center">
         <div class="form-check">
           <input class="form-check-input border-dark" type="checkbox" name="selected" {{ target|target_section_checked:section }} hx-post="{% url 'compliances:target-section-select' tenant_id target.id section.id %}" hx-swap="none"/>

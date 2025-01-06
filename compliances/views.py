@@ -37,7 +37,11 @@ class DomainProjectSetup(TenantMixin, DetailView):
         tenant_id = self.kwargs['tenant_id']
         project_id = self.kwargs['pk']
         project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
+        domain_id = self.kwargs['domain_id']
+        domain = get_object_or_404(Domain, tenant_id=tenant_id, id=domain_id)
         context['targets'] = Target.objects.filter(project_id=project_id)
+        context['root_sections'] = domain.root_sections.order_by('-doc', 'index')
+        context['ordered_categories'] = domain.categories.filter(tenant_id=tenant_id, domain=domain_id).order_by('index')
         context['teams'] = Team.objects.filter(project_id=project_id)
         return context
 
@@ -93,13 +97,13 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
                 # No category => Create generic story for all the teams
                 if not epic.category:
                     for team in project.teams:
-                        story = Story(tenant=tenant, name=_('Common') + ': ' + epic.name, description=epic.description, epic=epic, tenant_id=tenant.id, constraint=None)
+                        story = Story(tenant=tenant, name=_('Common') + ': ' + epic.name[:100], description=epic.description, epic=epic, tenant_id=tenant.id, constraint=None)
                         team_id = str(team.id)
                         team_stories[team_id].append(story)
                     continue
                 for constraint in epic.category.constraints.all():
-                    story = Story(tenant=tenant, name=epic.category.name + ': ' + constraint.text, description=constraint.text, epic=epic, tenant_id=tenant.id, constraint=constraint, team=epic.category.team)
-                    team_id = str(team.id)
+                    story = Story(tenant=tenant, name=epic.category.name + ': ' + constraint.text[:100], description=constraint.text, epic=epic, tenant_id=tenant.id, constraint=constraint, team=epic.category.team)
+                    team_id = str(epic.category.team.id)
                     team_stories[team_id].append(story)
 
         teams = defaultdict(dict)
@@ -311,7 +315,13 @@ def targets(request, project):
     targets = Target.objects.filter(project_id=project.id)
     template = "compliances/_targets.html"
     domain = project.domains.first()
-    response = render(request, template, {"tenant_id": tenant_id, "project": project, "targets": targets, "domain": domain})
+    response = render(request, template, {
+        "tenant_id": tenant_id,
+        "project": project,
+        "targets": targets,
+        "domain": domain,
+        "root_sections": domain.root_sections.order_by('-doc', 'index'),
+    })
     response["HX-Retarget"] = "#targets"
     return response
 
@@ -320,7 +330,13 @@ def teams(request, project):
     teams = Team.objects.filter(project_id=project.id)
     template = "compliances/_teams.html"
     domain = project.domains.first()
-    response = render(request, template, {"tenant_id": tenant_id, "project": project, "teams": teams, "domain": domain})
+    response = render(request, template, {
+        "tenant_id": tenant_id, 
+        "project": project, 
+        "teams": teams, 
+        "domain": domain,
+        "ordered_categories": domain.categories.filter(tenant_id=tenant_id, domain=domain.id).order_by('index'),
+    })
     response["HX-Retarget"] = "#teams"
     return response
 

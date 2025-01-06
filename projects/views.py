@@ -17,6 +17,9 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.encoding import iri_to_uri
+from django.shortcuts import redirect
 
 from workflows.models import Tenant
 from workflows.views import TenantMixin
@@ -117,15 +120,31 @@ class ProjectReports(TenantMixin, DetailView):
     context_object_name = 'project'
 
 
-class ProjectUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
+class SafeRedirectMixin():
+
+    def get_safe_redirect_url(self, default=None):
+        next_url = self.request.GET.get('next_url', None) or self.request.POST.get('next_url', None)
+        if next_url:
+            if url_has_allowed_host_and_scheme(next_url, None):
+                return iri_to_uri(next_url)
+            raise DisallowedRedirect("Suspicious URL " + next_url)
+        return default
+
+class ProjectUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin, SafeRedirectMixin):
     model = Project
     template_name = 'projects/modals/project-create-or-update.html'
     form_class = forms.ProjectCreateOrUpdate
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('projects:project-list', kwargs={'tenant_id': tenant_id})
+        url = self.get_safe_redirect_url(default=reverse_lazy('projects:project-list', kwargs={'tenant_id': tenant_id}))
+        return url
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['next_url'] = self.get_safe_redirect_url()
+
+        return initial
 
 class ProjectCreate(TenantMixin, CreateView):
     model = Project
