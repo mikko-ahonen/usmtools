@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'taggit',
     'sequences',
     'widget_tweaks',
-    #'components',
+    'components',
     'onboarding',
     'mir',
     'workflows',

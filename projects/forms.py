@@ -5,6 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 from .models import Project
+from compliances.models import Team
 
 class ProjectCreateOrUpdate(ModelForm):
 

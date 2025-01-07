@@ -1,0 +1,18 @@
+{% load compliances %}
+{% for section in sections.all %}
+<fieldset class="border rounded-3 px-1 py-0 d-inline-block">
+  <legend class="float-none w-auto px-1 py-0 mt-0 mb-0">
+    {% if level == 0 %}<h3>{% else %}<small>{% endif %}
+      {{ section.domain.doc }} {{ section.docid }} {{ section.title }}</h3>
+    {% if level == 0 %}</h3>{% else %}</small>{% endif %}
+  </legend>
+  {% for requirement in section.requirements.all %}
+    {% for constraint in requirement.statement.constraints %}
+      {{ constraint | constraint_status }}
+    {% endfor %}
+  {% endfor %}
+  {% with level=level|add:"1" %}
+    {% include 'compliances/fragments/audit-lightboard.html' with sections=section.subsections level=level only %}
+  {% endwith %}
+</fieldset>
+{% endfor %}

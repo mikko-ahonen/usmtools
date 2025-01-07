@@ -52,8 +52,22 @@ class Sprint(List, Board):
     board = models.ForeignKey('Backlog', on_delete=models.CASCADE, related_name="lists")
     team = models.ForeignKey('compliances.Team', null=True, blank=True, on_delete=models.PROTECT)
 
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="sprints", null=True, blank=True)
+
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+
+    STATUS_NEW = "new"
+    STATUS_READY = "ready"
+    STATUS_ONGOING = "ongoing"
+    STATUS_CLOSED = "closed"
+    STATUSES = [
+        (STATUS_NEW, _("New")),
+        (STATUS_READY, _("Ready")),
+        (STATUS_ONGOING, _("Ongoing")),
+        (STATUS_CLOSED, _("Closed")),
+    ]
+    status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
 
     @property
     def stories(self):

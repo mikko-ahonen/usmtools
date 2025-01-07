@@ -56,9 +56,9 @@ class DomainCreateProject(TenantMixin, RedirectView):
         project.domains.add(domain)
         return reverse('compliances:domain-list', kwargs={"tenant_id": tenant_id})
 
-class DomainDetail(TenantMixin, DetailView):
+class DomainDashboard(TenantMixin, DetailView):
     model = Domain
-    template_name = 'compliances/domain-detail.html'
+    template_name = 'compliances/domain-dashboard.html'
     context_object_name = 'domain'
 
 class DomainSpec(TenantMixin, DetailView):
@@ -160,9 +160,12 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
         for tss in team_sprints_and_stories:
             for sprint in tss['sprints']:
                 sprint.board = backlog
+                sprint.project = project
                 sprint.save()
+                sprint.create_default_lists()
+                first_list = sprint.lists.first()
                 for story in tss['sprint_stories'][sprint.name]:
-                    story.list = sprint
+                    story.list = first_list
                     story.save()
         return backlog
 

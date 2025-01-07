@@ -8,7 +8,7 @@ app_name = "compliances"
 
 urlpatterns = [
     path('<uuid:tenant_id>/domains/', views.DomainList.as_view(), name='domain-list'),
-    path('<uuid:tenant_id>/domains/<uuid:pk>/', views.DomainDetail.as_view(), name='domain-detail'),
+    path('<uuid:tenant_id>/domains/<uuid:pk>/dashboard/', views.DomainDashboard.as_view(), name='domain-dashboard'),
     path('<uuid:tenant_id>/domains/<uuid:pk>/spec/', views.DomainSpec.as_view(), name='domain-spec'),
     path('<uuid:tenant_id>/domains/<uuid:pk>/constraints/', views.DomainConstraints.as_view(), name='domain-constraints'),
     #path('<uuid:tenant_id>/domains/<uuid:pk>/deployment/', views.DeploymentBoard.as_view(), name='deployment-board'),

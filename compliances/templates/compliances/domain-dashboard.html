@@ -1,0 +1,25 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load compliances %}
+{% load breadcrumbs %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'compliances' %}
+<h3>{{ domain.name }}</h3>
+<div class="row">
+  {% with project=domain.projects.all.first %}
+  {% if domain %}
+  <div class="col-5">
+    {% include 'compliances/fragments/deployment-status.html' with domain=domain project=project %}
+  </div>
+  <div class="col-7">
+    {% include 'compliances/fragments/audit-lightboard.html' with sections=domain.root_sections level=0 only %}
+  </div>
+  {% endif %}
+  {% endwith %}
+i</div>
+</div>
+</section>
+{% include 'compliances/fragments/modal.html' %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'boards/base.html' %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load dict_key %}
+{% load component_tags %}
+{% load crispy_forms_tags %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'compliances' %}
+
+<form method="get" action="{% url 'projects:project-sprint' tenant.id project.id %}">
+  {% crispy filter.form %}
+  <button class="btn btn-outline-primary">{% trans 'Apply' %}</button>
+</form>
+
+{{ sprints }}
+{{ sprints.count }}
+
+{% if sprints.count == 1 %}
+{% component "board" tenant_id=tenant.id board=sprints.all.first %}
+{% endcomponent %}
+{% elif sprints.count > 1 %}
+{% trans 'This view can handle only one active sprint, more than one active sprint with the criteria.' %}
+{% elif sprints.count < 1 %}
+{% trans 'No hits. No active sprints with this criteria.' %}
+{% else %}
+{% endif %}
+
+</div>
+</section>
+{% include 'projects/fragments/modal.html' %}
+{% endblock %}

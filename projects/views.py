@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.utils.dateparse import parse_date
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, get_object_or_404
+from django_filters.views import FilterView
 from django.views.generic import ListView, DetailView, FormView, RedirectView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext as _
@@ -25,7 +26,8 @@ from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from .models import Project, Release, Epic
+from .filters import SprintFilter
+from .models import Project, Release, Epic, Sprint
 from . import forms
 
 logger = logging.getLogger(__name__)
@@ -90,17 +92,17 @@ class ProjectDetail(TenantMixin, DetailView):
     context_object_name = 'project'
 
 
-class ProjectDashboard(TenantMixin, DetailView):
-    model = Project
-    template_name = 'projects/project-dashboard.html'
-    context_object_name = 'project'
-
-    def get_context_data(self, *args, **kwargs):
-        tenant_id = self.kwargs.get('tenant_id')
-        context = super().get_context_data(*args, **kwargs)
-        project = self.get_object()
-        context['domain'] = project.domains.first()
-        return context
+#class ProjectDashboard(TenantMixin, DetailView):
+#    model = Project
+#    template_name = 'projects/project-dashboard.html'
+#    context_object_name = 'project'
+#
+#    def get_context_data(self, *args, **kwargs):
+#        tenant_id = self.kwargs.get('tenant_id')
+#        context = super().get_context_data(*args, **kwargs)
+#        project = self.get_object()
+#        context['domain'] = project.domains.first()
+#        return context
 
 class ProjectRoadmap(TenantMixin, DetailView):
     model = Project
@@ -114,11 +116,26 @@ class ProjectBacklog(TenantMixin, DetailView):
     context_object_name = 'project'
 
 
-class ProjectSprint(TenantMixin, DetailView):
-    model = Project
+class ProjectSprint(TenantMixin, FilterView):
+    model = Sprint
     template_name = 'projects/project-sprint.html'
-    context_object_name = 'project'
+    context_object_name = 'sprints'
+    filterset_class = SprintFilter
 
+    def get_context_data(self, *args, **kwargs):
+        tenant_id = self.kwargs.get('tenant_id')
+        context = super().get_context_data(*args, **kwargs)
+        project_id = self.kwargs['pk']
+        project = get_object_or_404(Project, pk=project_id)
+        context['project'] = project
+        return context
+
+    def get_queryset(self, form_class=None):
+        tenant_id = self.kwargs['tenant_id']
+        project_id = self.kwargs['pk']
+        project = get_object_or_404(Project, pk=project_id)
+        breakpoint()
+        return Sprint.unscoped.filter(tenant_id=tenant_id, project_id=project.id, status=Sprint.STATUS_ONGOING)
 
 class ProjectReports(TenantMixin, DetailView):
     model = Project
