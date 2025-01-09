@@ -31,7 +31,7 @@
     {% include 'compliances/fragments/deployment-status.html' with domain=domain project=project %}
   </div>
   <div class="col-7">
-    {% include 'compliances/fragments/audit-lightboard.html' with sections=domain.root_sections level=0 only %}
+    {% include 'compliances/fragments/audit-lightboard.html' with domain=domain sections=domain.root_sections level=0 only %}
   </div>
   {% endif %}
 </div>

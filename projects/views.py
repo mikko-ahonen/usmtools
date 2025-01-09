@@ -96,7 +96,21 @@ class ProjectSprints(TenantMixin, DetailView):
     model = Project
     template_name = 'projects/project-sprints.html'
     context_object_name = 'project'
+    project = None
 
+    def get_project(self):
+        if not self.project:
+            project_id = self.kwargs['pk']
+            self.project = get_object_or_404(Project, pk=project_id)
+        return self.project
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        project = self.get_project()
+        context['domain'] = project.domains.first()
+        context['project'] = project
+        context['roadmap'] = project.roadmap
+        return context
 
 class ProjectRoadmap(TenantMixin, FilterView):
     model = Release
@@ -115,6 +129,7 @@ class ProjectRoadmap(TenantMixin, FilterView):
         tenant_id = self.kwargs.get('tenant_id')
         context = super().get_context_data(*args, **kwargs)
         project = self.get_project()
+        context['domain'] = project.domains.first()
         context['project'] = project
         context['roadmap'] = project.roadmap
         return context
@@ -144,6 +159,7 @@ class ProjectBacklog(TenantMixin, FilterView):
         tenant_id = self.kwargs.get('tenant_id')
         project = self.get_project()
         context = super().get_context_data(*args, **kwargs)
+        context['domain'] = project.domains.first()
         context['project'] = project
         context['backlog'] = project.backlog
         return context
@@ -159,6 +175,7 @@ class ProjectSprint(TenantMixin, FilterView):
     template_name = 'projects/project-sprint.html'
     context_object_name = 'stories'
     filterset_class = StoryFilter
+    project = None
 
     def get_context_data(self, *args, **kwargs):
         tenant_id = self.kwargs.get('tenant_id')
@@ -168,6 +185,7 @@ class ProjectSprint(TenantMixin, FilterView):
         team_id = self.kwargs.get('team_id')
         team = get_object_or_404(Team, id=team_id)
         context['project'] = project
+        context['domain'] = project.domains.first()
         context['team'] = team
         context['sprint'] = team.current_sprint
         context['statuses'] = team.current_sprint.lists.order_by('index')

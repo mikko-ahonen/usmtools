@@ -6,15 +6,19 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <section class="app">
-<div class="container">
-{% breadcrumbs tenant True 'compliances' %}
+<div class="container-fluid">
+
+{% include 'compliances/fragments/compliances-tabs.html' %}
 
 {% comment %}
+{% breadcrumbs tenant True 'compliances' %}
 <form method="get" action="{% url 'projects:project-roadmap' tenant.id project.id %}">
   {% crispy filter.form %}
   <button class="btn btn-outline-primary">{% trans 'Apply' %}</button>
 </form>
 {% endcomment %}
+
+<div class="mt-3"></div>
 
 {% component "board" board=roadmap lists=releases %}
 {% endcomponent %}

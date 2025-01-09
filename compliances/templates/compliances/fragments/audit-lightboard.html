@@ -1,5 +1,5 @@
 {% load compliances %}
-{% if section.domain.is_project_backlog_created %}
+{% if domain.is_project_backlog_created %}
 {% for section in sections.all %}
 <fieldset class="border rounded-3 px-1 py-0 d-inline-block">
   <legend class="float-none w-auto px-1 py-0 mt-0 mb-0">
@@ -13,7 +13,7 @@
     {% endfor %}
   {% endfor %}
   {% with level=level|add:"1" %}
-    {% include 'compliances/fragments/audit-lightboard.html' with sections=section.subsections level=level only %}
+    {% include 'compliances/fragments/audit-lightboard.html' with domain=domain sections=section.subsections level=level only %}
   {% endwith %}
 </fieldset>
 {% endfor %}
