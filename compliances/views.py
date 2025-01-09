@@ -271,7 +271,7 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
                             epic.index = epic_idx
                             epic.save()
 
-                return redirect("compliances:domain-list", tenant_id=tenant.id)
+                return redirect('compliances:domain-dashboard', tenant_id=tenant_id, pk=pk)
             else:
                 context = {
                     'form': form,
