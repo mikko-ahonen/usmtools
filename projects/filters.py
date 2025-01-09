@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 
 from crispy_forms.helper import FormHelper
 
-from compliances.models import Team, Project
+from compliances.models import Project
 from projects.models import Sprint, Release
 
 

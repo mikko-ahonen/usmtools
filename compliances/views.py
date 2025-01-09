@@ -19,9 +19,10 @@ from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from projects.models import Project, Release, Epic, Roadmap, Story, Backlog, Sprint
+from projects.models import Project, Release, Epic, Roadmap, Story, Backlog, Sprint, Team
 from boards.models import Board
-from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, Team
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Category
+
 from . import forms
 
 class DomainList(TenantMixin, ListView):
@@ -53,6 +54,11 @@ class DomainCreateProject(TenantMixin, RedirectView):
         domain_id = self.kwargs['pk']
         domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
         project, created = Project.objects.get_or_create(tenant_id=tenant_id, defaults={'name': domain.name + ' ' + _('project')})
+
+        categories = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id).order_by('index')
+        for i, category in enumerate(categories):
+            Team.objects.create(tenant_id=tenant_id, project_id=project.id, name=_('Team ') + category.name, index=i)
+
         project.domains.add(domain)
         return reverse('compliances:domain-dashboard', kwargs={"tenant_id": tenant_id, "pk": domain_id})
 

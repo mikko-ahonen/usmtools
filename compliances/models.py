@@ -146,7 +146,7 @@ class Category(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255, blank=True, null=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    team = models.ForeignKey('Team', on_delete=models.CASCADE, null=True, related_name='categories')
+    team = models.ForeignKey('projects.Team', on_delete=models.CASCADE, null=True, related_name='categories')
 
     order_field_name = 'index'
 
@@ -189,21 +189,6 @@ class Statement(TenantAwareOrderedModelBase):
     class Meta:
         ordering = ('index',)
 
-
-class Team(TenantAwareOrderedModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = models.SlugField(max_length=255, blank=True, null=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, related_name='teams')
-
-    order_field_name = 'index'
-
-    def __str__(self):
-        return self.name or self.slug or str(self.id)
-
-    class Meta:
-        ordering = ('index',)
 
 class Constraint(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

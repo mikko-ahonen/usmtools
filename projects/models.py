@@ -12,9 +12,9 @@ from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTree
 class Project(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, blank=True, null=True)
-    prefix = models.CharField(max_length=255, blank=True, null=True)
+    prefix = models.CharField(max_length=255, blank=True, null=True, default="ISO27K")
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    start_date = models.DateField(null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True, default="2025-01-01")
     sprint_length_in_days = models.PositiveSmallIntegerField(default=21)
     release_length_in_days = models.PositiveSmallIntegerField(default=21)
     epics_per_release = models.PositiveSmallIntegerField(default=2)
@@ -50,20 +50,17 @@ class Project(TenantAwareOrderedModelBase):
     class Meta:
         ordering = ('index',)
 
-class ProjectTeam(TenantAwareOrderedModelBase):
-    compliance_team = models.OneToOneField(
-        'compliances.Team',
-        on_delete=models.PROTECT,
-        related_name='project_teams',
-    )
+class Team(TenantAwareOrderedModelBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255, blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, related_name='teams')
     current_sprint = models.ForeignKey('Sprint', on_delete=models.PROTECT, null=True, blank=True, related_name="+")
 
     order_field_name = 'index'
 
     def __str__(self):
-        return self.compliance_team.name or "Team"
+        return self.name or str(self.id)
 
     class Meta:
         ordering = ('index',)
@@ -103,7 +100,7 @@ class Sprint(List, Board):
     board_type = Board.BOARD_TYPE_SPRINT
     list_type = List.LIST_TYPE_SPRINT
     board = models.ForeignKey('Backlog', on_delete=models.CASCADE, related_name="lists")
-    team = models.ForeignKey(ProjectTeam, null=True, blank=True, on_delete=models.PROTECT)
+    team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.PROTECT)
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="sprints", null=True, blank=True)
 
@@ -169,7 +166,7 @@ class Story(Task):
 
     task_type = Task.TASK_TYPE_STORY
 
-    team = models.ForeignKey(ProjectTeam, null=True, blank=True, on_delete=models.PROTECT)
+    team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.PROTECT)
     epic = models.ForeignKey(Epic, null=True, blank=True, on_delete=models.SET_NULL)
     constraint = models.ForeignKey('compliances.Constraint', null=True, blank=True, on_delete=models.PROTECT)
 

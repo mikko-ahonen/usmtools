@@ -1,7 +1,8 @@
 from django import forms
 from django.utils.translation import gettext as _
 
-from .models import Target, Team
+from projects.models import Team
+from .models import Target
 
 from crispy_forms.helper import FormHelper
 
