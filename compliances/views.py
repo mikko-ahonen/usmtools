@@ -57,7 +57,9 @@ class DomainCreateProject(TenantMixin, RedirectView):
 
         categories = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id).order_by('index')
         for i, category in enumerate(categories):
-            Team.objects.create(tenant_id=tenant_id, project_id=project.id, name=_('Team ') + category.name, index=i)
+            team = Team.objects.create(tenant_id=tenant_id, project_id=project.id, name=_('Team ') + category.name, index=i)
+            category.team = team
+            category.save()
 
         project.domains.add(domain)
         return reverse('compliances:domain-dashboard', kwargs={"tenant_id": tenant_id, "pk": domain_id})
