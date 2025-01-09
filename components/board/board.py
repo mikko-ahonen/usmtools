@@ -13,12 +13,15 @@ class Board(component.Component):
         if "board" not in kwargs:
             raise ValueError("board required")
 
+        if "lists" not in kwargs:
+            raise ValueError("lists required")
+
         tenant_id = current_tenant_id()
 
-        breakpoint()
         return {
             "board": kwargs["board"],
-            "tenant_id": kwargs["tenant_id"],
+            "lists": kwargs["lists"],
+            "tenant_id": tenant_id,
         }
 
     class Media:

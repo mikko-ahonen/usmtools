@@ -1,20 +1,28 @@
 {% load component_tags %}
 {% load i18n %}
+<div class="board_list">
     <div class="bg-primary-subtle list p-3 mx-3 my-3" id="{{ list.uuid }}">
       <div class="list-handle tw-cursor-grab d-flex align-items-center justify-content-between">
         <h2>
             <span>{{ list.name }}</span>
+            {{ tenant_id }}
             {% if board.show_list_count %}
-            <span class="badge rounded-pill bg-primary">{{ list.tasks.count }}</span>
+              <span class="badge rounded-pill bg-primary">{{ list.tasks.count }}</span>
             {% endif %}
-            <button type="button" class="btn btn-primary" hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.uuid list.uuid %}" hx-confirm="Are you sure?"><i class="bi bi-trash3"></i></button>
+            <button type="button" class="btn btn-outline-primary" hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.uuid list.uuid %}" hx-confirm="Are you sure?"><i class="bi bi-trash3"></i></button>
+            {% if list.is_first_inactive_sprint_for_team %}
+              <button type="button" class="btn btn-outline-primary" hx-swap="outerHTML" hx-target="closest .board_list" hx-post="{% url 'components:board-list' tenant_id 'start-sprint' %}" hx-vals='{"board_id": "{{ board.uuid | escapejs }}", "list_id": "{{ list.uuid | escapejs }}"}'>{% trans 'Start sprint' %}</button>
+            {% elif list.status == 'ongoing' %}
+              <button type="button" class="btn btn-outline-primary" hx-swap="outerHTML" hx-target="closest .board_list" hx-post="{% url 'components:board-list' tenant_id 'end-sprint' %}" hx-vals='{"board_id": "{{ board.uuid | escapejs }}", "list_id": "{{ list.uuid | escapejs }}"}'>{% trans 'End sprint' %}</button>
+            {% endif %}
         </h2>
 
     </div>
 
     <div class="sortable-tasks my-3">
       {% for task in list.tasks.all %}
-        {% component "board_task" tenant_id board list task %}
+        {% component "board_task" board=board list=list task=task %}
+        {% endcomponent %}
       {% endfor %}
     </div>
 
@@ -38,3 +46,4 @@
 
 
   </div>
+</div>

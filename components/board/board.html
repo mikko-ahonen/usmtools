@@ -4,9 +4,9 @@
 <div id="board">
   <h1>{{ board.name }}</h1>
   <div class="mb-5 sortable-lists row">
-    {% for list in board.lists.all %}
+    {% for list in lists.all %}
       <div class="{{ board|board_css_class:forloop.last }}">
-        {% component "board_list" tenant_id board list %}
+        {% component "board_list" board=board list=list %}
         {% endcomponent %}
       </div>
     {% endfor %}
@@ -14,7 +14,7 @@
       <div x-cloak x-data="{open: false}" @keydown.escape.window="open=false" class="col-auto">
         <h2>
           <button type="button" class="create-list-button btn btn-outline-primary"
-              @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add list</button>
+              @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ {% trans 'Add list' %}</button>
         </h2>
     
             <form class="create-list-form" x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_list' tenant_id board.board_type board.uuid %}" hx-target="this">
@@ -22,12 +22,10 @@
                     <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control" placeholder="{% trans 'Name' %}" required id="id_name">
                     <div class="tw-mt-4 tw-flex tw-items-center tw-space-x-1">
                         <button class="btn btn-outline-primary" type="submit">
-                            Save
+                            {% trans 'Save' %}
                         </button>
                         <button type="button" title="Delete" @click="open=false" class="btn btn-outline-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            <i class="bi bi-trash3"></i>
                         </button>
                   </div>
               </div>

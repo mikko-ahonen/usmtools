@@ -1,6 +1,6 @@
 import logging
 
-from django_components import component
+from django_components import component, types
 from django.utils.translation import gettext as _
 
 logger = logging.getLogger(__name__)
@@ -63,6 +63,6 @@ class StatusBoard(component.Component):
         return self.render_to_response(context)
 
     class Media:
-        css = "status_board/status_board.css"
-        js = "status_board/status_board.js"
+        js = "status_board.js"
+        css = "status_board.css"
 

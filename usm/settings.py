@@ -18,7 +18,6 @@ from django_storage_url import dsn_configured_storage_class
 from django.utils.translation import gettext_lazy as _
 from django.contrib.messages import constants as message_constants
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    #'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_extensions',
     'extra_views',
@@ -56,7 +55,6 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'ordered_model',
     'django_components',
-    'django_components.safer_staticfiles',
     #'public',
     'taggit',
     'sequences',
@@ -84,6 +82,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'usm.middleware.SetTenantMiddleware',
     #'webmention.middleware.webmention_middleware',
+    "django_components.middleware.ComponentDependencyMiddleware",
 ]
 
 ROOT_URLCONF = 'usm.urls'
@@ -94,6 +93,9 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': False,
         'OPTIONS': {
+            'builtins': [
+                'django_components.templatetags.component_tags',
+            ],
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -174,6 +176,14 @@ STATICFILES_DIRS = [
   os.path.join(BASE_DIR, "components"),
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATICFILES_FINDERS = [
+    # Default finders
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    # Django components
+    "django_components.finders.ComponentsFileSystemFinder",
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -341,4 +351,13 @@ LOGGING = {
 # Django components
 #
 
-COMPONENTS = { 'RENDER_DEPENDENCIES': True }
+COMPONENTS = {
+    "dirs": [
+        Path(BASE_DIR) / "components",
+    ],
+}
+
+#COMPONENTS = {
+#    'RENDER_DEPENDENCIES': True }
+
+

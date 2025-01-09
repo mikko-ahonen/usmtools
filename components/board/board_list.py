@@ -1,21 +1,76 @@
 import logging
 
+from workflows.tenant import current_tenant_id
+
 from django_components import component
+from django.shortcuts import get_object_or_404
+
+from projects.models import Sprint, Backlog
 
 @component.register("board_list")
 class BoardList(component.Component):
     template_name = "board/board_list.html"
 
-    def get_context_data(self, **kwargs):
-        if "tenant_id" not in kwargs:
-            raise ValueError("tenant_id required")
+    def get_context_data(self, *args, **kwargs):
         if "board" not in kwargs:
+            breakpoint()
             raise ValueError("board required")
         if "list" not in kwargs:
+            breakpoint()
             raise ValueError("list required")
-        breakpoint()
+
+        tenant_id = current_tenant_id()
+
         return {
-            "tenant_id": kwargs.get("tenant_id"),
             "board": kwargs.get("board"),
             "list": kwargs["list"],
+            "tenant_id": tenant_id,
         }
+
+    def get_list(self, tenant_id, request):
+        list_id = request.POST.get('list_id')
+        if not list_id:
+            raise ValueError(f"list_id is required")
+        try:
+            return Sprint.unscoped.get(tenant_id=tenant_id, uuid=list_id)
+        except Sprint.DoesNotExist:
+            breakpoint()
+            raise ValueError(f"Sprint {list_id} does not exist")
+
+    def get_board(self, tenant_id, request):
+        board_id = request.POST.get('board_id')
+        if not board_id:
+            raise ValueError(f"board_id is required")
+        try:
+            return Backlog.unscoped.get(tenant_id=tenant_id, uuid=board_id)
+        except Backlog.DoesNotExist:
+            breakpoint()
+            raise ValueError(f"Backlog {board_id} does not exist")
+
+    def get_context(self, tenant_id, request):
+        list = self.get_list(tenant_id, request)
+        board = self.get_board(tenant_id, request)
+
+        return {
+            "board": board,
+            "list": list,
+            "tenant_id": tenant_id,
+        }
+
+    def start_sprint(self, tenant_id, request):
+        context = self.get_context(tenant_id, request)
+        project = context["board"].project
+        sprint = context["list"]
+        project.start_sprint(sprint)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        tenant_id = kwargs['tenant_id']
+        op = kwargs['op']
+
+        if op == "start-sprint":
+            context = self.start_sprint(tenant_id, request)
+        else:
+            raise ValueError(f"Invalid op: {op}")
+
+        return self.render_to_response(context, {})

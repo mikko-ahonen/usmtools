@@ -1,6 +1,8 @@
 htmx.onLoad(function (content) {
+  console.log("FOO");
   htmx.logAll();
   content.querySelectorAll(".sortable-tasks").forEach(function (sortable) {
+    console.log("found sortable task");
     new Sortable(sortable, {
       forceFallback: true,
       animation: 0,
@@ -37,6 +39,7 @@ htmx.onLoad(function (content) {
   })
 
   content.querySelectorAll(".sortable-lists").forEach(function (sortable) {
+    console.log("found sortable list");
     new Sortable(sortable, {
       forceFallback: true,
       animation: 0,

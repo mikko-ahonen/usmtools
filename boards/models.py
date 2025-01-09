@@ -18,6 +18,7 @@ class BoardBase(models.Model):
     class Meta:
         abstract = True
 
+
 class Board(TenantAwareModelBase, BoardBase):
     _max_columns = 4
     _list_class = None
@@ -39,6 +40,7 @@ class Board(TenantAwareModelBase, BoardBase):
     def get_absolute_url(self):
         tenant_id = current_tenant_id()
         return reverse("boards:board", kwargs={"tenant_id": tenant_id, "board_type": self.board_type, "board_uuid": self.uuid})
+
     def create_default_lists(self):
         for name in ["Todo", "Doing", "Done"]:
             List.objects.create(name=name, board=self)
@@ -47,6 +49,7 @@ class Board(TenantAwareModelBase, BoardBase):
         verbose_name = "board"
         verbose_name_plural = "boards"
         abstract = True
+
 
 class List(TenantAwareOrderedModelBase, BoardBase):
     _show_list_count = False
@@ -73,6 +76,7 @@ class List(TenantAwareOrderedModelBase, BoardBase):
         verbose_name_plural = "lists"
         ordering = ["index"]
         abstract = True
+
 
 class Task(TenantAwareOrderedModelBase, BoardBase):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name="tasks")

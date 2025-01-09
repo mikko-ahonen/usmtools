@@ -1,0 +1,25 @@
+{% extends 'boards/base.html' %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% load dict_key %}
+{% load component_tags %}
+{% load crispy_forms_tags %}
+{% block content %}
+<section class="app">
+<div class="container">
+{% breadcrumbs tenant True 'compliances' %}
+
+{% comment %}
+<form method="get" action="{% url 'projects:project-roadmap' tenant.id project.id %}">
+  {% crispy filter.form %}
+  <button class="btn btn-outline-primary">{% trans 'Apply' %}</button>
+</form>
+{% endcomment %}
+
+{% component "board" board=roadmap lists=releases %}
+{% endcomponent %}
+
+</div>
+</section>
+{% include 'projects/fragments/modal.html' %}
+{% endblock %}

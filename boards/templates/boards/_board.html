@@ -12,7 +12,7 @@
       <div x-cloak x-data="{open: false}" @keydown.escape.window="open=false" class="col-auto">
         <h2>
           <button type="button" class="create-list-button btn btn-outline-primary"
-              @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add list</button>
+              @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ {% trans 'Add list' %}</button>
         </h2>
     
             <form class="create-list-form" x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_list' tenant_id board.board_type board.uuid %}" hx-target="this">
@@ -20,7 +20,7 @@
                     <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control" placeholder="{% trans 'Name' %}" required id="id_name">
                     <div class="tw-mt-4 tw-flex tw-items-center tw-space-x-1">
                         <button class="btn btn-outline-primary" type="submit">
-                            Save
+                            {% trans 'Save' %}
                         </button>
                         <button type="button" title="Delete" @click="open=false" class="btn btn-outline-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-5 tw-w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

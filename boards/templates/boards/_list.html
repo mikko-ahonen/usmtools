@@ -4,9 +4,9 @@
         <h2>
             <span>{{ list.name }}</span>
             {% if board.show_list_count %}
-            <span class="badge rounded-pill bg-primary">{{ list.tasks.count }}</span>
+              <span class="badge rounded-pill bg-primary">{{ list.tasks.count }}</span>
             {% endif %}
-            <button type="button" class="btn btn-primary" hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.uuid list.uuid %}" hx-confirm="Are you sure?"><i class="bi bi-trash3"></i></button>
+            <button type="button" class="btn btn-outline-primary" hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.uuid list.uuid %}" hx-confirm="Are you sure?"><i class="bi bi-trash3"></i></button>
         </h2>
 
     </div>

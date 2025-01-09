@@ -3,12 +3,14 @@
 <div class="status_board">
   <div class="row">
   {% for slug, column in columns.items %}
+    {% if forloop.counter0 == 1 %}
     <div class="col g-1">
       {% with column_entities=entities|by_status:column.statuses %}
       {% component "status_board_column" root_id=root_id column_slug=slug column=column entities=column_entities %}
       {% endcomponent %}
       {% endwith %}
     </div>
+    {% endif %}
   {% endfor %}
   </div>
 </div>

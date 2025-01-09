@@ -31,8 +31,14 @@ class Domain(TenantAwareOrderedModelBase):
 
     def is_project_setup_complete(self):
         if project := self.project():
+            domain = project.domains.first()
+            for category in domain.categories.all():
+                if not category.team:
+                    return False
             if targets := project.targets:
-                return len(project.targets.all()) > 0
+                if len(project.targets.all()) > 0:
+                    return True
+                return False
         return False
 
     def is_project_roadmap_created(self):

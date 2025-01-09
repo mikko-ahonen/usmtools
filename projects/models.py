@@ -25,6 +25,46 @@ class Project(TenantAwareOrderedModelBase):
     def __str__(self):
         return self.name or ""
 
+    def start_sprint(self, sprint):
+
+        team = sprint.team
+
+        if team.current_sprint:
+            raise ValueError(f"There is already a current sprint {team.current_sprint} for team {team}. You must stop it first.")
+
+        team.current_sprint = sprint
+        team.save()
+        sprint.status = Sprint.STATUS_ONGOING
+        sprint.save()
+
+    def stop_sprint(self, sprint):
+
+        team = sprint.team
+        if not team.current_sprint:
+            raise ValueError(f"Team {team} has no current sprint.")
+        self.current_sprint.status = Sprint.STATUS_CLOSED
+        self.current_sprint.save()
+        self.current_sprint = None
+        self.save()
+
+    class Meta:
+        ordering = ('index',)
+
+class ProjectTeam(TenantAwareOrderedModelBase):
+    compliance_team = models.OneToOneField(
+        'compliances.Team',
+        on_delete=models.PROTECT,
+        related_name='project_teams',
+    )
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    current_sprint = models.ForeignKey('Sprint', on_delete=models.PROTECT, null=True, blank=True, related_name="+")
+
+    order_field_name = 'index'
+
+    def __str__(self):
+        return self.compliance_team.name or "Team"
+
     class Meta:
         ordering = ('index',)
 
@@ -36,6 +76,18 @@ class Release(List):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
 
+    STATUS_NEW = "new"
+    STATUS_READY = "ready"
+    STATUS_ONGOING = "ongoing"
+    STATUS_CLOSED = "closed"
+    STATUSES = [
+        (STATUS_NEW, _("New")),
+        (STATUS_READY, _("Ready")),
+        (STATUS_ONGOING, _("Ongoing")),
+        (STATUS_CLOSED, _("Closed")),
+    ]
+    status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
+
     @property
     def epics(self):
         return self.tasks
@@ -44,13 +96,14 @@ class Release(List):
         verbose_name = "release"
         verbose_name_plural = "releases"
 
+
 class Sprint(List, Board):
     _max_columns = 4
     _show_list_count = False
     board_type = Board.BOARD_TYPE_SPRINT
     list_type = List.LIST_TYPE_SPRINT
     board = models.ForeignKey('Backlog', on_delete=models.CASCADE, related_name="lists")
-    team = models.ForeignKey('compliances.Team', null=True, blank=True, on_delete=models.PROTECT)
+    team = models.ForeignKey(ProjectTeam, null=True, blank=True, on_delete=models.PROTECT)
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="sprints", null=True, blank=True)
 
@@ -69,13 +122,37 @@ class Sprint(List, Board):
     ]
     status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
 
+    def is_first_inactive_sprint_for_team(self):
+        first_inactive_sprint = self.board.lists.filter(team=self.team, status__in=[self.STATUS_NEW, self.STATUS_READY]).order_by('index').first()
+        if first_inactive_sprint:
+            return self.id == first_inactive_sprint.id
+        return False
+
+    def create_default_lists(self):
+        for i, (slug, name) in enumerate(self.STATUSES, start=1):
+            c = Status(tenant_id=self.tenant_id, slug=slug, name=name, board=self, index=i)
+            c.save()
+
+    @property
+    def tasks(self):
+        return self.stories
+
     @property
     def stories(self):
-        return self.tasks
+        list_ids = [l.id for l in self.lists.all()]
+        return Story.unscoped.filter(tenant_id=self.tenant_id, list_id__in=list_ids)
 
     class Meta(List.Meta):
         verbose_name = "sprint"
         verbose_name_plural = "sprints"
+
+
+class Status(List):
+    _max_columns = 4
+    list_type = List.LIST_TYPE_STATUS
+    board = models.ForeignKey(Sprint, on_delete=models.CASCADE, related_name="lists")
+    slug = models.CharField(max_length=32, choices=Sprint.STATUSES, default=Sprint.STATUS_NEW)
+
 
 class Epic(Task):
     _default_task_type = Task.TASK_TYPE_EPIC
@@ -88,11 +165,11 @@ class Epic(Task):
         verbose_name_plural = "epics"
 
 class Story(Task):
-    list = models.ForeignKey(Sprint, on_delete=models.CASCADE, related_name="tasks")
+    list = models.ForeignKey(Status, on_delete=models.CASCADE, related_name="tasks")
 
     task_type = Task.TASK_TYPE_STORY
 
-    team = models.ForeignKey('compliances.Team', null=True, blank=True, on_delete=models.PROTECT)
+    team = models.ForeignKey(ProjectTeam, null=True, blank=True, on_delete=models.PROTECT)
     epic = models.ForeignKey(Epic, null=True, blank=True, on_delete=models.SET_NULL)
     constraint = models.ForeignKey('compliances.Constraint', null=True, blank=True, on_delete=models.PROTECT)
 
@@ -112,6 +189,7 @@ class Story(Task):
     class Meta(Task.Meta):
         verbose_name = "story"
         verbose_name_plural = "stories"
+
 
 class Roadmap(Board):
     _max_columns = 1
@@ -134,11 +212,14 @@ class Roadmap(Board):
         verbose_name = "roadmap"
         verbose_name_plural = "roadmaps"
 
+
 class Backlog(Board):
     _max_columns = 1
     board_type = Board.BOARD_TYPE_BACKLOG
     list_class = Sprint
     task_class = Story
+
+    active_sprint = models.ForeignKey(Sprint, null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
 
     project = models.OneToOneField(
         Project,

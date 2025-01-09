@@ -26,8 +26,8 @@ from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from .filters import SprintFilter
-from .models import Project, Release, Epic, Sprint
+from .filters import SprintFilter, ReleaseFilter
+from .models import Project, Release, Epic, Sprint, Backlog
 from . import forms
 
 logger = logging.getLogger(__name__)
@@ -92,29 +92,61 @@ class ProjectDetail(TenantMixin, DetailView):
     context_object_name = 'project'
 
 
-#class ProjectDashboard(TenantMixin, DetailView):
-#    model = Project
-#    template_name = 'projects/project-dashboard.html'
-#    context_object_name = 'project'
-#
-#    def get_context_data(self, *args, **kwargs):
-#        tenant_id = self.kwargs.get('tenant_id')
-#        context = super().get_context_data(*args, **kwargs)
-#        project = self.get_object()
-#        context['domain'] = project.domains.first()
-#        return context
-
-class ProjectRoadmap(TenantMixin, DetailView):
-    model = Project
+class ProjectRoadmap(TenantMixin, FilterView):
+    model = Release
     template_name = 'projects/project-roadmap.html'
-    context_object_name = 'project'
+    context_object_name = 'releases'
+    filterset_class = ReleaseFilter
+    project = None
+
+    def get_project(self):
+        if not self.project:
+            project_id = self.kwargs['pk']
+            self.project = get_object_or_404(Project, pk=project_id)
+        return self.project
+
+    def get_context_data(self, *args, **kwargs):
+        tenant_id = self.kwargs.get('tenant_id')
+        context = super().get_context_data(*args, **kwargs)
+        project = self.get_project()
+        context['project'] = project
+        context['roadmap'] = project.roadmap
+        return context
+
+    def get_queryset(self, form_class=None):
+        tenant_id = self.kwargs['tenant_id']
+        project_id = self.kwargs['pk']
+        project = self.get_project()
+        roadmap_id = project.roadmap.id # cannnot use project.roadmap_id because of one-to-one relationship
+        return Release.unscoped.filter(tenant_id=tenant_id, board_id=project.roadmap.id, status__in=[Release.STATUS_NEW, Release.STATUS_READY, Release.STATUS_ONGOING]).order_by('index')
 
 
-class ProjectBacklog(TenantMixin, DetailView):
-    model = Project
+class ProjectBacklog(TenantMixin, FilterView):
+    model = Sprint
     template_name = 'projects/project-backlog.html'
-    context_object_name = 'project'
+    context_object_name = 'sprints'
+    filterset_class = SprintFilter
+    project = None
 
+    def get_project(self):
+        if not self.project:
+            project_id = self.kwargs['pk']
+            self.project = get_object_or_404(Project, pk=project_id)
+        return self.project
+
+    def get_context_data(self, *args, **kwargs):
+        tenant_id = self.kwargs.get('tenant_id')
+        project = self.get_project()
+        context = super().get_context_data(*args, **kwargs)
+        context['project'] = project
+        context['backlog'] = project.backlog
+        return context
+
+    def get_queryset(self, form_class=None):
+        tenant_id = self.kwargs['tenant_id']
+        project = self.get_project()
+        backlog_id = project.backlog.id # cannnot use project.roadmap_id because of one-to-one relationship
+        return Sprint.unscoped.filter(tenant_id=tenant_id, board_id=project.backlog.id, status__in=[Sprint.STATUS_NEW, Sprint.STATUS_READY, Sprint.STATUS_ONGOING])
 
 class ProjectSprint(TenantMixin, FilterView):
     model = Sprint
@@ -134,8 +166,8 @@ class ProjectSprint(TenantMixin, FilterView):
         tenant_id = self.kwargs['tenant_id']
         project_id = self.kwargs['pk']
         project = get_object_or_404(Project, pk=project_id)
-        breakpoint()
         return Sprint.unscoped.filter(tenant_id=tenant_id, project_id=project.id, status=Sprint.STATUS_ONGOING)
+
 
 class ProjectReports(TenantMixin, DetailView):
     model = Project

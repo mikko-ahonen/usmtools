@@ -54,7 +54,7 @@ class DomainCreateProject(TenantMixin, RedirectView):
         domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
         project, created = Project.objects.get_or_create(tenant_id=tenant_id, defaults={'name': domain.name + ' ' + _('project')})
         project.domains.add(domain)
-        return reverse('compliances:domain-list', kwargs={"tenant_id": tenant_id})
+        return reverse('compliances:domain-dashboard', kwargs={"tenant_id": tenant_id, "pk": domain_id})
 
 class DomainDashboard(TenantMixin, DetailView):
     model = Domain
@@ -171,12 +171,11 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
 
     def post(self, request, tenant_id, pk, project_id):
         context = self.get_context(request, tenant_id, pk, project_id)
-        breakpoint()
 
         if request.POST.get("create", False):
             with transaction.atomic():
                 backlog = self.create_backlog(context['domain'], context['project'], context['team_sprints_and_stories'])
-                return redirect(reverse('compliances:domain-list', kwargs={"tenant_id": tenant_id}))
+                return redirect(reverse('compliances:domain-dashboard', kwargs={"tenant_id": tenant_id, "pk": pk}))
         else:
             return render(request, self.template_name, context)
 

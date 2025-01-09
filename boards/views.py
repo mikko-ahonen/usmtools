@@ -57,7 +57,7 @@ def create_board(request, tenant_id, board_type):
 def board(request, tenant_id, board_type, board_uuid, partial=False):
     board_cls = get_board_class_by_type(board_type)
     board = get_object_or_404(
-        board_cls.unscoped.filter(tenant_id=tenant_id).prefetch_related("lists__tasks"), uuid=board_uuid
+        board_cls.unscoped.filter(tenant_id=tenant_id), uuid=board_uuid
     )
     template = "boards/_board.html" if partial else "boards/board.html"
     tenant_id = current_tenant_id()

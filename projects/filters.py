@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from crispy_forms.helper import FormHelper
 
 from compliances.models import Team, Project
-from projects.models import Sprint
+from projects.models import Sprint, Release
 
 
 def sprint_teams(request):
@@ -30,6 +30,19 @@ def sprint_teams(request):
         return Team.objects.none()
 
     return Team.unscoped.filter(tenant_id=tenant_id, project_id=project.id)
+
+
+class ReleaseFilter(django_filters.FilterSet):
+    status = django_filters.ChoiceFilter(choices=Release.STATUSES)
+
+    class Meta:
+        model = Release
+        fields = ['status' ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form.helper = FormHelper()
+        self.form.helper.form_tag = False
 
 
 class SprintFilter(django_filters.FilterSet):
