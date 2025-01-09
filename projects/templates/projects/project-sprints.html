@@ -6,14 +6,8 @@
 <section class="app">
 <div class="container">
 {% breadcrumbs tenant True 'compliances' %}
-<h1>{% trans 'Project' %} {{ project.name }}</h1>
+<h1>{% trans 'Project' %} {{ project.name }} current sprints</h1>
 
-{% if project.roadmap %}
-  <a class="btn btn-outline-primary" href="{% url 'projects:project-roadmap' tenant.id project.id %}">{% trans 'Roadmap' %}</a>
-{% endif %}
-{% if project.backlog %}
-  <a class="btn btn-outline-primary" href="{% url 'projects:project-backlog' tenant.id project.id %}">{% trans 'Backlog' %}</a>
-{% endif %}
 {% for team in project.teams.all %}
   {% if team.current_sprint %}
     <a class="btn btn-outline-primary" href="{% url 'projects:project-sprint' tenant.id project.id team.id %}">{{ team.current_sprint }}</a>

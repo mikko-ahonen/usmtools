@@ -25,5 +25,6 @@ class Board(component.Component):
         }
 
     class Media:
+        pass
         #css = "board/board.css"
-        js = "board/board.js"
+        #js = "board/board.js"

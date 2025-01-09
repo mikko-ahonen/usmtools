@@ -3,12 +3,29 @@
 {% load compliances %}
 {% load breadcrumbs %}
 {% block content %}
-<section class="app">
-<div class="container">
-{% breadcrumbs tenant True 'compliances' %}
-<h3>{{ domain.name }}</h3>
+<div class="container-fluid m-5">
+{% include 'compliances/fragments/compliances-tabs.html' %}
+
+<h3 class="mt-3">{{ domain.name }}</h3>
+{% with project=domain.projects.all.first %}
 <div class="row">
-  {% with project=domain.projects.all.first %}
+  <div class="col-4">
+    <h5>Project burndown</h5>
+    {% component "burndown" index=1 %}
+    {% endcomponent %}
+  </div>
+  <div class="col-4">
+    <h5>Release burndown</h5>
+    {% component "burndown" index=2 %}
+    {% endcomponent %}
+  </div>
+  <div class="col-4">
+    <h5>Sprint burndown</h5>
+    {% component "burndown" index=3 %}
+    {% endcomponent %}
+  </div>
+</div>
+<div class="row mt-5">
   {% if domain %}
   <div class="col-5">
     {% include 'compliances/fragments/deployment-status.html' with domain=domain project=project %}
@@ -17,9 +34,8 @@
     {% include 'compliances/fragments/audit-lightboard.html' with sections=domain.root_sections level=0 only %}
   </div>
   {% endif %}
-  {% endwith %}
-i</div>
 </div>
-</section>
+{% endwith %}
+</div>
 {% include 'compliances/fragments/modal.html' %}
 {% endblock %}

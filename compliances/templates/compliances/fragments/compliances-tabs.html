@@ -1,18 +1,18 @@
 {% load i18n %}
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link {% if '/dashboard/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'compliances:compliance-dashboard' tenant.id project.id %}">{% trans 'Dashboard' %}</a>
+    <a class="nav-link {% if '/dashboard/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}">{% trans 'Dashboard' %}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {% if '/roadmap/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-roadmap' tenant.id project.id %}">{% trans 'Roadmap' %}</a>
+    <a class="nav-link {% if '/roadmap/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-roadmap' tenant.id domain.project.id %}">{% trans 'Roadmap' %}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {% if '/backlog/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-backlog' tenant.id project.id %}">{% trans 'Backlog' %}</a>
+    <a class="nav-link {% if '/backlog/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-backlog' tenant.id domain.project.id %}">{% trans 'Backlog' %}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {% if '/sprint/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-sprint' tenant.id project.id%}">{% trans 'Sprint' %}</a>
+    <a class="nav-link {% if '/sprint/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-sprints' tenant.id domain.project.id %}">{% trans 'Sprints' %}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {% if '/reports/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-reports' tenant.id project.id%}">{% trans 'Reports' %}</a>
+    <a class="nav-link {% if '/reports/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-reports' tenant.id domain.project.id%}">{% trans 'Reports' %}</a>
   </li>
 </ul>

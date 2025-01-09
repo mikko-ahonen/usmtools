@@ -19,7 +19,7 @@ class BoardList(component.Component):
             breakpoint()
             raise ValueError("list required")
 
-        tenant_id = current_tenant_id()
+        tenant_id = kwargs.get("tenant_id", None) or current_tenant_id()
 
         return {
             "board": kwargs.get("board"),
@@ -64,13 +64,22 @@ class BoardList(component.Component):
         project.start_sprint(sprint)
         return context
 
+    def end_sprint(self, tenant_id, request):
+        context = self.get_context(tenant_id, request)
+        project = context["board"].project
+        sprint = context["list"]
+        project.end_sprint(sprint)
+        return context
+
     def post(self, request, *args, **kwargs):
         tenant_id = kwargs['tenant_id']
         op = kwargs['op']
 
         if op == "start-sprint":
             context = self.start_sprint(tenant_id, request)
+        elif op == "end-sprint":
+            context = self.end_sprint(tenant_id, request)
         else:
             raise ValueError(f"Invalid op: {op}")
 
-        return self.render_to_response(context, {})
+        return self.render_to_response(kwargs=context)

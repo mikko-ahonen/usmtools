@@ -9,12 +9,7 @@
 <div class="container">
 {% breadcrumbs tenant True 'compliances' %}
 
-<form method="get" action="{% url 'projects:project-sprint' tenant.id project.id team.id %}">
-  {% crispy filter.form %}
-  <button class="btn btn-outline-primary">{% trans 'Apply' %}</button>
-</form>
-
-{% component "board" tenant_id=tenant.id board=sprint lists=statuses %}
+{% component "burndown" %}
 {% endcomponent %}
 
 </div>

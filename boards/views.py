@@ -15,15 +15,21 @@ def get_board_class_by_type(board_type):
         return apps.get_model('projects', 'Roadmap')
     elif board_type == 'backlog':
         return apps.get_model('projects', 'Backlog')
+    elif board_type == 'sprint':
+        return apps.get_model('projects', 'Sprint')
     else:
         raise ValueError(f"Invalid board type: {board_type}")
 
 def get_list_class_by_type(board_type):
     board_cls = get_board_class_by_type(board_type)
+    if isinstance(board_cls.list_class, tuple):
+        return apps.get_model(*board_cls.list_class)
     return board_cls.list_class
 
 def get_task_class_by_type(board_type):
     board_cls = get_board_class_by_type(board_type)
+    if isinstance(board_cls.task_class, tuple):
+        return apps.get_model(*board_cls.task_class)
     return board_cls.task_class
 
 def boards(request, tenant_id):

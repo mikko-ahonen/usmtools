@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'accounts',
     'survey',
     'boards',
+    'stats',
     'projects',
 ]
 

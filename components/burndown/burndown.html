@@ -1,0 +1,15 @@
+<div><canvas id="burndown{{ index }}"></canvas></div>
+<script>
+$(function() {
+    console.log( "ready!" );
+
+showBurnDown (
+      "burndown{{ index }}",
+      //   1    2    3    4    5    6    7    8    9   10
+      [  200, 160, 160, 140,  90,  90,  80                  ], // burndown data
+      [    0,   0,   0,   0,   0,  32,   0,   0,   0,   0   ]  // scope change
+    );
+});
+</script>
+{{ burndown_data|json_script:"burndown_data" }}
+{{ ideal_data|json_script:"ideal_data" }}

@@ -99,6 +99,8 @@ class Sprint(List, Board):
     _show_list_count = False
     board_type = Board.BOARD_TYPE_SPRINT
     list_type = List.LIST_TYPE_SPRINT
+    list_class = ('projects', 'Status')
+    task_class = ('projects', 'Story')
     board = models.ForeignKey('Backlog', on_delete=models.CASCADE, related_name="lists")
     team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.PROTECT)
 

@@ -26,8 +26,8 @@ from workflows.models import Tenant
 from workflows.views import TenantMixin
 from workflows.tenant import current_tenant_id
 
-from .filters import SprintFilter, ReleaseFilter
-from .models import Project, Release, Epic, Sprint, Backlog
+from .filters import SprintFilter, ReleaseFilter, StoryFilter
+from .models import Project, Release, Epic, Sprint, Backlog, Team, Story
 from . import forms
 
 logger = logging.getLogger(__name__)
@@ -92,6 +92,12 @@ class ProjectDetail(TenantMixin, DetailView):
     context_object_name = 'project'
 
 
+class ProjectSprints(TenantMixin, DetailView):
+    model = Project
+    template_name = 'projects/project-sprints.html'
+    context_object_name = 'project'
+
+
 class ProjectRoadmap(TenantMixin, FilterView):
     model = Release
     template_name = 'projects/project-roadmap.html'
@@ -146,27 +152,32 @@ class ProjectBacklog(TenantMixin, FilterView):
         tenant_id = self.kwargs['tenant_id']
         project = self.get_project()
         backlog_id = project.backlog.id # cannnot use project.roadmap_id because of one-to-one relationship
-        return Sprint.unscoped.filter(tenant_id=tenant_id, board_id=project.backlog.id, status__in=[Sprint.STATUS_NEW, Sprint.STATUS_READY, Sprint.STATUS_ONGOING])
+        return Sprint.unscoped.filter(tenant_id=tenant_id, board_id=project.backlog.id, status__in=[Sprint.STATUS_NEW, Sprint.STATUS_READY, Sprint.STATUS_ONGOING]).order_by('index')
 
 class ProjectSprint(TenantMixin, FilterView):
-    model = Sprint
+    model = Story
     template_name = 'projects/project-sprint.html'
-    context_object_name = 'sprints'
-    filterset_class = SprintFilter
+    context_object_name = 'stories'
+    filterset_class = StoryFilter
 
     def get_context_data(self, *args, **kwargs):
         tenant_id = self.kwargs.get('tenant_id')
         context = super().get_context_data(*args, **kwargs)
         project_id = self.kwargs['pk']
         project = get_object_or_404(Project, pk=project_id)
+        team_id = self.kwargs.get('team_id')
+        team = get_object_or_404(Team, id=team_id)
         context['project'] = project
+        context['team'] = team
+        context['sprint'] = team.current_sprint
+        context['statuses'] = team.current_sprint.lists.order_by('index')
         return context
 
     def get_queryset(self, form_class=None):
         tenant_id = self.kwargs['tenant_id']
         project_id = self.kwargs['pk']
-        project = get_object_or_404(Project, pk=project_id)
-        return Sprint.unscoped.filter(tenant_id=tenant_id, project_id=project.id, status=Sprint.STATUS_ONGOING)
+        team_id = self.kwargs.get('team_id')
+        return Sprint.unscoped.filter(tenant_id=tenant_id, project_id=project_id, team_id=team_id, status=Sprint.STATUS_ONGOING)
 
 
 class ProjectReports(TenantMixin, DetailView):

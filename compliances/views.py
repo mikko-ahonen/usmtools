@@ -143,7 +143,7 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
                 start_date = end_date + timedelta(days=1)
 
             end_date = start_date + timedelta(project.sprint_length_in_days)
-            sprint_name = f'Team {team.name} sprint {i + 1}'
+            sprint_name = f'{team.name} Sprint {i + 1}'
             sprint = Sprint(tenant=tenant, name=sprint_name, start_date=start_date, end_date=end_date, tenant_id=tenant.id, team=team)
             sprints.append(sprint)
 
