@@ -2,7 +2,6 @@ from django.urls import path
 
 from django.views.generic.base import RedirectView
 
-#from components.status_board.status_board import StatusBoard
 from components.board.board_list import BoardList
 
 app_name = "components"

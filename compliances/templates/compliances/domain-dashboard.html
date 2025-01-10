@@ -8,6 +8,7 @@
 
 <h3 class="mt-3">{{ domain.name }}</h3>
 {% with project=domain.projects.all.first %}
+{% if domain.is_project_backlog_created %}
 <div class="row">
   <div class="col-4">
     <h5>Project burndown</h5>
@@ -25,13 +26,19 @@
     {% endcomponent %}
   </div>
 </div>
+{% endif %}
 <div class="row mt-5">
   {% if domain %}
   <div class="col-5">
     {% include 'compliances/fragments/deployment-status.html' with domain=domain project=project %}
   </div>
   <div class="col-7">
+    {% component "lightboard" tenant_id=tenant_id domain=domain %}
+    {% endcomponent %}
+
+    {% comment %}
     {% include 'compliances/fragments/audit-lightboard.html' with domain=domain sections=domain.root_sections level=0 only %}
+    {% endcomment %}
   </div>
   {% endif %}
 </div>

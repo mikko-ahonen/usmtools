@@ -69,6 +69,12 @@ class DomainDashboard(TenantMixin, DetailView):
     template_name = 'compliances/domain-dashboard.html'
     context_object_name = 'domain'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs['tenant_id']
+        context['tenant_id'] = tenant_id
+        return context
+
 class DomainSpec(TenantMixin, DetailView):
     model = Domain
     template_name = 'compliances/domain-spec.html'
