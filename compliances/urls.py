@@ -11,7 +11,6 @@ urlpatterns = [
     path('<uuid:tenant_id>/domains/<uuid:pk>/dashboard/', views.DomainDashboard.as_view(), name='domain-dashboard'),
     path('<uuid:tenant_id>/domains/<uuid:pk>/spec/', views.DomainSpec.as_view(), name='domain-spec'),
     path('<uuid:tenant_id>/domains/<uuid:pk>/constraints/', views.DomainConstraints.as_view(), name='domain-constraints'),
-    #path('<uuid:tenant_id>/domains/<uuid:pk>/deployment/', views.DeploymentBoard.as_view(), name='deployment-board'),
     path('<uuid:tenant_id>/domains/<uuid:pk>/projects/create/', views.DomainCreateProject.as_view(), name='domain-create-project'),
     path('<uuid:tenant_id>/domains/<uuid:domain_id>/projects/<uuid:pk>/setup/', views.DomainProjectSetup.as_view(), name='domain-project-setup'),
     path('<uuid:tenant_id>/domains/<uuid:pk>/projects/<uuid:project_id>/roadmaps/create/', views.DomainProjectCreateRoadmap.as_view(), name='domain-project-create-roadmap'),

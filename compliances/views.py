@@ -302,31 +302,6 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
         context['targets'] = targets
         return context
 
-class DomainProjectTargetAudit(TenantMixin, DetailView):
-    model = Domain
-    template_name = 'compliances/deployment-board.html'
-    context_object_name = 'domain'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        domain_id = self.kwargs['pk']
-        context['columns'] = [
-            {
-                'name': _("Non-compliant"),
-                'statuses': ['new', 'ongoing', 'implemented', 'non-compliant', 'failed'],
-            },
-            {
-                'name': _("Compliant"),
-                'statuses': ['compliant'],
-            },
-            {
-                'name': _("Audited"),
-                'statuses': ['audited'],
-            },
-        ]
-        context['constraints'] = Constraint.objects.filter(requirement__section__domain_id=domain_id).select_related('requirement', 'requirement__section', 'requirement__section__domain')
-        return context
-
 def targets(request, project):
     tenant_id = current_tenant_id()
     targets = Target.objects.filter(project_id=project.id)
