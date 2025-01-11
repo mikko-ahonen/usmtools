@@ -1,15 +1,24 @@
-<div><canvas id="burndown{{ index }}"></canvas></div>
+{% if ideal_data %}
+{% with burndown_data_id="burndown_data_"|add:index ideal_data_id="ideal_data_"|add:index burndown_legends_id="burndown_legends_"|add:index %}
+<div><canvas id="burndown_{{ index }}"></canvas></div>
+{{ legends|json_script:burndown_legends_id }}
+{{ burndown_data|json_script:burndown_data_id }}
+{{ ideal_data|json_script:ideal_data_id }}
 <script>
 $(function() {
-    console.log( "ready!" );
+  console.log( "ready!" );
 
-showBurnDown (
-      "burndown{{ index }}",
-      //   1    2    3    4    5    6    7    8    9   10
-      [  200, 160, 160, 140,  90,  90,  80                  ], // burndown data
-      [    0,   0,   0,   0,   0,  32,   0,   0,   0,   0   ]  // scope change
+  const burndown_data = JSON.parse(document.getElementById('{{ burndown_data_id }}').textContent);
+  const ideal_data = JSON.parse(document.getElementById('{{ ideal_data_id }}').textContent);
+  const legends = JSON.parse(document.getElementById('{{ burndown_legends_id }}').textContent);
+
+  showBurnDown(
+      "burndown_{{ index }}",
+      legends,
+      burndown_data,
+      ideal_data
     );
 });
 </script>
-{{ burndown_data|json_script:"burndown_data" }}
-{{ ideal_data|json_script:"ideal_data" }}
+{% endwith %}
+{% endif %}

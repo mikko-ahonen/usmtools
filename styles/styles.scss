@@ -337,3 +337,12 @@ $step-line-color: $gray-500 !default;
       border-radius: 900px;
       font-size: 24px;
 }
+
+.accordion-button:not(.collapsed) {
+      background-color: transparent !important;
+      color: inherit;
+    }
+
+button.accordion-button:focus{
+      box-shadow: inherit;
+}

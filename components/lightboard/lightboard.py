@@ -19,7 +19,10 @@ class Lightboard(component.Component):
 
         domain = kwargs["domain"]
 
-        sections = Section.unscoped.filter(tenant_id=tenant_id, domain_id=domain.id).with_tree_fields()
+        sections = domain.sections_with_status()
+        for section in sections:
+            if section._status is None:
+                raise ValueError(f"Plaa {section}")
 
         return {
             "domain": domain,

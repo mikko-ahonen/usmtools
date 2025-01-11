@@ -25,6 +25,9 @@ class Project(TenantAwareOrderedModelBase):
     def __str__(self):
         return self.name or ""
 
+    def get_active_sprints(self):
+        return Sprint.unscoped.filter(tenant_id=self.tenant_id, project_id=self.id, status=Sprint.STATUS_ONGOING)
+
     def start_sprint(self, sprint):
 
         team = sprint.team
@@ -173,8 +176,8 @@ class Story(Task):
     constraint = models.ForeignKey('compliances.Constraint', null=True, blank=True, on_delete=models.PROTECT)
 
     STATUS_NEW = "new"
-    STATUS_ONGOING = "ongoing"
     STATUS_READY = "ready"
+    STATUS_ONGOING = "ongoing"
     STATUS_CLOSED = "closed"
     STATUSES = [
         (STATUS_NEW, _("New")),

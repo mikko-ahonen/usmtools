@@ -4,7 +4,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from projects.models import Project
+from projects.models import Project, Story
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 
 class Domain(TenantAwareOrderedModelBase):
@@ -69,6 +69,19 @@ class Domain(TenantAwareOrderedModelBase):
     def constraints(self):
         return self.constraint_set(manager='unscoped')
 
+    def sections_with_status(self):
+        sections = list(Section
+                        .unscoped
+                        .filter(tenant_id=self.tenant.id, domain_id=self.id)
+                        .with_tree_fields())
+        for section in sections:
+            section._status = Constraint.most_urgent_status([r.get_status() for r in section.requirements.all()])
+            if not section._status:
+                section._status = Constraint.STATUS_NEW
+            if section.parent:
+                section.parent._status = Constraint.most_urgent_status([section._status, section.parent._status])
+        return sections
+
     def __str__(self):
         return self.name or self.slug or str(self.id)
 
@@ -85,6 +98,7 @@ class Section(TenantAwareTreeModelBase):
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    _status = None
 
     @property
     def subsections(self):
@@ -108,6 +122,12 @@ class Requirement(TenantAwareOrderedModelBase):
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
     text = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    _status = None
+
+    def get_status(self):
+        if not self._status:
+            self._status = Constraint.most_urgent_status([constraint.status for constraint in self.statement.constraints])
+        return self._status
 
     @property
     def statement(self):
@@ -216,7 +236,39 @@ class Constraint(TenantAwareOrderedModelBase):
         (STATUS_COMPLIANT, _("Compliant")),
         (STATUS_AUDITED, _("Audited")),
     ]
+
+    STATUS_URGENCY = {v: i for i, v in enumerate([
+        STATUS_AUDITED,
+        STATUS_COMPLIANT,
+        STATUS_IMPLEMENTED,
+        STATUS_ONGOING,
+        STATUS_NEW,
+        STATUS_NON_COMPLIANT, 
+        STATUS_FAILED, 
+    ])}
+
     status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
+
+    @classmethod
+    def cmp_status_urgency(cls, a, b):
+        if not a:
+            if b:
+                return 1
+            return 0
+        if not b:
+            if a:
+                return -1
+            assert False
+        return cls.STATUS_URGENCY[a] - cls.STATUS_URGENCY[b]
+
+    @classmethod
+    def most_urgent_status(cls, statuses):
+        status = None
+        for s in statuses:
+            if cls.cmp_status_urgency(status, s) > 0:
+                status = s
+
+        return status
 
     order_field_name = 'index'
 

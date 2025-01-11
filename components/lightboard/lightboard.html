@@ -1,16 +1,47 @@
 {% load compliances %}
 {% load tq_template %}
+{% load compliances %}
 
 {% for section,structure in sections|tree_info %}
-{% if structure.new_level %}<ul><li>{% else %}</li><li>{% endif %}
-{{ section.docid }} {{ section.title }}
-<table>
-  {% for requirement in section.requirements.all %}
-  <tr>
-    <td>{{ 'not-ok' | status_icon }}</td>
-    <td>{{ requirement.text }}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% for level in structure.closed_levels %}</li></ul>{% endfor %}
+{% if structure.new_level %}
+<div class="lightboard">
+  <div class="accordion" id="lightboard-accordion-{{ forloop.counter }}a">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="lightboard-accordion-header-{{ forloop.counter }}a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#lightboard-accordion-collapse-{{ forloop.counter }}a" aria-expanded="true" aria-controls="lightboard-accordion-collapse-{{ forloop.counter }}a">
+          <div class="col-1">{{ section|section_status }}</div>
+          <div class="col-11"><small>{{ section.doc }} {{ section.docid }} {{ section.title }}</small></div>
+        </button>
+      </h2>
+      <div id="lightboard-accordion-collapse-{{ forloop.counter }}a" class="accordion-collapse collapse" aria-labelledby="lightboard-accordion-header-{{ forloop.counter }}a" data-bs-parent="#lightboard-accordion-{{ forloop.counter }}a">
+        <div class="accordion-body">
+{% else %}
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="lightboard-accordion-header-{{ forloop.counter }}b">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#lightboard-accordion-collapse-{{ forloop.counter }}b" aria-expanded="true" aria-controls="lightboard-accordion-collapse-{{ forloop.counter }}b">
+          <div class="col-1">{{ section|section_status }}</div>
+          <div class="col-11"><small>{{ section.doc }} {{ section.docid }} {{ section.title }}</small></div>
+        </button>
+      </h2>
+      <div id="lightboard-accordion-collapse-{{ forloop.counter }}b" class="accordion-collapse collapse" aria-labelledby="lightboard-accordion-header-{{ forloop.counter }}b" data-bs-parent="#lightboard-accordion-{{ forloop.counter }}b">
+        <div class="accordion-body">
+{% endif %}
+{% if section.requirements.count > 0 %}
+          {% for requirement in section.requirements.all %}
+          <div class="row d-flex align-items-center">
+              <div class="col-1">{{ requirement | requirement_status }}</div>
+              <div class="col-11"><small>{{ requirement.text }}</small></div>
+            </div>
+          {% endfor %}
+{% endif %}
+{% for level in structure.closed_levels %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 {% endfor %}

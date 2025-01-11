@@ -8,7 +8,7 @@ function sumArrayUpTo(arrData, index) {
     return total;
 }
 
-function showBurnDown(elementId, burndownData, scopeChange = []) {
+function showBurnDown(elementId, labels, burndownData, idealData) {
 
     var speedCanvas = document.getElementById(elementId);
 
@@ -20,7 +20,7 @@ function showBurnDown(elementId, burndownData, scopeChange = []) {
     i = 0;
 
     var speedData = {
-        labels: [ "Day 1",	"Day 2",	"Day 3",	"Day 4",	"Day 5",	"Day 6",	"Day 7",	"Day 8",	"Day 9", "Day 10"],
+        labels: labels,
         datasets: [
             {
                 label: "Burndown",
@@ -37,18 +37,7 @@ function showBurnDown(elementId, burndownData, scopeChange = []) {
                 lineTension: 0,
                 borderDash: [5, 5],
                 fill: false,
-                data: [
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 0)), // 1
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 1)), // 2
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 2)), // 3
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 3)), // 4
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 4)), // 5
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 5)), // 6
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 6)), // 7
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 7)), // 8
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 8)), // 9
-                    Math.round(totalHoursInSprint - (idealHoursPerDay * i++) + sumArrayUpTo(scopeChange, 9))  // 10
-                ]
+                data: idealData,
           },
         ]
       };

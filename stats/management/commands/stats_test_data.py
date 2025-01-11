@@ -35,14 +35,14 @@ class Command(BaseCommand):
                 sprint = team.current_sprint
                 if sprint:
                     print(f"    Sprint {sprint.name}")
-                    burndown, created = Dataset.unscoped.get_or_create(tenant_id=tenant_id, name=sprint.name + " burndown", defaults={"content_object": sprint, "label": "Burndown"})
-                    ideal, created = Dataset.unscoped.get_or_create(tenant_id=tenant_id, name=sprint.name + " ideal", defaults={"content_object": burndown, "label": "Ideal"})
+                    burndown, created = Dataset.unscoped.get_or_create(tenant_id=tenant.id, name=sprint.name + " burndown", defaults={"content_object": sprint, "label": "Burndown"})
+                    ideal, created = Dataset.unscoped.get_or_create(tenant_id=tenant.id, name=sprint.name + " ideal", defaults={"content_object": burndown, "label": "Ideal"})
                     dt = sprint.start_date
                     story_count = sprint.stories.count()
                     length_in_days = abs((sprint.end_date - sprint.start_date).days)
                     ideal_story_count_per_day = int(story_count / length_in_days)
                     while dt < sprint.end_date - timedelta(days=4):
                         ideal_val = abs((dt - sprint.start_date).days) * ideal_story_count_per_day
-                        _, _ = Datapoint.unscoped.get_or_create(dataset=ideal, date=dt, defaults={"value": ideal_val})
-                        _, _ = Datapoint.unscoped.get_or_create(dataset=burndown, date=dt, defaults={"value": random.randint(min(ideal_val - 4, 0), ideal_val + 4)})
+                        _, _ = Datapoint.unscoped.get_or_create(tenant_id=tenant.id, dataset=ideal, date=dt, defaults={"value": ideal_val})
+                        _, _ = Datapoint.unscoped.get_or_create(tenant_id=tenant.id, dataset=burndown, date=dt, defaults={"value": random.randint(min(ideal_val - 4, 0), ideal_val + 4)})
                         dt += timedelta(days=1)

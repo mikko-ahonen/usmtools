@@ -10,21 +10,29 @@
 {% with project=domain.projects.all.first %}
 {% if domain.is_project_backlog_created %}
 <div class="row">
+  {% if project.roadmap %}
   <div class="col-4">
-    <h5>Project burndown</h5>
-    {% component "burndown" index=1 %}
+    <h5>Project</h5>
+    {% component "burndown" tenant_id=tenant.id object=project.roadmap index=1 %}
     {% endcomponent %}
   </div>
+  {% endif %}
+  {% if project.current_release %}
   <div class="col-4">
-    <h5>Release burndown</h5>
-    {% component "burndown" index=2 %}
+    <h5>Release</h5>
+    {% component "burndown" tenant_id=tenant.id object=project.current_release index=2 %}
     {% endcomponent %}
   </div>
-  <div class="col-4">
-    <h5>Sprint burndown</h5>
-    {% component "burndown" index=3 %}
-    {% endcomponent %}
-  </div>
+  {% endif %}
+  {% for sprint in project.get_active_sprints %}
+    <div class="col-4">
+      <h5>{{ sprint.name }}</h5>
+      {% with idx=forloop.counter|add:"3" %}
+      {% component "burndown" tenant_id=tenant.id object=sprint index=idx %}
+      {% endcomponent %}
+      {% endwith %}
+    </div>
+  {% endfor %}
 </div>
 {% endif %}
 <div class="row mt-5">
@@ -33,7 +41,7 @@
     {% include 'compliances/fragments/deployment-status.html' with domain=domain project=project %}
   </div>
   <div class="col-7">
-    {% component "lightboard" tenant_id=tenant_id domain=domain %}
+    {% component "lightboard" tenant_id=tenant.id domain=domain %}
     {% endcomponent %}
 
     {% comment %}

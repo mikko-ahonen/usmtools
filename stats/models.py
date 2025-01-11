@@ -16,8 +16,13 @@ class Dataset(TenantAwareModelBase):
     content_object = GenericForeignKey("content_type", "object_id")
 
     @property
-    def datapoints(self):
-        return self.datapoint_set(manager='unscoped').filter(tenant_id=self.tenant_id)
+    def datapoints(self, object):
+        return self.datapoint_set(manager='unscoped').filter(tenant_id=self.tenant_id).order_by('date')
+
+    @classmethod
+    def by_object(cls, tenant_id, object):
+        content_type = ContentType.objects.get_for_model(object)
+        return cls.unscoped.get(tenant_id=tenant_id, object_id=object.id, content_type=content_type)
 
 class Datapoint(TenantAwareModelBase):
     date = models.DateField()
