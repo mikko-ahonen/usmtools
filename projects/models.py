@@ -19,11 +19,15 @@ class Project(TenantAwareOrderedModelBase):
     release_length_in_days = models.PositiveSmallIntegerField(default=21)
     epics_per_release = models.PositiveSmallIntegerField(default=2)
     storypoints_in_sprint = models.PositiveSmallIntegerField(default=10)
+    ideal_story_points_per_day = models.PositiveSmallIntegerField(default=10, help_text=_('Accross all teams. Used to estimate the project cmpletion date, for example in the burndown chart.'))
 
     order_field_name = 'index'
 
     def __str__(self):
         return self.name or ""
+
+    def get_current_release(self):
+        return self.roadmap.releases.filter(status=Release.STATUS_ONGOING).first()
 
     def get_active_sprints(self):
         return Sprint.unscoped.filter(tenant_id=self.tenant_id, project_id=self.id, status=Sprint.STATUS_ONGOING)
@@ -39,6 +43,15 @@ class Project(TenantAwareOrderedModelBase):
         team.save()
         sprint.status = Sprint.STATUS_ONGOING
         sprint.save()
+
+    def get_epics(self):
+        qs = None
+        for release in self.roadmap.releases.all():
+            if qs:
+                qs = qs.union(release.epics.all())
+            else:
+                qs = release.epics.all()
+        return qs
 
     def stop_sprint(self, sprint):
 
@@ -159,8 +172,17 @@ class Status(List):
 class Epic(Task):
     _default_task_type = Task.TASK_TYPE_EPIC
     list = models.ForeignKey(Release, on_delete=models.CASCADE, related_name="tasks")
+    _story_points = None
 
     category = models.ForeignKey('compliances.Category', null=True, blank=True, on_delete=models.PROTECT)
+
+    def get_story_points(self):
+        if not self._story_points:
+            story_points = 0
+            for story in self.story_set.all():
+                story_points += story.story_points
+            self._story_points = story_points
+        return self._story_points
 
     class Meta(Task.Meta):
         verbose_name = "epic"
@@ -174,6 +196,7 @@ class Story(Task):
     team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.PROTECT)
     epic = models.ForeignKey(Epic, null=True, blank=True, on_delete=models.SET_NULL)
     constraint = models.ForeignKey('compliances.Constraint', null=True, blank=True, on_delete=models.PROTECT)
+    story_points = models.FloatField(null=True, blank=True)
 
     STATUS_NEW = "new"
     STATUS_READY = "ready"

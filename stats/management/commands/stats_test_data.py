@@ -1,10 +1,14 @@
+import math
 import random
+
 from datetime import date, timedelta
 
 from django.core.management.base import BaseCommand, CommandError
+from django.contrib.contenttypes.models import ContentType
 
+from workflows.tenant import set_tenant_id
 from workflows.tenant_models import Tenant
-from projects.models import Project
+from projects.models import Project, Sprint, Epic, Story
 from stats.models import Dataset, Datapoint
 
 class Command(BaseCommand):
@@ -13,7 +17,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--tenant', type=str, help="Tenant for the domain to be updated")
 
-    def handle(self, *args, **options):
+    def get_tenant(self, options):
         tenant_id = options['tenant']
         if not tenant_id:
             qs = Tenant.objects.all()
@@ -27,22 +31,69 @@ class Command(BaseCommand):
             raise CommandError("tenant not found")
 
         print(f"Tenant {tenant.id}:")
+        return tenant
+
+    def create_object_datasets(self, tenant, object, task_qs):
+        burndown, created = Dataset.unscoped.get_or_create(tenant_id=tenant.id, name=str(object) + " burndown", defaults={"content_object": object, "label": "Burndown"})
+        if not created:
+            burndown.datapoint_set.all().delete()
+        ideal, created = Dataset.unscoped.get_or_create(tenant_id=tenant.id, name=str(object) + " ideal", defaults={"content_object": burndown, "label": "Ideal"})
+        if not created:
+            ideal.datapoint_set.all().delete()
+       
+        dt = object.start_date
+
+        story_points = 0
+        for task in task_qs.all():
+            if isinstance(task, Epic):
+                story_points += task.get_story_points()
+            elif isinstance(task, Story):
+                story_points += task.story_points
+            
+        ideal_story_points_per_day = getattr(object, 'ideal_story_points_per_day', None)
+
+        if ideal_story_points_per_day:
+            length_in_days = int(story_points / ideal_story_points_per_day) + 1
+        else:
+            length_in_days = abs((object.end_date - object.start_date).days)
+
+        if not ideal_story_points_per_day:
+            ideal_story_points_per_day = float(story_points / length_in_days)
+
+        for n in range(0, length_in_days + 1):
+            ideal_val = abs(length_in_days - n) * ideal_story_points_per_day
+            dt  = object.start_date + timedelta(days=n)
+
+            # leave few days off so the graph looks more realistic
+            if n < length_in_days - 4:
+                _, _ = Datapoint.objects.get_or_create(dataset=ideal, date=dt, defaults={"value": ideal_val})
+            _, _ = Datapoint.objects.get_or_create(dataset=burndown, date=dt, defaults={"value": random.randint(min(ideal_val - 4, 0), ideal_val + 4)})
+
+    def create_dataset_for_release(self, tenant, project):
+        if current_release := project.get_current_release():
+            return self.create_object_datasets(tenant, project.current_release, current_release.epics)
+
+    def create_dataset_for_project(self, tenant, project):
+        return self.create_object_datasets(tenant, project, project.get_epics())
+
+    def create_datasets_for_current_sprints(self, tenant, project):
+
+        sprint_type = ContentType.objects.get_for_model(Sprint)
+
+        for team in project.teams(manager='unscoped').all():
+            print(f"  Team {team.name}")
+            sprint = team.current_sprint
+            if sprint:
+                print(f"    Sprint {sprint.name}")
+                self.create_object_datasets(tenant, sprint, sprint.stories)
+
+    def handle(self, *args, **options):
+        tenant = self.get_tenant(options)
+
+        set_tenant_id(tenant.id)
 
         for project in Project.unscoped.all():
             print(f"Processing project {project.id}:")
-            for team in project.teams(manager='unscoped').all():
-                print(f"  Team {team.name}")
-                sprint = team.current_sprint
-                if sprint:
-                    print(f"    Sprint {sprint.name}")
-                    burndown, created = Dataset.unscoped.get_or_create(tenant_id=tenant.id, name=sprint.name + " burndown", defaults={"content_object": sprint, "label": "Burndown"})
-                    ideal, created = Dataset.unscoped.get_or_create(tenant_id=tenant.id, name=sprint.name + " ideal", defaults={"content_object": burndown, "label": "Ideal"})
-                    dt = sprint.start_date
-                    story_count = sprint.stories.count()
-                    length_in_days = abs((sprint.end_date - sprint.start_date).days)
-                    ideal_story_count_per_day = int(story_count / length_in_days)
-                    while dt < sprint.end_date - timedelta(days=4):
-                        ideal_val = abs((dt - sprint.start_date).days) * ideal_story_count_per_day
-                        _, _ = Datapoint.unscoped.get_or_create(tenant_id=tenant.id, dataset=ideal, date=dt, defaults={"value": ideal_val})
-                        _, _ = Datapoint.unscoped.get_or_create(tenant_id=tenant.id, dataset=burndown, date=dt, defaults={"value": random.randint(min(ideal_val - 4, 0), ideal_val + 4)})
-                        dt += timedelta(days=1)
+            self.create_dataset_for_project(tenant, project)
+            self.create_dataset_for_release(tenant, project)
+            self.create_datasets_for_current_sprints(tenant, project)

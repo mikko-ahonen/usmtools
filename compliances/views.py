@@ -114,12 +114,12 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
                 # No category => Create generic story for all the teams
                 if not epic.category:
                     for team in project.teams.all():
-                        story = Story(tenant=tenant, name=_('Common') + ': ' + epic.name[:100], description=epic.description, epic=epic, tenant_id=tenant.id, constraint=None)
+                        story = Story(tenant=tenant, name=_('Common') + ': ' + epic.name[:100], description=epic.description, epic=epic, tenant_id=tenant.id, constraint=None, story_points=5)
                         team_id = str(team.id)
                         team_stories[team_id].append(story)
                     continue
                 for constraint in epic.category.constraints.all():
-                    story = Story(tenant=tenant, name=epic.category.name + ': ' + constraint.text[:100], description=constraint.text, epic=epic, tenant_id=tenant.id, constraint=constraint, team=epic.category.team)
+                    story = Story(tenant=tenant, name=epic.category.name + ': ' + constraint.text[:100], description=constraint.text, epic=epic, tenant_id=tenant.id, constraint=constraint, team=epic.category.team, story_points=5)
                     team_id = str(epic.category.team.id)
                     team_stories[team_id].append(story)
 
@@ -221,7 +221,7 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
             for category in Category.objects.filter(domain=domain).order_by('index'):
                 epic_name = str(category) + " " + str(target)
                 epic_names[epic_name] = category
-        epics = [Epic(name=name, category=category) for name, category in epic_names.items()]
+        epics = [Epic(name=name, category=category, tenant_id=project.tenant_id) for name, category in epic_names.items()]
         number_of_releases = math.ceil(len(epics)/epics_in_release)
         releases = []
         release_epics = defaultdict(list)
@@ -230,16 +230,17 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
         for i in range(number_of_releases):
             end_date = start_date + timedelta(release_length_in_days)
             release_name = f'0.{i + 1}.0'
-            release = Release(name=release_name, start_date=start_date, end_date=end_date)
+            release = Release(tenant_id=project.tenant_id, name=release_name, start_date=start_date, end_date=end_date)
             this_release_epics = epics[epics_in_release * i:epics_in_release * (i + 1)]
             for epic in this_release_epics:
                 release_epics[release_name].append(epic)
             releases.append(release)
             start_date = end_date + timedelta(days=1)
         end_date = start_date + timedelta(release_length_in_days)
-        final_release = Release(name='1.0.0', start_date=start_date, end_date=end_date)
+        final_release = Release(name='1.0.0', start_date=start_date, end_date=end_date, tenant_id=project.tenant_id)
         releases.append(final_release)
-        release_epic = Epic(name=_("Project finalization"), list=final_release)
+        releeases[0].status = Release.STATUS_ONGOING
+        release_epic = Epic(name=_("Project finalization"), list=final_release, tenant_id=project.tenant_id)
         release_epics[final_release.name].append(release_epic)
         return releases, release_epics
 

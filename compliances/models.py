@@ -219,6 +219,7 @@ class Constraint(TenantAwareOrderedModelBase):
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True)
+    story_points = models.FloatField(null=True, blank=True)
 
     STATUS_NEW = "new"
     STATUS_ONGOING = "ongoing"

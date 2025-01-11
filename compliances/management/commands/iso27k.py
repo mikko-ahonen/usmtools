@@ -271,7 +271,7 @@ class Command(BaseCommand):
                         try:
                             constraint = Constraint.unscoped.get(tenant=tenant, domain_id=domain.id, text=constraint_text)
                         except Constraint.DoesNotExist:
-                            constraint = Constraint.unscoped.create(tenant=tenant, domain_id=domain.id, text=constraint_text, category=constraint_category, index=constraint_idx)
+                            constraint = Constraint.unscoped.create(tenant=tenant, domain_id=domain.id, text=constraint_text, category=constraint_category, index=constraint_idx, story_points=5)
                         constraint_statement_idx += 1
 
                         ConstraintStatement.unscoped.create(tenant=tenant, statement=statement, constraint=constraint, index=constraint_statement_idx)
