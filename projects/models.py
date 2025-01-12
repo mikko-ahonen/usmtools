@@ -18,7 +18,7 @@ class Project(TenantAwareOrderedModelBase):
     sprint_length_in_days = models.PositiveSmallIntegerField(default=21)
     release_length_in_days = models.PositiveSmallIntegerField(default=21)
     epics_per_release = models.PositiveSmallIntegerField(default=2)
-    storypoints_in_sprint = models.PositiveSmallIntegerField(default=10)
+    story_points_in_sprint = models.PositiveSmallIntegerField(default=10)
     ideal_story_points_per_day = models.PositiveSmallIntegerField(default=10, help_text=_('Accross all teams. Used to estimate the project cmpletion date, for example in the burndown chart.'))
 
     order_field_name = 'index'

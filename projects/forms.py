@@ -12,7 +12,7 @@ class ProjectCreateOrUpdate(ModelForm):
 
     class Meta:
         model = Project
-        fields = ['name', 'prefix', 'start_date', 'sprint_length_in_days', 'release_length_in_days', 'epics_per_release', 'storypoints_in_sprint', 'ideal_story_points_per_day', 'next_url']
+        fields = ['name', 'prefix', 'start_date', 'sprint_length_in_days', 'release_length_in_days', 'epics_per_release', 'story_points_in_sprint', 'ideal_story_points_per_day', 'next_url']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)

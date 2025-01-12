@@ -34,10 +34,10 @@ class Command(BaseCommand):
         return tenant
 
     def create_object_datasets(self, tenant, object, task_qs):
-        burndown, created = Dataset.unscoped.get_or_create(tenant_id=tenant.id, name=str(object) + " burndown", defaults={"content_object": object, "label": "Burndown"})
+        burndown, created = Dataset.unscoped.update_or_create(tenant_id=tenant.id, name=str(object) + " burndown", defaults={"content_object": object, "label": "Burndown"})
         if not created:
             burndown.datapoint_set.all().delete()
-        ideal, created = Dataset.unscoped.get_or_create(tenant_id=tenant.id, name=str(object) + " ideal", defaults={"content_object": burndown, "label": "Ideal"})
+        ideal, created = Dataset.unscoped.update_or_create(tenant_id=tenant.id, name=str(object) + " ideal", defaults={"content_object": burndown, "label": "Ideal"})
         if not created:
             ideal.datapoint_set.all().delete()
        
@@ -65,15 +65,18 @@ class Command(BaseCommand):
             dt  = object.start_date + timedelta(days=n)
 
             # leave few days off so the graph looks more realistic
+            _, _ = Datapoint.objects.update_or_create(dataset=ideal, date=dt, defaults={"value": ideal_val})
             if n < length_in_days - 4:
-                _, _ = Datapoint.objects.get_or_create(dataset=ideal, date=dt, defaults={"value": ideal_val})
-            _, _ = Datapoint.objects.get_or_create(dataset=burndown, date=dt, defaults={"value": random.randint(min(ideal_val - 4, 0), ideal_val + 4)})
+                randval = random.randint(max(math.ceil(ideal_val) - 4, 0), math.ceil(ideal_val) + 4)
+                _, _ = Datapoint.objects.update_or_create(dataset=burndown, date=dt, defaults={"value": randval})
 
     def create_dataset_for_release(self, tenant, project):
         if current_release := project.get_current_release():
-            return self.create_object_datasets(tenant, project.current_release, current_release.epics)
+            print(f"  Creating data for release {current_release.name}")
+            return self.create_object_datasets(tenant, current_release, current_release.epics)
 
     def create_dataset_for_project(self, tenant, project):
+        print(f"  Creating data for project {project.name} id {project.id}")
         return self.create_object_datasets(tenant, project, project.get_epics())
 
     def create_datasets_for_current_sprints(self, tenant, project):
@@ -81,10 +84,10 @@ class Command(BaseCommand):
         sprint_type = ContentType.objects.get_for_model(Sprint)
 
         for team in project.teams(manager='unscoped').all():
-            print(f"  Team {team.name}")
+            print(f"  Processing Team {team.name}")
             sprint = team.current_sprint
             if sprint:
-                print(f"    Sprint {sprint.name}")
+                print(f"    Creating data for sprint {sprint.name}")
                 self.create_object_datasets(tenant, sprint, sprint.stories)
 
     def handle(self, *args, **options):

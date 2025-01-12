@@ -13,7 +13,7 @@
   {% if project.roadmap %}
   <div class="col-4">
     <h5>Project</h5>
-    {% component "burndown" tenant_id=tenant.id object=project.roadmap index=1 %}
+    {% component "burndown" tenant_id=tenant.id object=project index=1 %}
     {% endcomponent %}
   </div>
   {% endif %}

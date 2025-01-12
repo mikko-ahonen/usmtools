@@ -138,7 +138,7 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
 
     def get_team_sprints_and_stories(self, tenant, project, team, stories):
 
-        number_of_sprints = self.get_number_of_sprints(stories, project.storypoints_in_sprint)
+        number_of_sprints = self.get_number_of_sprints(stories, project.story_points_in_sprint)
 
         start_date = None
         end_date = None
@@ -155,18 +155,18 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
             sprint = Sprint(tenant=tenant, name=sprint_name, start_date=start_date, end_date=end_date, tenant_id=tenant.id, team=team)
             sprints.append(sprint)
 
-            for story in self.get_sprint_stories(stories, project.storypoints_in_sprint, i):
+            for story in self.get_sprint_stories(stories, project.story_points_in_sprint, i):
                 sprint_stories[sprint.name].append(story)
 
         return sprints, sprint_stories
 
     # TODO: does not use story points
-    def get_number_of_sprints(self, stories, number_of_storypoints_in_sprint):
-        return math.ceil(len(stories)/number_of_storypoints_in_sprint)
+    def get_number_of_sprints(self, stories, number_of_story_points_in_sprint):
+        return math.ceil(len(stories)/number_of_story_points_in_sprint)
 
     # TODO: does not use story points
-    def get_sprint_stories(self, stories, number_of_storypoints_in_sprint, i):
-        return stories[number_of_storypoints_in_sprint * i:number_of_storypoints_in_sprint * (i + 1)]
+    def get_sprint_stories(self, stories, number_of_story_points_in_sprint, i):
+        return stories[number_of_story_points_in_sprint * i:number_of_story_points_in_sprint * (i + 1)]
 
     def create_backlog(self, domain, project, team_sprints_and_stories):
         backlog = Backlog(tenant_id=domain.tenant_id, project=project)
@@ -239,7 +239,7 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
         end_date = start_date + timedelta(release_length_in_days)
         final_release = Release(name='1.0.0', start_date=start_date, end_date=end_date, tenant_id=project.tenant_id)
         releases.append(final_release)
-        releeases[0].status = Release.STATUS_ONGOING
+        releases[0].status = Release.STATUS_ONGOING
         release_epic = Epic(name=_("Project finalization"), list=final_release, tenant_id=project.tenant_id)
         release_epics[final_release.name].append(release_epic)
         return releases, release_epics
