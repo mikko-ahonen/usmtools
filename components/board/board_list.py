@@ -13,10 +13,8 @@ class BoardList(component.Component):
 
     def get_context_data(self, *args, **kwargs):
         if "board" not in kwargs:
-            breakpoint()
             raise ValueError("board required")
         if "list" not in kwargs:
-            breakpoint()
             raise ValueError("list required")
 
         tenant_id = kwargs.get("tenant_id", None) or current_tenant_id()
@@ -34,7 +32,6 @@ class BoardList(component.Component):
         try:
             return Sprint.unscoped.get(tenant_id=tenant_id, id=list_id)
         except Sprint.DoesNotExist:
-            breakpoint()
             raise ValueError(f"Sprint {list_id} does not exist")
 
     def get_board(self, tenant_id, request):
@@ -44,7 +41,6 @@ class BoardList(component.Component):
         try:
             return Backlog.unscoped.get(tenant_id=tenant_id, id=board_id)
         except Backlog.DoesNotExist:
-            breakpoint()
             raise ValueError(f"Backlog {board_id} does not exist")
 
     def get_context(self, tenant_id, request):

@@ -210,9 +210,8 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
         context = self.get_context(request, tenant_id, pk, project_id)
         return render(request, self.template_name, context)
 
-class DomainProjectCreateRoadmap(TenantMixin, FormView):
+class DomainProjectCreateRoadmap(TenantMixin, TemplateView):
     template_name = 'compliances/domain-project-create-roadmap.html'
-    form_class = forms.RoadmapCreateForm
 
     def get_releases_and_epics(self, project, targets, start_date, release_length_in_days, epics_in_release):
         epic_names = {}
@@ -244,70 +243,59 @@ class DomainProjectCreateRoadmap(TenantMixin, FormView):
         release_epics[final_release.name].append(release_epic)
         return releases, release_epics
 
-    def post(self, request, tenant_id, pk, project_id):
 
-        form = self.form_class(request.POST)
+    def get_context(self, request, tenant_id, pk, project_id):
         tenant = get_object_or_404(Tenant, pk=tenant_id)
+        domain = get_object_or_404(Domain, pk=pk)
+        project = get_object_or_404(Project, pk=project_id)
+        targets = Target.objects.filter(project_id=project_id).prefetch_related('target_sections', 'target_sections__section')
 
-        if form.is_valid():
+        releases, epics_in_releases = self.get_releases_and_epics(project, targets, project.start_date, project.release_length_in_days, project.epics_per_release)
 
-            start_date = form.cleaned_data['start_date']
-            release_length_in_days =  form.cleaned_data['release_length_in_days']
-            epics_in_release =  form.cleaned_data['epics_in_release']
-
-            project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
-            targets = Target.objects.filter(project_id=project_id).prefetch_related('target_sections', 'target_sections__section')
-
-            releases, epics_in_releases = self.get_releases_and_epics(project, targets, start_date, release_length_in_days, epics_in_release)
-
-            if request.POST.get("create", False):
-                with transaction.atomic():
-                    roadmap = Roadmap.objects.create(name=project.name + ' ' + _('roadmap'), tenant_id=tenant.id, project=project)
-
-                    releases_by_name = {}
-                    for release_idx, release in enumerate(releases):
-                        release.tenant_id = tenant.id
-                        release.board_id = roadmap.id
-                        release.project_id = project.id
-                        release.index = release_idx
-                        releases_by_name[release.name] = release
-                        release.save()
-
-                    for release_name, epics in epics_in_releases.items():
-                        for epic_idx, epic in enumerate(epics):
-                            epic.tenant_id = tenant.id
-                            epic.list_id = releases_by_name[release_name].id
-                            epic.index = epic_idx
-                            epic.save()
-
-                return redirect('compliances:domain-dashboard', tenant_id=tenant_id, pk=pk)
-            else:
-                context = {
-                    'form': form,
-                    'releases': releases,
-                    'epics': epics_in_releases,
-                    'tenant': tenant,
-                }
-                return render(request, self.template_name, context)
-
-        # if there were errors in form
-        # we have to display same page with errors
         context = {
-            'form': form,
+            'targets': targets,
+            'releases': releases,
+            'epics': epics_in_releases,
             'tenant': tenant,
+            'project': project,
+            'domain': domain,
         }
+        return context
 
+    def get(self, request, tenant_id, pk, project_id):
+        context = self.get_context(request, tenant_id, pk, project_id)
         return render(request, self.template_name, context)
 
-    def get_context_data(self, **kwargs):
-        project_id = self.kwargs['project_id']
-        tenant_id = self.kwargs['tenant_id']
-        project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
-        targets = Target.objects.filter(project_id=project_id).prefetch_related('target_sections', 'target_sections__section')
-        context = super().get_context_data(**kwargs)
-        context['project'] = project
-        context['targets'] = targets
-        return context
+    def post(self, request, tenant_id, pk, project_id):
+        context = self.get_context(request, tenant_id, pk, project_id)
+        if request.POST.get("create", False):
+            project = context['project']
+            releases = context['releases']
+            tenant = context['tenant']
+            epics_in_releases = context['epics']
+
+            with transaction.atomic():
+                roadmap = Roadmap.objects.create(name=project.name + ' ' + _('roadmap'), tenant_id=tenant.id, project=project)
+
+                releases_by_name = {}
+                for release_idx, release in enumerate(releases):
+                    release.tenant_id = tenant.id
+                    release.board_id = roadmap.id
+                    release.project_id = project.id
+                    release.index = release_idx
+                    releases_by_name[release.name] = release
+                    release.save()
+
+                for release_name, epics in epics_in_releases.items():
+                    for epic_idx, epic in enumerate(epics):
+                        epic.tenant_id = tenant.id
+                        epic.list_id = releases_by_name[release_name].id
+                        epic.index = epic_idx
+                        epic.save()
+
+            return redirect('compliances:domain-dashboard', tenant_id=tenant_id, pk=pk)
+        else:
+            return render(request, self.template_name, context)
 
 def targets(request, project):
     tenant_id = current_tenant_id()

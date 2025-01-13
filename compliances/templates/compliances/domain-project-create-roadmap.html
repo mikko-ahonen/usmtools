@@ -9,19 +9,54 @@
 {% breadcrumbs tenant True 'compliances' %}
 <h1 class="mb-3 pb-0">{% trans 'Create a roadmap for' %} {{ project.name }}</h1>
 
-{% if form %}
 <div class="row">
   <div class="col-6">
     <p>
     <small>
     {% blocktrans %}
     On this page, you can create an initial roadmap for the project. Initial roadmap will contain
-    releases and epics based on the parameters below, and your audit targets, and automatically place the
-    epics within the releases. You can refine the roadmap on the roadmap board after it has been created. 
+    releases and epics based on the project parameters and your audit targets. Epics will be automatically placed 
+    to the releases. You can refine the roadmap on the roadmap board, including moving epics between releases,
+    after the initial roadmap has been created. 
     {% endblocktrans %} </small> </p>
 
     <form method="post" action="{{request.path}}">
-      {% crispy form %}
+      {% csrf_token %}
+      <table class="table">
+        <tr>
+          <th>
+            {% trans 'Project prefix' %}
+          </th>
+          <td>
+            {{ project.prefix }}-
+          </td>
+        </tr>
+        <tr>
+          <th>
+            {% trans 'Start date' %}
+          </th>
+          <td>
+            {{ project.start_date }}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            {% trans 'Release length (in days)' %}
+          </th>
+          <td>
+            {{ project.release_length_in_days }}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            {% trans 'Epics in release' %}
+          </th>
+          <td>
+            {{ project.epics_per_release }}
+          </td>
+        </tr>
+      </table>
+
       <input type="submit" name="Preview" class="btn btn-primary" value="{% trans 'Preview' %}"/>
       <input type="submit" name="create" class="btn btn-primary" value="{% trans 'Create' %}"/>
     </form>
@@ -46,9 +81,6 @@
   {% endif %}
   </div>
 </div>
-{% else %}
-{% trans 'Some kind of problem' %}
-{% endif %}
 
 </section>
 </div>
