@@ -339,45 +339,45 @@ class TargetSection(TenantAwareModelBase):
     target = models.ForeignKey(Target, on_delete=models.CASCADE, null=True, related_name='target_sections')
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True, related_name='+')
 
-#class DataManagement(TenantAwareOrderedModelBase):
-#    """
-#    Meta class to define the data management policy for a model class
-#    """
-#
-#    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='data_managements')
-#    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, related_name='data_managements')
-#    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
-#    index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=0)
-#
-#    POLICY_NOT_DEFINED = "not-defined"
-#    POLICY_MANUAL = "manual"
-#    POLICY_LINK = "linked"
-#    POLICY_REPLICATED = "replicated"
-#    POLICY_MANAGED = "managed"
-#
-#    POLICIES = [
-#        (POLICY_NOT_DEFINED, _("Not defined")),
-#        (POLICY_MANUAL, _("Manual")),
-#        (POLICY_LINK, _("Link")),
-#        (POLICY_REPLICATED, _("Replicated")),
-#        (POLICY_MANAGED, _("Managed")),
-#    ]
-#
-#    #policy = models.CharField(max_length=32, choices=POLICIES, default=POLICY_NOT_DEFINED)
-#
-#    order_field_name = 'index'
-#
-#    def get_entity_name(self):
-#        if self.content_type:
-#            cls = self.content_type.model_class()
-#            if cls:
-#                return cls._meta.verbose_name
-#        return _("Unknown entity")
-#
-#    def __str__(self):
-#        cls = self.content_type.model_class()
-#        return cls._meta.verbose_name + ': ' + self.get_policy_display()
-#
-#    class Meta:
-#        ordering = ('index',)
+class DataManagement(TenantAwareOrderedModelBase):
+    """
+    Meta class to define the data management policy for a model class
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='data_managements')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, related_name='data_managements')
+    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=0)
+
+    POLICY_NOT_DEFINED = "not-defined"
+    POLICY_MANUAL = "manual"
+    POLICY_LINK = "linked"
+    POLICY_REPLICATED = "replicated"
+    POLICY_MANAGED = "managed"
+
+    POLICIES = [
+        (POLICY_NOT_DEFINED, _("Not defined")),
+        (POLICY_MANUAL, _("Manual")),
+        (POLICY_LINK, _("Link")),
+        (POLICY_REPLICATED, _("Replicated")),
+        (POLICY_MANAGED, _("Managed")),
+    ]
+
+    policy = models.CharField(max_length=32, choices=POLICIES, default=POLICY_NOT_DEFINED)
+
+    order_field_name = 'index'
+
+    def get_entity_name(self):
+        if self.content_type:
+            cls = self.content_type.model_class()
+            if cls:
+                return cls._meta.verbose_name
+        return _("Unknown entity")
+
+    def __str__(self):
+        cls = self.content_type.model_class()
+        return cls._meta.verbose_name + ': ' + self.get_policy_display()
+
+    class Meta:
+        ordering = ('index',)
