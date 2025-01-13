@@ -260,9 +260,9 @@ class Step(TenantAwareOrderedModelBase):
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    workflow = models.ForeignKey(Routine, on_delete=models.CASCADE)
-    fork = models.ForeignKey(Routine, null=True, on_delete=models.SET_NULL, help_text='Only used in template workflows to specify forks to sub-workflow. In actualized workflows, all the forks have been expanded into one single workflow.', related_name='forks')
-    process_depth  = models.PositiveSmallIntegerField(null=True, blank=True, help_text='Used in actualized workflows, to signal how many levels of sub-processes there are')
+    routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    fork = models.ForeignKey(Routine, null=True, on_delete=models.SET_NULL, help_text='Only used in template routine to specify forks to sub-routine. In actualized routines, all the forks have been expanded into one single routine.', related_name='forks')
+    process_depth  = models.PositiveSmallIntegerField(null=True, blank=True, help_text='Used in actualized routines, to signal how many levels of sub-processes there are')
 
     PROCESS_AGREE = "agree"
     PROCESS_CHANGE = "change"
@@ -283,17 +283,17 @@ class Step(TenantAwareOrderedModelBase):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     
     order_field_name = 'index'
-    order_with_respect_to = 'workflow'
+    order_with_respect_to = 'routine'
 
     class Meta:
-        unique_together = ('workflow', 'index')
+        unique_together = ('routine', 'index')
         ordering = ('index',)
         default_related_name = 'steps'
         verbose_name_plural = _('steps')
 
 
     def __str__(self):
-        return f"{self.workflow.name}/{self.name}"
+        return f"{self.routine.name}/{self.name}"
 
 
 class Activity(TenantAwareOrderedModelBase):
@@ -311,7 +311,7 @@ class Activity(TenantAwareOrderedModelBase):
     order_with_respect_to = 'step'
 
     def __str__(self):
-        return f"{self.step.workflow.name}/{self.step.name}/{self.name}"
+        return f"{self.step.routine.name}/{self.step.name}/{self.name}"
 
     class Meta:
         verbose_name_plural = _('activities')
@@ -400,5 +400,5 @@ class WorkInstruction(TenantAwareModelBase):
         else:
             name = "no name"
 
-        return f"{self.responsible.activity.step.workflow.name}/{self.responsible.activity.step.name}/{self.responsible.activity.name}/{name}"
+        return f"{self.responsible.activity.step.routine.name}/{self.responsible.activity.step.name}/{self.responsible.activity.name}/{name}"
 

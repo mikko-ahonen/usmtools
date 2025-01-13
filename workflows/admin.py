@@ -59,7 +59,7 @@ class ProfileAdmin(BaseAdmin, OrderedModelAdmin):
     list_display = ('tenant', 'id', 'name', 'move_up_down_links')
 
 class StepAdmin(BaseAdmin, OrderedModelAdmin):
-    list_display = ('tenant', 'id', 'name', 'workflow', 'move_up_down_links')
+    list_display = ('tenant', 'id', 'name', 'routine', 'move_up_down_links')
     
 class ActivityAdmin(BaseAdmin, OrderedModelAdmin):
     list_display = ('tenant', 'id', 'name', 'step', 'move_up_down_links')

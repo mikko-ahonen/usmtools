@@ -131,7 +131,7 @@ class GetActivityMixin():
 
     def get_activity(self, activity_id):
         if self.activity is None:
-            self.activity = Activity.objects.filter(pk=activity_id).select_related('step').select_related('step__workflow').select_related('step__workflow__service').first()
+            self.activity = Activity.objects.filter(pk=activity_id).select_related('step').select_related('step__routine').select_related('step__routine__service').first()
         return self.activity
 
 
@@ -140,7 +140,7 @@ class GetWorkInstructionMixin():
 
     def get_work_instruction(self, work_instruction_id):
         if self.work_instruction is None:
-            self.work_instruction = WorkInstruction.objects.filter(pk=work_instruction_id).select_related('responsible').select_related('responsible__activity').select_related('responsible__activity__step').select_related('responsible__activity__step__workflow').select_related('responsible__activity__step__workflow__service').first()
+            self.work_instruction = WorkInstruction.objects.filter(pk=work_instruction_id).select_related('responsible').select_related('responsible__activity').select_related('responsible__activity__step').select_related('responsible__activity__step__routine').select_related('responsible__activity__step__routine__service').first()
         return self.work_instruction
 
 
@@ -149,7 +149,7 @@ class GetStepMixin():
 
     def get_step(self, step_id):
         if self.step is None:
-            self.step = Step.objects.filter(pk=self.kwargs.get('pk')).select_related('workflow').select_related('workflow__service').first()
+            self.step = Step.objects.filter(pk=self.kwargs.get('pk')).select_related('routine').select_related('routine__service').first()
         return self.step
 
 
@@ -158,7 +158,7 @@ class GetResponsibleMixin():
 
     def get_responsible(self, responsible_id):
         if self.responsible is None:
-            self.responsible = Responsible.objects.filter(pk=responsible_id).select_related('activity').select_related('activity__step').select_related('activity__step__workflow').select_related('activity__step__workflow__service').first()
+            self.responsible = Responsible.objects.filter(pk=responsible_id).select_related('activity').select_related('activity__step').select_related('activity__step__routine').select_related('activity__step__routine__service').first()
         return self.responsible
 
 
@@ -589,14 +589,14 @@ class UserServiceList(TenantMixin, ListView):
         qs = qs.filter(parent=None).order_by('name')
         if not self.request.user.is_superuser:
             qs = qs.filter(owner=self.request.user)
-        qs = qs.prefetch_related('workflows')
+        qs = qs.prefetch_related('routines')
         return qs
 
 
 class ServiceShare(TenantMixin, CreateView):
     model = Share
     template_name = 'workflows/modals/service-share.html'
-    #fields = ['name', 'scope', 'workflow']
+    #fields = ['name', 'scope', 'routine']
     form_class = forms.ServiceShare
 
     def get_form_kwargs(self):
@@ -615,7 +615,7 @@ class ServiceShare(TenantMixin, CreateView):
     def get_queryset(self, **kwargs):
         qs = super().get_queryset()
         service_id = self.kwargs['pk']
-        qs = qs.filter(workflow__service_id=service_id)
+        qs = qs.filter(routine__service_id=service_id)
         return qs
 
     def form_valid(self, form):
@@ -625,7 +625,7 @@ class ServiceShare(TenantMixin, CreateView):
         self.object.modified_by = self.request.user
         self.object.tenant = tenant
         self.object.save()
-        #messages.info(self.request, _("Share with name %(name)s to workflow %(workflow)s created" % {'name': self.object.name, 'workflow': self.object.workflow}))
+        #messages.info(self.request, _("Share with name %(name)s to routine %(routine)s created" % {'name': self.object.name, 'routine': self.object.routine}))
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -640,7 +640,7 @@ class ServiceShare(TenantMixin, CreateView):
 
 class RoutineCreate(TenantMixin, GetServiceMixin, CreateView):
     model = Routine
-    template_name = 'routine/modals/routine-create.html'
+    template_name = 'workflows/modals/routine-create.html'
     form_class = forms.RoutineCreate
 
     def get_form_kwargs(self):
@@ -662,7 +662,7 @@ class RoutineCreate(TenantMixin, GetServiceMixin, CreateView):
             step.process_depth = depth
             index += 1
             step._state.adding
-            step.workflow = self.object
+            step.routine = self.object
             step.tenant = self.object.tenant
             step.save()
             activity_index = 1
@@ -675,7 +675,7 @@ class RoutineCreate(TenantMixin, GetServiceMixin, CreateView):
                 activity_index += 1
 
             if step.fork_id is not None:
-                index = self.save_steps(Step.unscoped.filter(workflow_id=step.fork_id), index=index, depth=depth + 1)
+                index = self.save_steps(Step.unscoped.filter(routine_id=step.fork_id), index=index, depth=depth + 1)
 
         return index
 
@@ -693,7 +693,7 @@ class RoutineCreate(TenantMixin, GetServiceMixin, CreateView):
         if not template.is_template or not template.is_public:
             raise PermissionDenied("Template is not a template or is not public")
         self.based_on = template
-        self.save_steps(Step.unscoped.filter(workflow_id=template.id)) #.steps.all())
+        self.save_steps(Step.unscoped.filter(routine_id=template.id)) #.steps.all())
 
         return HttpResponseRedirect(self.get_success_url()) 
 
@@ -716,8 +716,8 @@ class RoutineUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        workflow_id = self.kwargs.get('pk')
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': workflow_id})
+        routine_id = self.kwargs.get('pk')
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': routine_id})
 
 
 class RoutineDetail(TenantMixin, DetailView):
@@ -792,8 +792,8 @@ class ActivityCreate(TenantMixin, GetStepMixin, CreateView):
         step_id = self.kwargs.get('pk')
         step = self.get_step(step_id)
         context['step'] = step
-        context['workflow'] = step.workflow
-        context['service'] = step.workflow.service
+        context['routine'] = step.routine
+        context['service'] = step.routine.service
         return context
 
     def form_valid(self, form):
@@ -812,7 +812,7 @@ class ActivityCreate(TenantMixin, GetStepMixin, CreateView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         new_activity = self.object
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': new_activity.step.workflow_id}) + '#activity-' + str(new_activity.id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': new_activity.step.routine_id}) + '#activity-' + str(new_activity.id)
 
 
 class ActivityUpdate(TenantMixin, GetActivityMixin, UpdateView, UpdateModifiedByMixin):
@@ -824,7 +824,7 @@ class ActivityUpdate(TenantMixin, GetActivityMixin, UpdateView, UpdateModifiedBy
         tenant_id = self.kwargs.get('tenant_id')
         activity_id = self.kwargs.get('pk')
         activity = self.get_activity(activity_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.workflow_id}) + '#activity-' + str(activity.id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.id)
 
 
 class ActivityDelete(TenantMixin, GetActivityMixin, DeleteView):
@@ -836,21 +836,21 @@ class ActivityDelete(TenantMixin, GetActivityMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         activity_id = self.kwargs.get('pk')
         activity = self.get_activity(activity_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.workflow_id}) + '#activity-' + str(activity.step_id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.step_id)
 
 class ActivityUp(TenantMixin, GetActivityMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         activity = self.get_activity(pk)
         activity.up()
         tenant_id = self.kwargs.get('tenant_id')
-        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.workflow_id}) + '#activity-' + str(activity.step_id))
+        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.step_id))
 
 class ActivityDown(TenantMixin, GetActivityMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         activity = self.get_activity(pk)
         activity.down()
         tenant_id = self.kwargs.get('tenant_id')
-        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.workflow_id}) + '#activity-' + str(activity.step_id))
+        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.step_id))
 
 
 #######################################################################################################################
@@ -893,13 +893,13 @@ class ResponsibleCreateOrUpdate(TenantMixin, GetActivityMixin, CreateView):
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(self.request, error)
-        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.workflow_id}) + '#activity-' + str(activity.id))
+        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.id))
 
     def get_success_url(self):
         activity_id = self.kwargs.get('pk')
         tenant_id = self.kwargs.get('tenant_id')
         activity = self.get_activity(activity_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.workflow_id}) + '#activity-' + str(activity.id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.id)
 
 
 class ResponsibleDelete(TenantMixin, GetResponsibleMixin, DeleteView):
@@ -911,7 +911,7 @@ class ResponsibleDelete(TenantMixin, GetResponsibleMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         responsible_id = self.kwargs.get('pk')
         responsible = self.get_responsible(responsible_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': responsible.activity.step.workflow_id}) + '#activity-' + str(responsible.activity.id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': responsible.activity.step.routine_id}) + '#activity-' + str(responsible.activity.id)
 
 
 class ResponsibleAddResponsibilities(TenantMixin, GetResponsibleMixin, View):
@@ -964,7 +964,7 @@ class WorkInstructionCreate(TenantMixin, GetResponsibleMixin, CreateView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         new_work_instruction = self.object
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': new_work_instruction.responsible.activity.step.workflow_id}) + '#activity-' + str(new_work_instruction.responsible.activity_id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': new_work_instruction.responsible.activity.step.routine_id}) + '#activity-' + str(new_work_instruction.responsible.activity_id)
 
 
 class WorkInstructionUpdate(TenantMixin, GetWorkInstructionMixin, UpdateView, UpdateModifiedByMixin):
@@ -976,7 +976,7 @@ class WorkInstructionUpdate(TenantMixin, GetWorkInstructionMixin, UpdateView, Up
         tenant_id = self.kwargs.get('tenant_id')
         work_instruction_id = self.kwargs.get('pk')
         work_instruction = self.get_work_instruction(work_instruction_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.responsible.activity.step.workflow_id}) + '#activity-' + str(work_instruction.responsible.activity_id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.responsible.activity.step.routine_id}) + '#activity-' + str(work_instruction.responsible.activity_id)
 
 
 class WorkInstructionDelete(TenantMixin, GetWorkInstructionMixin, DeleteView):
@@ -988,4 +988,4 @@ class WorkInstructionDelete(TenantMixin, GetWorkInstructionMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         work_instruction_id = self.kwargs.get('pk')
         work_instruction = self.get_work_instruction(work_instruction_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.responsible.activity.step.workflow_id}) + '#activity-' + str(work_instruction.responsible.activity_id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.responsible.activity.step.routine_id}) + '#activity-' + str(work_instruction.responsible.activity_id)

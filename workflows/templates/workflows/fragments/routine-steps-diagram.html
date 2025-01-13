@@ -1,7 +1,7 @@
 {% load prev_current_next %}
 
 <div class="g-0 d-flex flex-wrap d-print-none">
-  {% for prev_step, step, next_step in workflow.steps.all|prev_current_next %}
+  {% for prev_step, step, next_step in routine.steps.all|prev_current_next %}
     <div class="d-inline-block">
       <div class="row gx-0">
         <div class="col col-xs-2">

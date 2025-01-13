@@ -15,7 +15,7 @@
 {% comment %}
 {% include 'workflows/fragments/service-profiles.html' with tenant=tenant service=service profiles=service.profiles.all only %}
 {% endcomment %}
-{% include 'workflows/fragments/service-workflows.html' with tenant=tenant service=service workflows=service.workflows.all only %}
+{% include 'workflows/fragments/service-routines.html' with tenant=tenant service=service routines=service.routines.all only %}
 </div>
 </section>
 {% include 'workflows/fragments/modal.html' with modal_size='xl' %}
