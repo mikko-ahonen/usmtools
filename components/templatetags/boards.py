@@ -3,15 +3,23 @@ from django.utils.html import mark_safe
 
 register = template.Library()
 
+from boards.models import Task
+
 @register.filter
 def task_style(task):
-    if task.task_type == Task.TYPE_EPIC:
+    category = None
+    if task.task_type == Task.TASK_TYPE_EPIC:
         category = task.category
-    elif task.task_type == Task.TYPE_STORY:
-        category = task.constraint.category
+    elif task.task_type == Task.TASK_TYPE_STORY:
+        if task.constraint:
+            category = task.constraint.category
+    else:
+        raise ValueError("Invalid task type")
 
-    color = category.color
-    return mark_safe(f"border-style: solid; border-color: {{ category.color }}; border-width: 2px 8px 2px 2px;")
+    if category:
+        color = category.color
+        return mark_safe(f"border-style: solid; border-color: { color }; border-width: 2px 2px 2px 8px;")
+    return ""
 
 @register.filter
 def board_css_class(board, is_last):

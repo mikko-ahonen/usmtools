@@ -170,8 +170,8 @@ class Status(List):
 
 
 class Epic(Task):
-    _default_task_type = Task.TASK_TYPE_EPIC
     list = models.ForeignKey(Release, on_delete=models.CASCADE, related_name="tasks")
+    task_type = Task.TASK_TYPE_EPIC
     _story_points = None
 
     category = models.ForeignKey('compliances.Category', null=True, blank=True, on_delete=models.PROTECT)

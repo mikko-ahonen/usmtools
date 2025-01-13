@@ -1,5 +1,6 @@
+{% load boards %}
 <div class="task card my-2" id="{{ task.pk }}">
-  <div class="card-body" style="{( task | task_style }}">
+  <div class="card-body" style="{{ task | task_style }}">
     <a href="#" class="card-text"
         hx-get="{% url 'boards:task_modal' tenant_id board.board_type task.pk %}" hx-swap="beforeend" hx-target="body" hx-trigger="click"></a>
     <span class="card-text">{{ task.name }}</span>
