@@ -172,7 +172,7 @@ class ListMoveForm(forms.Form):
 
 def preserve_order(uuids):
     return Case(
-        *[When(uuid=uuid, then=o) for o, uuid in enumerate(uuids)],
+        *[When(id=uuid, then=o) for o, uuid in enumerate(uuids)],
         default=F("index"),
         output_field=models.IntegerField()
     )
