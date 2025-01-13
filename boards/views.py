@@ -63,7 +63,7 @@ def create_board(request, tenant_id, board_type):
 def board(request, tenant_id, board_type, board_uuid, partial=False):
     board_cls = get_board_class_by_type(board_type)
     board = get_object_or_404(
-        board_cls.unscoped.filter(tenant_id=tenant_id), uuid=board_uuid
+        board_cls.unscoped.filter(tenant_id=tenant_id), id=board_uuid
     )
     template = "boards/_board.html" if partial else "boards/board.html"
     tenant_id = current_tenant_id()
@@ -90,7 +90,7 @@ class ListForm(forms.ModelForm):
 def create_list(request, tenant_id, board_type, board_uuid):
     board_cls = get_board_class_by_type(board_type)
     list_cls = get_list_class_by_type(board_type)
-    board = get_object_or_404(board_cls, uuid=board_uuid)
+    board = get_object_or_404(board_cls, id=board_uuid)
     form_cls = ListForm
     form_cls.Meta.model = list_cls
     form = form_cls(request.POST or None)
@@ -107,7 +107,7 @@ def create_list(request, tenant_id, board_type, board_uuid):
 
 def delete_list(request, tenant_id, board_type, board_uuid, list_uuid):
     list_cls = get_list_class_by_type(board_type)
-    list = get_object_or_404(list_cls, uuid=list_uuid)
+    list = get_object_or_404(list_cls, id=list_uuid)
 
     if request.method == "POST":
         list.delete()
@@ -126,7 +126,7 @@ class TaskForm(forms.ModelForm):
 def create_task(request, tenant_id, board_type, board_uuid, list_uuid):
     list_cls = get_list_class_by_type(board_type)
     task_cls = get_task_class_by_type(board_type)
-    list = get_object_or_404(list_cls, uuid=list_uuid)
+    list = get_object_or_404(list_cls, id=list_uuid)
     form_cls = TaskForm
     form_cls.Meta.model = task_cls
     form = form_cls(request.POST or None)
@@ -143,7 +143,7 @@ def create_task(request, tenant_id, board_type, board_uuid, list_uuid):
 
 def edit_task(request, tenant_id, board_type, board_uuid, task_uuid):
     task_cls = get_task_class_by_type(board_type)
-    task = get_object_or_404(task_cls, uuid=task_uuid)
+    task = get_object_or_404(task_cls, id=task_uuid)
     form_cls = TaskForm
     form_cls.Meta.model = task_cls
     form = form_cls(request.POST or None, instance=task)
@@ -212,13 +212,13 @@ def task_move(request, tenant_id, board_type, board_uuid):
     list_cls = get_list_class_by_type(board_type)
     task_cls = get_task_class_by_type(board_type)
     if to_list == from_list:
-        task_cls.objects.filter(uuid__in=task_uuids).update(
+        task_cls.objects.filter(id__in=task_uuids).update(
             index=preserve_order(task_uuids)
         )
     else:
-        task_cls.objects.filter(uuid__in=task_uuids).update(
+        task_cls.objects.filter(id__in=task_uuids).update(
             index=preserve_order(task_uuids),
-            list_id=list_cls.objects.filter(uuid=to_list).order_by().values("id"),
+            list_id=list_cls.objects.filter(id=to_list).order_by().values("id"),
         )
 
     tenant_id = current_tenant_id()
@@ -227,7 +227,7 @@ def task_move(request, tenant_id, board_type, board_uuid):
 
 def task_modal(request, tenant_id, board_type, task_uuid):
     task_cls = get_task_class_by_type(board_type)
-    task = get_object_or_404(task_cls.objects.select_related("list"), uuid=task_uuid)
+    task = get_object_or_404(task_cls.objects.select_related("list"), id=task_uuid)
     form_cls = TaskForm
     form_cls.Meta.model = task_cls
     form_cls(request.POST or None, instance=task)

@@ -17,13 +17,16 @@
     {% endcomponent %}
   </div>
   {% endif %}
-  {% if project.current_release %}
+  {% with current_release=project.get_current_release %}
+  {% if current_release %}
+  {{ current_relesae }}
   <div class="col-4">
     <h5>Release</h5>
-    {% component "burndown" tenant_id=tenant.id object=project.current_release index=2 %}
+    {% component "burndown" tenant_id=tenant.id object=current_release index=2 %}
     {% endcomponent %}
   </div>
   {% endif %}
+  {% endwith %}
   {% for sprint in project.get_active_sprints %}
     <div class="col-4">
       <h5>{{ sprint.name }}</h5>

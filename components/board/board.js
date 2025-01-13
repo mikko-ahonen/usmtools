@@ -24,7 +24,7 @@ htmx.onLoad(function (content) {
       },
       onEnd: function (event) {
         event.target.classList.remove('grabbing');
-        htmx.ajax("POST", "{% url 'boards:task_move' tenant_id board.board_type board.uuid %}", {
+        htmx.ajax("POST", "{% url 'boards:task_move' tenant_id board.board_type board.pk %}", {
           target: "#board",
           swap: "outerHTML",
           values: {
@@ -48,7 +48,7 @@ htmx.onLoad(function (content) {
       ghostClass: "sortable-ghost",
       dragClass: "none",
       onEnd: function (event) {
-        htmx.ajax("POST", "{% url 'boards:list_move' tenant_id board.board_type board.uuid %}", {
+        htmx.ajax("POST", "{% url 'boards:list_move' tenant_id board.board_type board.pk %}", {
           target: "#board",
           swap: "outerHTML",
           values: {

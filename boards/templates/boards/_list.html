@@ -1,12 +1,12 @@
 {% load i18n %}
-    <div class="bg-primary-subtle list p-3 mx-3 my-3" id="{{ list.uuid }}">
+    <div class="bg-primary-subtle list p-3 mx-3 my-3" id="{{ list.pk }}">
       <div class="list-handle tw-cursor-grab d-flex align-items-center justify-content-between">
         <h2>
             <span>{{ list.name }}</span>
             {% if board.show_list_count %}
               <span class="badge rounded-pill bg-primary">{{ list.tasks.count }}</span>
             {% endif %}
-            <button type="button" class="btn btn-outline-primary" hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.uuid list.uuid %}" hx-confirm="Are you sure?"><i class="bi bi-trash3"></i></button>
+            <button type="button" class="btn btn-outline-primary" hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.pk list.pk %}" hx-confirm="Are you sure?"><i class="bi bi-trash3"></i></button>
         </h2>
 
     </div>
@@ -21,7 +21,7 @@
         <button type="button" class="create-task-button btn btn-primary"
             @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add task</button>
 
-        <form x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_task' tenant_id board.board_type board.uuid list.uuid %}" hx-trigger="submit, keyup[key=='Enter']" hx-target="this">
+        <form x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_task' tenant_id board.board_type board.pk list.pk %}" hx-trigger="submit, keyup[key=='Enter']" hx-target="this">
             <div class="d-inline-block"> 
                 <input type="text" x-ref="input" name="name" rows="1" placeholder="{% trans 'Task name' %}" required id="id_name"
                 class="form-control"></textarea>

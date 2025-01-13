@@ -9,8 +9,8 @@ from workflows.tenant import current_tenant_id
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 
 class BoardBase(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(verbose_name=_("Name"), max_length=255)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self) -> str:
         return self.name
@@ -39,7 +39,7 @@ class Board(TenantAwareModelBase, BoardBase):
 
     def get_absolute_url(self):
         tenant_id = current_tenant_id()
-        return reverse("boards:board", kwargs={"tenant_id": tenant_id, "board_type": self.board_type, "board_uuid": self.uuid})
+        return reverse("boards:board", kwargs={"tenant_id": tenant_id, "board_type": self.board_type, "board_uuid": self.id})
 
     def create_default_lists(self):
         for name in ["Todo", "Doing", "Done"]:

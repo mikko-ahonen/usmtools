@@ -67,7 +67,8 @@ class Command(BaseCommand):
             # leave few days off so the graph looks more realistic
             _, _ = Datapoint.objects.update_or_create(dataset=ideal, date=dt, defaults={"value": ideal_val})
             if n < length_in_days - 4:
-                randval = random.randint(max(math.ceil(ideal_val) - 4, 0), math.ceil(ideal_val) + 4)
+                randdiff = math.ceil(ideal_val / 5)
+                randval = random.randint(max(math.ceil(ideal_val) - randdiff, 0), math.ceil(ideal_val) + randdiff)
                 _, _ = Datapoint.objects.update_or_create(dataset=burndown, date=dt, defaults={"value": randval})
 
     def create_dataset_for_release(self, tenant, project):

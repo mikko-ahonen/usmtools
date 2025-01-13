@@ -32,7 +32,7 @@ class BoardList(component.Component):
         if not list_id:
             raise ValueError(f"list_id is required")
         try:
-            return Sprint.unscoped.get(tenant_id=tenant_id, uuid=list_id)
+            return Sprint.unscoped.get(tenant_id=tenant_id, id=list_id)
         except Sprint.DoesNotExist:
             breakpoint()
             raise ValueError(f"Sprint {list_id} does not exist")
@@ -42,7 +42,7 @@ class BoardList(component.Component):
         if not board_id:
             raise ValueError(f"board_id is required")
         try:
-            return Backlog.unscoped.get(tenant_id=tenant_id, uuid=board_id)
+            return Backlog.unscoped.get(tenant_id=tenant_id, id=board_id)
         except Backlog.DoesNotExist:
             breakpoint()
             raise ValueError(f"Backlog {board_id} does not exist")

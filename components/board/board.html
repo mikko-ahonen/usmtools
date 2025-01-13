@@ -17,7 +17,7 @@
               @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ {% trans 'Add list' %}</button>
         </h2>
     
-            <form class="create-list-form" x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_list' tenant_id board.board_type board.uuid %}" hx-target="this">
+            <form class="create-list-form" x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_list' tenant_id board.board_type board.pk %}" hx-target="this">
                 <div class="tw-form bg-white p-4 d-inline-block">
                     <input type="text" hx-trigger="keyup[enterKey]" x-ref="input" name="name" class="form-control" placeholder="{% trans 'Name' %}" required id="id_name">
                     <div class="tw-mt-4 tw-flex tw-items-center tw-space-x-1">
@@ -60,7 +60,7 @@ htmx.onLoad(function (content) {
       },
       onEnd: function (event) {
         event.target.classList.remove('grabbing');
-        htmx.ajax("POST", "{% url 'boards:task_move' tenant_id board.board_type board.uuid %}", {
+        htmx.ajax("POST", "{% url 'boards:task_move' tenant_id board.board_type board.pk %}", {
           target: "#board",
           swap: "outerHTML",
           values: {
@@ -84,7 +84,7 @@ htmx.onLoad(function (content) {
       ghostClass: "sortable-ghost",
       dragClass: "none",
       onEnd: function (event) {
-        htmx.ajax("POST", "{% url 'boards:list_move' tenant_id board.board_type board.uuid %}", {
+        htmx.ajax("POST", "{% url 'boards:list_move' tenant_id board.board_type board.pk %}", {
           target: "#board",
           swap: "outerHTML",
           values: {

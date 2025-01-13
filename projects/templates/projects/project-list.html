@@ -16,14 +16,14 @@
     </h3>
     {% if project.roadmap %}
       {{ project.roadmap }}
-      <a class="btn btn-outline-primary" href="{% url 'projects:roadmap' tenant.id project.uuid %}">{% trans 'Roadmap' %}</a>
+      <a class="btn btn-outline-primary" href="{% url 'projects:roadmap' tenant.id project.pk %}">{% trans 'Roadmap' %}</a>
     {% endif %}
     {% if project.backlog %}
-      <a class="btn btn-outline-primary" href="{% url 'projects:backlog' tenant.id project.uuid %}">{% trans 'Backlog' %}</a>
+      <a class="btn btn-outline-primary" href="{% url 'projects:backlog' tenant.id project.pk %}">{% trans 'Backlog' %}</a>
     {% endif %}
     {% for team in project.teams %}
       {% if team.current_sprint %}
-        <a class="btn btn-outline-primary" href="{% url 'projects:sprint' tenant.id project.uuid team.id %}">{{ team.current_sprint }}</a>
+        <a class="btn btn-outline-primary" href="{% url 'projects:sprint' tenant.id project.pk team.id %}">{{ team.current_sprint }}</a>
       {% endif %}
     {% endfor %}
   </p>

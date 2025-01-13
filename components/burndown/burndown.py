@@ -25,6 +25,7 @@ class Burndown(component.Component):
         except Dataset.DoesNotExist:
             burndown_ds = None
             ideal_ds = None
+        breakpoint()
 
         return {
             "index": str(index),
