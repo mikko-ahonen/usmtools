@@ -18,10 +18,11 @@ import random
 #import jinja2
 
 from django.core.management.base import BaseCommand, CommandError
+from django.contrib.contenttypes.models import ContentType
 
 #from usm.settings import BASE_DIR
 #from .grammar import XREF_GRAMMAR
-from ...models import Domain, Section, Requirement, Requirement, Constraint, Category, Statement, ConstraintStatement
+from ...models import Domain, Section, Requirement, Requirement, Constraint, Category, Statement, ConstraintStatement, DataManagement
 from workflows.tenant_models import Tenant
 
 def strip(s):
@@ -121,6 +122,11 @@ class Command(BaseCommand):
         category, created = Category.unscoped.get_or_create(tenant_id=tenant.id, domain_id=domain.id, name=name)
         return category
 
+    def create_data_managements(self, tenant, domain):
+        for i, name in enumerate("Employee Training TrainingOrganized TrainingAttended".split()):
+            content_type = ContentType.objects.get(app_label='mir', model=name.lower())
+            DataManagement.objects.create(tenant_id=tenant.id, domain_id=domain.id, index=i, content_type=content_type, policy=DataManagement.POLICY_MANAGED)
+
     def create_categories(self, tenant, domain):
         colors = [
             '#FF0000', # Red
@@ -144,6 +150,7 @@ class Command(BaseCommand):
         now = timezone.now()
         domain, _ = Domain.unscoped.update_or_create(tenant=tenant, slug="iso-27001", defaults={"name": "ISO 27001", "description": "ISO 27001 V.2022"})
         self.create_categories(tenant, domain)
+        self.create_data_managements(tenant, domain)
         parent_sections = {}
         df = pd.read_excel("fixtures/iso27k/iso27k.xlsx", sheet_name=1, dtype=str, header=None)
         if True:

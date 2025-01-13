@@ -21,7 +21,7 @@ from workflows.tenant import current_tenant_id
 
 from projects.models import Project, Release, Epic, Roadmap, Story, Backlog, Sprint, Team
 from boards.models import Board
-from .models import Domain, Requirement, Constraint, Target, TargetSection, Category
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Category #, DataManagement
 
 from . import forms
 
@@ -30,9 +30,9 @@ class DomainList(TenantMixin, ListView):
     template_name = 'compliances/domain-list.html'
     context_object_name = 'domains'
 
-class DomainProjectSetup(TenantMixin, DetailView):
+class DomainProjectScope(TenantMixin, DetailView):
     model = Project
-    template_name = 'compliances/domain-project-setup.html'
+    template_name = 'compliances/domain-project-scope.html'
     context_object_name = 'project'
 
     def get_context_data(self, **kwargs):
@@ -44,8 +44,37 @@ class DomainProjectSetup(TenantMixin, DetailView):
         domain = get_object_or_404(Domain, tenant_id=tenant_id, id=domain_id)
         context['targets'] = Target.objects.filter(project_id=project_id)
         context['root_sections'] = domain.root_sections.order_by('-doc', 'index')
+        return context
+
+class DomainProjectTeams(TenantMixin, DetailView):
+    model = Project
+    template_name = 'compliances/domain-project-teams.html'
+    context_object_name = 'project'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs['tenant_id']
+        project_id = self.kwargs['pk']
+        project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
+        domain_id = self.kwargs['domain_id']
+        domain = get_object_or_404(Domain, tenant_id=tenant_id, id=domain_id)
         context['ordered_categories'] = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id).order_by('index')
         context['teams'] = Team.objects.filter(project_id=project_id)
+        return context
+
+class DomainProjectDataManagement(TenantMixin, DetailView):
+    model = Project
+    template_name = 'compliances/domain-project-data-management.html'
+    context_object_name = 'project'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs['tenant_id']
+        project_id = self.kwargs['pk']
+        project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
+        domain_id = self.kwargs['domain_id']
+        domain = get_object_or_404(Domain, tenant_id=tenant_id, id=domain_id)
+        context['data_managements'] = DataManagement.objects.filter(domain_id=domain_id)
         return context
 
 class DomainCreateProject(TenantMixin, RedirectView):
@@ -60,6 +89,10 @@ class DomainCreateProject(TenantMixin, RedirectView):
             team = Team.objects.create(tenant_id=tenant_id, project_id=project.id, name=_('Team ') + category.name, index=i)
             category.team = team
             category.save()
+            if category == 'MIR':
+                for dm in DataManagement.objects.all():
+                    dm.team = team
+                    dm.save()
 
         project.domains.add(domain)
         return reverse('compliances:domain-dashboard', kwargs={"tenant_id": tenant_id, "pk": domain_id})
@@ -367,6 +400,20 @@ def delete_team(request, tenant_id, pk, team_id):
     team = get_object_or_404(Team, tenant_id=tenant_id, id=team_id)
     team.delete()
     return teams(request, project)
+
+def data_management_policy(request, tenant_id, pk, policy_id):
+    dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
+    policy = get_object_or_404(Policy, tenant_id=tenant_id, id=policy_id)
+    dm.policy = policy
+    dm.save()
+    return HttpResponse("OK")
+
+def data_management_team(request, tenant_id, pk, team_id):
+    dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
+    team = get_object_or_404(Team, tenant_id=tenant_id, id=team_id)
+    dm.team = team
+    dm.save()
+    return HttpResponse("OK")
 
 def target_section_select(request, tenant_id, target_id, section_id):
     if request.method == "POST":

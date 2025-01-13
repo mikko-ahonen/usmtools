@@ -3,10 +3,11 @@ import uuid
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.contrib.contenttypes.models import ContentType
 
 from colorfield.fields import ColorField
 
-from projects.models import Project, Story
+from projects.models import Project, Story, Team
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 
 class Domain(TenantAwareOrderedModelBase):
@@ -14,9 +15,9 @@ class Domain(TenantAwareOrderedModelBase):
     slug = models.SlugField(max_length=255)
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     projects = models.ManyToManyField(Project, related_name="domains")
 
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     order_field_name = 'index'
 
     def project(self):
@@ -31,16 +32,31 @@ class Domain(TenantAwareOrderedModelBase):
             return project.start_date != None
         return False
 
-    def is_project_setup_complete(self):
+    def is_project_scope_setup_complete(self):
         if project := self.project():
             domain = project.domains.first()
             for category in domain.categories.all():
                 if not category.team:
                     return False
+        return False
+
+    def is_project_teams_setup_complete(self):
+        if project := self.project():
             if targets := project.targets:
                 if len(project.targets.all()) > 0:
                     return True
                 return False
+        return False
+
+    def is_project_data_management_setup_complete(self):
+        if project := self.project():
+            domain = project.domains.first()
+            for dm in domain.data_managements.all():
+                if not dm.team:
+                    return False
+                if dm.policy == DataManagement.POLICY_NOT_DEFINED:
+                    return False
+            return True
         return False
 
     def is_project_roadmap_created(self):
@@ -322,3 +338,46 @@ class TargetSection(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     target = models.ForeignKey(Target, on_delete=models.CASCADE, null=True, related_name='target_sections')
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True, related_name='+')
+
+#class DataManagement(TenantAwareOrderedModelBase):
+#    """
+#    Meta class to define the data management policy for a model class
+#    """
+#
+#    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='data_managements')
+#    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, related_name='data_managements')
+#    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
+#    index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=0)
+#
+#    POLICY_NOT_DEFINED = "not-defined"
+#    POLICY_MANUAL = "manual"
+#    POLICY_LINK = "linked"
+#    POLICY_REPLICATED = "replicated"
+#    POLICY_MANAGED = "managed"
+#
+#    POLICIES = [
+#        (POLICY_NOT_DEFINED, _("Not defined")),
+#        (POLICY_MANUAL, _("Manual")),
+#        (POLICY_LINK, _("Link")),
+#        (POLICY_REPLICATED, _("Replicated")),
+#        (POLICY_MANAGED, _("Managed")),
+#    ]
+#
+#    #policy = models.CharField(max_length=32, choices=POLICIES, default=POLICY_NOT_DEFINED)
+#
+#    order_field_name = 'index'
+#
+#    def get_entity_name(self):
+#        if self.content_type:
+#            cls = self.content_type.model_class()
+#            if cls:
+#                return cls._meta.verbose_name
+#        return _("Unknown entity")
+#
+#    def __str__(self):
+#        cls = self.content_type.model_class()
+#        return cls._meta.verbose_name + ': ' + self.get_policy_display()
+#
+#    class Meta:
+#        ordering = ('index',)

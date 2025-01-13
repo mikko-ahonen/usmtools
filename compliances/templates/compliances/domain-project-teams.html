@@ -7,8 +7,13 @@
 <section class="app">
 {% breadcrumbs tenant True 'compliances' %}
 {% with domain=project.domains.all.0 %}
-<h1 class="mb-3 pb-0">{% trans 'Setup' %} {{ project.name }} {% trans 'for domain' %} {{ domain.name }}</h1>
-{% include 'compliances/_targets.html' with tenant_id=tenant.id project=project targets=targets domain=domain root_sections=root_sections only %}
+<h1 class="mb-3 pb-0">{% trans 'Setup teams for project' %} {{ project.name }}</h1>
+<p>
+{% blocktrans %}
+Define the teams participating in this project. You need to define which team is responsible for 
+each deployment category. Exactly one team must be responsible for a single category. The responsibilities are 
+{% endblocktrans %}
+</p>
 {% include 'compliances/_teams.html' with tenant_id=tenant.id project=project teams=teams domain=domain ordered_categories=ordered_categories only %}
 <a href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}" class="btn btn-outline-primary">{% trans 'Continue' %}</a>
 </section>

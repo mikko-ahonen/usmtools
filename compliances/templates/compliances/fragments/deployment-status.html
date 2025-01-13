@@ -47,28 +47,78 @@
 
   <tr>
     <td class="align-middle">
-      {% if domain.is_project_setup_complete %}
+      {% if domain.is_project_scope_setup_complete %}
         {{ 'ok' | status_icon }}
       {% else %}
         {{ 'not-ok' | status_icon }}
       {% endif %}
     </td>
     <td class="align-middle">
-      {% if domain.is_project_setup_complete %}
-        {% trans 'Project scope and resources defined' %}<br/>
+      {% if domain.is_project_scope_setup_complete %}
+        {% trans 'Project scope defined' %}<br/>
         <small class="text-muted">
           {% trans 'Targets' %}:
           {% for target in project.targets.all %}{{ target.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
-          <br/>
+        </small>
+      {% else %}
+        {% trans 'Define project scope' %}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      <a class="btn btn-outline-primary {% if not domain.is_project_created %}disabled" href="#"{% else %}" href="{% url 'compliances:domain-project-scope' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Setup' %}</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="align-middle">
+      {% if domain.is_project_teams_setup_complete %}
+        {{ 'ok' | status_icon }}
+      {% else %}
+        {{ 'not-ok' | status_icon }}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_project_teams_setup_complete %}
+        {% trans 'Project teams defined' %}<br/>
+        <small class="text-muted">
           {% trans 'Teams' %}:
           {% for team in project.teams.all %}{{ team.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
         </small>
       {% else %}
-        {% trans 'Define project scope and resources' %}
+        {% trans 'Define project teams' %}
       {% endif %}
     </td>
     <td class="align-middle">
-      <a class="btn btn-outline-primary {% if not domain.is_project_created %}disabled" href="#"{% else %}" href="{% url 'compliances:domain-project-setup' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Setup' %}</a>
+      <a class="btn btn-outline-primary {% if not domain.is_project_created %}disabled" href="#"{% else %}" href="{% url 'compliances:domain-project-teams' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Setup' %}</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="align-middle">
+      {% if domain.is_project_data_management_setup_complete %}
+        {{ 'ok' | status_icon }}
+      {% else %}
+        {{ 'not-ok' | status_icon }}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      {% if domain.is_project_data_management_setup_complete %}
+        {% trans 'Project data management defined' %}<br/>
+        <small class="text-muted">
+          <ul>
+            {% for dm in project.data_managements.all %}
+              <li> 
+                {{ dm.get_entity_name }}: {{ dm.get_policy_display }}
+              </li>
+            {% endfor %}
+          </ul>
+        </small>
+      {% else %}
+        {% trans 'Define data management' %}
+      {% endif %}
+    </td>
+    <td class="align-middle">
+      <a class="btn btn-outline-primary {% if not domain.is_project_teams_setup_complete%}disabled" href="#"{% else %}" href="{% url 'compliances:domain-project-data-management' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Setup' %}</a>
     </td>
   </tr>
 

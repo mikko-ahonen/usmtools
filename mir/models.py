@@ -31,8 +31,8 @@ class Training(TenantAwareModelBase):
         return self.name
 
     class Meta:
-        verbose_name = _('training')
-        verbose_name_plural = _('trainings')
+        verbose_name = _('Training')
+        verbose_name_plural = _('Trainings')
         default_related_name = 'trainings'
 
 
@@ -58,8 +58,8 @@ class Employee(TenantAwareModelBase):
         return self.first_name + ' ' + self.last_name
 
     class Meta:
-        verbose_name = _('employee')
-        verbose_name_plural = _('employees')
+        verbose_name = _('Employee')
+        verbose_name_plural = _('Employees')
         default_related_name = 'employees'
 
 
@@ -79,8 +79,8 @@ class TrainingAttended(TenantAwareModelBase):
         return self.name
 
     class Meta:
-        verbose_name = _('training attended')
-        verbose_name_plural = _('trainings attended')
+        verbose_name = _('Training attended')
+        verbose_name_plural = _('Trainings attended')
         default_related_name = 'trainings_attended'
 
 
@@ -100,6 +100,6 @@ class TrainingOrganized(TenantAwareModelBase):
         return self.name
 
     class Meta:
-        verbose_name = _('training organized')
-        verbose_name_plural = _('trainings organized')
+        verbose_name = _('Training organized')
+        verbose_name_plural = _('Trainings organized')
         default_related_name = 'trainings_organized'
