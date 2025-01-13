@@ -122,8 +122,22 @@ class Command(BaseCommand):
         return category
 
     def create_categories(self, tenant, domain):
+        colors = [
+            '#FF0000', # Red
+            '#00FF00', # Lime
+            '#0000FF', # Blue
+            '#FFFF00', # Yellow
+            '#00FFFF', # Cyan
+            '#FF00FF', # Magenta
+            '#808080', # Gray
+            '#008000', # Green
+            '#800080', # Purple
+            '#FFA500', # Orange
+        ]
+
         for i, name in enumerate("CTM CHM MIR INC OPS RIM TECH SDC ORG SERV".split()):
-            Category.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, name=name, index=i)
+            Category.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, name=name, index=i + 1, color=colors[i])
+
         Category.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, name="No category", index=9999)
 
     def update_structures(self, tenant):
@@ -275,6 +289,8 @@ class Command(BaseCommand):
                         constraint_statement_idx += 1
 
                         ConstraintStatement.unscoped.create(tenant=tenant, statement=statement, constraint=constraint, index=constraint_statement_idx)
+                        statement.category = constraint.category
+                        statement.save()
                         last_constraint_text = constraint_text
 
     def handle(self, *args, **options):

@@ -1,6 +1,17 @@
 from django import template
+from django.utils.html import mark_safe
 
 register = template.Library()
+
+@register.filter
+def task_style(task):
+    if task.task_type == Task.TYPE_EPIC:
+        category = task.category
+    elif task.task_type == Task.TYPE_STORY:
+        category = task.constraint.category
+
+    color = category.color
+    return mark_safe(f"border-style: solid; border-color: {{ category.color }}; border-width: 2px 8px 2px 2px;")
 
 @register.filter
 def board_css_class(board, is_last):

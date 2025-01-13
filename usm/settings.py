@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'ordered_model',
     'django_components',
+    'colorfield',
     #'public',
     'taggit',
     'sequences',

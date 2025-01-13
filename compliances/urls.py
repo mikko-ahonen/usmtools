@@ -20,4 +20,6 @@ urlpatterns = [
     path("<uuid:tenant_id>/projects/<uuid:pk>/create-team/", views.create_team_for_project, name="project-create-team"),
     path("<uuid:tenant_id>/targets/<uuid:target_id>/<uuid:section_id>/select/", views.target_section_select, name="target-section-select"),
     path("<uuid:tenant_id>/teams/<uuid:team_id>/<uuid:category_id>/select/", views.team_category_select, name="team-category-select"),
+    path("<uuid:tenant_id>/projects/<uuid:pk>/targets/<uuid:target_id>/delete/", views.delete_target, name="target-delete"),
+    path("<uuid:tenant_id>/projects/<uuid:pk>/teams/<uuid:team_id>/delete/", views.delete_team, name="team-delete"),
 ]

@@ -348,7 +348,17 @@ def create_target_for_project(request, tenant_id, pk):
         form.instance.tenant_id = tenant_id
         form.instance.project_id = pk
         target = form.save()
+        domain = form.instance.project.domains.first()
+        for section in domain.root_sections:
+            TargetSection.objects.create(tenant_id=tenant_id, target_id=target.id, section_id=section.id)
 
+    return targets(request, project)
+
+# TODO: check permissions
+def delete_target(request, tenant_id, pk, target_id):
+    project = get_object_or_404(Project, tenant_id=tenant_id, id=pk)
+    target = get_object_or_404(Target, tenant_id=tenant_id, id=target_id)
+    target.delete()
     return targets(request, project)
 
 # TODO: check permissions
@@ -361,6 +371,13 @@ def create_team_for_project(request, tenant_id, pk):
         form.instance.project_id = pk
         team = form.save()
 
+    return teams(request, project)
+
+# TODO: check permissions
+def delete_team(request, tenant_id, pk, team_id):
+    project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
+    team = get_object_or_404(Team, tenant_id=tenant_id, id=team_id)
+    team.delete()
     return teams(request, project)
 
 def target_section_select(request, tenant_id, target_id, section_id):

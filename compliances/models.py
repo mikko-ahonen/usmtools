@@ -4,6 +4,8 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
+from colorfield.fields import ColorField
+
 from projects.models import Project, Story
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 
@@ -166,7 +168,9 @@ class Category(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255, blank=True, null=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    team = models.ForeignKey('projects.Team', on_delete=models.CASCADE, null=True, related_name='categories')
+    team = models.ForeignKey('projects.Team', on_delete=models.SET_NULL, null=True, related_name='categories')
+    name = models.CharField(max_length=255, blank=True, null=True)
+    color = ColorField(default='#000000')
 
     order_field_name = 'index'
 

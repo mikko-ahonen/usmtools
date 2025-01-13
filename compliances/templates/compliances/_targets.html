@@ -6,7 +6,7 @@
     <tr>
       <th width="300px"></th>
       {% for section in root_sections.all %}
-        <th width="50px" class="align-bottom text-center"><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ section.doc }} {{ section.docid }}: {{ section.title }}</span></th>
+        <td width="50px" class="align-bottom justify-content-center"><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ section.doc }} {{ section.docid }}: {{ section.title }}</span></td>
       {% endfor %}
     </tr>
   </thead>
@@ -14,10 +14,11 @@
     {% for target in targets %}
     <tr>
       <td>
+        <button type="button" class="btn btn-outline-primary m-1" hx-post="{% url 'compliances:target-delete' tenant_id project.id target.pk %}" hx-confirm="{% trans 'Are you sure' %}?"><i class="bi bi-trash3"></i></button>
         {{ target.name }}
       </td>
       {% for section in root_sections.all %}
-      <td width="50px" class="align-bottom text-center">
+      <td width="50px" class="align-bottom justify-content-center">
         <div class="form-check">
           <input class="form-check-input border-dark" type="checkbox" name="selected" {{ target|target_section_checked:section }} hx-post="{% url 'compliances:target-section-select' tenant_id target.id section.id %}" hx-swap="none"/>
         </div>
