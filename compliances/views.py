@@ -21,7 +21,7 @@ from workflows.tenant import current_tenant_id
 
 from projects.models import Project, Release, Epic, Roadmap, Story, Backlog, Sprint, Team
 from boards.models import Board
-from .models import Domain, Requirement, Constraint, Target, TargetSection, Category #, DataManagement
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, DataManagement
 
 from . import forms
 

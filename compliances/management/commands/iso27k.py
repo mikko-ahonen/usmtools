@@ -123,6 +123,8 @@ class Command(BaseCommand):
         return category
 
     def create_data_managements(self, tenant, domain):
+        for i, name in enumerate("Routine ".split()):
+
         for i, name in enumerate("Employee Training TrainingOrganized TrainingAttended".split()):
             content_type = ContentType.objects.get(app_label='mir', model=name.lower())
             DataManagement.objects.create(tenant_id=tenant.id, domain_id=domain.id, index=i, content_type=content_type, policy=DataManagement.POLICY_MANAGED)
