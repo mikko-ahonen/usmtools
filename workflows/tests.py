@@ -1,7 +1,7 @@
 from django.test import TestCase, override_settings
 from django.urls import reverse  
 
-from .models import Account, Service, OrganizationUnit, Profile, Workflow, Step, Activity, Responsible, WorkInstruction, Customer, Tenant, ServiceCustomer
+from .models import Account, Service, OrganizationUnit, Profile, Routine, Step, Activity, Responsible, WorkInstruction, Customer, Tenant, ServiceCustomer
 
 #@override_settings(DEBUG=True)
 class ServiceTests(TestCase):
@@ -21,8 +21,8 @@ class ServiceTests(TestCase):
         cls.ou = OrganizationUnit.objects.create(name="Test OU", tenant=cls.tenant)
         cls.customer = Customer.objects.create(name="Test Customer", tenant=cls.tenant)
         cls.profile = Profile.objects.create(name="Test Profile", tenant=cls.tenant)
-        cls.workflow = Workflow.objects.create(name="Test Workflow", tenant=cls.tenant)
-        cls.step = Step.objects.create(name="Test Step", workflow=cls.workflow, tenant=cls.tenant)
+        cls.routine = Routine.objects.create(name="Test Routine", tenant=cls.tenant)
+        cls.step = Step.objects.create(name="Test Step", routine=cls.routine, tenant=cls.tenant)
         cls.activity = Activity.objects.create(name="Test Activity", step=cls.step, tenant=cls.tenant)
         cls.responsible = Responsible.objects.create(profile=cls.profile, activity=cls.activity, types='RACI', tenant=cls.tenant)
         cls.wi = WorkInstruction.objects.create(description="Test Work Instruction", responsible=cls.responsible, tenant=cls.tenant)
@@ -173,11 +173,11 @@ class ServiceTests(TestCase):
         response = self.client.get(f"/app/{tenant_id}/services/{id}/profiles/create/")
         self.assertEqual(response.status_code, 404)
 
-    def test_service_workflow_create_protected_by_non_owner(self):
+    def test_service_routine_create_protected_by_non_owner(self):
         self.client.login(username='user2', password='123')
         tenant_id = str(self.tenant.pk)
         id = str(self.service.pk)
-        response = self.client.get(f"/app/{tenant_id}/services/{id}/workflows/create/")
+        response = self.client.get(f"/app/{tenant_id}/services/{id}/routines/create/")
         self.assertEqual(response.status_code, 403)
 
     def test_profile_update_protected_by_non_owner(self):
@@ -222,45 +222,45 @@ class ServiceTests(TestCase):
         response = self.client.get(f"/app/{tenant_id}/customers/{id}/delete/")
         self.assertEqual(response.status_code, 403)
 
-    def test_workflow_get_by_owner(self):
+    def test_routine_get_by_owner(self):
         self.client.login(username='user1', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
-        response = self.client.get(f"/app/{tenant_id}/workflows/{id}/")
+        id = str(self.routine.pk)
+        response = self.client.get(f"/app/{tenant_id}/routines/{id}/")
         self.assertEqual(response.status_code, 200)
 
-    def test_workflow_get_by_non_owner(self):
+    def test_routine_get_by_non_owner(self):
         self.client.login(username='user2', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
-        response = self.client.get(f"/app/{tenant_id}/workflows/{id}/")
+        id = str(self.routine.pk)
+        response = self.client.get(f"/app/{tenant_id}/routines/{id}/")
         self.assertEqual(response.status_code, 403)
      
-    def test_workflow_delete_by_non_owner(self):
+    def test_routine_delete_by_non_owner(self):
         self.client.login(username='user2', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
-        response = self.client.get(f"/app/{tenant_id}/workflows/{id}/delete/")
+        id = str(self.routine.pk)
+        response = self.client.get(f"/app/{tenant_id}/routines/{id}/delete/")
         self.assertEqual(response.status_code, 403)
      
-    def test_workflow_update_by_non_owner(self):
+    def test_routine_update_by_non_owner(self):
         self.client.login(username='user2', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
-        response = self.client.post(f"/app/{tenant_id}/workflows/{id}/update/")
+        id = str(self.routine.pk)
+        response = self.client.post(f"/app/{tenant_id}/routines/{id}/update/")
         self.assertEqual(response.status_code, 403)
      
     def test_export(self):
         self.client.login(username='user1', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
+        id = str(self.routine.pk)
         response = self.client.get(f"/app/{tenant_id}/export/")
         self.assertEqual(response.status_code, 200)
      
     def test_export_by_non_owner(self):
         self.client.login(username='user2', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
+        id = str(self.routine.pk)
         response = self.client.get(f"/app/{tenant_id}/export/")
         self.assertEqual(response.status_code, 403)
      
@@ -398,32 +398,32 @@ class ServiceTests(TestCase):
     #    self.assertNotContains(response, "Test Service")
     #    self.assertContains(response, "You do not have access to any services")
 
-    def test_workflow_detail_by_owner(self):
+    def test_routine_detail_by_owner(self):
         self.client.login(username='user1', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
-        response = self.client.get(f"/app/{tenant_id}/workflows/{id}/")
+        id = str(self.routine.pk)
+        response = self.client.get(f"/app/{tenant_id}/routines/{id}/")
         self.assertEqual(response.status_code, 200)
 
-    def test_workflow_detail_by_non_owner(self):
+    def test_routine_detail_by_non_owner(self):
         self.client.login(username='user2', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
-        response = self.client.get(f"/app/{tenant_id}/workflows/{id}/")
+        id = str(self.routine.pk)
+        response = self.client.get(f"/app/{tenant_id}/routines/{id}/")
         self.assertEqual(response.status_code, 403)
 
-    def test_workflow_detail_printable_by_owner(self):
+    def test_routine_detail_printable_by_owner(self):
         self.client.login(username='user1', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
-        response = self.client.get(f"/app/{tenant_id}/workflows/{id}/printable/")
+        id = str(self.routine.pk)
+        response = self.client.get(f"/app/{tenant_id}/routines/{id}/printable/")
         self.assertEqual(response.status_code, 200)
 
-    def test_workflow_detail_printable_by_non_owner(self):
+    def test_routine_detail_printable_by_non_owner(self):
         self.client.login(username='user2', password='123')
         tenant_id = str(self.tenant.pk)
-        id = str(self.workflow.pk)
-        response = self.client.get(f"/app/{tenant_id}/workflows/{id}/printable/")
+        id = str(self.routine.pk)
+        response = self.client.get(f"/app/{tenant_id}/routines/{id}/printable/")
         self.assertEqual(response.status_code, 403)
 
     def test_service_customer_add_by_non_owner(self):

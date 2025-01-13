@@ -7,15 +7,15 @@
 <section class="app">
 
 <h1>
-  {{ workflow.name }}
+  {{ routine.name }}
 </h1>
 <p>
-  {{ workflow.description|linebreaks }}
+  {{ routine.description|linebreaks }}
 </p>
 
-{% include 'workflows/fragments/workflow-steps-diagram.html' with workflow=workflow %}
+{% include 'workflows/fragments/routine-steps-diagram.html' with routine=routine %}
 
-{% for step in workflow.steps.all %}
+{% for step in routine.steps.all %}
 {% with indent=step.process_depth|default:0|indent:40 %}
 <div id="step-{{step.id}}" class="">
   <div class="row">

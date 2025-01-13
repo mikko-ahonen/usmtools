@@ -1,4 +1,4 @@
-from .models import Tenant, Service, Workflow, Profile, OrganizationUnit, Customer
+from .models import Tenant, Service, Routine, Profile, OrganizationUnit, Customer
 
 def uuid_as_str(uuid):
     return str(uuid) if uuid else None
@@ -52,10 +52,10 @@ def export_as_usm_dif(tenant):
             'parent': uuid_as_str(service.parent_id),
             'description': uuid_as_str(service.description),
             'customers': [ uuid_as_str(cs.customer_id) for cs in service.service_customers.all() ],
-            'workflows': [ {
-                'id': uuid_as_str(workflow.id),
-                'name': uuid_as_str(workflow.name),
-                'description': uuid_as_str(workflow.description),
+            'routines': [ {
+                'id': uuid_as_str(routine.id),
+                'name': uuid_as_str(routine.name),
+                'description': uuid_as_str(routine.description),
                 'steps': [ {
                     'id': uuid_as_str(step.id),
                     'sort_index': step.index,
@@ -83,7 +83,7 @@ def export_as_usm_dif(tenant):
                             } for wi in responsible.work_instructions.all() ],
                         } for responsible in activity.responsibles.all() ],
                     } for activity in step.activities.all() ],
-                } for step in workflow.steps.all() ]
-            } for workflow in service.workflows.all() ]
+                } for step in routine.steps.all() ]
+            } for routine in service.routines.all() ]
         } for service in tenant.services.all() ],
     }

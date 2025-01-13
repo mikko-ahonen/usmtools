@@ -11,7 +11,7 @@ from tree_queries.forms import TreeNodeChoiceField
 #from dal import autocomplete
 #from dal_select2_taggit.widgets import TaggitSelect2
 
-from .models import Workflow, Activity, Responsible, Profile, Service, WorkInstruction, Customer, OrganizationUnit, Share, Tenant, ServiceCustomer
+from .models import Routine, Activity, Responsible, Profile, Service, WorkInstruction, Customer, OrganizationUnit, Share, Tenant, ServiceCustomer
 
 
 class UUIDModelChoiceField(ModelChoiceField):
@@ -276,10 +276,10 @@ class WorkInstructionCreateOrUpdate(ModelForm):
         self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
 
 
-class WorkflowUpdate(ModelForm):
+class RoutineUpdate(ModelForm):
 
     class Meta:
-        model = Workflow
+        model = Routine
         fields = ['name', 'description', 'tags']
         widgets = {
             'description': Textarea(attrs={'rows': 4}),
@@ -295,12 +295,12 @@ class WorkflowUpdate(ModelForm):
         self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
 
 
-class WorkflowCreate(ModelForm):
+class RoutineCreate(ModelForm):
 
-    template = UUIDModelChoiceField(queryset=Workflow.unscoped.filter(is_template=True))
+    template = UUIDModelChoiceField(queryset=Routine.unscoped.filter(is_template=True))
 
     class Meta:
-        model = Workflow
+        model = Routine
         fields = ['name', 'description', 'tags']
         widgets = {
             'description': Textarea(attrs={'rows': 4}),
@@ -335,14 +335,14 @@ class ServiceShare(ModelForm):
         super().__init__(*args, **kwargs)
 
         if service:
-            self.fields['workflow'].queryset = Workflow.objects.filter(service=service, is_template=False)
+            self.fields['workflow'].queryset = Routine.objects.filter(service=service, is_template=False)
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Row(
                 Column(HTML(_('Name')), css_class='col-md-3 mb-1'),
                 Column(HTML(_('Scope')), css_class='col-md-3 mb-1'),
-                Column(HTML(_('Workflow')), css_class='col-md-5 mb-1'),
+                Column(HTML(_('Routine')), css_class='col-md-5 mb-1'),
                 Column(Div(), css_class='col-md-1 mb-1'),
             ),
             Row(

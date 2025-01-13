@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from ordered_model.admin import OrderedModelAdmin
 
-from .models import OrganizationUnit, Service, Workflow, Profile, Step, Activity, Responsible, Account, WorkInstruction, Tenant, Customer
+from .models import OrganizationUnit, Service, Routine, Profile, Step, Activity, Responsible, Account, WorkInstruction, Tenant, Customer
 
 
 class BaseAdmin(admin.ModelAdmin):
@@ -52,7 +52,7 @@ class TenantAdmin(admin.ModelAdmin):
 class ServiceAdmin(BaseAdmin):
     list_display = ('tenant', 'id', 'name', 'is_meta', 'is_global_template', 'parent')
 
-class WorkflowAdmin(BaseAdmin, OrderedModelAdmin):
+class RoutineAdmin(BaseAdmin, OrderedModelAdmin):
     list_display = ('id', 'name', 'is_template', 'is_public', 'move_up_down_links')
 
 class ProfileAdmin(BaseAdmin, OrderedModelAdmin):
@@ -77,7 +77,7 @@ admin.site.register(Tenant, TenantAdmin)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(OrganizationUnit, OrganizationUnitAdmin)
 admin.site.register(Service, ServiceAdmin)
-admin.site.register(Workflow, WorkflowAdmin)
+admin.site.register(Routine, RoutineAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Step, StepAdmin)
 admin.site.register(Activity, ActivityAdmin)

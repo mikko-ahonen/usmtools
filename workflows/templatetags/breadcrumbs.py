@@ -2,7 +2,7 @@ from django import template
 from django.utils.html import mark_safe
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from workflows.models import Service, Workflow
+from workflows.models import Service, Routine
 from projects.models import Project
 
 register = template.Library()
@@ -78,14 +78,14 @@ def breadcrumbs(tenant=None, edit=False, page=None, entity=None, subpage=None):
     if isinstance(entity, Project):
         text += breadcrumb_item(_("Project") + ": " + str(entity), active=True, url=reverse('projects:project-detail', kwargs={'tenant_id': tenant.id, 'pk': entity.id}))
 
-    if isinstance(entity, Workflow):
+    if isinstance(entity, Routine):
         if tenant and entity and entity.service:
             service_detail_url = reverse('workflows:service-detail', kwargs={'tenant_id': tenant.id, 'pk': entity.service.id})
-            workflow_detail_url = reverse('workflows:workflow-detail', kwargs={'tenant_id': tenant.id, 'pk': entity.id})
+            workflow_detail_url = reverse('workflows:routine-detail', kwargs={'tenant_id': tenant.id, 'pk': entity.id})
         else:
             service_detail_url = None
             workflow_detail_url = None
         text += breadcrumb_item(_("Service") + ": " + str(entity.service), active=False, url=service_detail_url)
-        text += breadcrumb_item(_("Workflow") + ": " + str(entity), active=True, url=workflow_detail_url)
+        text += breadcrumb_item(_("Routine") + ": " + str(entity), active=True, url=workflow_detail_url)
     text += footer()
     return mark_safe(text)

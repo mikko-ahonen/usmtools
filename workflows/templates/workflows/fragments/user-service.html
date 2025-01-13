@@ -6,9 +6,9 @@
       {{ service.description }}
     </span>
   </p>
-  {% for workflow in service.workflows.all %}
+  {% for routine in service.routines.all %}
   <p>
-    <a href="{% url 'workflows:workflow-detail-printable' tenant.id workflow.id %}">{{ workflow.name }}</a>
+    <a href="{% url 'workflows:routine-detail-printable' tenant.id routine.id %}">{{ workflow.name }}</a>
     <span class="text-small">
       {{ worklow.description }}
     </span>

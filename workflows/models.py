@@ -103,7 +103,7 @@ class Service(TenantAwareTreeModelBase):
         verbose_name_plural = _('services')
         default_related_name = 'services'
         permissions = [
-            ("can_edit_global_template", "Can edit the service containing the global workflow templates"),
+            ("can_edit_global_template", "Can edit the service containing the global routine templates"),
         ]
 
 class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
@@ -158,7 +158,7 @@ class ServiceCustomer(TenantAwareModelBase):
         default_related_name = 'service_customers'
 
 
-class Workflow(TenantAwareOrderedModelBase):
+class Routine(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=255)
@@ -167,10 +167,10 @@ class Workflow(TenantAwareOrderedModelBase):
     is_public = models.BooleanField(default=False)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='workflows_created')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='workflows_modified')
-    based_on = models.ForeignKey('Workflow', on_delete=models.SET_NULL, null=True, blank=True)
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+    based_on = models.ForeignKey('Routine', on_delete=models.SET_NULL, null=True, blank=True)
 
     PROCESS_AGREE = "agree"
     PROCESS_CHANGE = "change"
@@ -194,38 +194,38 @@ class Workflow(TenantAwareOrderedModelBase):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('workflows:workflow-detail', kwargs={'pk': self.id})
+        return reverse('workflows:routine-detail', kwargs={'pk': self.id})
 
     class Meta:
-        verbose_name = _('workflow')
-        verbose_name_plural = _('workflows')
+        verbose_name = _('routine')
+        verbose_name_plural = _('routines')
         ordering = ('index',)
-        default_related_name = 'workflows'
+        default_related_name = 'routines'
 
 
 class Share(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    SCOPE_WORKFLOW = "workflow"
+    SCOPE_ROUTINE = "routine"
     SCOPE_CHOICES = [
-        (SCOPE_WORKFLOW, _("Workflow")),
+        (SCOPE_ROUTINE, _("Routine")),
     ]
-    scope = models.CharField(max_length=10, choices=SCOPE_CHOICES, default=SCOPE_WORKFLOW)
+    scope = models.CharField(max_length=10, choices=SCOPE_CHOICES, default=SCOPE_ROUTINE)
 
-    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name='shares')
+    routine = models.ForeignKey(Routine, on_delete=models.CASCADE, related_name='shares', null=True)
     token1 = models.UUIDField(default=uuid.uuid4, editable=False)
     token2 = models.UUIDField(default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='shares_created')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='shares_modified')
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     last_access = models.DateTimeField(editable=False, null=True)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('workflows:shared-workflow-detail', kwargs={'pk': self.id, 'token1': self.token1, 'token2': self.token2})
+        return reverse('workflows:shared-routine-detail', kwargs={'pk': self.id, 'token1': self.token1, 'token2': self.token2})
 
     class Meta:
         verbose_name = _('share')
@@ -239,9 +239,9 @@ class Profile(TenantAwareOrderedModelBase):
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='profiles_created')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='profiles_modified')
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
     order_field_name = 'index'
 
@@ -260,8 +260,8 @@ class Step(TenantAwareOrderedModelBase):
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE)
-    fork = models.ForeignKey(Workflow, null=True, on_delete=models.SET_NULL, help_text='Only used in template workflows to specify forks to sub-workflow. In actualized workflows, all the forks have been expanded into one single workflow.', related_name='forks')
+    workflow = models.ForeignKey(Routine, on_delete=models.CASCADE)
+    fork = models.ForeignKey(Routine, null=True, on_delete=models.SET_NULL, help_text='Only used in template workflows to specify forks to sub-workflow. In actualized workflows, all the forks have been expanded into one single workflow.', related_name='forks')
     process_depth  = models.PositiveSmallIntegerField(null=True, blank=True, help_text='Used in actualized workflows, to signal how many levels of sub-processes there are')
 
     PROCESS_AGREE = "agree"
@@ -278,9 +278,9 @@ class Step(TenantAwareOrderedModelBase):
     ]
     process = models.CharField(max_length=10, choices=PROCESS_CHOICES, default=PROCESS_AGREE)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='steps_created')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='steps_modified')
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     
     order_field_name = 'index'
     order_with_respect_to = 'workflow'
@@ -303,9 +303,9 @@ class Activity(TenantAwareOrderedModelBase):
     step = models.ForeignKey(Step, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='activities_created')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='activities_modified')
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
     order_field_name = 'index'
     order_with_respect_to = 'step'
@@ -336,9 +336,9 @@ class Responsible(TenantAwareOrderedModelBase):
     organization_unit = models.ForeignKey(OrganizationUnit, on_delete=models.CASCADE, null=True)
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='responsibles_created')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='responsibles_modified')
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
     order_field_name = 'index'
@@ -370,20 +370,6 @@ class Responsible(TenantAwareOrderedModelBase):
         ordering = ['modified_at',]
         default_related_name = 'responsibles'
 
-#class Category(TenantAwareModelBase):
-#    tag = models.SlugField()
-#    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-#    object_id = models.UUIDField()
-#    content_object = GenericForeignKey("content_type", "object_id")
-#
-#    def __str__(self):
-#        return self.tag
-#
-#    class Meta:
-#        indexes = [
-#            models.Index(fields=["content_type", "object_id"]),
-#        ]
-
 class WorkInstruction(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
@@ -392,9 +378,9 @@ class WorkInstruction(TenantAwareModelBase):
     description = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='work_instructions_created')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='work_instructions_modified')
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
     class Meta:
         verbose_name = _('work instruction')

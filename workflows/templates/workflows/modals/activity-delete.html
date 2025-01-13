@@ -8,7 +8,7 @@
     </p>
     <p> 
       <input class="button btn btn-primary" type="submit" value="OK">
-      <a class="button btn btn-secondary" href="{% url 'workflows:workflow-detail' tenant.id activity.step.workflow_id %}">Cancel</a>
+      <a class="button btn btn-secondary" href="{% url 'workflows:routine-detail' tenant.id activity.step.routine_id %}">Cancel</a>
     </p>
 </form>
 {% endblock content %}

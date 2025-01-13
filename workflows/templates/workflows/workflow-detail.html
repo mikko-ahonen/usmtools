@@ -6,21 +6,21 @@
 {% block content %}
 <div class="content">
 <section class="app">
-{% breadcrumbs tenant True 'services' workflow %}
+{% breadcrumbs tenant True 'services' routine %}
 
 <h1>
-  {{ workflow.name }}
-  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:workflow-update' tenant.id workflow.id %}" href="{% url 'workflows:workflow-update' tenant.id workflow.id %}"><i class="bi bi-pencil"></i></a>
-  <a class="btn btn-primary" href="{% url 'workflows:workflow-detail-printable' tenant.id workflow.id %}"><i class="bi bi-printer"></i></a>
+  {{ routine.name }}
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:routine-update' tenant.id routine.id %}" href="{% url 'workflows:routine-update' tenant.id routine.id %}"><i class="bi bi-pencil"></i></a>
+  <a class="btn btn-primary" href="{% url 'workflows:routine-detail-printable' tenant.id routine.id %}"><i class="bi bi-printer"></i></a>
 </h1>
 <p>
-  {{ workflow.description|linebreaks }}
+  {{ routine.description|linebreaks }}
 </p>
 <div class="row mb-3">
-{% include 'workflows/fragments/workflow-steps-diagram.html' with workflow=workflow %}
+{% include 'workflows/fragments/routine-steps-diagram.html' with routine=routine %}
 </div>
 
-{% for step in workflow.steps.all %}
+{% for step in routine.steps.all %}
 {% with indent=step.process_depth|default:0|indent:40 %}
 <div id="step-{{step.id}}" class="">
   <div class="row">
