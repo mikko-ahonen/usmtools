@@ -106,9 +106,9 @@
         {% trans 'Project data management defined' %}<br/>
         <small class="text-muted">
           <ul>
-            {% for dm in project.data_managements.all %}
+            {% for dm in domain.data_managements.all %}
               <li> 
-                {{ dm.get_entity_name }}: {{ dm.get_policy_display }}
+                {{ dm.get_entity_name|title }}: {{ dm.get_policy_display }}
               </li>
             {% endfor %}
           </ul>
@@ -141,7 +141,7 @@
       {% if domain.is_project_roadmap_created %}
         <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.roadmap.board_type project.roadmap.pk %}">{% trans 'View' %}</a>
       {% else %}
-        <a class="btn btn-outline-primary {% if not domain.is_project_setup_complete %}disabled" href="#"{% else %}" href="{% url 'compliances:domain-project-create-roadmap' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Create' %}</a>
+        <a class="btn btn-outline-primary {% if not domain.is_project_data_management_setup_complete %}disabled" href="#"{% else %}" href="{% url 'compliances:domain-project-create-roadmap' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Create' %}</a>
       {% endif %}
     </td>
   </tr>

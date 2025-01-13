@@ -6,19 +6,20 @@
     {% for dm in domain.data_managements.all %}
     <tr>
       <td>
-        {{ dm.get_entity_name }}
+        {{ dm.get_entity_name|title }}{% if not dm.allow_policy_change %} ({% trans 'built-in' %}){% endif %}
       </td>
       <td>
-        <select class="form-select border-dark" aria-label="Policy" hx-post="{% url 'compliances:data-management-policy' tenant_id dm.id %}" hx-swap="none">
-          <option {% if policy.policy == 'not-defined' %}selected{% endif %} value="not-defined">{% trans 'Select data management policy' %}</option>
-          <option {% if policy.policy == 'manual' %}selected{% endif %} value="manual">{%  trans 'Manual' %}</option>
-          <option {% if policy.policy == 'linked' %}selected{% endif %} value="linked">{% trans 'Linked' %}</option>
-          <option {% if policy.policy == 'replicated' %}selected{% endif %} value="replicated">{% trans 'Replicated' %}</option>
-          <option {% if policy.policy == 'not-defined' %}managed{% endif %} value="managed">{% trans 'Managed' %}</option>
+        <select name="policy" {% if not dm.allow_policy_change %}disabled{% endif %} class="form-select border-dark" aria-label="Policy" hx-post="{% url 'compliances:data-management-policy' tenant_id dm.id %}" hx-swap="none">
+          <option {% if dm.policy == 'not-defined' %}selected{% endif %} value="not-defined">{% trans 'Select data management policy' %}</option>
+          <option {% if dm.policy == 'manual' %}selected{% endif %} value="manual">{%  trans 'Manual' %}</option>
+          <option {% if dm.policy == 'linked' %}selected{% endif %} value="linked">{% trans 'Linked' %}</option>
+          <option {% if dm.policy == 'replicated' %}selected{% endif %} value="replicated">{% trans 'Replicated' %}</option>
+          <option {% if dm.policy == 'managed' %}selected{% endif %} value="managed">{% trans 'Managed' %}</option>
         </select>
       </td>
       <td>
-        <select class="form-select border-dark" aria-label="Team" hx-post="{% url 'compliances:data-management-team' tenant_id dm.id %}" hx-swap="none">
+        <select name="team" class="form-select border-dark" aria-label="Team" hx-post="{% url 'compliances:data-management-team' tenant_id dm.id %}" hx-swap="none">
+          {{ dm.team }}
           <option {% if not dm.team %}selected{% endif %}>Select responsible team</option>
           {% for team in project.teams.all %}
             <option {% if dm.team == team %}selected{% endif %} value="{{ team.id }}">{{ team.name }}</option>

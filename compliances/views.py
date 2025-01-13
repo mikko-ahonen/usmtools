@@ -89,7 +89,7 @@ class DomainCreateProject(TenantMixin, RedirectView):
             team = Team.objects.create(tenant_id=tenant_id, project_id=project.id, name=_('Team ') + category.name, index=i)
             category.team = team
             category.save()
-            if category == 'MIR':
+            if category.name == 'MIR':
                 for dm in DataManagement.objects.all():
                     dm.team = team
                     dm.save()
@@ -401,15 +401,25 @@ def delete_team(request, tenant_id, pk, team_id):
     team.delete()
     return teams(request, project)
 
-def data_management_policy(request, tenant_id, pk, policy_id):
+def data_management_policy(request, tenant_id, pk):
+
     dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
-    policy = get_object_or_404(Policy, tenant_id=tenant_id, id=policy_id)
+    if not dm.allow_policy_change:
+        raise ValueError("policy cannot be changed for built-in data types")
+    policy = request.POST.get('policy', None)
+    if not policy:
+        raise ValueError("policy is required")
+    if not DataManagement.is_valid_policy(policy):
+        raise ValueError("policy value is not valid")
     dm.policy = policy
     dm.save()
     return HttpResponse("OK")
 
-def data_management_team(request, tenant_id, pk, team_id):
+def data_management_team(request, tenant_id, pk):
     dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
+    team_id = request.POST.get('team', None)
+    if not team_id:
+        raise ValueError("team is required")
     team = get_object_or_404(Team, tenant_id=tenant_id, id=team_id)
     dm.team = team
     dm.save()

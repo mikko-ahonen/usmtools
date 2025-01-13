@@ -33,12 +33,12 @@ class Domain(TenantAwareOrderedModelBase):
         return False
 
     def is_project_scope_setup_complete(self):
-        if project := self.project():
-            domain = project.domains.first()
-            for category in domain.categories.all():
-                if not category.team:
-                    return False
-        return False
+        retval = False
+        for category in self.categories.all():
+            if not category.team:
+                return False
+            retval = True
+        return retval
 
     def is_project_teams_setup_complete(self):
         if project := self.project():
@@ -349,6 +349,7 @@ class DataManagement(TenantAwareOrderedModelBase):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, related_name='data_managements')
     content_type = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=0)
+    allow_policy_change = models.BooleanField(default=True)
 
     POLICY_NOT_DEFINED = "not-defined"
     POLICY_MANUAL = "manual"
@@ -367,6 +368,13 @@ class DataManagement(TenantAwareOrderedModelBase):
     policy = models.CharField(max_length=32, choices=POLICIES, default=POLICY_NOT_DEFINED)
 
     order_field_name = 'index'
+
+    @classmethod
+    def is_valid_policy(cls, policy):
+        for p in cls.POLICIES:
+            if policy == p[0]:
+                return True
+        return False
 
     def get_entity_name(self):
         if self.content_type:
