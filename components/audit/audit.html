@@ -1,0 +1,42 @@
+{% load compliances %}
+{% load tq_template %}
+
+{% for section,structure in sections|tree_info %}
+<h{{ section.tree_depth|add:1 }}>{% if not section.doc == 'Main clauses' %}{{ section.doc }}: {% endif %}{{ section.docid }} {{ section.title }}</h{{ section.tree_depth|add:1 }}>
+{% if section.description %}
+<p>
+{{ section.description|linebreaks }}
+</p>
+{% endif %}
+{% if structure.new_level %}
+{% endif %}
+{% if section.requirements.count > 0 %}
+  {% for requirement in section.requirements.all %}
+    <div class="card">
+      <div class="card-header">
+        <h5>{{ requirement | requirement_status }} {{ requirement.text }}</h5>
+      </div>
+      <div class="card-body">
+        <p id="{{ requirement.statement.id }}">
+        {{ requirement.statement.text }}
+        </p>
+      </div>
+      <div class="card-footer">
+        <ul class="list-unstyled">
+        {% for constraint in requirement.statement.constraints %}
+          <li class="my-1" id="{{ constraint.id }}">
+            {% comment %}
+            <a class="text-reset text-decoration-none mx-2 px-2 py-1 bg-gray" href="#"><span class="border border-dark"><span class="d-inline-block mx-1">{{ project.prefix }}-{{ }}</span> <span class="d-inline-block align-middle badge" style="font-size:.5rem; margin-bottom: 0.20rem; background-color: {{constraint.category.color|default:"#ffffff"}}">{{ constraint.category.name }}</span>&nbsp;</span> {{ constraint.text }}</a>
+            {% endcomment %}
+            {% for story in constraint.stories.all %}<a class="btn btn-outline-primary" href="#">{{ constraint | constraint_status_small }} {{ domain.project.prefix }}-{{ story.number }} <span class="badge" style="background-color: {{constraint.category.color|default:"#ffffff"}}">{{ constraint.category.name }}</span></a>{% endfor %} {{ constraint.text }}
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    </div>
+  {% endfor %}
+{% endif %}
+{% for level in structure.closed_levels %}
+{% endfor %}
+{% endfor %}

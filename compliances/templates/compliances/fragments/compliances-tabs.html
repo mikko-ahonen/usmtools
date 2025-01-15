@@ -26,9 +26,9 @@
   </li>
   <li class="nav-item">
     {% if domain.project %}
-      <a class="nav-link {% if '/reports/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'projects:project-reports' tenant.id domain.project.id%}">{% trans 'Reports' %}</a>
+      <a class="nav-link {% if '/audit/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'compliances:domain-audit' tenant.id domain.id %}">{% trans 'Audit' %}</a>
     {% else %}
-      <a class="nav-link disabled" href="#">{% trans 'Reports' %}</a>
+      <a class="nav-link disabled" href="#">{% trans 'Audit' %}</a>
     {% endif %}
   </li>
 </ul>

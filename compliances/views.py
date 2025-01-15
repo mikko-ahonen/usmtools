@@ -113,6 +113,17 @@ class DomainSpec(TenantMixin, DetailView):
     template_name = 'compliances/domain-spec.html'
     context_object_name = 'domain'
 
+class DomainAudit(TenantMixin, DetailView):
+    model = Domain
+    template_name = 'compliances/domain-audit.html'
+    context_object_name = 'domain'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs['tenant_id']
+        context['tenant_id'] = tenant_id
+        return context
+
 class DomainConstraints(TenantMixin, ListView):
     model = Constraint
     template_name = 'compliances/domain-constraints.html'

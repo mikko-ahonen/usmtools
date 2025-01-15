@@ -1,9 +1,4 @@
-# MVP
-[ ] Documents (linked)
-[ ] Scoping board
-    [x] Add targets to be audited
-    [x] Remove a target
-    [ ] Set target priority
+# Done
 [x] Task board where 
     [x] lists can be created and deleted
     [x] tasks added to lists
@@ -13,30 +8,89 @@
     [x] can be fixed to 1 column
     [x] task can be renamed
     [x] list can be renamed
-    [ ] modify task
 [x] Create a roadmap for project (with a list for each release, with the tasks of type epic split into)
 [x] Roadmap board
     [x] reorder epics and move between releases
     [x] create epics
-    [ ] remove epics
-    [ ] modify epic
 [x] Create a plan from a release (split into increments/sprints)
 [x] Planning board
     [x] reorder stories and move between sprints
     [x] create stories
     [x] remove stories
-    [x] edit story (name, description, epic, priority, assignment)
-[ ] Main page
-    [ ] Project burndown
-    [ ] Release burndown
-    [ ] Sprint burndown
-    [ ] Compliance domain status
-    [ ] project status
+[x] Main page
+    [x] Project burndown
+    [x] Release burndown
+    [x] Sprint burndown
+    [x] Compliance domain status
+    [x] project status
+
+# Demo
+[ ] MIR
+    [ ] Training Organized
+    [ ] Training Attended
+    [ ] Document
+    [ ] Action
+[ ] Projects
+    [ ] Epic card styling
+    [ ] Epic editing
+    [ ] Story card styling
+    [ ] Story editing
+[ ] Audit
+    [ ] Audit view
+    [ ] Link to the proof
+    [ ] Mark requirement as audited or failed
+[ ] Bug fixes
+    [ ] Roadmap start sprint remove
+    [ ] Backlog start sprint list broken
+    [ ] Roadmap/backlog do not use component
+[ ] Compliance
+    [ ] Story, when closing link to managed/replicated resources, add link, describe manual
+    [ ] Status color, use blue more
+[ ] Styling
+    [ ] Tabs on views
+[ ] BPMN teaser link
+[ ] Data
+    [ ] Spec data for demo
+
+# 1.0
+[ ] BPMN implementation
+[ ] Filtering in boards
+[ ] Deployment
+    [ ] XXX
+[ ] Security
+    [ ] Go through the implementation
+    [ ] Tests
+[ ] Projects
+    [ ] Sprint create
+    [ ] Sprint edit
+    [ ] Sprint delete
+    [ ] Release create
+    [ ] Release edit
+    [ ] Release delete
+    [ ] Epic create
+    [ ] Epic priority
+    [ ] Epic team
+    [ ] Epic assignment
+    [ ] Epic delete
+    [ ] Story create
+    [ ] Story priority
+    [ ] Story assignment
+    [ ] Story delete
+    [ ] Story team
+
 [ ] MIR
-    [ ] Each one of the types
+    [ ] Rest of the necessary types
 [ ] REST API?
-[ ] Report board
-[ ] Fix a bug in starting sprint
-[ ] Remove start sprint from roadmap view
-[ ] Styling for epics
-[ ] Styling for stories
+
+2.0
+[ ] data integration features
+
+3.0
+[ ] usm constraint language (UCL)
+
+4.0
+[ ] Reports
+[ ] Switch to Django tree beard?
+[ ] major changes to the routine creation
+[ ] service definition template
+[ ] ticketing/support

@@ -133,16 +133,17 @@ class Command(BaseCommand):
 
     def create_categories(self, tenant, domain):
         colors = [
-            '#FF0000', # Red
-            '#00FF00', # Lime
-            '#0000FF', # Blue
-            '#FFFF00', # Yellow
-            '#00FFFF', # Cyan
-            '#FF00FF', # Magenta
-            '#808080', # Gray
-            '#008000', # Green
-            '#800080', # Purple
-            '#FFA500', # Orange
+
+            "#0d6efd", # blue
+            "#6610f2", # indigo
+            "#6f42c1", # purple
+            "#d63384", # pink:
+            "#dc3545", # $red
+            "#fd7e14", # $orange
+            "#ffc107", # $yellow
+            "#198754", # $green
+            "#20c997", # $teal
+            "#0dcaf0", # $cyan
         ]
 
         for i, name in enumerate("CTM CHM MIR INC OPS RIM TECH SDC ORG SERV".split()):

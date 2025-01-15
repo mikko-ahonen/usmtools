@@ -7,7 +7,12 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
+from sequences import get_next_value
+
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
+
+def get_next_task_number():
+    return get_next_value('task')
 
 class Project(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -175,6 +180,7 @@ class Epic(Task):
     _story_points = None
 
     category = models.ForeignKey('compliances.Category', null=True, blank=True, on_delete=models.PROTECT)
+    number = models.PositiveSmallIntegerField(editable=False, db_index=True, default=get_next_task_number)
 
     def get_story_points(self):
         if not self._story_points:
@@ -193,6 +199,7 @@ class Story(Task):
 
     task_type = Task.TASK_TYPE_STORY
 
+    number = models.PositiveSmallIntegerField(editable=False, db_index=True, default=get_next_task_number)
     team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.PROTECT)
     epic = models.ForeignKey(Epic, null=True, blank=True, on_delete=models.SET_NULL)
     constraint = models.ForeignKey('compliances.Constraint', null=True, blank=True, on_delete=models.PROTECT)
