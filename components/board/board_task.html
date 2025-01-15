@@ -1,13 +1,33 @@
+{% load compliances %}
 {% load boards %}
 <div class="task card my-2" id="{{ task.pk }}">
-  <div class="card-body" style="{{ task | task_style }}">
-    <a href="#" class="card-text"
-        hx-get="{% url 'boards:task_modal' tenant_id board.board_type task.pk %}" hx-swap="beforeend" hx-target="body" hx-trigger="click"></a>
-    <span class="card-text">{{ task.name }}</span>
-    {% if task.description %}
-    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4 tw--m-px tw-mt-2 tw-text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
-    </svg>
-    {% endif %}
+  <div class="card-body pt-3 pb-2" style="{{ task | task_style }}">
+    <div class="row">
+        <a href="#" class="card-text"
+            hx-get="{% url 'boards:task_modal' tenant_id board.board_type task.pk %}"
+            hx-swap="beforeend"
+            hx-target="body"
+            hx-trigger="click"></a>
+        <span class="card-text">{{ task.name }}</span>
+    </div>
+    <div class="mt-3 mb-0 d-flex d-flex-row justify-content-between align-items-center">
+      <div>
+        {% if task.task_type == 'story' %}
+          {{ task.constraint | constraint_status_small }}
+        {% endif %}
+        {{ task.get_task_id }}
+      </div>
+      <div class="align-middle">
+        {% if task.task_type == 'story' %}
+          {{ task | task_priority }}
+        {% endif %}
+        {% if task.description %}
+          <i class="align-middle bi bi-card-text fs-3 m-2"></i>
+        {% endif %}
+        <span class="pb-3">
+          {{ task | task_story_points }}
+        </span>
+      </div>
+    </div>
   </div>
 </div>

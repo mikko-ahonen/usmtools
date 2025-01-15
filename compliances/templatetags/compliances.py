@@ -60,10 +60,16 @@ def section_status(section, tooltip=""):
 
 
 @register.filter 
-def constraint_status_small(constraint, tooltip=""):
-    status = constraint.status
+def constraint_status_small(constraint):
 
-    css_class = constraint_status_css_class(constraint.status, font_size="", use_circle=True)
+    if not constraint:
+        status = Constraint.STATUS_NEW
+        tooltip = _("Status") + ": " + "New"
+    else:
+        status = constraint.status
+        tooltip = _("Status") + ": " + constraint.get_status_display()
+
+    css_class = constraint_status_css_class(status, font_size="", use_circle=True)
 
     return format_html('<i class="{}" data-bs-toggle="tooltip" title="{}"></i>', css_class, tooltip)
 

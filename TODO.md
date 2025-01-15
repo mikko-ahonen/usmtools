@@ -35,8 +35,8 @@
     [ ] Epic editing
     [ ] Story card styling
     [ ] Story editing
-[ ] Audit
-    [ ] Audit view
+[x] Audit
+    [x] Audit view
     [ ] Link to the proof
     [ ] Mark requirement as audited or failed
 [ ] Bug fixes
@@ -46,8 +46,8 @@
 [ ] Compliance
     [ ] Story, when closing link to managed/replicated resources, add link, describe manual
     [ ] Status color, use blue more
-[ ] Styling
-    [ ] Tabs on views
+[x] Styling
+    [x] Tabs on views
 [ ] BPMN teaser link
 [ ] Data
     [ ] Spec data for demo

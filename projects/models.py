@@ -59,7 +59,6 @@ class Project(TenantAwareOrderedModelBase):
         return qs
 
     def stop_sprint(self, sprint):
-
         team = sprint.team
         if not team.current_sprint:
             raise ValueError(f"Team {team} has no current sprint.")
@@ -190,6 +189,16 @@ class Epic(Task):
             self._story_points = story_points
         return self._story_points
 
+    def get_project(self):
+        return self.list.board.project
+
+    def __str__(self):
+        return self.get_task_id()
+
+    def get_task_id(self):
+        project = self.get_project()
+        return project.prefix + '-' + str(self.number)
+
     class Meta(Task.Meta):
         verbose_name = "epic"
         verbose_name_plural = "epics"
@@ -217,6 +226,37 @@ class Story(Task):
     ]
     status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
 
+    PRIORITY_BLOCKER = "blocker"
+    PRIORITY_VERY_HIGH = "very-high"
+    PRIORITY_HIGH = "high"
+    PRIORITY_MEDIUM = "medium"
+    PRIORITY_LOW = "low"
+    PRIORITY_VERY_LOW = "very-low"
+    PRIORITY_TRIVIAL = "trivial"
+
+    PRIORITIES = [
+        (PRIORITY_BLOCKER, _("Blocker")),
+        (PRIORITY_VERY_HIGH, _("Very high")),
+        (PRIORITY_HIGH, _("High")),
+        (PRIORITY_MEDIUM, _("Medium")),
+        (PRIORITY_LOW, _("Low")),
+        (PRIORITY_VERY_LOW, _("Very low")),
+        (PRIORITY_TRIVIAL, _("Trivial")),
+    ]
+
+    priority = models.CharField(max_length=32, choices=PRIORITIES, default=PRIORITY_MEDIUM)
+
+    def get_project(self):
+        if self.list.list_type == List.LIST_TYPE_STATUS:
+            return self.list.board.project
+        return self.list.project
+
+    def __str__(self):
+        return self.get_task_id()
+
+    def get_task_id(self):
+        project = self.get_project()
+        return project.prefix + '-' + str(self.number)
 
     class Meta(Task.Meta):
         verbose_name = "story"
