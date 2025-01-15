@@ -3,10 +3,9 @@
 {% load breadcrumbs %}
 {% load constraint %}
 {% block content %}
-<div class="container">
-<section class="app">
-{% breadcrumbs tenant True 'compliances' %}
+<div class="container-fluid m-5">
 {% with domain=project.domains.all.0 %}
+{% include 'compliances/fragments/compliances-tabs.html' %}
 <h1 class="mb-3 pb-0">{% trans 'Setup teams for project' %} {{ project.name }}</h1>
 <p>
 {% blocktrans %}
@@ -16,7 +15,6 @@ each deployment category. Exactly one team must be responsible for a single cate
 </p>
 {% include 'compliances/_teams.html' with tenant_id=tenant.id project=project teams=teams domain=domain ordered_categories=ordered_categories only %}
 <a href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}" class="btn btn-outline-primary">{% trans 'Continue' %}</a>
-</section>
 </div>
 {% endwith %}
 {% endblock %}

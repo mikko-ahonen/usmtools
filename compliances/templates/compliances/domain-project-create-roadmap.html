@@ -4,9 +4,10 @@
 {% load constraint %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="container">
-<section class="app">
-{% breadcrumbs tenant True 'compliances' %}
+<div class="container-fluid m-5">
+
+{% include 'compliances/fragments/compliances-tabs.html' %}
+
 <h1 class="mb-3 pb-0">{% trans 'Create a roadmap for' %} {{ project.name }}</h1>
 
 <div class="row">
@@ -82,6 +83,5 @@
   </div>
 </div>
 
-</section>
 </div>
 {% endblock %}

@@ -12,14 +12,12 @@
 {% endif %}
 {% if section.requirements.count > 0 %}
   {% for requirement in section.requirements.all %}
-    <div class="card">
+    <div class="card mb-3">
       <div class="card-header">
         <h5>{{ requirement | requirement_status }} {{ requirement.text }}</h5>
       </div>
-      <div class="card-body">
-        <p id="{{ requirement.statement.id }}">
-        {{ requirement.statement.text }}
-        </p>
+      <div class="card-body" id="{{ requirement.statement.id }}">
+        {{ requirement.statement.text | linebreaks }}
       </div>
       <div class="card-footer">
         <ul class="list-unstyled">

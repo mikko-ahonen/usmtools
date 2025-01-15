@@ -192,7 +192,6 @@
     </td>
   </tr>
 
-  {% comment %}
   <tr>
     <td class="align-middle">
       {% if domain.is_audit_completed %}
@@ -210,11 +209,8 @@
     </td>
     <td class="align-middle">
       {% if not domain.is_audit_completed %}
-        {% for target in project.targets.all %}
-          <a class="btn btn-outline-primary" {% if not domain.is_project_backlog_created %}disabled{% endif %} href="{% url 'compliances:audit-view' tenant.id domain.id target.id %}">{% trans 'View report for' %} {{ target.name }}</a>
-        {% endfor %}
+        <a class="btn btn-outline-primary" {% if not domain.is_project_backlog_created %}disabled{% endif %} href="{% url 'compliances:domain-audit' tenant.id domain.id %}">{% trans 'View' %}</a>
       {% endif %}
     </td>
   </tr>
-  {% endcomment %}
   </table>

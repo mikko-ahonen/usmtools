@@ -3,10 +3,10 @@
 {% load breadcrumbs %}
 {% load constraint %}
 {% block content %}
-<div class="container">
-<section class="app">
-{% breadcrumbs tenant True 'compliances' %}
+<div class="container-fluid m-5">
+
 {% with domain=project.domains.all.0 %}
+{% include 'compliances/fragments/compliances-tabs.html' %}
 <h1 class="mb-3 pb-0">{% trans 'Setup' %} {{ project.name }} {% trans 'scope for domain' %} {{ domain.name }}</h1>
 <p>
 {% blocktrans %}
@@ -17,7 +17,6 @@ processes, organizations.
 </p>
 {% include 'compliances/_targets.html' with tenant_id=tenant.id project=project targets=targets domain=domain root_sections=root_sections only %}
 <a href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}" class="btn btn-outline-primary">{% trans 'Continue' %}</a>
-</section>
 </div>
 {% endwith %}
 {% endblock %}

@@ -3,10 +3,9 @@
 {% load breadcrumbs %}
 {% load constraint %}
 {% block content %}
-<div class="container">
-<section class="app">
-{% breadcrumbs tenant True 'compliances' %}
+<div class="container-fluid m-5">
 {% with domain=project.domains.all.0 %}
+{% include 'compliances/fragments/compliances-tabs.html' %}
 <h1 class="mb-3 pb-0">{% trans 'Setup data management for the project' %} {{ project.name }}</h1>
 <p>
 {% blocktrans %}
@@ -82,7 +81,6 @@ Note: The policy is shared between domains.
 {% include 'compliances/_data_management.html' with tenant_id=tenant.id project=project domain=domain policies=policies only %}
 
 <a href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}" class="btn btn-outline-primary">{% trans 'Continue' %}</a>
-</section>
 </div>
 {% endwith %}
 {% endblock %}

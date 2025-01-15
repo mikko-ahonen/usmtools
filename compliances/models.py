@@ -32,7 +32,7 @@ class Domain(TenantAwareOrderedModelBase):
             return project.start_date != None
         return False
 
-    def is_project_scope_setup_complete(self):
+    def is_project_teams_setup_complete(self):
         retval = False
         for category in self.categories.all():
             if not category.team:
@@ -40,7 +40,7 @@ class Domain(TenantAwareOrderedModelBase):
             retval = True
         return retval
 
-    def is_project_teams_setup_complete(self):
+    def is_project_scope_setup_complete(self):
         if project := self.project():
             if targets := project.targets:
                 if len(project.targets.all()) > 0:

@@ -4,9 +4,10 @@
 {% load constraint %}
 {% load audit %}
 {% block content %}
-<div class="container">
-<section class="app">
-{% breadcrumbs tenant True 'compliances' %}
+<div class="container-fluid m-5">
+
+{% include 'compliances/fragments/compliances-tabs.html' %}
+
 <h1 class="mb-3 pb-0">{% trans 'Backlog preview for' %} {{ project.name }}</h1>
 
     <p>
@@ -100,6 +101,5 @@
   </div>
 </div>
 
-</section>
 </div>
 {% endblock %}
