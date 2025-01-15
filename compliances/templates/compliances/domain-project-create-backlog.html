@@ -2,14 +2,13 @@
 {% load i18n %}
 {% load breadcrumbs %}
 {% load constraint %}
+{% load audit %}
 {% block content %}
 <div class="container">
 <section class="app">
 {% breadcrumbs tenant True 'compliances' %}
-<h1 class="mb-3 pb-0">{% trans 'Create a backlog for' %} {{ project.name }}</h1>
+<h1 class="mb-3 pb-0">{% trans 'Backlog preview for' %} {{ project.name }}</h1>
 
-<div class="row">
-  <div class="col-6">
     <p>
     <small>
     {% blocktrans %}
@@ -79,22 +78,19 @@
       <input type="submit" name="Preview" class="btn btn-primary" value="{% trans 'Preview' %}"/>
       <input type="submit" name="create" class="btn btn-primary" value="{% trans 'Create' %}"/>
     </form>
-  </div>
-  <div class="col-6">
-  {% if team_sprints_and_stories %}
-    <h3>{% trans 'Preview' %}</h3>
 
+  {% if team_sprints_and_stories %}
     {% for tss in team_sprints_and_stories %}
-    <h4>{{ tss.team.name  }}</h4>
+    <h2 class="mt-5">{{ tss.team.name  }}</h2>
     {% for sprint in tss.sprints %}
-      <h5>{{ sprint.name }}</h5>
-      <small>
+      <h4 class="mt-3 mb-0">{{ sprint.name }}</h4>
+      <small class="mt-0">
         {{ sprint.team.name }} | {{ sprint.start_date }} &mdash; {{ sprint.end_date }}
       </small>
-      <ul>
+      <ul class="mt-3 list-unstyled">
         {% for story in tss.sprint_stories|dict_key:sprint.name %}
-        <li>
-          {{ story.name }}
+        <li class="my-2">
+          {% compliances_story domain story %} {{ story.name }}
         </li>
         {% endfor %}
       </ul>

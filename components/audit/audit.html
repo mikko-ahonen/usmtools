@@ -25,10 +25,7 @@
         <ul class="list-unstyled">
         {% for constraint in requirement.statement.constraints %}
           <li class="my-1" id="{{ constraint.id }}">
-            {% comment %}
-            <a class="text-reset text-decoration-none mx-2 px-2 py-1 bg-gray" href="#"><span class="border border-dark"><span class="d-inline-block mx-1">{{ project.prefix }}-{{ }}</span> <span class="d-inline-block align-middle badge" style="font-size:.5rem; margin-bottom: 0.20rem; background-color: {{constraint.category.color|default:"#ffffff"}}">{{ constraint.category.name }}</span>&nbsp;</span> {{ constraint.text }}</a>
-            {% endcomment %}
-            {% for story in constraint.stories.all %}<a class="btn btn-outline-primary" href="#">{{ constraint | constraint_status_small }} {{ domain.project.prefix }}-{{ story.number }} <span class="badge" style="background-color: {{constraint.category.color|default:"#ffffff"}}">{{ constraint.category.name }}</span></a>{% endfor %} {{ constraint.text }}
+            {% for story in constraint.stories.all %}{% compliances_story domain story %}{% endfor %} {{ constraint.text }}
           </li>
         {% endfor %}
         </ul>

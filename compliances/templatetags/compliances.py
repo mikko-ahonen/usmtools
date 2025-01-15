@@ -1,6 +1,6 @@
 from django import template
-from django.utils.html import mark_safe
-from django.utils.html import format_html
+from django.utils.html import mark_safe, format_html
+from django.utils.translation import gettext_lazy as _
 
 register = template.Library()
 
@@ -102,3 +102,18 @@ def status_icon(status, tooltip=""):
         return ''
     return format_html('<i class="{}" data-bs-toggle="tooltip" title="{}"></i>', css_class, tooltip)
 
+@register.simple_tag()
+def compliances_story(domain, story):
+    url = "#"
+    status_css_class = constraint_status_css_class(story.constraint.status if story.constraint else Constraint.STATUS_NEW, use_circle=True, font_size="")
+    tooltip = ""
+
+    return format_html(
+        '<a class="btn btn-outline-primary" href="{}"><i class="{}" data-bs-toggle="tooltip" title="{}"></i> {}-{} <span class="badge" style="background-color: {}">{}</span></a>',
+        url,
+        status_css_class,
+        tooltip,
+        domain.project().prefix,
+        story.number,
+        (story.constraint.category.color if story.constraint else '#ffffffff') or '#ffffffff',
+        story.constraint.category.name if story.constraint else _('No name'))
