@@ -16,7 +16,7 @@ class SetTenantMiddleware:
 
     def __call__(self, request):
         path = request.get_full_path()
-        m = re.search(r'^/(?:workflows|compliances|boards|mir|projects)/(?:tenants/)?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/', path)
+        m = re.search(r'^/(?:workflows|components|compliances|boards|mir|projects)/(?:tenants/)?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/', path)
         if m:
             tenant_id = m.group(1)
             tenant = Tenant.objects.get(id=tenant_id)

@@ -141,6 +141,10 @@ class Sprint(List, Board):
     ]
     status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
 
+    def get_absolute_url(self):
+        tenant_id = current_tenant_id()
+        return reverse("projects:project-sprint", kwargs={"tenant_id": tenant_id, "pk": self.project_id, "team_id": self.team_id})
+
     def is_first_inactive_sprint_for_team(self):
         first_inactive_sprint = self.board.lists.filter(team=self.team, status__in=[self.STATUS_NEW, self.STATUS_READY]).order_by('index').first()
         if first_inactive_sprint:
@@ -276,6 +280,10 @@ class Roadmap(Board):
         related_name='roadmap',
     )
 
+    def get_absolute_url(self):
+        tenant_id = current_tenant_id()
+        return reverse("projects:project-roadmap", kwargs={"tenant_id": tenant_id, "pk": self.project_id})
+
     @property
     def releases(self):
         return self.lists
@@ -302,6 +310,10 @@ class Backlog(Board):
 
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+
+    def get_absolute_url(self):
+        tenant_id = current_tenant_id()
+        return reverse("projects:project-backlog", kwargs={"tenant_id": tenant_id, "pk": self.project_id})
 
     @property
     def sprints(self):

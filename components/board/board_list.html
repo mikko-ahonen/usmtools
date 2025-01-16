@@ -9,10 +9,12 @@
               <span class="badge rounded-pill bg-primary">{{ list.tasks.count }}</span>
             {% endif %}
             <button type="button" class="btn btn-outline-primary" hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.pk list.pk %}" hx-confirm="Are you sure?"><i class="bi bi-trash3"></i></button>
-            {% if list.is_first_inactive_sprint_for_team %}
-              <button type="button" class="btn btn-outline-primary" hx-swap="outerHTML" hx-target="closest .board_list" hx-post="{% url 'components:board-list' tenant_id 'start-sprint' %}" hx-vals='{"board_id": "{{ board.pk | escapejs }}", "list_id": "{{ list.pk | escapejs }}"}'>{% trans 'Start sprint' %}</button>
-            {% elif list.status == 'ongoing' %}
-              <button type="button" class="btn btn-outline-primary" hx-swap="outerHTML" hx-target="closest .board_list" hx-post="{% url 'components:board-list' tenant_id 'end-sprint' %}" hx-vals='{"board_id": "{{ board.pk | escapejs }}", "list_id": "{{ list.pk | escapejs }}"}'>{% trans 'End sprint' %}</button>
+            {% if list.list_type == 'status' %}
+              {% if list.is_first_inactive_sprint_for_team %}
+                <button type="button" class="btn btn-outline-primary" hx-swap="outerHTML" hx-target="closest .board_list" hx-post="{% url 'components:board-list' tenant_id 'start-sprint' %}" hx-vals='{"board_id": "{{ board.pk | escapejs }}", "list_id": "{{ list.pk | escapejs }}"}'>{% trans 'Start sprint' %}</button>
+              {% elif list.status == 'ongoing' %}
+                <button type="button" class="btn btn-outline-primary" hx-swap="outerHTML" hx-target="closest .board_list" hx-post="{% url 'components:board-list' tenant_id 'end-sprint' %}" hx-vals='{"board_id": "{{ board.pk | escapejs }}", "list_id": "{{ list.pk | escapejs }}"}'>{% trans 'End sprint' %}</button>
+              {% endif %}
             {% endif %}
         </h2>
 
@@ -26,8 +28,8 @@
     </div>
 
     <div x-data="{open: false}" @keydown.escape.window="open=false">
-        <button type="button" class="create-task-button btn btn-primary"
-            @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add task</button>
+        <button type="button" class="create-task-button btn btn-outline-primary"
+            @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ {% trans 'Add task' %}</button>
 
         <form x-show="open" @click.outside="open=false" hx-post="{% url 'boards:create_task' tenant_id board.board_type board.pk list.pk %}" hx-trigger="submit, keyup[key=='Enter']" hx-target="this">
             <div class="d-inline-block"> 

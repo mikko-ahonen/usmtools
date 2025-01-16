@@ -34,8 +34,9 @@
     </div>
 </div>
 <script>
+console.log("FOO {{ task_move_url }}");
+
 htmx.onLoad(function (content) {
-  console.log("FOO");
   htmx.logAll();
   content.querySelectorAll(".sortable-tasks").forEach(function (sortable) {
     console.log("found sortable task");
@@ -60,7 +61,13 @@ htmx.onLoad(function (content) {
       },
       onEnd: function (event) {
         event.target.classList.remove('grabbing');
-        htmx.ajax("POST", "{% url 'boards:task_move' tenant_id board.board_type board.pk %}", {
+        console.log("FOO {{ task_move_url }}");
+        {% if board.board_type == 'sprint' %}
+        var url = '{% url 'components:board-team' tenant_id board.board_type board.pk 'task-move' board.team_id %}';
+        {% else %}
+        var url = '{% url 'components:board' tenant_id board.board_type board.pk 'task-move' %}';
+        {% endif %}
+        htmx.ajax("POST", url, {
           target: "#board",
           swap: "outerHTML",
           values: {
@@ -84,7 +91,7 @@ htmx.onLoad(function (content) {
       ghostClass: "sortable-ghost",
       dragClass: "none",
       onEnd: function (event) {
-        htmx.ajax("POST", "{% url 'boards:list_move' tenant_id board.board_type board.pk %}", {
+        htmx.ajax("POST", "{% url 'components:board' tenant_id board.board_type board.pk 'list-move' %}", {
           target: "#board",
           swap: "outerHTML",
           values: {
