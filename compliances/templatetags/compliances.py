@@ -71,7 +71,7 @@ def constraint_status_small(constraint):
 
     css_class = constraint_status_css_class(status, font_size="", use_circle=True)
 
-    return format_html('<i class="{}" data-bs-toggle="tooltip" title="{}"></i>', css_class, tooltip)
+    return format_html('<i class="align-middle {}" data-bs-toggle="tooltip" title="{}"></i>', css_class, tooltip)
 
 @register.filter 
 def constraint_status(constraint, tooltip=""):
@@ -108,18 +108,34 @@ def status_icon(status, tooltip=""):
         return ''
     return format_html('<i class="{}" data-bs-toggle="tooltip" title="{}"></i>', css_class, tooltip)
 
+
+@register.filter
+def compliances_story_category(story):
+    return format_html(
+        '<span class="badge align-midde" style="background-color: {}">{}</span>',
+        (story.constraint.category.color if story.constraint else '#ffffffff') or '#ffffffff',
+        story.constraint.category.name if story.constraint else _('No name'))
+
+
+def story_status(story):
+    status_css_class = constraint_status_css_class(story.constraint.status if story.constraint else Constraint.STATUS_NEW, use_circle=True, font_size="")
+    tooltip = ""
+    return format_html(
+        '<i class="align-middle {}" data-bs-toggle="tooltip" title="{}"></i>',
+        status_css_class,
+        tooltip)
+
 @register.simple_tag()
 def compliances_story(domain, story):
     url = "#"
-    status_css_class = constraint_status_css_class(story.constraint.status if story.constraint else Constraint.STATUS_NEW, use_circle=True, font_size="")
-    tooltip = ""
+    task_id = story.get_task_id()
+
+    story_status_light = story_status(story)
+    cat_badge = compliances_story_category(story)
 
     return format_html(
-        '<a class="btn btn-outline-primary" href="{}"><i class="{}" data-bs-toggle="tooltip" title="{}"></i> {}-{} <span class="badge" style="background-color: {}">{}</span></a>',
+        '<a class="btn btn-outline-primary" href="{}">{} <span class="align-middle">{}</span> {}</a>',
         url,
-        status_css_class,
-        tooltip,
-        domain.project().prefix,
-        story.number,
-        (story.constraint.category.color if story.constraint else '#ffffffff') or '#ffffffff',
-        story.constraint.category.name if story.constraint else _('No name'))
+        story_status_light,
+        task_id,
+        cat_badge)

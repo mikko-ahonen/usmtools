@@ -11,11 +11,14 @@
         <span class="card-text">{{ task.name }}</span>
     </div>
     <div class="mt-3 mb-0 d-flex d-flex-row justify-content-between align-items-center">
-      <div>
+      <div class="align-middle">
         {% if task.task_type == 'story' %}
           {{ task.constraint | constraint_status_small }}
         {% endif %}
-        {{ task.get_task_id }}
+        <span class="align-middle mx-2">{{ task.get_task_id }}</span>
+        {% if task.task_type == 'story' %}
+          {{ task | compliances_story_category }}
+        {% endif %}
       </div>
       <div class="align-middle">
         {% if task.task_type == 'story' %}

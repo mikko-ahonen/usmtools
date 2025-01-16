@@ -31,9 +31,10 @@
     [ ] Document
     [ ] Action
 [ ] Projects
-    [ ] Epic card styling
+    [ ] Priority to Story
+    [x] Epic card styling
     [ ] Epic editing
-    [ ] Story card styling
+    [x] Story card styling
     [ ] Story editing
 [x] Audit
     [x] Audit view
@@ -48,7 +49,7 @@
     [ ] Status color, use blue more
 [x] Styling
     [x] Tabs on views
-[ ] BPMN teaser link
+[ ] BPMN teaser link?
 [ ] Data
     [ ] Spec data for demo
 
