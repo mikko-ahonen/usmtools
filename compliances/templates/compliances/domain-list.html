@@ -5,18 +5,11 @@
 {% block content %}
 <section class="app">
 <div class="container">
-{% breadcrumbs tenant True 'compliances' %}
 <h3>{% trans 'Compliance domains' %}</h3>
   {% for domain in domains %}
-  <p>
-    <h5><a href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}">{{ domain.name }}</a></h5>
-    <small class="text-muted">{{ domain.description }}
-    </small>
-    <p>
-      <a class="btn btn-outline-primary" href="{% url 'compliances:domain-spec' tenant.id domain.id %}">Spec</a>
-      <a class="btn btn-outline-primary" href="{% url 'compliances:domain-constraints' tenant.id domain.id %}">Constraints</a>
-    </p>
-  </p>
+  <h3 class="mb-0"><a href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}">{{ domain.name }}</a></h3>
+  <small class="mt-0 text-muted">{{ domain.description }}
+  </small>
   {% endfor %}
 </div>
 </section>

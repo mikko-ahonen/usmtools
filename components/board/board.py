@@ -89,7 +89,7 @@ class Board(component.Component):
         list_cls = get_list_class_by_type(board_type)
         list_cls.objects.filter(id__in=list_uuids).update(index=preserve_order(list_uuids))
 
-        return get_context(board_type, board_id)
+        return self.get_context(board_type, board_id)
 
     def task_move(self, request, tenant_id, board_type, board_id, team_id=None):
 
@@ -120,10 +120,16 @@ class Board(component.Component):
                 list_id=list_cls.objects.filter(id=to_list).order_by().values("id"),
             )
 
-        return get_context(board_type, board_id, team_id)
+        return self.get_context(board_type, board_id, team_id)
 
 
-    def get_context(board_type, board_id, team_id=None):
+    def get_board(self, tenant_id, board_type, board_id):
+        board_cls = get_board_class_by_type(board_type)
+        board = get_object_or_404(board_cls, id=board_id)
+        return board
+
+    def get_context(self, board_type, board_id, team_id=None):
+
         tenant_id = current_tenant_id()
 
         if board_type == 'backlog':
@@ -140,11 +146,14 @@ class Board(component.Component):
         else:
             raise ValueError(f"Invalid board type: {board_type}")
 
+        board = self.get_board(tenant_id, board_type, board_id)
+
         return {
             "tenant_id": tenant_id,
             "lists": lists,
             "board": board,
         }
+
 
 
     def post(self, request, *args, **kwargs):

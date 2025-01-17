@@ -4,10 +4,14 @@
 {% load step_process_badge %}
 {% load breadcrumbs %}
 {% block content %}
-<div class="content">
-<section class="app">
+<section class="mt-3 app">
+<div class="container-fluid">
+{% include 'workflows/fragments/service-tabs.html' %}
+
+<div class="mt-3"></div>
 {% breadcrumbs tenant True 'services' routine %}
 
+<div class="mt-3"></div>
 <h1>
   {{ routine.name }}
   <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:routine-update' tenant.id routine.id %}" href="{% url 'workflows:routine-update' tenant.id routine.id %}"><i class="bi bi-pencil"></i></a>

@@ -4,8 +4,8 @@
 {% block content %}
 <section class="app">
 <div class="container">
-{% breadcrumbs tenant True 'profiles' %}
-<h3>{% trans 'Profiles' %}</h3>
+{% include 'workflows/fragments/service-tabs.html' %}
+<h3 class="mt-3">{% trans 'Profiles' %}</h3>
 {% for profile in profiles %}
 <p>
   <p>

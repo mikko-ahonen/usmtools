@@ -230,7 +230,7 @@ def task_modal(request, tenant_id, board_type, task_uuid):
     task = get_object_or_404(task_cls.objects.select_related("list"), id=task_uuid)
     form_cls = TaskForm
     form_cls.Meta.model = task_cls
-    form_cls(request.POST or None, instance=task)
+    form = form_cls(request.POST or None, instance=task)
 
     if request.method == "POST" and form.is_valid():
         task = form.save()
