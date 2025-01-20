@@ -29,7 +29,7 @@ class DomainAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'name', 'description')
 
 class SectionAdmin(BaseAdmin):
-    list_display = ('tenant_id', 'id', 'slug', 'title', 'description')
+    list_display = ('tenant_id', 'id', 'slug', 'title', 'text')
 
 class StatementAdmin(BaseAdmin):
     list_display = ('tenant_id', 'id', 'slug', 'text')

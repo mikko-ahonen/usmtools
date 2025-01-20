@@ -1,3 +1,4 @@
+openpyxl==3.1.5
 django-filter==24.3
 django-storages==1.14.4
 dj-database-url==2.3.0

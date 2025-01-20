@@ -3,9 +3,9 @@
 
 {% for section,structure in sections|tree_info %}
 <h{{ section.tree_depth|add:1 }}>{% if not section.doc == 'Main clauses' %}{{ section.doc }}: {% endif %}{{ section.docid }} {{ section.title }}</h{{ section.tree_depth|add:1 }}>
-{% if section.description %}
+{% if section.text %}
 <p>
-{{ section.description|linebreaks }}
+{{ section.text|linebreaks }}
 </p>
 {% endif %}
 {% if structure.new_level %}

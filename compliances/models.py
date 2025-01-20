@@ -114,7 +114,7 @@ class Section(TenantAwareTreeModelBase):
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True)
     docid = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=255, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     _status = None
 
@@ -144,6 +144,8 @@ class Requirement(TenantAwareOrderedModelBase):
     _status = None
 
     def get_status(self):
+        if not self.statement:
+            return Constraint.STATUS_FAILED
         if not self._status:
             self._status = Constraint.most_urgent_status([constraint.status for constraint in self.statement.constraints])
         return self._status
@@ -214,6 +216,7 @@ class Statement(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     requirement = models.ForeignKey(Requirement, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
     text = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
@@ -242,6 +245,7 @@ class Constraint(TenantAwareOrderedModelBase):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True)
     story_points = models.FloatField(null=True, blank=True)
+    is_generic = models.BooleanField(default=True, help_text="If True statement, only this needs to be done only once. If False, needs to be implemented seperately for each target in scope.")
 
     STATUS_NEW = "new"
     STATUS_ONGOING = "ongoing"

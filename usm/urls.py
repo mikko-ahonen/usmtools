@@ -16,7 +16,7 @@ urlpatterns = [
     #path('webmention/', include('webmention.urls')),
     path('workflows/', include('workflows.urls')),
     path('mir/', include('mir.urls')),
-    ##path('xref/', include('xref.urls')),
+    path('xref/', include('xref.urls')),
     #path("accounts/", include("django.contrib.auth.urls")),
     #path('i18n/', include('django.conf.urls.i18n')),
     path('sentry-debug/', trigger_error),

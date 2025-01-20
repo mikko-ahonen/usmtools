@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'mir',
     'workflows',
     'compliances',
-    #'xref',
+    'xref',
     'accounts',
     'survey',
     'boards',
