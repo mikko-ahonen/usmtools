@@ -1,6 +1,7 @@
 from django import template
 from django.utils.html import mark_safe, format_html
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 register = template.Library()
 
@@ -153,14 +154,18 @@ def story_status(story):
 
 @register.simple_tag()
 def compliances_story(domain, story):
-    url = "#"
+
+    sprint_id = story.get_sprint_id()
+
+    url = reverse("projects:project-sprint-story", kwargs={"tenant_id": domain.tenant_id, "sprint_id": story.get_sprint_id(), "story_id": story.id})
+
     task_id = story.get_task_id()
 
     story_status_light = story_status(story)
     cat_badge = compliances_story_category(story)
 
     return format_html(
-        '<a class="btn btn-outline-primary" href="{}">{} <span class="align-middle">{}</span> {}</a>',
+        '<a class="btn btn-sm btn-outline-primary" href="{}">{} <span class="align-middle">{}</span> {}</a>',
         url,
         story_status_light,
         task_id,

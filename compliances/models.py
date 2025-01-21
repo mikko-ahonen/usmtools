@@ -249,6 +249,7 @@ class Constraint(TenantAwareOrderedModelBase):
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True)
     story_points = models.FloatField(null=True, blank=True)
     is_generic = models.BooleanField(default=True, help_text="If True statement, only this needs to be done only once. If False, needs to be implemented seperately for each target in scope.")
+    key = models.CharField(max_length=255, blank=True, null=True)
 
     STATUS_NEW = "new"
     STATUS_ONGOING = "ongoing"

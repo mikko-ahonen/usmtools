@@ -197,7 +197,7 @@ def import_excel(tenant, path):
                 category = get_or_create_category(tenant, domain, e["C. Sub-category"], parent=top_category)
             else:
                 category = top_category
-            constraint, created = Constraint.unscoped.get_or_create(tenant=tenant, domain_id=domain.id, slug=slugify(e["C. ID"].strip()), defaults={"title": e["C. Title"], "text": e["C. Text"], "story_points": float(e["C. Story points"]), "is_generic": is_generic, "category": category, "index": get_next_value('constraint')})
+            constraint, created = Constraint.unscoped.get_or_create(tenant=tenant, domain_id=domain.id, key=e["C. ID"].strip(), defaults={"title": e["C. Title"], "text": e["C. Text"], "story_points": float(e["C. Story points"]), "is_generic": is_generic, "category": category, "index": get_next_value('constraint')})
             if created:
                 ConstraintStatement(constraint=constraint, statement=statement).save()
 

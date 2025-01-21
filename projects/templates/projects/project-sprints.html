@@ -13,7 +13,7 @@
 
 {% for team in project.teams.all %}
   {% if team.current_sprint %}
-    <a class="btn btn-outline-primary" href="{% url 'projects:project-sprint' tenant.id project.id team.id %}">{{ team.current_sprint }}</a>
+    <a class="btn btn-outline-primary" href="{% url 'projects:project-team-sprint' tenant.id project.id team.id %}">{{ team.current_sprint }}</a>
   {% endif %}
 {% endfor %}
 </div>

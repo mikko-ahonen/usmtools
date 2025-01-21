@@ -182,13 +182,28 @@ class ProjectSprint(TenantMixin, FilterView):
         context = super().get_context_data(*args, **kwargs)
         project_id = self.kwargs['pk']
         project = get_object_or_404(Project, pk=project_id)
-        team_id = self.kwargs.get('team_id')
-        team = get_object_or_404(Team, id=team_id)
+
         context['project'] = project
         context['domain'] = project.domains.first()
-        context['team'] = team
-        context['sprint'] = team.current_sprint
-        context['statuses'] = team.current_sprint.lists.order_by('index')
+
+        team_id = self.kwargs.get('team_id', None)
+        if team_id:
+            team = get_object_or_404(Team, id=team_id)
+            context['team'] = team
+            context['sprint'] = team.current_sprint
+            context['statuses'] = team.current_sprint.lists.order_by('index')
+        else:
+            sprint_id = self.kwargs.get('sprint_id', None)
+            if not sprint_id:
+                ValueError("team_id or sprint_id required")
+            sprint = get_object_or_404(Sprint, id=sprint_id)
+            context['team'] = sprint.team
+            context['sprint'] = sprint
+            context['statuses'] = sprint.lists.order_by('index')
+        story_id = self.kwargs.get('sprint_id', None)
+        if story_id:
+            context['open_story_id'] = story_id
+
         return context
 
     def get_queryset(self, form_class=None):

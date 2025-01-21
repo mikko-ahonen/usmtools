@@ -262,6 +262,12 @@ class Story(Task):
     def __str__(self):
         return self.get_task_id()
 
+    def get_sprint_id(self):
+        if self.list.list_type == List.LIST_TYPE_STATUS:
+            return self.list.board.id
+        else:
+            return self.list.id
+
     def get_task_id(self):
         project = self.get_project()
         if not project:

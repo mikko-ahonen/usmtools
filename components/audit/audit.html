@@ -23,7 +23,7 @@
         <ul class="list-unstyled">
         {% for constraint in requirement.statement.constraints %}
           <li class="my-1" id="{{ constraint.id }}">
-            {% for story in constraint.stories.all %}{% compliances_story domain story %}{% endfor %} {{ constraint.text | compliances_format_links }}
+            {% for story in constraint.stories.all %}{% compliances_story domain story %}{% endfor %} {{ constraint.key }} {{ constraint.text | compliances_format_links }}
           </li>
         {% endfor %}
         </ul>
