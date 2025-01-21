@@ -139,7 +139,7 @@
     </td>
     <td class="align-middle">
       {% if domain.is_project_roadmap_created %}
-        <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.roadmap.board_type project.roadmap.pk %}">{% trans 'View' %}</a>
+        <a class="btn btn-outline-primary" href="{% url 'projects:project-roadmap' tenant.id project.id %}">{% trans 'View' %}</a>
       {% else %}
         <a class="btn btn-outline-primary {% if not domain.is_project_data_management_setup_complete %}disabled" href="#"{% else %}" href="{% url 'compliances:domain-project-create-roadmap' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Create' %}</a>
       {% endif %}
@@ -163,7 +163,7 @@
     </td>
     <td class="align-middle">
       {% if domain.is_project_backlog_created %}
-        <a class="btn btn-outline-primary" href="{% url 'boards:board' tenant.id project.backlog.board_type project.backlog.pk %}">{% trans 'View' %}</a>
+        <a class="btn btn-outline-primary" href="{% url 'projects:project-backlog' tenant.id project.id %}">{% trans 'View' %}</a>
       {% else %}
         <a class="btn btn-outline-primary {% if not domain.is_project_roadmap_created %}disabled" href="#"{% else %}" href="{% url 'compliances:domain-project-create-backlog' tenant.id domain.id project.id %}"{% endif %}>{% trans 'Create' %}</a>
       {% endif %}
