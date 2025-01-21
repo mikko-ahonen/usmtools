@@ -20,12 +20,10 @@
         <small class="text-muted">
           {{ requirement.statement.text | linebreaks }}
         </small>
-      </div>
-      <div class="card-footer">
         <ul class="list-unstyled">
         {% for constraint in requirement.statement.constraints %}
           <li class="my-1" id="{{ constraint.id }}">
-            {% for story in constraint.stories.all %}123 {{ story }}{% compliances_story domain story %}{% endfor %} {{ constraint.text }}
+            {% for story in constraint.stories.all %}{% compliances_story domain story %}{% endfor %} {{ constraint.text | compliances_format_links }}
           </li>
         {% endfor %}
         </ul>

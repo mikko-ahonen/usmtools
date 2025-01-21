@@ -16,7 +16,6 @@ from django.utils import timezone
 from sequences import get_next_value
 
 from .models import Domain, Section, Requirement, Constraint, Category, Statement, ConstraintStatement, DataManagement
-from projects.models import Epic
 from workflows.tenant_models import Tenant
 
 def strip(s):
@@ -48,26 +47,41 @@ def create_data_managements(tenant, domain):
             content_type = ContentType.objects.get(app_label='mir', model=name.lower())
             DataManagement.objects.create(tenant_id=tenant.id, domain_id=domain.id, index=i, content_type=content_type, policy=DataManagement.POLICY_MANAGED)
 
-def create_categories(tenant, domain):
-    colors = [
-        "#0d6efd", # blue
-        "#6610f2", # indigo
-        "#6f42c1", # purple
-        "#d63384", # pink
-        "#dc3545", # $red
-        "#fd7e14", # $orange
-        "#ffc107", # $yellow
-        "#198754", # $green
-        "#20c997", # $teal
-        "#0dcaf0", # $cyan
-        "#cccccc", # $gray
-    ]
+colors = [
+    "#0d6efd", # blue
+    "#6610f2", # indigo
+    "#6f42c1", # purple
+    "#d63384", # pink
+    "#dc3545", # $red
+    "#fd7e14", # $orange
+    "#ffc107", # $yellow
+    "#198754", # $green
+    "#20c997", # $teal
+    "#0dcaf0", # $cyan
+    "#cccccc", # $gray
+]
 
+def get_or_create_category(tenant, domain, name, parent=None, index=None):
+    try:
+        cat = Category.unscoped.get(tenant_id=tenant.id, domain_id=domain.id, name=name)
+        return cat
+    except:
+        pass
+
+    if not index:
+        index = get_next_value('categories')
+    if parent:
+        color = parent.color
+    else:
+        color = colors[index % len(colors)]
+    return Category.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, name=name, index=index, color=color, parent=parent)
+    
+def create_categories(tenant, domain):
     categories = {}
     for i, name in enumerate("DOC CTM CHM MIR INC OPS RIM TECH SDC ORG SERV".split()):
-        categories[name] = Category.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, name=name, index=i + 1, color=colors[i])
+        categories[name] = get_or_create_category(tenant, domain, name)
 
-    Category.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, name="No category", index=9999)
+    get_or_create_category(tenant, domain, "No category", index=32767)
 
     return categories
 
@@ -178,7 +192,11 @@ def import_excel(tenant, path):
             constraint = None
         else:
             is_generic = e["C. Generic"] == "Yes"
-            category = categories[e["C. Deployment category"]]
+            top_category = categories[e["C. Deployment category"]]
+            if not isnan(e["C. Sub-category"]):
+                category = get_or_create_category(tenant, domain, e["C. Sub-category"], parent=top_category)
+            else:
+                category = top_category
             constraint, created = Constraint.unscoped.get_or_create(tenant=tenant, domain_id=domain.id, slug=slugify(e["C. ID"].strip()), defaults={"title": e["C. Title"], "text": e["C. Text"], "story_points": float(e["C. Story points"]), "is_generic": is_generic, "category": category, "index": get_next_value('constraint')})
             if created:
                 ConstraintStatement(constraint=constraint, statement=statement).save()

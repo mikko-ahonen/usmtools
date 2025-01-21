@@ -10,7 +10,7 @@
 <p>
 {% blocktrans %}
 Define the teams participating in this project. You need to define which team is responsible for 
-each deployment category. Exactly one team must be responsible for a single category. The responsibilities are 
+each deployment category. Exactly one team must be responsible for a single category.
 {% endblocktrans %}
 </p>
 {% include 'compliances/_teams.html' with tenant_id=tenant.id project=project teams=teams domain=domain ordered_categories=ordered_categories only %}

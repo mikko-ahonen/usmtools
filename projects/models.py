@@ -251,7 +251,6 @@ class Story(Task):
     priority = models.CharField(max_length=32, choices=PRIORITIES, default=PRIORITY_MEDIUM)
 
     def get_project(self):
-        breakpoint()
         if self.list_id == None:
             if self.epic:
                 return self.epic.get_project()

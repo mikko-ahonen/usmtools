@@ -58,8 +58,8 @@ class DomainProjectTeams(TenantMixin, DetailView):
         project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
         domain_id = self.kwargs['domain_id']
         domain = get_object_or_404(Domain, tenant_id=tenant_id, id=domain_id)
-        context['ordered_categories'] = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id).order_by('index')
-        context['teams'] = Team.objects.filter(project_id=project_id)
+        context['ordered_categories'] = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id, parent=None).order_by('index')
+        context['teams'] = Team.objects.filter(project_id=project_id).order_by('index')
         return context
 
 class DomainProjectDataManagement(TenantMixin, DetailView):
@@ -84,7 +84,7 @@ class DomainCreateProject(TenantMixin, RedirectView):
         domain = get_object_or_404(Domain, tenant_id=tenant_id, pk=domain_id)
         project, created = Project.objects.get_or_create(tenant_id=tenant_id, defaults={'name': domain.name + ' ' + _('project')})
 
-        categories = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id).order_by('index')
+        categories = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id, parent=None).order_by('index')
         for i, category in enumerate(categories):
             team = Team.objects.create(tenant_id=tenant_id, project_id=project.id, name=_('Team ') + category.name, index=i)
             category.team = team
@@ -93,6 +93,11 @@ class DomainCreateProject(TenantMixin, RedirectView):
                 for dm in DataManagement.objects.all():
                     dm.team = team
                     dm.save()
+
+        categories = Category.unscoped.filter(tenant_id=tenant_id, domain_id=domain_id).exclude(parent=None).order_by('index')
+        for category in categories:
+            category.team = category.parent.team
+            category.save()
 
         project.domains.add(domain)
         return reverse('compliances:domain-dashboard', kwargs={"tenant_id": tenant_id, "pk": domain_id})
@@ -261,9 +266,14 @@ class DomainProjectCreateRoadmap(TenantMixin, TemplateView):
         epic_names = {}
         domain = project.domains.all().first()
         for target in targets.order_by('name'):
-            for category in Category.objects.filter(domain=domain).order_by('index'):
-                epic_name = str(category) + " " + str(target)
+            for category in Category.objects.filter(domain=domain, parent=None).order_by('index'):
+                epic_name = _("Misc ") + str(category) + " " + str(target)
                 epic_names[epic_name] = category
+
+        for category in Category.objects.filter(domain=domain).exclude(parent=None).order_by('index'):
+            epic_name = category.name
+            epic_names[epic_name] = category
+
         epics = [Epic(name=name, category=category, tenant_id=project.tenant_id) for name, category in epic_names.items()]
         number_of_releases = math.ceil(len(epics)/epics_in_release)
         releases = []

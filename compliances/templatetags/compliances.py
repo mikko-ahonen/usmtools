@@ -109,6 +109,32 @@ def status_icon(status, tooltip=""):
     return format_html('<i class="{}" data-bs-toggle="tooltip" title="{}"></i>', css_class, tooltip)
 
 
+links = {
+    "$document$": "https://usmwiki.com/index.php/Document",
+    "$document$": "https://usmwiki.com/index.php/Document",
+    "$party$": "https://usmwiki.com/index.php/Party",
+    "$Party$": "https://usmwiki.com/index.php/Party",
+    "$profile$": "https://usmwiki.com/index.php/Profile",
+    "$Profile$": "https://usmwiki.com/index.php/Profile",
+    "$risk$": "https://usmwiki.com/index.php/Risk",
+    "$Risk$": "https://usmwiki.com/index.php/Risk",
+    "$task$": "https://usmwiki.com/index.php/Task",
+    "$Task$": "https://usmwiki.com/index.php/Task",
+    "$employee$": "https://usmwiki.com/index.php/Employee",
+    "$Employee$": "https://usmwiki.com/index.php/Employee",
+    "$profile$": "https://usmwiki.com/index.php/Profile",
+    "$Profile$": "https://usmwiki.com/index.php/Profile",
+    "$responsibility$": "https://usmwiki.com/index.php/Responsibility",
+    "$Responsibility$": "https://usmwiki.com/index.php/Responsibility",
+}
+
+@register.filter
+def compliances_format_links(text):
+    for link, url in links.items():
+        display_text = link.replace('$', '')
+        text = text.replace(link, format_html('<a href="{}">{}</a>', url, display_text))
+    return mark_safe(text)
+
 @register.filter
 def compliances_story_category(story):
     return format_html(
