@@ -181,7 +181,7 @@ class Definition(TenantAwareOrderedModelBase):
         ordering = ('index',)
 
 
-class Category(TenantAwareOrderedModelBase):
+class Category(TenantAwareTreeModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
@@ -190,8 +190,11 @@ class Category(TenantAwareOrderedModelBase):
     team = models.ForeignKey('projects.Team', on_delete=models.SET_NULL, null=True, related_name='categories')
     name = models.CharField(max_length=255, blank=True, null=True)
     color = ColorField(default='#000000')
+    parent = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
 
-    order_field_name = 'index'
+    @property
+    def subcategories(self):
+        return self.cateogry_set(manager="unscoped")
 
     @property
     def constraints(self):

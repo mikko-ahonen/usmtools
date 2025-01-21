@@ -16,14 +16,16 @@
       <div class="card-header">
         <h5>{{ requirement | requirement_status }} {{ requirement.text }}</h5>
       </div>
-      <div class="card-body" id="{{ requirement.statement.id }}">
-        {{ requirement.statement.text | linebreaks }}
+      <div class="card-body pb-0" id="{{ requirement.statement.id }}">
+        <small class="text-muted">
+          {{ requirement.statement.text | linebreaks }}
+        </small>
       </div>
       <div class="card-footer">
         <ul class="list-unstyled">
         {% for constraint in requirement.statement.constraints %}
           <li class="my-1" id="{{ constraint.id }}">
-            {% for story in constraint.stories.all %}{% compliances_story domain story %}{% endfor %} {{ constraint.text }}
+            {% for story in constraint.stories.all %}123 {{ story }}{% compliances_story domain story %}{% endfor %} {{ constraint.text }}
           </li>
         {% endfor %}
         </ul>

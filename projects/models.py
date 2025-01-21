@@ -251,6 +251,11 @@ class Story(Task):
     priority = models.CharField(max_length=32, choices=PRIORITIES, default=PRIORITY_MEDIUM)
 
     def get_project(self):
+        breakpoint()
+        if self.list_id == None:
+            if self.epic:
+                return self.epic.get_project()
+            return None
         if self.list.list_type == List.LIST_TYPE_STATUS:
             return self.list.board.project
         return self.list.project
@@ -260,6 +265,8 @@ class Story(Task):
 
     def get_task_id(self):
         project = self.get_project()
+        if not project:
+            return "NONE"
         return project.prefix + '-' + str(self.number)
 
     class Meta(Task.Meta):

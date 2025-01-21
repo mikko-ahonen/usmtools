@@ -1,6 +1,7 @@
 import csv
 import re
 from pathlib import Path
+from collections import defaultdict
 
 import openpyxl
 import pandas as pd
@@ -15,6 +16,7 @@ from django.utils import timezone
 from sequences import get_next_value
 
 from .models import Domain, Section, Requirement, Constraint, Category, Statement, ConstraintStatement, DataManagement
+from projects.models import Epic
 from workflows.tenant_models import Tenant
 
 def strip(s):
@@ -92,9 +94,9 @@ def import_excel(tenant, path):
 
     for row in ws.iter_rows(min_row=1, max_row=1):
         d = row[0].value
+
     for row in ws.iter_rows(min_row=2, max_row=2):
         headers = [cell.value for cell in row]
-    breakpoint()
 
     if m := re.search(r'USM.TOOLS#NAME:"((?:(?!(?<!\\)").)*)",DESCRIPTION:"((?:(?!(?<!\\)").)*)', d):
         domain = get_domain(tenant.id, name=m.group(1), description=m.group(2))
@@ -111,9 +113,20 @@ def import_excel(tenant, path):
     statement = None
     constraint = None
     docids = None
+    p = {}
 
     for row in ws.iter_rows(min_row=3, values_only=True):
         e = dict(zip(headers, row))
+
+        if isnan(e["C. ID"]):
+            break
+
+        for k, v in e.items():
+            if v == "-":
+                e[k] = None
+            elif not v and k in p:
+                e[k] = p[k]
+        p = e
 
         if e['Doc ID']:
             if e['Doc ID'] == '-':
@@ -147,25 +160,27 @@ def import_excel(tenant, path):
 
             parent_section = section
 
+        if e["Requirement"] == "-":
+            requirement = None
+        else:
+            requirement, _ = Requirement.unscoped.get_or_create(tenant_id=tenant.id, section_id=section.id, text=e["Requirement"], defaults={"index": get_next_value('requirement')})
 
-        if not isnan(e["Requirement"]):
-            if e["Requirement"] == "-":
-                requirement = None
-            else:
-                requirement, _ = Requirement.unscoped.get_or_create(tenant=tenant, section=section, text=e["Requirement"], index=get_next_value('requirement'))
 
         if not isnan(e["S. Title"]):
             if e["S. Title"] == "-":
                 statement = None
             else:
-                breakpoint()
-                statement, _ = Statement.unscoped.get_or_create(tenant=tenant, requirement=requirement, title=e["S. Title"], defaults={"text": e["S. Text"], 'index': get_next_value('index')})
+                statement, _ = Statement.unscoped.get_or_create(tenant_id=tenant.id, requirement_id=requirement.id, title=e["S. Title"], defaults={"text": e["S. Text"], 'index': get_next_value('statement')})
+        else:
+            assert statement, "statement must be defined"
 
-        if not isnan(e["C. ID"]):
-            if e["C. ID"] == "-":
-                constraint = None
-            else:
-                is_generic = e["C. Generic"] == "Yes"
-                category = categories[e["C. Deployment category"]]
-                constraint, _ = Constraint.unscoped.get_or_create(tenant=tenant, domain_id=domain.id, slug=slugify(e["C. ID"].strip()), defaults={"title": e["C. Title"], "text": e["C. Text"], "story_points": float(e["C. Story points"]), "is_generic": is_generic, "category": category, "index": get_next_value('constraint')})
+        if e["C. ID"] == "-":
+            constraint = None
+        else:
+            is_generic = e["C. Generic"] == "Yes"
+            category = categories[e["C. Deployment category"]]
+            constraint, created = Constraint.unscoped.get_or_create(tenant=tenant, domain_id=domain.id, slug=slugify(e["C. ID"].strip()), defaults={"title": e["C. Title"], "text": e["C. Text"], "story_points": float(e["C. Story points"]), "is_generic": is_generic, "category": category, "index": get_next_value('constraint')})
+            if created:
                 ConstraintStatement(constraint=constraint, statement=statement).save()
+
+        p = e.copy()
