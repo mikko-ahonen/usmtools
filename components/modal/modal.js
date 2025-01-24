@@ -42,10 +42,5 @@ htmx.on("boardUpdated", () => {
     document.body.style.overflow = "auto"; 
     */
 
-    const regex = /\stories\/[0-9a-f]{32}$/i;
-    console.log(window.location.href);
-    const href = window.location.href.replace(regex, '');
-    console.log(href);
-    window.location.replace(href);
-    console.log(window.location.href);
+    window.location.replace(window.location.href.replace(/\/stories\/[a-f0-9\-]{36}\/?$/, ""));
 });

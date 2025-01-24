@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
-from .models import Project, Story
+from .models import Project, Story, Team
 
 class ProjectCreateOrUpdate(ModelForm):
 
@@ -28,6 +28,7 @@ class StoryForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['team'].queryset = Team.objects.all()
         self.helper = FormHelper()
         self.helper.form_tag = False
 

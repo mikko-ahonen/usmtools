@@ -31,11 +31,11 @@
     [ ] Document
     [ ] Action
 [ ] Projects
-    [ ] Priority to Story
+    [x] Priority to Story
     [x] Epic card styling
     [ ] Epic editing
     [x] Story card styling
-    [ ] Story editing
+    [x] Story editing
 [x] Audit
     [x] Audit view
     [ ] Link to the proof
@@ -50,8 +50,8 @@
 [x] Styling
     [x] Tabs on views
 [ ] BPMN teaser link?
-[ ] Data
-    [ ] Spec data for demo
+[x] Data
+    [x] Spec data for demo
 
 # 1.0
 [ ] BPMN implementation
