@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+<div class="modal-content">
+<div class="modal-header">
+<h3>
+  {% if object %}
+    {% trans 'Update ' %} {{ object_type }} {{ object }}
+  {% else %}
+    {% trans 'Create a new ' %} {{ object_type }}
+  {% endif %}
+</h3>
+</div>
+<div class="modal-body">
+<form id="base_form" class="form" hx-post="{{ request.path }}" novalidate>
+{% if help_text %}
+  {{ help_text | linebreaks }}
+{% endif %}
+{% if form.errors %}
+    <div class="alert alert-error">
+        <ul>
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+{% crispy form %}
+
+</form>
+</div>
+<div class="modal-footer">
+<input type="submit" name="submit" value="{% trans 'Save' %}" form="base_form" class="btn btn-outline-primary">
+<button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">{% trans 'Cancel' %}</button>
+</div>
+</div>

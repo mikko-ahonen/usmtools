@@ -163,12 +163,12 @@ class DomainProjectCreateBacklog(TenantMixin, TemplateView):
                 # No category => Create generic story for all the teams
                 if not epic.category:
                     for team in project.teams.all():
-                        story = Story(tenant=tenant, name=_('Common') + ': ' + epic.name[:100], description=epic.description, epic=epic, tenant_id=tenant.id, constraint=None, story_points=5)
+                        story = Story(tenant=tenant, name=epic.name[:100], description=epic.description, epic=epic, tenant_id=tenant.id, constraint=None, story_points=5)
                         team_id = str(team.id)
                         team_stories[team_id].append(story)
                     continue
                 for constraint in epic.category.constraints.all():
-                    story = Story(tenant=tenant, name=epic.category.name + ': ' + constraint.text[:100], description=constraint.text, epic=epic, tenant_id=tenant.id, constraint=constraint, team=epic.category.team, story_points=5)
+                    story = Story(tenant=tenant, name=constraint.title or constraint.text[:100], description=constraint.text, epic=epic, tenant_id=tenant.id, constraint=constraint, team=epic.category.team, story_points=5)
                     team_id = str(epic.category.team.id)
                     team_stories[team_id].append(story)
 

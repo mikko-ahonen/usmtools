@@ -5,8 +5,7 @@
     <div class="row">
         <a href="#" class="card-text text-reset text-decoration-none"
             hx-get="{% url 'boards:task_modal' tenant_id board.board_type task.pk %}"
-            hx-swap="beforeend"
-            hx-target="body"
+            hx-target="#dialog"
             hx-trigger="click">
         <span class="card-text">{{ task.name }}</span></a>
     </div>

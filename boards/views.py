@@ -1,3 +1,4 @@
+import re
 import uuid
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
@@ -17,6 +18,17 @@ def get_board_class_by_type(board_type):
         return apps.get_model('projects', 'Backlog')
     elif board_type == 'sprint':
         return apps.get_model('projects', 'Sprint')
+    else:
+        raise ValueError(f"Invalid board type: {board_type}")
+
+def get_task_form_class_and_template_by_type(board_type):
+    if board_type in ['roadmap', 'backlog']:
+        form_cls = TaskForm.copy()
+        form_cls.Meta.model = task_cls, "boards/task_modal.html"
+        return form_cls
+    elif board_type == 'sprint':
+        from projects.forms import StoryForm
+        return StoryForm, "projects/modals/create-or-update.html"
     else:
         raise ValueError(f"Invalid board type: {board_type}")
 
@@ -228,13 +240,14 @@ def task_move(request, tenant_id, board_type, board_uuid):
 def task_modal(request, tenant_id, board_type, task_uuid):
     task_cls = get_task_class_by_type(board_type)
     task = get_object_or_404(task_cls.objects.select_related("list"), id=task_uuid)
-    form_cls = TaskForm
-    form_cls.Meta.model = task_cls
+    form_cls, form_template = get_task_form_class_and_template_by_type(board_type)
     form = form_cls(request.POST or None, instance=task)
 
     if request.method == "POST" and form.is_valid():
         task = form.save()
-        return HttpResponse(status=204, headers={"HX-Refresh": "true"})
+        return HttpResponse(status=204, headers={'HX-Trigger': 'boardUpdated', 'Access-Control-Expose-Headers': 'HX-Trigger'})
 
     tenant_id = current_tenant_id()
-    return render(request, "boards/task_modal.html", {"tenant_id": tenant_id, "task": task, "form": form})
+    object_type = task_cls._meta.verbose_name
+
+    return render(request, form_template, {"tenant_id": tenant_id, "task": task, "form": form, "object_type": object_type})

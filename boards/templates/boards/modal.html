@@ -1,15 +1,5 @@
 {% block modal %}
-<div 
-  x-data="{modalOpen: true}"
-  id="popup"
-  class="modal fade"
-  role="dialog"
-  x-cloak
-  x-show="modalOpen"
-  @keydown.escape.window="modalOpen=false"
- style="z-index: 5000" class="tw-relative tw-z-30"
-  aria-modal="true">
-
+<div id="popup" class="modal fade" role="dialog">
   <div class="modal-dialog modal-{{ modal_size|default:'lg' }}">
     <div class="modal-content">
       <div class="modal-body"></div>
@@ -24,3 +14,16 @@
   </div>
 </div>
 {% endblock %}
+
+{% block modal-scripts %}
+<script>
+  $(document).on("click", ".open-popup", function (e) {
+    e.preventDefault();
+    var $popup = $("#popup");
+    var popup_url = $(this).data("popup-url");
+    $(".modal-body", $popup).load(popup_url, function () {
+      $popup.modal("show");
+    });
+  });
+</script>
+{% endblock modal-scripts %}

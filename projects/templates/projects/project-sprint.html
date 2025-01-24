@@ -25,12 +25,12 @@
 
 </div>
 </section>
-{% include 'projects/fragments/modal.html' %}
-{% if open_story %}
+{% component 'modal' %}
+{% endcomponent 'modal' %}
+{% if open_story_id %}
 <div 
   hx-trigger="load" 
-  hx-get="{% url 'boards:task_modal' tenant_id 'sprint' open_story_id %}"
-  hx-swap="beforeend"
-  hx-target="body"></div>
+  hx-target="#dialog"
+  hx-get="{% url 'boards:task_modal' tenant.id 'sprint' open_story_id %}"></div>
 {% endif %}
 {% endblock %}

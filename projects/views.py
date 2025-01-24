@@ -177,6 +177,19 @@ class ProjectSprint(TenantMixin, FilterView):
     filterset_class = StoryFilter
     project = None
 
+    def get_filterset_kwargs(self, filterset_class):
+        filterset_kwargs = super().get_filterset_kwargs(filterset_class)
+        data = getattr(self.request, self.request.method, {}).copy()
+        if self.request.method == 'POST' and self.request.GET:
+            data.update(self.request.GET)
+        filterset_kwargs.update({
+            'data': data,
+        })
+        return filterset_kwargs
+
+    def post(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, *args, **kwargs):
         tenant_id = self.kwargs.get('tenant_id')
         context = super().get_context_data(*args, **kwargs)
@@ -200,7 +213,7 @@ class ProjectSprint(TenantMixin, FilterView):
             context['team'] = sprint.team
             context['sprint'] = sprint
             context['statuses'] = sprint.lists.order_by('index')
-        story_id = self.kwargs.get('sprint_id', None)
+        story_id = self.kwargs.get('story_id', None)
         if story_id:
             context['open_story_id'] = story_id
 
