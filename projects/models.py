@@ -263,6 +263,8 @@ class Story(Task):
         return self.get_task_id()
 
     def get_sprint_id(self):
+        if self.list_id is None:
+            return None
         if self.list.list_type == List.LIST_TYPE_STATUS:
             return self.list.board.id
         else:

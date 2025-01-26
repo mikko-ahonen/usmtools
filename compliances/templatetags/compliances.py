@@ -156,9 +156,11 @@ def story_status(story):
 def compliances_story(domain, story):
 
     sprint_id = story.get_sprint_id()
-
-    project = story.get_project()
-    url = reverse("projects:project-sprint-story", kwargs={"tenant_id": domain.tenant_id, "pk": project.id, "sprint_id": story.get_sprint_id(), "story_id": story.id})
+    if sprint_id:
+        project = story.get_project()
+        url = reverse("projects:project-sprint-story", kwargs={"tenant_id": domain.tenant_id, "pk": project.id, "sprint_id": sprint_id, "story_id": story.id})
+    else:
+        url = "#"
 
     task_id = story.get_task_id()
 
