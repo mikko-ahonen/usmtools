@@ -802,7 +802,6 @@ class RoutineDiagram(TenantMixin, GetRoutineMixin, View):
 # STEP
 #
 
-
 class StepDetail(TenantMixin, DetailView):
     model = Step
     template_name = 'workflows/step-detail.html'
@@ -812,6 +811,25 @@ class StepDetail(TenantMixin, DetailView):
         qs = super().get_queryset()
         qs = qs.select_related('routine').prefetch_related('activities').prefetch_related('activities__actions').prefetch_related('activities__actions__work_instructions')
         return qs
+
+
+class StepSkip(TenantMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        tenant_id = self.kwargs.get('tenant_id')
+        step_id = self.kwargs.get('pk')
+        step = self.get_step(step_id)
+        step.skip = True
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step.id})
+
+
+class StepUnskip(TenantMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        tenant_id = self.kwargs.get('tenant_id')
+        step_id = self.kwargs.get('pk')
+        step = self.get_step(step_id)
+        step.skip = False
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step.id})
+
 
 
 #######################################################################################################################

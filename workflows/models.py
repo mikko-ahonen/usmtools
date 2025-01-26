@@ -170,7 +170,7 @@ class Routine(TenantAwareOrderedModelBase):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
-    based_on = models.ForeignKey('Routine', on_delete=models.SET_NULL, null=True, blank=True)
+    based_on = models.ForeignKey('Routine', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
 
     PROCESS_AGREE = "agree"
     PROCESS_CHANGE = "change"
@@ -261,8 +261,9 @@ class Step(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
-    fork = models.ForeignKey(Routine, null=True, on_delete=models.SET_NULL, help_text='Only used in template routine to specify forks to sub-routine. In actualized routines, all the forks have been expanded into one single routine.', related_name='forks')
-    process_depth  = models.PositiveSmallIntegerField(null=True, blank=True, help_text='Used in actualized routines, to signal how many levels of sub-processes there are')
+    fork = models.ForeignKey(Routine, null=True, on_delete=models.SET_NULL, help_text=_('Only used in template routine to specify forks to sub-routine. In actualized routines, all the forks have been expanded into one single routine.'), related_name='forks')
+    process_depth  = models.PositiveSmallIntegerField(null=True, blank=True, help_text=_('Used in actualized routines, to signal how many levels of sub-processes there are'))
+    skipped = models.BooleanField(default=False, help_text=_('This step is skipped'))
 
     PROCESS_AGREE = "agree"
     PROCESS_CHANGE = "change"
@@ -287,8 +288,8 @@ class Step(TenantAwareOrderedModelBase):
 
     class Meta:
         unique_together = ('routine', 'index')
-        ordering = ('index',)
         default_related_name = 'steps'
+        ordering = ('index',)
         verbose_name_plural = _('steps')
 
 
@@ -300,8 +301,10 @@ class Activity(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     name = models.CharField(max_length=255)
-    step = models.ForeignKey(Step, on_delete=models.CASCADE)
+    step = models.ForeignKey(Step, on_delete=models.CASCADE, related_name='activities')
     description = models.TextField(blank=True, null=True)
+    skipped = models.BooleanField(default=False, help_text=_('This activity is skipped'))
+
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)

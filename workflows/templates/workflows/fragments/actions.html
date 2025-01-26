@@ -6,6 +6,8 @@
 <table style="width: 100%; overflow-wrap: break-word;">
   <thead>
     <tr>
+      <th width="3%">
+      </th>
       <th width="50%">
         <strong>{% trans 'Action' %}</strong>
       </th>
@@ -30,6 +32,9 @@
   <tbody>
     {% for action in actions.all %}
     <tr>
+      <td>
+        {{ forloop.counter }}.
+      </td>
       <td>
         {{ action.title|default:'' }}
       </td>
@@ -61,7 +66,7 @@
   </tbody>
 </table>
 {% else %}
-<p class="mt-2">
+<p class="mt-0 mb-0">
   {% trans 'No actions added for this activity yet.' %}
 </p>
 {% endif %}
