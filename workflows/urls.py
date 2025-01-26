@@ -51,6 +51,7 @@ urlpatterns = [
     path('<uuid:tenant_id>/activities/<uuid:pk>/up/', views.ActivityUp.as_view(), name='activity-up'),
     path('<uuid:tenant_id>/activities/<uuid:pk>/down/', views.ActivityDown.as_view(), name='activity-down'),
     path('<uuid:tenant_id>/activities/<uuid:pk>/actions/create/', views.ActionCreateOrUpdate.as_view(), name='action-create'),
+    path('<uuid:tenant_id>/actions/<uuid:pk>/update/', views.ActionUpdate.as_view(), name='action-update'),
     path('<uuid:tenant_id>/actions/<uuid:pk>/delete/', views.ActionDelete.as_view(), name='action-delete'),
     path('<uuid:tenant_id>/actions/<uuid:pk>/add-responsibilities/<str:types>/', views.ActionAddResponsibilities.as_view(), name='action-add-responsibilities'),
     path('<uuid:tenant_id>/actions/<uuid:pk>/remove-responsibilities/<str:types>/', views.ActionRemoveResponsibilities.as_view(), name='action-remove-responsibilities'),

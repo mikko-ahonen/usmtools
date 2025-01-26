@@ -29,19 +29,17 @@
     <label class="form-label" for="id_title">
       {% trans 'Title' %}
     </label>
-    <input class="textinput form-control" id="id_title" maxlength="255" name="title" type="text">
+    <input class="textinput form-control" id="id_title" maxlength="255" name="title" type="text" value="{{ form.title.value }}">
   </div>
-{% comment %}
 
   <div class="mb-3" id="div_id_description">
     <label class="form-label" for="id_description">
       {% trans 'Description' %}
     </label>
     <textarea class="textarea form-control" cols="40" id="id_description" name="description" rows="4">
+    {{ form.description.value }}
     </textarea>
   </div>
-
-{% endcomment %}
 
   <h5>Profile</h5>
   <div id="div_id_use_existing_profile" class="mb-3">

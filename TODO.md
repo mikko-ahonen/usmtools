@@ -41,6 +41,7 @@
     [ ] Link to the proof
     [ ] Mark requirement as audited or failed
 [ ] Bug fixes
+    [ ] Workflows action update checkboxes broken. Maybe rewrite the profile/organization selection component
     [ ] Roadmap start sprint remove
     [ ] Backlog start sprint list broken
     [ ] Roadmap/backlog do not use component

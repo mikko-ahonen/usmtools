@@ -70,7 +70,7 @@ $(document).on("change", ".responsibility-checkbox", function (e) {
     }
     var rtype = $(this).data('rtype');
     var tenant_id = '{{ tenant.id }}';
-    var url = '/app/' + tenant_id + '/actions/' + $(this).data('action') + '/' + action + '/' + rtype + '/';
+    var url = '/workflows/' + tenant_id + '/actions/' + $(this).data('action') + '/' + action + '/' + rtype + '/';
     console.log(url);
 
     $.ajax({
@@ -83,7 +83,7 @@ $(document).on("change", ".responsibility-checkbox", function (e) {
 $(document).on("click", ".activity-up", function (e) {
     var activity = $(this).data('activity');
     var tenant_id = '{{ tenant.id }}';
-    var url = '/app/' + tenant_id + '/activities/' + activity + '/up/';
+    var url = '/workflows/' + tenant_id + '/activities/' + activity + '/up/';
     console.log(url);
 
     $.ajax({
@@ -96,7 +96,7 @@ $(document).on("click", ".activity-up", function (e) {
 $(document).on("click", ".activity-down", function (e) {
     var activity = $(this).data('activity');
     var tenant_id = '{{ tenant.id }}';
-    var url = '/app/' + tenant_id + '/activities/' + activity + '/down/';
+    var url = '/workflows/' + tenant_id + '/activities/' + activity + '/down/';
     console.log(url);
 
     $.ajax({

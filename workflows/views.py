@@ -893,7 +893,7 @@ class ActivityDown(TenantMixin, GetActivityMixin, View):
 
 #######################################################################################################################
 #
-# RESPONSIBLE
+# ACTION
 #
 
 class ActionCreateOrUpdate(TenantMixin, GetActivityMixin, CreateView):
@@ -949,6 +949,40 @@ class ActionDelete(TenantMixin, GetActionMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         action_id = self.kwargs.get('pk')
         action = self.get_action(action_id)
+        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step.routine_id}) + '#activity-' + str(action.activity.id)
+
+
+class ActionUpdate(TenantMixin, GetActionMixin, UpdateView, UpdateModifiedByMixin):
+    model = Action
+    template_name = 'workflows/modals/action-create-or-update.html'
+    form_class = forms.ActionCreateOrUpdate
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        action = self.get_object()
+        tenant_id = self.kwargs.get('tenant_id')
+        kwargs['tenant_id'] = tenant_id
+        kwargs['exclude_profile_ids'] = [ r.profile_id for r in action.activity.actions.all() if r.profile_id ]
+        return kwargs
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.modified_by = self.request.user
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url()) 
+
+    def form_invalid(self, form):
+        action = self.get_object()
+        tenant_id = self.kwargs.get('tenant_id')
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, error)
+        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step.routine_id}) + '#activity-' + str(action.activity.id))
+
+    def get_success_url(self):
+        action = self.get_object()
+        tenant_id = self.kwargs.get('tenant_id')
         return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step.routine_id}) + '#activity-' + str(action.activity.id)
 
 
