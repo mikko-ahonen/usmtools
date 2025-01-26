@@ -1,8 +1,8 @@
 {% load raci %}
 <div class="row mt-1">
-  <h6>{{ responsible.profile }} ({{ responsible | raci }})</h6>
+  <h6>{{ action.profile }} ({{ action | raci }})</h6>
   <p>
-    {% with wi=responsible.work_instructions.first %}
+    {% with wi=action.work_instructions.first %}
       {{ wi.description|default:'-'|linebreaks }}
     {% endwith %}
   </p>

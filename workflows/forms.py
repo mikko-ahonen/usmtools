@@ -11,7 +11,7 @@ from tree_queries.forms import TreeNodeChoiceField
 #from dal import autocomplete
 #from dal_select2_taggit.widgets import TaggitSelect2
 
-from .models import Routine, Activity, Responsible, Profile, Service, WorkInstruction, Customer, OrganizationUnit, Share, Tenant, ServiceCustomer
+from .models import Routine, Activity, Action, Profile, Service, WorkInstruction, Customer, OrganizationUnit, Share, Tenant, ServiceCustomer
 
 
 class UUIDModelChoiceField(ModelChoiceField):
@@ -30,7 +30,7 @@ class TenantCreateOrUpdate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class ServiceCreateOrUpdate(ModelForm):
@@ -57,7 +57,7 @@ class ServiceCreateOrUpdate(ModelForm):
         self.fields['parent'].queryset = Service.objects.filter(is_meta=False).with_tree_fields()
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class ProfileCreateOrUpdate(ModelForm):
@@ -70,7 +70,7 @@ class ProfileCreateOrUpdate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class ServiceCustomerAdd(ModelForm):
@@ -140,7 +140,7 @@ class OrganizationUnitCreateOrUpdate(ModelForm):
         self.fields['parent'].queryset = OrganizationUnit.objects.all().with_tree_fields()
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class CustomerCreateOrUpdate(ModelForm):
@@ -153,11 +153,11 @@ class CustomerCreateOrUpdate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
-class ResponsibleCreateOrUpdate(ModelForm):
-    profile_choices = [('none', 'none'), ('use', 'use'), ('create', 'create')]
+class ActionCreateOrUpdate(ModelForm):
+    profile_choices = [('none', _('none')), ('use', _('use')), ('create', _('create'))]
     use_existing_profile = ChoiceField(widget=RadioSelect(choices=profile_choices), choices=profile_choices, required=False) # initial value as radio checked on the template
     profile = ModelChoiceField(
                 queryset=None,
@@ -173,8 +173,8 @@ class ResponsibleCreateOrUpdate(ModelForm):
     new_organization_unit_parent = TreeNodeChoiceField(queryset=None, required=False, label=_('Parent'), help_text=_('Select the parent organizational unit, if any. Maximum organization tree depth is 10.'))
 
     class Meta:
-        model = Responsible
-        fields = ['use_existing_organization_unit', 'organization_unit', 'new_organization_unit_name', 'new_organization_unit_parent', 'use_existing_profile', 'new_profile_name', 'profile']
+        model = Action
+        fields = ['title', 'description', 'use_existing_organization_unit', 'organization_unit', 'new_organization_unit_name', 'new_organization_unit_parent', 'use_existing_profile', 'new_profile_name', 'profile']
 
     def clean(self):
         use_existing_organization_unit = self.cleaned_data['use_existing_organization_unit'] if 'use_existing_organization_unit' in self.cleaned_data else None
@@ -258,7 +258,7 @@ class ActivityCreateOrUpdate(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class WorkInstructionCreateOrUpdate(ModelForm):
@@ -273,7 +273,7 @@ class WorkInstructionCreateOrUpdate(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class RoutineUpdate(ModelForm):
@@ -292,7 +292,7 @@ class RoutineUpdate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class RoutineCreate(ModelForm):
@@ -313,7 +313,7 @@ class RoutineCreate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 class ServiceShare(ModelForm):
     workflow = ModelChoiceField(
@@ -349,7 +349,7 @@ class ServiceShare(ModelForm):
                 Column('name', css_class='form-group col-md-3'),
                 Column('scope', css_class='form-group col-md-3'),
                 Column('workflow', css_class='form-group col-md-5'),
-                Column(Submit('submit', _('Share'), css_class='btn btn-primary'), css_class='form-group col-md-1 mb-0'),
+                Column(Submit('submit', _('Share'), css_class='btn btn-outline-primary'), css_class='form-group col-md-1 mb-0'),
                 css_class='form-row align-items-start'
             ),
         )
@@ -357,7 +357,7 @@ class ServiceShare(ModelForm):
         #self.helper.field_template = 'bootstrap5/layout/inline_field.html'
         self.helper.form_class = 'form-inline'
         #self.helper.template = 'bootstrap/table_inline_formset.html'
-        #self.helper.add_input(Submit('submit', _('Share'), css_class='btn btn-primary'))
+        #self.helper.add_input(Submit('submit', _('Share'), css_class='btn btn-outline-primary'))
         #self.helper.label_class = 'col-lg-2'
         #self.helper.field_class = 'col-lg-2'
 

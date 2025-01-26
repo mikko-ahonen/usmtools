@@ -1,0 +1,66 @@
+{% load i18n %}
+{% load has_responsibility_type %}
+{% load checkbox_value %}
+
+{% if actions.count > 0 %}
+<table style="width: 100%; overflow-wrap: break-word;">
+  <thead>
+    <tr>
+      <th width="50%">
+        <strong>{% trans 'Action' %}</strong>
+      </th>
+      <th width="30%">
+        <strong>{% trans 'Who' %}</strong>
+      </th>
+      <th>
+        <center><strong>R</strong></center>
+      </th>
+      <th>
+        <center><strong>A</strong></center>
+      </th>
+      <th>
+        <center><strong>C</strong></center>
+      </th>
+      <th>
+        <center><strong>I</strong></center>
+      </th>
+      <th width="13%"/>
+    </tr>
+  </thead>
+  <tbody>
+    {% for action in actions.all %}
+    <tr>
+      <td>
+        {{ action.title|default:'' }}
+      </td>
+      <td>
+        {{ action.profile|default:'' }}
+        {% if action.profile and action.organization_unit %} / {% endif %}
+        {{ action.organization_unit|default:'' }}
+      </td>
+      {% for rtype in 'RACI' %}
+      <td>
+        <center><input class="responsibility-checkbox" type="checkbox" data-rtype="{{ rtype }}" data-responsible="{{ action.id }}" {{ action|has_responsibility_type:rtype|checkbox_value }}/></center>
+      </td>
+      {% endfor %}
+      <td>
+        <center>
+        {% with wi=action.work_instructions.first %}
+        {% if wi %}
+          <a class="btn btn-sm btn-outline-primary open-popup" href="{% url 'workflows:work-instruction-update' tenant.id wi.id %}" data-popup-url="{% url 'workflows:work-instruction-update' tenant.id wi.id %}"><i class="bi bi-person-lines-fill"></i></a>
+        {% else %}
+          <a class="btn btn-sm btn-outline-primary open-popup" href="{% url 'workflows:work-instruction-create' tenant.id action.id %}" data-popup-url="{% url 'workflows:work-instruction-create' tenant.id action.id %}"><i class="bi bi-person-lines-fill"></i></a>
+        {% endif %}
+        {% endwith %}
+        <a class="btn btn-sm btn-outline-primary open-popup" href="{% url 'workflows:action-delete' tenant.id action.id %}" data-popup-url="{% url 'workflows:action-delete' tenant.id action.id %}"><i class="bi bi-trash3"></i></a>
+        </center>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="mt-2">
+  {% trans 'No actions added for this activity yet.' %}
+</p>
+{% endif %}

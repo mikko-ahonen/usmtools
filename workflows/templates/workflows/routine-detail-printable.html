@@ -38,20 +38,20 @@
 
         <p>{{ activity.description|linebreaks }}</p>
 
-        <h5>{% trans 'Responsibilities' %}</h5>
+        <h5>{% trans 'Actions' %}</h5>
 
-        {% for responsible in activity.responsibles.all %}
+        {% for action in activity.actions.all %}
           <p>
             <strong>
-            {% if responsible.profile %}
-                {{ responsible.profile }} / {{ responsible.organization_unit|default:'No organization' }}
+            {% if action.profile %}
+                {{ action.profile }} / {{ action.organization_unit|default:'No organization' }}
             {% else %}
-                {{ responsible.organization_unit|default:'No organization' }}
+                {{ action.organization_unit|default:'No organization' }}
             {% endif %}
-            ({{ responsible.get_types_display }})
+            ({{ action.get_types_display }})
             </strong>
           </p>
-          {% for wi in responsible.work_instructions.all %}
+          {% for wi in action.work_instructions.all %}
           <p>
             {{ wi.description|linebreaks }}
           </p>
@@ -62,7 +62,7 @@
           {% endfor %}
         {% empty %}
         <p>
-          {% trans 'No responsibilities in this activity.' %}
+          {% trans 'No actions in this activity.' %}
         </p>
         {% endfor %}
       {% empty %}

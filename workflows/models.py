@@ -319,7 +319,7 @@ class Activity(TenantAwareOrderedModelBase):
         default_related_name = 'activities'
 
 
-class Responsible(TenantAwareOrderedModelBase):
+class Action(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -336,7 +336,7 @@ class Responsible(TenantAwareOrderedModelBase):
     types = models.CharField(max_length=4, blank=True, default='')
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     organization_unit = models.ForeignKey(OrganizationUnit, on_delete=models.CASCADE, null=True)
-    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='actions')
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
@@ -348,7 +348,7 @@ class Responsible(TenantAwareOrderedModelBase):
 
     def get_types_display(self):
         retval = []
-        for (k, v) in Responsible.RACI_CHOICES:
+        for (k, v) in Action.RACI_CHOICES:
             if k in self.types:
                 retval.append(str(v))
         if len(retval) == 0:
@@ -375,7 +375,7 @@ class Responsible(TenantAwareOrderedModelBase):
 class WorkInstruction(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    responsible = models.ForeignKey(Responsible, on_delete=models.CASCADE)
+    responsible = models.ForeignKey(Action, on_delete=models.CASCADE)
 
     description = models.TextField(blank=True, null=True)
 

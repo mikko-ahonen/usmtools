@@ -1,7 +1,7 @@
 {% load indent %}
 {% with indent=level|indent:40 %}
   <p style="margin-left: {{ indent }}">
-    <strong>{{ organization_unit.name }} <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}"><i class="bi bi-trash3"></i></a><br/></strong>
+    <strong>{{ organization_unit.name }} <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}"><i class="bi bi-trash3"></i></a><br/></strong>
   </p>
   <ul style="margin-left: {{ indent }}">
   {% for service in organization_unit.services.all %} 

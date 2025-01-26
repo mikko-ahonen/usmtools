@@ -19,18 +19,12 @@
   {{ step.routine.description|linebreaks }}
 </p>
 <div class="row mb-3">
-{% include 'workflows/fragments/routine-steps-diagram.html' with routine=step.routine %}
-</div>
-
-<div class="vertical-step-circle {{ step.process }}-bg">
-  <span class="vertical-step-circle-text align-middle">{{ step.index }}</span>
+{% include 'workflows/fragments/routine-steps-diagram.html' with routine=step.routine selected_step=step %}
 </div>
 
 <h2>{{ step.name }} {{ step|step_process_badge }}</h2>
 
-<p>
-  <span class="fst-italic">{{ step.description|linebreaks }}</span>
-</p>
+<div class="text-white text-muted small">{{ step.description|linebreaks }}</div>
 
 {% for activity in step.activities.all %}
   <div id="activity-{{ activity.id }}" class="card bg-dark text-light mb-3">
@@ -46,13 +40,13 @@
         <a class="btn btn-outline-light activity-down" href="{% url 'workflows:activity-down' tenant.id activity.id %}"><i class="bi bi-arrow-down"></i></a>
         {% endif %}
       </h5>
-      <div class="activity-description text-wrap">
+      <div class="activity-description">
         {{ activity.description|linebreaks }}
       </div>
     </div>
-    <div class="card-body">
-      {% include 'workflows/fragments/responsibles.html' with tenant=tenant responsibles=activity.responsibles only %}
-      <a class="mt-3 btn btn-outline-light open-popup" href="{% url 'workflows:responsible-create' tenant.id activity.id %}" data-popup-url="{% url 'workflows:responsible-create' tenant.id activity.id %}">{% trans 'Add a new action' %}</a>
+    <div class="card-body bg-primary-subtle text-black">
+      {% include 'workflows/fragments/actions.html' with tenant=tenant actions=activity.actions only %}
+      <a class="btn btn-outline-primary open-popup" href="{% url 'workflows:action-create' tenant.id activity.id %}" data-popup-url="{% url 'workflows:action-create' tenant.id activity.id %}">{% trans 'Add a new action' %}</a>
     </div>
   </div>
 {% empty %}
@@ -60,7 +54,7 @@
   {% trans 'No activities. You should probably create one.' %}
 </p>
 {% endfor %}
-<a class="btn btn-primary open-popup" href="{% url 'workflows:activity-create' tenant.id step.id %}" data-popup-url="{% url 'workflows:activity-create' tenant.id step.id %}">{% trans 'Create a new activity' %}</a>
+<a class="mb-5 btn btn-outline-primary open-popup" href="{% url 'workflows:activity-create' tenant.id step.id %}" data-popup-url="{% url 'workflows:activity-create' tenant.id step.id %}">{% trans 'Create a new activity' %}</a>
 </div>
 {% include 'workflows/fragments/modal.html' %}
 {% endblock content %}
@@ -76,7 +70,7 @@ $(document).on("change", ".responsibility-checkbox", function (e) {
     }
     var rtype = $(this).data('rtype');
     var tenant_id = '{{ tenant.id }}';
-    var url = '/app/' + tenant_id + '/responsibles/' + $(this).data('responsible') + '/' + action + '/' + rtype + '/';
+    var url = '/app/' + tenant_id + '/actions/' + $(this).data('action') + '/' + action + '/' + rtype + '/';
     console.log(url);
 
     $.ajax({

@@ -9,7 +9,7 @@
             <div class="horizontal-step-line"></div>
             {% endif %}
         </div>
-        <div class="col col-xs-8 horizontal-step-circle {{ step.process }}-bg">
+        <div class="col col-xs-8 horizontal-step-circle{% if step == selected_step %}-selected{% endif %} {{ step.process }}-bg">
             <a class="streched-link horizontal-step-link" href="{% url 'workflows:step-detail' tenant.id step.id %}">
               <span class="horizontal-step-circle-text align-middle">{{ forloop.counter }}</span>
             </a>
@@ -22,7 +22,7 @@
       </div>
       <div class="row gx-0">
         <div class="col col-xs-12 d-flex justify-content-center">
-          <span class="horizontal-step-text">{{ step.name }}</span>
+          <span class="{% if step == selected_step %}horizontal-step-text-selected fs-3{% else %}horizontal-step-text small{% endif %}">{{ step.name }}</span>
         </div>
       </div>
     </div>

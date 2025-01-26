@@ -16,8 +16,8 @@
       {% trans 'Are you sure you want to delete it?' %}
     </p>
     <p> 
-      <a class="button btn btn-secondary" href="{% url 'workflows:organization-unit-list' tenant.id %}">Cancel</a>
-      <input class="button btn btn-primary" type="submit" value="OK">
+      <a class="btn btn-outline-primary" href="{% url 'workflows:organization-unit-list' tenant.id %}">Cancel</a>
+      <input class="btn btn-outline-primary" type="submit" value="OK">
     </p>
 </form>
 {% endblock content %}

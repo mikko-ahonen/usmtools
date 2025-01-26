@@ -1,0 +1,14 @@
+{% extends 'workflows/modals/modal-base.html' %}
+{% load i18n %}
+{% block content %}
+<h3>{% trans 'Delete action' %} {{ action }}</h3>
+<form method="post" action="{{ request.path }}">{% csrf_token %}
+    <p>
+      {% trans 'Are you sure you want to delete?' %}
+    </p>
+    <p> 
+      <a class="button btn btn-outline-primary" href="{% url 'workflows:routine-detail' tenant.id responsible.activity.step.routine_id %}">Cancel</a>
+      <input class="button btn btn-outline-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

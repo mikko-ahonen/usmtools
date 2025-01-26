@@ -2,11 +2,9 @@
 {% load i18n %}
 {% load breadcrumbs %}
 {% block content %}
-<section class="app">
-<div class="container">
-{% breadcrumbs tenant True 'employees' %}
+<div class="container-fluid m-3">
 {% include 'mir/fragments/mir_tabs.html' %}
-<h3>{% trans 'Employees' %}</h3>
+<h3 class="mt-3">{% trans 'Employees' %}</h3>
 {% for employee in employees %}
   <p>
     <h5>{{ employee }} <a class="btn btn-primary open-popup" data-popup-url="{% url 'mir:employee-update' tenant.id employee.id %}" href="{% url 'mir:employee-update' tenant.id employee.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-primary open-popup" data-popup-url="{% url 'mir:employee-delete' tenant.id employee.id %}" href="{% url 'mir:employee-delete' tenant.id employee.id %}"><i class="bi bi-trash3"></i></a></h5>
@@ -20,6 +18,5 @@
   <a class="btn btn-primary open-popup" data-popup-url="{% url 'mir:employee-create' tenant.id %}" href="{% url 'mir:employee-create' tenant.id %}">{% trans 'Create a new employee' %}</a>
 </p>
 </div>
-</section>
 {% include 'mir/fragments/modal.html' %}
 {% endblock %}

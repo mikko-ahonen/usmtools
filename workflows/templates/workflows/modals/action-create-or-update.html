@@ -5,7 +5,7 @@
     {% load ou_options %}
   {% endcomment %}
 {% block content %}
-<h3>{% trans "Add a responsible" %}</h3>
+<h3>{% trans "Add an action" %}</h3>
 
 <form method="POST" action="{{request.path}}">
 
@@ -24,6 +24,24 @@
         </div>
     {% endfor %}
   {% endif %}
+
+  <div class="mb-3" id="div_id_title">
+    <label class="form-label" for="id_title">
+      {% trans 'Title' %}
+    </label>
+    <input class="textinput form-control" id="id_title" maxlength="255" name="title" type="text">
+  </div>
+{% comment %}
+
+  <div class="mb-3" id="div_id_description">
+    <label class="form-label" for="id_description">
+      {% trans 'Description' %}
+    </label>
+    <textarea class="textarea form-control" cols="40" id="id_description" name="description" rows="4">
+    </textarea>
+  </div>
+
+{% endcomment %}
 
   <h5>Profile</h5>
   <div id="div_id_use_existing_profile" class="mb-3">
@@ -78,7 +96,7 @@
       </div>
   </div>
 
-  <button class="btn btn-primary" type="submit">{% trans 'Add responsible' %}</button>
+  <button class="btn btn-primary" type="submit">{% trans 'Add action' %}</button>
 </form>
 <script type="text/javascript">
 $(document).on("focus", "#id_profile", function (e) {

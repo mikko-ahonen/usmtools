@@ -1,15 +1,16 @@
 {% load indent %}
 {% with indent=level|indent:40 %}
   <p style="margin-left: {{ indent }}">
-    <a href="{% url 'workflows:service-detail' tenant.id service.id %}">{{ service.name }}</a>  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:service-delete' tenant.id service.id %}" href="{% url 'workflows:service-delete' tenant.id service.id %}"><i class="bi bi-trash3"></i></a><br/>
+    <a class="fs-3" href="{% url 'workflows:service-detail' tenant.id service.id %}">{{ service.name }}</a>
+    <a class="mx-2 btn btn-outline-primary btn-sm open-popup" data-popup-url="{% url 'workflows:service-delete' tenant.id service.id %}" href="{% url 'workflows:service-delete' tenant.id service.id %}"><i class="bi bi-trash3"></i></a><br/>
     {% if service.owner != user %}
-    <span class="text-small text-muted">
+    <span class="small text-muted">
       {{ service.owner }}
     </span><br/>
     {% endif %}
-    <span class="">
+    <div class="mt-0 small text-muted">
       {{ service.description|default:''|linebreaks }}
-    </span>
+    </div>
   </p>
 {% endwith %}
 {% for service in service.children.all %}

@@ -1,6 +1,7 @@
 {% extends 'workflows/modals/modal-base.html' %}
 {% block content %}
 {% load i18n %}
+{% comment %}
 <h3>{% trans 'Delete service' %} {{ service }}</h3>
 <form action="{{ request.path }}" method="post">{% csrf_token %}
     {% comment %}
@@ -19,7 +20,7 @@
     </p>
     <p>
       {% if service.workflows.count %}
-      {% trans 'Additionally, this will also delete all the workflows below, including their steps, activities, and responsibility assignments:' %}
+      {% trans 'Additionally, this will also delete all the workflows below, including their steps, activities, and actions:' %}
 
       <ul>
         {% for workflow in service.workflows.all %}
@@ -31,8 +32,9 @@
       {% endif %}
     </p>
     <p> 
-      <a class="button btn btn-secondary" href="{% url 'workflows:service-list' tenant.id %}">Cancel</a>
-      <input class="button btn btn-primary" type="submit" value="OK">
+      <a class="btn btn-outline-primary" href="{% url 'workflows:service-list' tenant.id %}">Cancel</a>
+      <input class="btn btn-outline-primary" type="submit" value="OK">
     </p>
 </form>
+{% endcomment %}
 {% endblock content %}
