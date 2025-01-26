@@ -44,6 +44,7 @@ urlpatterns = [
     path('<uuid:tenant_id>/routines/<uuid:pk>/', views.RoutineDetail.as_view(), name='routine-detail'),
     path('<uuid:tenant_id>/routines/<uuid:pk>/delete/', views.RoutineDelete.as_view(), name='routine-delete'),
     path('<uuid:tenant_id>/routines/<uuid:pk>/update/', views.RoutineUpdate.as_view(), name='routine-update'),
+    path('<uuid:tenant_id>/routines/<uuid:pk>/diagram/', views.RoutineDiagram.as_view(), name='routine-diagram'),
     path('<uuid:tenant_id>/steps/<uuid:pk>/activities/create/', views.ActivityCreate.as_view(), name='activity-create'),
     path('<uuid:tenant_id>/steps/<uuid:pk>/', views.StepDetail.as_view(), name='step-detail'),
     path('<uuid:tenant_id>/steps/<uuid:pk>/skip/', views.StepSkip.as_view(), name='step-skip'),

@@ -1,5 +1,6 @@
 import json
 import logging
+import tempfile
 
 from pygments import highlight
 from pygments.lexers import JsonLexer
@@ -17,7 +18,7 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, FormView, TemplateView, RedirectView
 from django.forms import modelformset_factory
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from extra_views import ModelFormSetView
@@ -29,6 +30,7 @@ from .raci import RACI
 from . import forms
 from .models import Service, Routine, Step, Profile, Activity, Action, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer
 from .export import export_as_usm_dif
+from .diagrams import diagram
 
 logger = logging.getLogger(__name__)
 
@@ -788,14 +790,15 @@ class RoutineDetailPrintable(TenantMixin, DetailView):
 
 
 class RoutineDiagram(TenantMixin, GetRoutineMixin, View):
-    model = Routine
-    template_name = 'workflows/routine-diagram.html'
-    context_object_name = 'routine'
+    def get(self, request, tenant_id=None, pk=None):
+        tenant = self.get_tenant(tenant_id=tenant_id)
+        routine = self.get_routine(pk)
 
-    def get(self, request, tenant_id=None):
-        tenant = self.get_tenant()
-        routine_id = self.kwargs.get('pk')
-        routine = self.get_routine(routine_id)
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            fn = diagram(routine, tmpdirname + f'/process-map-{str(routine.id)}.png')
+            response = FileResponse(open(fn, 'rb'), as_attachment=True, content_type='image/png')
+
+        return response
 
 #######################################################################################################################
 #
