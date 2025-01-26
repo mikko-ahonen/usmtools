@@ -15,7 +15,7 @@ from django.utils.safestring import mark_safe
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, FormView, TemplateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, FormView, TemplateView, RedirectView
 from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse_lazy
@@ -635,7 +635,7 @@ class ServiceShare(TenantMixin, CreateView):
 
 #######################################################################################################################
 #
-# WORKFLOW
+# ROUTINE
 #
 
 class RoutineCreate(TenantMixin, GetServiceMixin, CreateView):
@@ -731,6 +731,15 @@ class RoutineDetail(TenantMixin, DetailView):
         return qs
 
 
+class RoutineDetail(TenantMixin, GetRoutineMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        tenant_id = self.kwargs.get('tenant_id')
+        routine_id = self.kwargs.get('pk')
+        routine = self.get_routine(routine_id)
+        step = routine.steps.order_by('index').first()
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step.id})
+
+
 class RoutineDelete(TenantMixin, GetRoutineMixin, DeleteView):
     model = Routine
     template_name = 'workflows/modals/routine-delete.html'
@@ -774,6 +783,33 @@ class RoutineDetailPrintable(TenantMixin, DetailView):
     model = Routine
     template_name = 'workflows/routine-detail-printable.html'
     context_object_name = 'routine'
+
+
+class RoutineDiagram(TenantMixin, GetRoutineMixin, View):
+    model = Routine
+    template_name = 'workflows/routine-diagram.html'
+    context_object_name = 'routine'
+
+    def get(self, request, tenant_id=None):
+        tenant = self.get_tenant()
+        routine_id = self.kwargs.get('pk')
+        routine = self.get_routine(routine_id)
+
+#######################################################################################################################
+#
+# STEP
+#
+
+
+class StepDetail(TenantMixin, DetailView):
+    model = Step
+    template_name = 'workflows/step-detail.html'
+    context_object_name = 'step'
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset()
+        qs = qs.select_related('routine').prefetch_related('activities').prefetch_related('activities__responsibles').prefetch_related('activities__responsibles__work_instructions')
+        return qs
 
 
 #######################################################################################################################

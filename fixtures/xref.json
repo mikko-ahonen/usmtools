@@ -1,0 +1,1225 @@
+vi [
+{
+    "model": "xref.standard",
+    "pk": "301a22bb-6a89-49db-b604-9f5f71b2f620",
+    "fields": {
+        "name": "ISO 27002",
+        "created_at": "2023-06-25T03:57:05.748Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T03:57:05.749Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 0
+    }
+},
+{
+    "model": "xref.control",
+    "pk": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+    "fields": {
+        "standard": "301a22bb-6a89-49db-b604-9f5f71b2f620",
+        "name": "Information security policy",
+        "domain": "Security",
+        "text": "Information security policy and topic-specific policies should be defined, approved by management, published, communicated to and acknowledged by relevant personnel and relevant interested parties, and reviewed at planned intervals and if significant changes occur.",
+        "created_at": "2023-06-25T03:57:40.816Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T03:57:40.816Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 0
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "3d3001c6-fd4f-4d60-aa57-85a2103b5b69",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "7",
+        "text": "The information security policy should contain statements concerning\r\n\r\ncommitment to satisfy applicable requirements related to information security",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:05:04.968Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:05:04.968Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 6
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "5f5eaa51-ae50-4ac2-9594-8e9ad9a7c708",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "4",
+        "text": "The information security policy should contain statements concerning\r\n\r\ndefinition of information security",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:03:36.390Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:03:36.390Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 3
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "be4420c0-3e8a-4f78-ab3c-a6efed73ef08",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "9",
+        "text": "The information security policy should contain statements concerning\r\n\r\nassignments of responsibilities for information security management to defined roles",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:06:08.673Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:06:08.673Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 8
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "c8ad135e-b55d-46b6-9bee-b639c701c672",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "2",
+        "text": "The information security policies should take into consideration requirements derived from:\r\n\r\nRegulations, legislation and contracts",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:02:49.200Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:02:49.200Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 1
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "caf4e5ae-1d3d-41b1-97fe-1e68a84eb989",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "8",
+        "text": "The information security policy should contain statements concerning\r\n\r\ncommitment to continual improvements of the information security management system",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:05:38.101Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:05:38.101Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 7
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "1",
+        "text": "The information security policies should take into consideration requirements derived from:\r\n\r\nBusiness strategy and requirements",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:02:13.999Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:02:13.999Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 0
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "e40918b8-80a5-40f9-9621-9e04890d7d9b",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "10",
+        "text": "The information security policy should contain statements concerning\r\n\r\nprocedures for handling exemptions and exceptions",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:06:31.891Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:06:31.891Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 9
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "e6b1cc91-1cdd-4ee4-912e-f45c446eb25c",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "3",
+        "text": "The information security policies should take into consideration requirements derived from:\r\n\r\nthe current and protected information security risks and threats",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:03:20.945Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:03:20.945Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 2
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "ef71372e-2f24-4f65-824b-51fe18b1f288",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "5",
+        "text": "The information security policy should contain statements concerning\r\n\r\ninformation security objectives or the framework for setting information security objectives",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:03:55.986Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:03:55.986Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 4
+    }
+},
+{
+    "model": "xref.requirement",
+    "pk": "ff8def9a-8cf5-42df-b425-1416128464b8",
+    "fields": {
+        "control": "98be5908-be0f-48ce-b777-c35a0de9f8dd",
+        "name": "6",
+        "text": "The information security policy should contain statements concerning\r\n\r\nprinciples to guide all activities relating to information security",
+        "start_pos": 1,
+        "end_pos": 1,
+        "created_at": "2023-06-25T04:04:19.825Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:04:19.825Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 5
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "121571c4-263f-471e-9a93-ecdb6188e238",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "we administer ‘current and protected information security risks and threats’.",
+        "created_at": "2023-06-25T04:20:02.113Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:20:02.113Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 4
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "20f04017-3523-41f7-aea2-19c2bf1c091b",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "We create a Glossary",
+        "created_at": "2023-06-25T04:22:00.940Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:22:00.940Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 5
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "26050a41-7391-47cd-b590-b37b180a92d4",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "We assure continual improvements of the information security management system",
+        "created_at": "2023-06-25T04:26:14.213Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:26:14.213Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 8
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "2ff504b3-16d5-4b71-ac0e-d3a7deaee2f3",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "CHM: we create principles to guide all activities relating to information security",
+        "created_at": "2023-06-25T04:24:48.673Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:24:48.673Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 7
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "3ebdc5f9-ddfa-4831-bf27-a44cdb1c5c25",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "CHM: we create a MIR",
+        "created_at": "2023-06-25T04:06:54.812Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:06:54.812Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "5b3df5cb-8a2b-4502-8f72-180eaeb6ce66",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "MIR: the MIR must contain a MIC of the type ‘information security policy’",
+        "created_at": "2023-06-25T04:14:29.898Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:14:29.898Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 2
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "5e348d46-8cd8-4be2-8d11-079abeb9c8a1",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "CHM: We create a business strategy.",
+        "created_at": "2023-06-25T04:15:15.566Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:15:15.566Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 3
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "77824d20-8054-4979-b10c-93aec642371a",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "CHM: We create a routine for setting information security objectives",
+        "created_at": "2023-06-25T04:24:01.587Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:24:01.587Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 6
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "be96d8fb-32e8-459d-a2e8-61a79e0da34a",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "We create procedures for handling exemptions and exceptions",
+        "created_at": "2023-06-25T04:36:32.990Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:36:32.990Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 10
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "d08fb1e4-32ef-40cf-ab0f-4b13e084b53e",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "We specify assignments of responsibilities for information security management to defined roles",
+        "created_at": "2023-06-25T04:29:33.940Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:29:33.940Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 9
+    }
+},
+{
+    "model": "xref.statement",
+    "pk": "eaa7e5a5-2274-464c-8da1-37ab64adf4d9",
+    "fields": {
+        "requirement": "d57badde-57db-4c8b-8679-5a7d6e8a80fb",
+        "text": "CHM: We create an information security policy.",
+        "created_at": "2023-06-25T04:10:01.930Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:10:01.930Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 1
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 6,
+    "fields": {
+        "statement": "3ebdc5f9-ddfa-4831-bf27-a44cdb1c5c25",
+        "substatement": "41380e83-2449-44ac-8834-d8dc908b4c7e",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 7,
+    "fields": {
+        "statement": "3ebdc5f9-ddfa-4831-bf27-a44cdb1c5c25",
+        "substatement": "118b378c-54cb-43fa-9844-1c68e5385d05",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 8,
+    "fields": {
+        "statement": "3ebdc5f9-ddfa-4831-bf27-a44cdb1c5c25",
+        "substatement": "7592f269-a35f-4c80-ae69-b1609603b3ae",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 9,
+    "fields": {
+        "statement": "3ebdc5f9-ddfa-4831-bf27-a44cdb1c5c25",
+        "substatement": "ead44db0-a8df-4293-9282-a5a41f65b806",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 10,
+    "fields": {
+        "statement": "eaa7e5a5-2274-464c-8da1-37ab64adf4d9",
+        "substatement": "fc83a5e6-821d-4f68-8588-28ab12a0bdae",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 11,
+    "fields": {
+        "statement": "eaa7e5a5-2274-464c-8da1-37ab64adf4d9",
+        "substatement": "a0ddb325-2810-47cb-b94e-b1344740e85b",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 12,
+    "fields": {
+        "statement": "eaa7e5a5-2274-464c-8da1-37ab64adf4d9",
+        "substatement": "fca9111e-1a62-434d-98ae-33c4c95530d9",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 13,
+    "fields": {
+        "statement": "eaa7e5a5-2274-464c-8da1-37ab64adf4d9",
+        "substatement": "4f93ebd1-8ed2-4dc7-86de-e56d11a8a57c",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 14,
+    "fields": {
+        "statement": "5b3df5cb-8a2b-4502-8f72-180eaeb6ce66",
+        "substatement": "6c616da9-3263-48ce-b5dd-072a03aa8e21",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 15,
+    "fields": {
+        "statement": "5e348d46-8cd8-4be2-8d11-079abeb9c8a1",
+        "substatement": "6d0e1994-43eb-4435-a17f-a18b5c504491",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 16,
+    "fields": {
+        "statement": "5e348d46-8cd8-4be2-8d11-079abeb9c8a1",
+        "substatement": "4ac7d9d3-2e6d-4b1b-b325-28061c4ffcd4",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 17,
+    "fields": {
+        "statement": "5e348d46-8cd8-4be2-8d11-079abeb9c8a1",
+        "substatement": "a6c9e9e2-21eb-4720-a875-2f84f5485025",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 18,
+    "fields": {
+        "statement": "5e348d46-8cd8-4be2-8d11-079abeb9c8a1",
+        "substatement": "ef9af35d-5339-4371-8f88-fcae2cdc8302",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 19,
+    "fields": {
+        "statement": "5e348d46-8cd8-4be2-8d11-079abeb9c8a1",
+        "substatement": "b8e55921-4e88-4da8-bc58-6c348230c3b7",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 20,
+    "fields": {
+        "statement": "5e348d46-8cd8-4be2-8d11-079abeb9c8a1",
+        "substatement": "1ded7f03-a4a0-4deb-80cf-d85a2a0d22f0",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 21,
+    "fields": {
+        "statement": "5e348d46-8cd8-4be2-8d11-079abeb9c8a1",
+        "substatement": "5b5c280b-b8e5-456d-b5cb-5826ef249207",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 22,
+    "fields": {
+        "statement": "121571c4-263f-471e-9a93-ecdb6188e238",
+        "substatement": "0c03aeb9-ab55-4112-a536-f265e4cf4ad2",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 23,
+    "fields": {
+        "statement": "121571c4-263f-471e-9a93-ecdb6188e238",
+        "substatement": "9e71c79c-7fa7-4a5a-b6e1-e10a15ee370e",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 24,
+    "fields": {
+        "statement": "121571c4-263f-471e-9a93-ecdb6188e238",
+        "substatement": "ce23ead0-44ee-4ac9-9ac0-7872f0e13920",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 25,
+    "fields": {
+        "statement": "20f04017-3523-41f7-aea2-19c2bf1c091b",
+        "substatement": "ee15f1ac-46c3-497f-b818-c9a24a5188a0",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 26,
+    "fields": {
+        "statement": "20f04017-3523-41f7-aea2-19c2bf1c091b",
+        "substatement": "3586f8a9-9666-4698-9dbd-66b234bd7cad",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 27,
+    "fields": {
+        "statement": "20f04017-3523-41f7-aea2-19c2bf1c091b",
+        "substatement": "893f0118-8129-4484-8488-7b8169e98c24",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 28,
+    "fields": {
+        "statement": "20f04017-3523-41f7-aea2-19c2bf1c091b",
+        "substatement": "1bd31741-ea7f-40c9-a1e3-527bd04a6dc8",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 29,
+    "fields": {
+        "statement": "77824d20-8054-4979-b10c-93aec642371a",
+        "substatement": "03792737-ed94-48ec-929c-4286112ed783",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 30,
+    "fields": {
+        "statement": "2ff504b3-16d5-4b71-ac0e-d3a7deaee2f3",
+        "substatement": "fe7fb149-e14e-48de-a500-320fcdc2e907",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 31,
+    "fields": {
+        "statement": "26050a41-7391-47cd-b590-b37b180a92d4",
+        "substatement": "276805f8-e0af-4d71-a28c-a8adc0a3bad8",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 32,
+    "fields": {
+        "statement": "26050a41-7391-47cd-b590-b37b180a92d4",
+        "substatement": "3510ed11-cf05-466e-a8ab-86644790572c",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 33,
+    "fields": {
+        "statement": "26050a41-7391-47cd-b590-b37b180a92d4",
+        "substatement": "72a28eff-13c7-4a0b-bd89-fffe0c1f679a",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 34,
+    "fields": {
+        "statement": "26050a41-7391-47cd-b590-b37b180a92d4",
+        "substatement": "831b4b71-0f0f-49f4-91a8-51979e79510c",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 35,
+    "fields": {
+        "statement": "26050a41-7391-47cd-b590-b37b180a92d4",
+        "substatement": "18b59ffa-3d3d-4739-bc05-9c58c290591b",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 36,
+    "fields": {
+        "statement": "d08fb1e4-32ef-40cf-ab0f-4b13e084b53e",
+        "substatement": "5feb787d-c585-47b8-80fc-02867327e929",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 37,
+    "fields": {
+        "statement": "d08fb1e4-32ef-40cf-ab0f-4b13e084b53e",
+        "substatement": "24a68a83-35d0-4acb-887e-773c1dab04a5",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 38,
+    "fields": {
+        "statement": "d08fb1e4-32ef-40cf-ab0f-4b13e084b53e",
+        "substatement": "b058d777-fcfb-44e6-8cf6-983138a1b1ad",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 39,
+    "fields": {
+        "statement": "d08fb1e4-32ef-40cf-ab0f-4b13e084b53e",
+        "substatement": "1f3002b1-14e3-48bf-b714-eb7c96d03325",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 40,
+    "fields": {
+        "statement": "be96d8fb-32e8-459d-a2e8-61a79e0da34a",
+        "substatement": "659deda3-92e3-4cb3-9756-c70218e7dbe5",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 41,
+    "fields": {
+        "statement": "be96d8fb-32e8-459d-a2e8-61a79e0da34a",
+        "substatement": "ecee28e2-520d-43b5-a18f-e012982e8a17",
+        "index": 0
+    }
+},
+{
+    "model": "xref.statementtosubstatement",
+    "pk": 42,
+    "fields": {
+        "statement": "be96d8fb-32e8-459d-a2e8-61a79e0da34a",
+        "substatement": "6396830d-6969-4df2-9a3a-849c9f63a54e",
+        "index": 0
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "03792737-ed94-48ec-929c-4286112ed783",
+    "fields": {
+        "subject": "MIR",
+        "predicate": "contains",
+        "object": "The routine for setting information security objectives",
+        "created_at": "2023-06-25T04:24:30.716Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:24:30.716Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 26
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "0c03aeb9-ab55-4112-a536-f265e4cf4ad2",
+    "fields": {
+        "subject": "we",
+        "predicate": "define",
+        "object": "risks as threats and innovations.",
+        "created_at": "2023-06-25T04:20:38.821Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:20:38.821Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 19
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "118b378c-54cb-43fa-9844-1c68e5385d05",
+    "fields": {
+        "subject": "we",
+        "predicate": "create",
+        "object": "MIR model",
+        "created_at": "2023-06-25T04:08:30.992Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:08:30.992Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 4
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "18b59ffa-3d3d-4739-bc05-9c58c290591b",
+    "fields": {
+        "subject": "the MIR",
+        "predicate": "has type",
+        "object": "information security management system",
+        "created_at": "2023-06-25T04:29:03.687Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:29:11.146Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 32
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "1bd31741-ea7f-40c9-a1e3-527bd04a6dc8",
+    "fields": {
+        "subject": "the MIR",
+        "predicate": "contains",
+        "object": "definition of information security",
+        "created_at": "2023-06-25T04:23:48.100Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:23:48.100Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 25
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "1ded7f03-a4a0-4deb-80cf-d85a2a0d22f0",
+    "fields": {
+        "subject": "the MIR",
+        "predicate": "contains",
+        "object": "legislation",
+        "created_at": "2023-06-25T04:19:25.737Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:19:25.737Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 17
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "1f3002b1-14e3-48bf-b714-eb7c96d03325",
+    "fields": {
+        "subject": "the MIR",
+        "predicate": "contains",
+        "object": "the RACI models (entities at the X and Y axes that are used to compose a RACI model, including the relationships between the entities at both axes",
+        "created_at": "2023-06-25T04:36:17.065Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:36:17.065Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 36
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "24a68a83-35d0-4acb-887e-773c1dab04a5",
+    "fields": {
+        "subject": "the MIR",
+        "predicate": "contains type",
+        "object": "The RACI model",
+        "created_at": "2023-06-25T04:30:12.929Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:30:12.929Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 34
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "276805f8-e0af-4d71-a28c-a8adc0a3bad8",
+    "fields": {
+        "subject": "we have",
+        "predicate": "defined",
+        "object": "the RIM process",
+        "created_at": "2023-06-25T04:27:20.430Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:27:20.430Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 28
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "3510ed11-cf05-466e-a8ab-86644790572c",
+    "fields": {
+        "subject": "the RIM process",
+        "predicate": "has",
+        "object": "procedures",
+        "created_at": "2023-06-25T04:27:41.434Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:27:41.434Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 29
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "3586f8a9-9666-4698-9dbd-66b234bd7cad",
+    "fields": {
+        "subject": "MIR",
+        "predicate": "contains",
+        "object": "Definitions",
+        "created_at": "2023-06-25T04:22:46.038Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:22:46.038Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 23
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "41380e83-2449-44ac-8834-d8dc908b4c7e",
+    "fields": {
+        "subject": "MIR database",
+        "predicate": "holds",
+        "object": "entities and their relationships",
+        "created_at": "2023-06-25T04:07:49.720Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:07:49.720Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 3
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "4ac7d9d3-2e6d-4b1b-b325-28061c4ffcd4",
+    "fields": {
+        "subject": "The MIR",
+        "predicate": "contains",
+        "object": "business strategy document",
+        "created_at": "2023-06-25T04:17:11.499Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:17:11.499Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 13
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "4f93ebd1-8ed2-4dc7-86de-e56d11a8a57c",
+    "fields": {
+        "subject": "Top management",
+        "predicate": "approves",
+        "object": "information security policy document",
+        "created_at": "2023-06-25T04:13:06.977Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:13:43.259Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 10
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "5a0419e8-c4c1-4f1a-aaea-46ba0b6bacac",
+    "fields": {
+        "subject": "subject",
+        "predicate": "predicate",
+        "object": "object",
+        "created_at": "2023-06-24T14:48:12.743Z",
+        "created_by": null,
+        "modified_at": "2023-06-24T14:48:12.743Z",
+        "modified_by": null,
+        "index": 1
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "5b5c280b-b8e5-456d-b5cb-5826ef249207",
+    "fields": {
+        "subject": "the MIR",
+        "predicate": "contains",
+        "object": "contracts",
+        "created_at": "2023-06-25T04:19:41.775Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:19:41.775Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 18
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "5f5949ca-57b6-45fe-8779-546e602f0b63",
+    "fields": {
+        "subject": "asasd",
+        "predicate": "dsaasdggg",
+        "object": "adsasd",
+        "created_at": "2023-06-24T14:53:30.218Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-24T15:35:37.170Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 2
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "5feb787d-c585-47b8-80fc-02867327e929",
+    "fields": {
+        "subject": "we",
+        "predicate": "create",
+        "object": "a RACI model",
+        "created_at": "2023-06-25T04:29:55.163Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:29:55.163Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 33
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "6396830d-6969-4df2-9a3a-849c9f63a54e",
+    "fields": {
+        "subject": "the MIR",
+        "predicate": "contains a model for",
+        "object": "procedures",
+        "created_at": "2023-06-25T04:38:04.620Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:38:04.620Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 39
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "659deda3-92e3-4cb3-9756-c70218e7dbe5",
+    "fields": {
+        "subject": "we",
+        "predicate": "create",
+        "object": "procedures for handling exemptions",
+        "created_at": "2023-06-25T04:37:03.683Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:37:03.683Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 37
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "6c616da9-3263-48ce-b5dd-072a03aa8e21",
+    "fields": {
+        "subject": "the MIR",
+        "predicate": "contains",
+        "object": "a MIC of the type ‘information security policy documentation’",
+        "created_at": "2023-06-25T04:15:00.088Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:15:00.088Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 11
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "6d0e1994-43eb-4435-a17f-a18b5c504491",
+    "fields": {
+        "subject": "The business strategy",
+        "predicate": "specifies requirements for",
+        "object": "the information security policy document",
+        "created_at": "2023-06-25T04:16:01.600Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:16:01.600Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 12
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "72a28eff-13c7-4a0b-bd89-fffe0c1f679a",
+    "fields": {
+        "subject": "the RIM process",
+        "predicate": "has",
+        "object": "work instructions",
+        "created_at": "2023-06-25T04:27:53.608Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:27:53.608Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 30
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "7592f269-a35f-4c80-ae69-b1609603b3ae",
+    "fields": {
+        "subject": "MIR Model",
+        "predicate": "is",
+        "object": "a MIC with an ID.",
+        "created_at": "2023-06-25T04:09:01.137Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:09:01.137Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 5
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "831b4b71-0f0f-49f4-91a8-51979e79510c",
+    "fields": {
+        "subject": "we",
+        "predicate": "create",
+        "object": "information security management system",
+        "created_at": "2023-06-25T04:28:30.602Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:28:30.602Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 31
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "893f0118-8129-4484-8488-7b8169e98c24",
+    "fields": {
+        "subject": "Definitions",
+        "predicate": "are related with",
+        "object": "the Glossary",
+        "created_at": "2023-06-25T04:23:23.081Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:23:23.081Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 24
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "9e71c79c-7fa7-4a5a-b6e1-e10a15ee370e",
+    "fields": {
+        "subject": "risk database",
+        "predicate": "is",
+        "object": "set up",
+        "created_at": "2023-06-25T04:20:56.264Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:20:56.264Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 20
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "a0ddb325-2810-47cb-b94e-b1344740e85b",
+    "fields": {
+        "subject": "information security policy document",
+        "predicate": "has",
+        "object": "ID",
+        "created_at": "2023-06-25T04:11:30.538Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:13:37.360Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 8
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "a6c9e9e2-21eb-4720-a875-2f84f5485025",
+    "fields": {
+        "subject": "Business strategy document",
+        "predicate": "has",
+        "object": "ID",
+        "created_at": "2023-06-25T04:17:32.111Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:17:32.111Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 14
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "b058d777-fcfb-44e6-8cf6-983138a1b1ad",
+    "fields": {
+        "subject": "the RACI",
+        "predicate": "is a",
+        "object": "MIC",
+        "created_at": "2023-06-25T04:30:31.457Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:30:31.457Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 35
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "b8e55921-4e88-4da8-bc58-6c348230c3b7",
+    "fields": {
+        "subject": "the MIR model",
+        "predicate": "contains",
+        "object": "Regulation",
+        "created_at": "2023-06-25T04:18:55.054Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:18:55.054Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 16
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "ce23ead0-44ee-4ac9-9ac0-7872f0e13920",
+    "fields": {
+        "subject": "current and protected information security risks and threats",
+        "predicate": "are administered in",
+        "object": "the risk database",
+        "created_at": "2023-06-25T04:21:41.111Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:21:41.111Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 21
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "da227158-472a-4b7d-9224-d97f26868eeb",
+    "fields": {
+        "subject": "dfssfdsfddf",
+        "predicate": "fdgdfgdfgdfg",
+        "object": "sddsfsdfsdf",
+        "created_at": "2023-06-24T14:26:50.132Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-24T14:26:50.132Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 0
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "ead44db0-a8df-4293-9282-a5a41f65b806",
+    "fields": {
+        "subject": "The MIR",
+        "predicate": "specifies",
+        "object": "the entities, their attributes, and the relationships with other entities.",
+        "created_at": "2023-06-25T04:09:32.614Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:09:32.614Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 6
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "ecee28e2-520d-43b5-a18f-e012982e8a17",
+    "fields": {
+        "subject": "we",
+        "predicate": "create",
+        "object": "procedures for handling exceptions",
+        "created_at": "2023-06-25T04:37:26.634Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:37:26.634Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 38
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "ee15f1ac-46c3-497f-b818-c9a24a5188a0",
+    "fields": {
+        "subject": "MIR",
+        "predicate": "contains",
+        "object": "Glossary",
+        "created_at": "2023-06-25T04:22:23.197Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:22:23.197Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 22
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "ef9af35d-5339-4371-8f88-fcae2cdc8302",
+    "fields": {
+        "subject": "we",
+        "predicate": "administer",
+        "object": "Regulations, legislation and contracts",
+        "created_at": "2023-06-25T04:18:01.094Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:18:01.094Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 15
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "fc83a5e6-821d-4f68-8588-28ab12a0bdae",
+    "fields": {
+        "subject": "we",
+        "predicate": "change",
+        "object": "information security policy document",
+        "created_at": "2023-06-25T04:11:11.043Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:13:57.431Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 7
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "fca9111e-1a62-434d-98ae-33c4c95530d9",
+    "fields": {
+        "subject": "document",
+        "predicate": "fulfills",
+        "object": "27001 requirement component",
+        "created_at": "2023-06-25T04:12:31.396Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:12:31.396Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 9
+    }
+},
+{
+    "model": "xref.substatement",
+    "pk": "fe7fb149-e14e-48de-a500-320fcdc2e907",
+    "fields": {
+        "subject": "The MIR",
+        "predicate": "contains",
+        "object": "the principles to guide all activities relating to information security",
+        "created_at": "2023-06-25T04:25:58.072Z",
+        "created_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "modified_at": "2023-06-25T04:25:58.072Z",
+        "modified_by": "b4ed23e8-9a61-49a0-96a2-fa4c730d5fa9",
+        "index": 27
+    }
+}
+]

@@ -45,6 +45,7 @@ urlpatterns = [
     path('<uuid:tenant_id>/workflows/<uuid:pk>/delete/', views.RoutineDelete.as_view(), name='routine-delete'),
     path('<uuid:tenant_id>/workflows/<uuid:pk>/update/', views.RoutineUpdate.as_view(), name='routine-update'),
     path('<uuid:tenant_id>/steps/<uuid:pk>/activities/create/', views.ActivityCreate.as_view(), name='activity-create'),
+    path('<uuid:tenant_id>/steps/<uuid:pk>/', views.StepDetail.as_view(), name='step-detail'),
     path('<uuid:tenant_id>/activities/<uuid:pk>/delete/', views.ActivityDelete.as_view(), name='activity-delete'),
     path('<uuid:tenant_id>/activities/<uuid:pk>/update/', views.ActivityUpdate.as_view(), name='activity-update'),
     path('<uuid:tenant_id>/activities/<uuid:pk>/up/', views.ActivityUp.as_view(), name='activity-up'),

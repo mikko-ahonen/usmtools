@@ -321,6 +321,8 @@ class Activity(TenantAwareOrderedModelBase):
 
 class Responsible(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     RACI_RESPONSIBLE = "R"
     RACI_ACCOUNTABLE = "A"
     RACI_CONSULTED = "C"
@@ -350,7 +352,7 @@ class Responsible(TenantAwareOrderedModelBase):
             if k in self.types:
                 retval.append(str(v))
         if len(retval) == 0:
-            return _('No responsibilities')
+            return _('No actions')
         return ", ".join(retval)
 
     def __str__(self):

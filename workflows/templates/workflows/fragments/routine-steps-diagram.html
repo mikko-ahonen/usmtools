@@ -10,7 +10,7 @@
             {% endif %}
         </div>
         <div class="col col-xs-8 horizontal-step-circle {{ step.process }}-bg">
-            <a class="streched-link horizontal-step-link" href="#step-{{step.id}}">
+            <a class="streched-link horizontal-step-link" href="{% url 'workflows:step-detail' tenant.id step.id %}">
               <span class="horizontal-step-circle-text align-middle">{{ forloop.counter }}</span>
             </a>
         </div>
