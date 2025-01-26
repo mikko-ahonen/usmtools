@@ -250,4 +250,4 @@ def task_modal(request, tenant_id, board_type, task_uuid):
     tenant_id = current_tenant_id()
     object_type = task_cls._meta.verbose_name
 
-    return render(request, form_template, {"tenant_id": tenant_id, "task": task, "form": form, "object_type": object_type})
+    return render(request, form_template, {"tenant_id": tenant_id, "task": task, "form": form, "object": task, "object_type": object_type})
