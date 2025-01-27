@@ -45,6 +45,7 @@
     [ ] Roadmap start sprint remove
     [ ] Backlog start sprint list broken
     [ ] Roadmap/backlog do not use component
+    [ ] Action delete cancel
 [ ] Compliance
     [ ] Story, when closing link to managed/replicated resources, add link, describe manual
     [ ] Status color, use blue more

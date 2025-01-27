@@ -194,6 +194,7 @@ class Routine(TenantAwareOrderedModelBase):
         return self.name
 
     def get_absolute_url(self):
+        raise ValueError("FOOBAR")
         return reverse('workflows:routine-detail', kwargs={'pk': self.id})
 
     class Meta:

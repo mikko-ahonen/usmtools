@@ -66,6 +66,7 @@ authentication, you need to be careful when sharing the link.
 
 <form class="mt-5" method="POST" action="{{request.path}}">
   {% crispy form %}
+  <button class="btn btn-outline-primary" type="submit">{% trans 'Save' %}</button>
 </form>
 </div>
 </section>

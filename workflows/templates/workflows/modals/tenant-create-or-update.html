@@ -17,5 +17,6 @@ You should create a new tenant for each organization that may share customers, p
 {% endif %}
 <form method="POST" action="{{request.path}}">
 {% crispy form %}
+<button class="btn btn-outline-primary" type="submit">{% trans 'Save' %}</button>
 </form>
 {% endblock %}

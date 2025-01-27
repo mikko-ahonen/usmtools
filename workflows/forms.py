@@ -30,7 +30,7 @@ class TenantCreateOrUpdate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class ServiceCreateOrUpdate(ModelForm):
@@ -57,7 +57,7 @@ class ServiceCreateOrUpdate(ModelForm):
         self.fields['parent'].queryset = Service.objects.filter(is_meta=False).with_tree_fields()
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class ProfileCreateOrUpdate(ModelForm):
@@ -70,7 +70,7 @@ class ProfileCreateOrUpdate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class ServiceCustomerAdd(ModelForm):
@@ -140,7 +140,7 @@ class OrganizationUnitCreateOrUpdate(ModelForm):
         self.fields['parent'].queryset = OrganizationUnit.objects.all().with_tree_fields()
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class CustomerCreateOrUpdate(ModelForm):
@@ -153,7 +153,7 @@ class CustomerCreateOrUpdate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class ActionCreateOrUpdate(ModelForm):
@@ -258,7 +258,8 @@ class ActivityCreateOrUpdate(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        self.helper.form_tag = False
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class WorkInstructionCreateOrUpdate(ModelForm):
@@ -273,7 +274,8 @@ class WorkInstructionCreateOrUpdate(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        self.helper.form_tag = False
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class RoutineUpdate(ModelForm):
@@ -292,7 +294,7 @@ class RoutineUpdate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class RoutineCreate(ModelForm):
@@ -313,7 +315,7 @@ class RoutineCreate(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 class ServiceShare(ModelForm):
     workflow = ModelChoiceField(
@@ -349,7 +351,7 @@ class ServiceShare(ModelForm):
                 Column('name', css_class='form-group col-md-3'),
                 Column('scope', css_class='form-group col-md-3'),
                 Column('workflow', css_class='form-group col-md-5'),
-                Column(Submit('submit', _('Share'), css_class='btn btn-outline-primary'), css_class='form-group col-md-1 mb-0'),
+                Column(Submit('submit', _('Share'), css_class='btn btn-primary'), css_class='form-group col-md-1 mb-0'),
                 css_class='form-row align-items-start'
             ),
         )
@@ -357,7 +359,7 @@ class ServiceShare(ModelForm):
         #self.helper.field_template = 'bootstrap5/layout/inline_field.html'
         self.helper.form_class = 'form-inline'
         #self.helper.template = 'bootstrap/table_inline_formset.html'
-        #self.helper.add_input(Submit('submit', _('Share'), css_class='btn btn-outline-primary'))
+        #self.helper.add_input(Submit('submit', _('Share'), css_class='btn btn-primary'))
         #self.helper.label_class = 'col-lg-2'
         #self.helper.field_class = 'col-lg-2'
 

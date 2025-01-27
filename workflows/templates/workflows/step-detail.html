@@ -24,7 +24,7 @@
 
 <h2 class="d-inline-flex align-items-center">
   <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" role="switch" {% if not step.skipped %}checked{% endif %}/>
+    <input class="form-check-input" type="checkbox" hx-post="{% if step.skipped %}{% url 'workflows:step-unskip' tenant.id step.id %}{% else %}{% url 'workflows:step-skip' tenant.id step.id %}{% endif %}" role="switch" {% if not step.skipped %}checked{% endif %}/>
   </div>
   <div>
     <span class="{% if step.skipped %}text-decoration-line-through{% endif %}">
@@ -39,9 +39,10 @@
   <div id="activity-{{ activity.id }}" class="card bg-dark text-light mb-3">
     <div class="card-header">
       <h5 class="d-inline-flex align-items-center">
+
         <div class="form-check form-switch">
-          <input class="border-white form-check-input" type="checkbox" role="switch" {% if not activity.skipped %}checked{% endif %}/>
-        </div
+          <input class="border-white form-check-input" type="checkbox" role="switch" hx-post="{% if activity.skipped %}{% url 'workflows:activity-unskip' tenant.id activity.id %}{% else %}{% url 'workflows:activity-skip' tenant.id activity.id %}{% endif %}" {% if not activity.skipped %}checked{% endif %}/>
+        </div>
           <span class="mx-1 {% if activity.skipped %}text-decoration-line-through{% endif %}">
             {{ forloop.counter }}. {{ activity.name }}&nbsp;
           </span>

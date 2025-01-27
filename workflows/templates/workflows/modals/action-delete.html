@@ -7,8 +7,8 @@
       {% trans 'Are you sure you want to delete?' %}
     </p>
     <p> 
-      <a class="button btn btn-outline-primary" href="{% url 'workflows:routine-detail' tenant.id responsible.activity.step.routine_id %}">Cancel</a>
-      <input class="button btn btn-outline-primary" type="submit" value="OK">
+      <button class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">{% trans 'Cancel' %}</button>
+      <button class="btn btn-outline-primary" type="submit">{% trans 'Save' %}</button>
     </p>
 </form>
 {% endblock content %}

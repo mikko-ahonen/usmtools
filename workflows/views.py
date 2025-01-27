@@ -577,7 +577,6 @@ class ServiceDelete(TenantMixin, DeleteView):
     context_object_name = 'service'
 
     def get_success_url(self):
-        breakpoint()
         tenant_id = self.kwargs.get('tenant_id')
         return reverse_lazy('workflows:service-list', kwargs={'tenant_id': tenant_id})
 
@@ -723,17 +722,6 @@ class RoutineUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
         return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': routine_id})
 
 
-class RoutineDetail(TenantMixin, DetailView):
-    model = Routine
-    template_name = 'workflows/routine-detail.html'
-    context_object_name = 'routine'
-
-    def get_queryset(self, **kwargs):
-        qs = super().get_queryset()
-        qs = qs.prefetch_related('steps').prefetch_related('steps__activities').prefetch_related('steps__activities__actions').prefetch_related('steps__activities__actions__work_instructions')
-        return qs
-
-
 class RoutineDetail(TenantMixin, GetRoutineMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         tenant_id = self.kwargs.get('tenant_id')
@@ -752,7 +740,6 @@ class RoutineDelete(TenantMixin, GetRoutineMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         routine_id = self.kwargs.get('pk')
         routine = self.get_routine(routine_id)
-        breakpoint()
         return reverse_lazy('workflows:service-detail', kwargs={'tenant_id': tenant_id, 'pk': routine.service_id})
 
 
@@ -816,23 +803,29 @@ class StepDetail(TenantMixin, DetailView):
         return qs
 
 
-class StepSkip(TenantMixin, RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
+class StepSkip(TenantMixin, GetStepMixin, View):
+    def post(self, *args, **kwargs):
         tenant_id = self.kwargs.get('tenant_id')
         step_id = self.kwargs.get('pk')
         step = self.get_step(step_id)
-        step.skip = True
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step.id})
+        step.skipped = True
+        step.save()
+        url = reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step.id})
+        return HttpResponse(
+            status=204, headers={"HX-Redirect": url}
+        )
 
-
-class StepUnskip(TenantMixin, RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
+class StepUnskip(TenantMixin, GetStepMixin, View):
+    def post(self, *args, **kwargs):
         tenant_id = self.kwargs.get('tenant_id')
         step_id = self.kwargs.get('pk')
         step = self.get_step(step_id)
-        step.skip = False
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step.id})
-
+        step.skipped = False
+        step.save()
+        url = reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step.id})
+        return HttpResponse(
+            status=204, headers={"HX-Redirect": url}
+        )
 
 
 #######################################################################################################################
@@ -871,7 +864,7 @@ class ActivityCreate(TenantMixin, GetStepMixin, CreateView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         new_activity = self.object
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': new_activity.step.routine_id}) + '#activity-' + str(new_activity.id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': new_activity.step_id}) + '#activity-' + str(new_activity.id)
 
 
 class ActivityUpdate(TenantMixin, GetActivityMixin, UpdateView, UpdateModifiedByMixin):
@@ -883,7 +876,7 @@ class ActivityUpdate(TenantMixin, GetActivityMixin, UpdateView, UpdateModifiedBy
         tenant_id = self.kwargs.get('tenant_id')
         activity_id = self.kwargs.get('pk')
         activity = self.get_activity(activity_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.id)
 
 
 class ActivityDelete(TenantMixin, GetActivityMixin, DeleteView):
@@ -895,22 +888,42 @@ class ActivityDelete(TenantMixin, GetActivityMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         activity_id = self.kwargs.get('pk')
         activity = self.get_activity(activity_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.step_id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.step_id)
 
 class ActivityUp(TenantMixin, GetActivityMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         activity = self.get_activity(pk)
         activity.up()
         tenant_id = self.kwargs.get('tenant_id')
-        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.step_id))
+        return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.step_id))
 
 class ActivityDown(TenantMixin, GetActivityMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         activity = self.get_activity(pk)
         activity.down()
         tenant_id = self.kwargs.get('tenant_id')
-        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.step_id))
+        return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.step_id))
 
+
+class ActivitySkip(TenantMixin, GetActivityMixin, View):
+    def post(self, request, tenant_id=None, pk=None):
+        activity = self.get_activity(pk)
+        activity.skipped = True
+        activity.save()
+        url = reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.id})
+        return HttpResponse(
+            status=204, headers={"HX-Redirect": url}
+        )
+
+class ActivityUnskip(TenantMixin, GetActivityMixin, View):
+    def post(self, request, tenant_id=None, pk=None):
+        activity = self.get_activity(pk)
+        activity.skipped = False
+        activity.save()
+        url = reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.id})
+        return HttpResponse(
+            status=204, headers={"HX-Redirect": url}
+        )
 
 #######################################################################################################################
 #
@@ -952,13 +965,13 @@ class ActionCreateOrUpdate(TenantMixin, GetActivityMixin, CreateView):
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(self.request, error)
-        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.id))
+        return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.id))
 
     def get_success_url(self):
         activity_id = self.kwargs.get('pk')
         tenant_id = self.kwargs.get('tenant_id')
         activity = self.get_activity(activity_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step.routine_id}) + '#activity-' + str(activity.id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.id)
 
 
 class ActionDelete(TenantMixin, GetActionMixin, DeleteView):
@@ -970,7 +983,7 @@ class ActionDelete(TenantMixin, GetActionMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         action_id = self.kwargs.get('pk')
         action = self.get_action(action_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step.routine_id}) + '#activity-' + str(action.activity.id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity.id)
 
 
 class ActionUpdate(TenantMixin, GetActionMixin, UpdateView, UpdateModifiedByMixin):
@@ -993,18 +1006,25 @@ class ActionUpdate(TenantMixin, GetActionMixin, UpdateView, UpdateModifiedByMixi
 
         return HttpResponseRedirect(self.get_success_url()) 
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        action_id = self.kwargs.get('pk')
+        action = self.get_action(action_id)
+        context['object'] = action
+        return context
+
     def form_invalid(self, form):
         action = self.get_object()
         tenant_id = self.kwargs.get('tenant_id')
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(self.request, error)
-        return HttpResponseRedirect(reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step.routine_id}) + '#activity-' + str(action.activity.id))
+        return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity.id))
 
     def get_success_url(self):
         action = self.get_object()
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step.routine_id}) + '#activity-' + str(action.activity.id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity.id)
 
 
 class ActionAddResponsibilities(TenantMixin, GetActionMixin, View):
@@ -1056,7 +1076,7 @@ class WorkInstructionCreate(TenantMixin, GetActionMixin, CreateView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         new_work_instruction = self.object
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': new_work_instruction.action.activity.step.routine_id}) + '#activity-' + str(new_work_instruction.action.activity_id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': new_work_instruction.action.activity.step_id}) + '#activity-' + str(new_work_instruction.action.activity_id)
 
 
 class WorkInstructionUpdate(TenantMixin, GetWorkInstructionMixin, UpdateView, UpdateModifiedByMixin):
@@ -1068,7 +1088,7 @@ class WorkInstructionUpdate(TenantMixin, GetWorkInstructionMixin, UpdateView, Up
         tenant_id = self.kwargs.get('tenant_id')
         work_instruction_id = self.kwargs.get('pk')
         work_instruction = self.get_work_instruction(work_instruction_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.action.activity.step.routine_id}) + '#activity-' + str(work_instruction.action.activity_id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.action.activity.step_id}) + '#activity-' + str(work_instruction.action.activity_id)
 
 
 class WorkInstructionDelete(TenantMixin, GetWorkInstructionMixin, DeleteView):
@@ -1080,4 +1100,4 @@ class WorkInstructionDelete(TenantMixin, GetWorkInstructionMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         work_instruction_id = self.kwargs.get('pk')
         work_instruction = self.get_work_instruction(work_instruction_id)
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.action.activity.step.routine_id}) + '#activity-' + str(work_instruction.action.activity_id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.action.activity.step_id}) + '#activity-' + str(work_instruction.action.activity_id)

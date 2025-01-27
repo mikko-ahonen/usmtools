@@ -5,7 +5,11 @@
     {% load ou_options %}
   {% endcomment %}
 {% block content %}
+{% if object %}
 <h3>{% trans "Add an action" %}</h3>
+{% else %}
+<h3>{% trans "Update action " %} {{ object }}</h3>
+{% endif %}
 
 <form method="POST" action="{{request.path}}">
 
@@ -94,7 +98,7 @@
       </div>
   </div>
 
-  <button class="btn btn-primary" type="submit">{% trans 'Add action' %}</button>
+  <button class="btn btn-outline-primary" type="submit">{% trans 'Add action' %}</button>
 </form>
 <script type="text/javascript">
 $(document).on("focus", "#id_profile", function (e) {
