@@ -194,8 +194,17 @@ class Routine(TenantAwareOrderedModelBase):
         return self.name
 
     def get_absolute_url(self):
-        raise ValueError("FOOBAR")
         return reverse('workflows:routine-detail', kwargs={'pk': self.id})
+
+    def can_draw_diagram(self):
+        count = 0
+        for step in self.steps.all():
+            for activity in step.activities.all():
+                for action in activity.actions.all():
+                    count += 1
+                    if count > 1:
+                        return True
+        return False
 
     class Meta:
         verbose_name = _('routine')
@@ -407,4 +416,35 @@ class WorkInstruction(TenantAwareModelBase):
             name = "no name"
 
         return f"{self.responsible.activity.step.routine.name}/{self.responsible.activity.step.name}/{self.responsible.activity.name}/{name}"
+
+
+class Task(TenantAwareOrderedModelBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    actions = models.ManyToManyField(Action, related_name="actions")
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+    modified_at = models.DateTimeField(auto_now=True)
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+
+    tags = TaggableManager(through=UUIDTaggedItem)
+
+    order_field_name = 'index'
+    order_with_respect_to = 'profile'
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('workflows:task-detail', kwargs={'pk': self.id})
+
+    class Meta:
+        verbose_name = _('task')
+        verbose_name_plural = _('tasks')
+        ordering = ('index',)
+        default_related_name = 'tasks'
+
 

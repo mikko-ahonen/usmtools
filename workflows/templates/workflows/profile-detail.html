@@ -1,0 +1,29 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<div class="container-fluid m-3">
+{% include 'workflows/fragments/service-tabs.html' %}
+<h3 class="mt-3">{% trans 'Profile' %} {{ profile }}</h3>
+{% for task in profile.tasks.all %}
+<div class="col-3" style="mid-width: 18rem">
+<div class="card">
+  <div class="card-header">
+    {{ task.name }}
+  </div>
+  <div class="card-footer bg-primary-subtle">
+    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-update' tenant.id task.id %}" href="{% url 'workflows:task-update' tenant.id task.id %}">{% trans 'Edit'  %}</a>
+    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-delete' tenant.id task.id %}" href="{% url 'workflows:task-delete' tenant.id task.id %}">{% trans 'Remove' %}</i></a>
+  </div>
+</div>
+{% empty %}
+  <p>
+    {% trans 'You have not defined any tasks yet for this profile.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-create' tenant.id profile.id %}" href="{% url 'workflows:task-create' tenant.id profile.id %}">{% trans 'Create a new task' %}</a>
+</p>
+</div>
+{% include 'workflows/fragments/modal.html' %}
+{% endblock %}

@@ -1,13 +1,10 @@
 {% extends 'workflows/modals/modal-base.html' %}
 {% block content %}
 {% load i18n %}
-<h3>{% trans 'Delete profile ' %} {{ profile }}</h3>
+<h3>{% trans 'Delete task' %} {{ task }}</h3>
 <form action="{{ request.path }}" method="post">{% csrf_token %}
     <p>
       {% trans 'Are you sure you want to delete it?' %}
-    </p>
-    <p>
-      {% trans 'This will also delete all tasks assigned to this person. The actions belonging to tasks are not affected.' %}
     </p>
     <p> 
       <a class="btn btn-outline-primary" href="{% url 'workflows:profile-list' tenant.id %}">{% trans 'Cancel' %}</a>

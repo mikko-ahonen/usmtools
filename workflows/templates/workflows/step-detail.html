@@ -13,7 +13,15 @@
   {{ step.routine.name }}
   <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:routine-update' tenant.id step.routine.id %}" href="{% url 'workflows:routine-update' tenant.id step.routine.id %}"><i class="bi bi-pencil"></i></a>
   <a class="btn btn-outline-primary" href="{% url 'workflows:routine-detail-printable' tenant.id step.routine.id %}"><i class="bi bi-printer"></i></a>
-  <a class="btn btn-outline-primary" target="_blank" href="{% url 'workflows:routine-diagram' tenant.id step.routine.id %}"><i class="bi bi-diagram-3"></i></a>
+  {% if step.routine.can_draw_diagram %}
+    <a class="btn btn-outline-primary" target="_blank" href="{% url 'workflows:routine-diagram' tenant.id step.routine.id %}"><i class="bi bi-diagram-3"></i></a>
+  {% else %}
+    <span data-bs-toggle="tooltip" title="{% trans 'To draw a BPM diagram, the routine must have at least two actions.' %}">
+      <button disabled class="btn btn-outline-primary">
+        <i class="bi bi-diagram-3"></i>
+     </button>
+    </span>
+  {% endif %}
 </h1>
 <p>
   {{ step.routine.description|linebreaks }}

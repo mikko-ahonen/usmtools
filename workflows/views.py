@@ -28,7 +28,7 @@ from django.contrib import messages
 from .raci import RACI
 
 from . import forms
-from .models import Service, Routine, Step, Profile, Activity, Action, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer
+from .models import Service, Routine, Step, Profile, Activity, Action, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer, Task
 from .export import export_as_usm_dif
 from .diagrams import diagram
 
@@ -163,6 +163,14 @@ class GetActionMixin():
             self.action = Action.objects.filter(pk=action_id).select_related('activity').select_related('activity__step').select_related('activity__step__routine').select_related('activity__step__routine__service').first()
         return self.action
 
+
+class GetTaskMixin():
+    _task = None
+
+    def get_task(self, task_id):
+        if self._task is None:
+            self._task = Task.objects.filter(pk=action_id).select_related('actions').first()
+        return self._task
 
 class UpdateModifiedByMixin():
     def form_valid(self, form):
@@ -323,6 +331,12 @@ class ProfileList(TenantMixin, ListView):
     model = Profile
     template_name = 'workflows/profile-list.html'
     context_object_name = 'profiles'
+
+
+class ProfileDetail(TenantMixin, DetailView):
+    model = Profile
+    template_name = 'workflows/profile-detail.html'
+    context_object_name = 'profile'
 
 
 class ProfileUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
@@ -826,6 +840,65 @@ class StepUnskip(TenantMixin, GetStepMixin, View):
         return HttpResponse(
             status=204, headers={"HX-Redirect": url}
         )
+
+
+#######################################################################################################################
+#
+# TASK
+#
+class TaskCreate(TenantMixin, GetActivityMixin, CreateView):
+    model = Task
+    template_name = 'workflows/modals/create-or-update.html'
+    context_object_name = 'task'
+    form_class = forms.TaskCreateOrUpdate
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        activity_id = self.kwargs.get('pk')
+        activity = self.get_activity(activity_id)
+        context['activity'] = activity
+        return context
+
+    def form_valid(self, form):
+        tenant = self.get_tenant()
+        activity_id = self.kwargs.get('pk')
+        activity = self.get_activity(activity_id)
+        self.object = form.save(commit=False)
+        self.object.tenant = tenant
+        self.object.created_by = self.request.user
+        self.object.modified_by = self.request.user
+        self.object.activity = activity
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url()) 
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        new_task = self.object
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': new_task.activity.step_id}) + '#activity-' + str(new_task.activity_id)
+
+class TaskUpdate(TenantMixin, GetTaskMixin, UpdateView, UpdateModifiedByMixin):
+    model = Task
+    template_name = 'workflows/modals/create-or-update.html'
+    form_class = forms.TaskCreateOrUpdate
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        task_id = self.kwargs.get('pk')
+        task = self.get_task(task_id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': task.activity.step_id}) + '#activity-' + str(task.activity.id)
+
+class TaskDelete(TenantMixin, GetTaskMixin, DeleteView):
+    model = Task
+    template_name = 'workflows/modals/delete.html'
+    context_object_name = 'task'
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        task_id = self.kwargs.get('pk')
+        task = self.get_task(activity_id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.step_id)
+
 
 
 #######################################################################################################################
