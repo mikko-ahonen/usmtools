@@ -3,7 +3,6 @@
 {% load breadcrumbs %}
 {% block content %}
 <div class="container-fluid m-3">
-<h3>{% trans 'Tenants' %}</h3>
 {% for tenant in tenants %}
   {% include 'workflows/fragments/tenant.html' with tenant=tenant user=user only %}
 {% empty %}

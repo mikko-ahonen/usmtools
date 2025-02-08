@@ -295,10 +295,9 @@ class RoutineUpdate(ModelForm):
 
     class Meta:
         model = Routine
-        fields = ['name', 'description', 'tags']
+        fields = ['name', 'description']
         widgets = {
             'description': Textarea(attrs={'rows': 4}),
-            #'tags': TaggitSelect2("/foobar"),
         }
 
     def __init__(self, *args, **kwargs):
@@ -316,19 +315,16 @@ class RoutineCreate(ModelForm):
 
     class Meta:
         model = Routine
-        fields = ['name', 'description', 'tags']
+        fields = ['name', 'description', 'template']
         widgets = {
             'description': Textarea(attrs={'rows': 4}),
-            #'tags': TaggitSelect2("/foobar"),
         }
 
     def __init__(self, *args, **kwargs):
         tenant_id = kwargs.pop('tenant_id')
-        #self.__class__.Meta.widgets['tags'] = autocomplete.TaggitSelect2(reverse('workflows:tag-autocomplete', kwargs={"tenant_id": tenant_id}))
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 class ServiceShare(ModelForm):
     workflow = ModelChoiceField(

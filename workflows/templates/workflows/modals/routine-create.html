@@ -13,6 +13,7 @@
 
 <form method="POST" action="{{request.path}}">
 {% crispy form %}
+{% component 'routine_tags' object %}{% endcomponent %}
 <button class="btn btn-outline-primary" type="submit">{% trans 'Save' %}</button>
 </form>
 {% endblock %}

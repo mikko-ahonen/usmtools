@@ -1,9 +1,9 @@
-<p>
-  <a href="{% url 'workflows:service-list' tenant.id %}">{{ tenant.name }}</a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:tenant-update' tenant.id %}" href="{% url 'workflows:tenant-update' tenant.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:tenant-delete' tenant.id %}" href="{% url 'workflows:tenant-delete' tenant.id %}"><i class="bi bi-trash3"></i></a>   <a class="btn btn-outline-primary" href="{% url 'workflows:tenant-export' tenant.id %}" download="{{ tenant.name }}.usm.json"><i class="bi bi-download"></i></a>
-  <a class="btn btn-outline-primary" href="{% url 'workflows:tenant-export' tenant.id %}"><i class="bi bi-filetype-html"></i></a><br/>
+  <h3>
+    <a href="{% url 'workflows:service-list' tenant.id %}">{{ tenant.name }}</a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:tenant-update' tenant.id %}" href="{% url 'workflows:tenant-update' tenant.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:tenant-delete' tenant.id %}" href="{% url 'workflows:tenant-delete' tenant.id %}"><i class="bi bi-trash3"></i></a>   <a class="btn btn-outline-primary" href="{% url 'workflows:tenant-export' tenant.id %}" download="{{ tenant.name }}.usm.json"><i class="bi bi-download"></i></a>
+    <a class="btn btn-outline-primary" href="{% url 'workflows:tenant-export' tenant.id %}"><i class="bi bi-filetype-html"></i></a><br/>
+  </h3>
   {% if tenant.owner != user %}
   <span class="text-small text-muted">
     {{ tenant.owner }}
   </span><br/>
   {% endif %}
-</p>
