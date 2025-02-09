@@ -10,20 +10,22 @@
       selected_index: -1,
       highlighted_index: -1,
       setSelected(elem) {
-        console.log('select');
+        console.log('select', elem);
         this.parent_selected = {
             'id': elem.getAttribute('data-item-id'),
             'name': elem.getAttribute('data-item-name'),
             'type': elem.getAttribute('data-item-type'),
             'index': elem.getAttribute('data-item-index'),
         };
-        this.clear();
+        this.clear(true);
         console.log('/select');
       },
-      clear() {
+      clear(emptySearch) {
         console.log('clear');
         this.open = false;
-        this.search = null;
+        if (emptySearch) {
+            this.search = null;
+        }
         this.selected_id = null;
         this.highlighted_index = -1;
         console.log('/clear');
@@ -50,7 +52,8 @@
       },
       closeResults() {
           console.log('closeResults');
-          this.open = false;
+          //this.open = false;
+          this.clear(false);
           console.log('/closeResults');
       },
       openResults() {
@@ -70,11 +73,23 @@
             });
         }
       },
-      keyboardSelect() {
-        console.log('keyboardSelect');
-        if (this.highlighted_index > 0) {
-            var elem = this.$refs.typeahead_results.children[this.highlighted_index];
-            this.setSelected(elem);
+      keyboardSelect(event) {
+        var index = this.highlighted_index;
+        console.log('keyboardSelect', index);
+        if (index > -1) {
+            event.stopPropagation();
+            event.preventDefault();
+            var results = this.$refs.typeahead_results;
+            console.log('results ', results);
+            if (results.children.length >= index + 1) {
+                console.log('child element exists', results);
+                var elem = results.children[index];
+                console.log('elem', elem);
+                if (elem != null) {
+                    console.log('setSelected', elem);
+                    this.setSelected(elem);
+                }
+            }
         }
         console.log('/keyboardSelect');
       },
@@ -100,26 +115,51 @@
         console.log('/showResults');
       }
     }"
+    {% if new_item %}
+    x-init="$nextTick(() => {
+        parent_selected = {
+            'id': '{{ new_item.id | escapejs }}',
+            'name': '{{ new_item.name | escapejs }}',
+            'type': '{{ target | escapejs }}',
+            'index': -1,
+        }
+    })"
+    {% endif %}
     x-modelable="parent_selected"
     x-model="{{ x_model | escapejs }}">
-    <input
+    <form
+        hx-post="{% url 'components:typeahead-select' tenant_id %}"
+        hx-target="closest .typeahead"
+        hx-swap="outerHTML"
+        hx-trigger="submit,search">
+      <input type="hidden" name="x_model" value="{{ x_model | escapejs }}"/>
+      <input type="hidden" name="t" value="{{ target | escapejs }}"/>
+      <input type="hidden" name="placeholder" value="{{ placeholder | default:'' | escapejs }}"/>
+      <input type="hidden" name="new_item_value" :value="search"/>
+      {% comment %}
+      {% endcomment %}
+      <input
         class="search form-control form-control-sm"
-        hx-post="{% url 'components:typeahead-search' %}"
+        hx-post="{% url 'components:typeahead-search' tenant_id %}"
         hx-trigger="keyup changed delay:500ms"
-        hx-target="#typeahead_results_container_{{ component_id }}"
-        hx-vals='{"t": "{{ target | escapejs }}"}'
+        hx-target="next .typeahead_results_container"
+        hx-swap="innerHTML"
+        hx-vals='{"timeline_id": "{{ timeline_id | escapejs }}", "t": "{{ target | escapejs }}"}'
         type="search"
         name="q"
         x-model="search"
-        x-on:keydown.arrow-down.stop.prevent="highlightNext()"
-        x-on:keydown.escape.stop.prevent="closeResults()"
-        x-on:keydown.enter.stop.prevent="keyboardSelect()"
-        x-on:keydown.arrow-up.stop.prevent="highlightPrevious()"
+        x-on:keydown.enter="keyboardSelect($event)"
+        x-on:keydown.arrow-down.stop.prevent="highlightNext($event)"
+        x-on:keydown.escape.stop.prevent="closeResults($event)"
+        x-on:keydown.arrow-up.stop.prevent="highlightPrevious($event)"
+        autofocus
         autocomplete="off"
         placeholder="{{ placeholder | default:'' | escapejs }}">
-        <div id="typeahead_results_container_{{ component_id }}"
-            x-show="open"
-            x-on:htmx:after-settle="showResults()"
-            x-on:click.away="closeResults()">
-        </div>
+      <div 
+        class="typeahead_results_container"
+        x-show="open"
+        x-on:htmx:after-settle="showResults()"
+        x-on:click.away="closeResults()">
+      </div>
+    </form>
 </div>

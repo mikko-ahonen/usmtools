@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load component_tags %}
+<div class="tags mx-3" x-data="{ added_tag: null }" x-init="
+        console.log('added_tag watcher');
+        $watch('added_tag', () => { console.log('added_tag changed', added_tag); $dispatch('add-tag'); });
+     "
+     hx-post="{{ url }}"
+     hx-trigger="add-tag"
+     hx-include="this"
+     hx-target="this"
+     hx-swap="outerHTML">
+
+    <input type="hidden" name="entity_id" value="{{ entity.id }}"/>
+    <input type="hidden" name="added_tag_id" :value="added_tag ? added_tag.id : ''"/>
+    <input type="hidden" name="added_tag_name" :value="added_tag ? added_tag.name : ''"/>
+
+    <div class="d-inline-flex align-items-center flex-wrap">
+      {% for tag in tags %}
+      <div class="btn-group m-1" role="group">
+        <button class="btn btn-primary disabled mx-0">
+          {{ tag }}
+        </button>
+        <button 
+            class="btn btn-primary mx-0"
+            hx-delete="{{ url }}"
+            hx-trigger="click"
+            hx-include="closest .tags"
+            hx-target="closest .tags"
+            hx-vals='{"removed_tag_name": "{{ tag.name }}", "removed_tag_id": "{{ tag.id }}" }'
+            hx-swap="outerHTML">X</button>
+      </div>
+      {% endfor %}
+      <div class="m-1">
+        {% trans 'Add a tag ...' as placeholder %}
+        {% component 'typeahead' x-model="added_tag" target=target placeholder=placeholder %}
+        {% endcomponent %}
+      </div>
+    </div>
+</div>

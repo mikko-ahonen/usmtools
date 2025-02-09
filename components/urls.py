@@ -5,6 +5,8 @@ from django.views.generic.base import RedirectView
 from components.tags.routine_tags import RoutineTags
 from components.board.board import Board
 from components.board.board_list import BoardList
+from components.typeahead.typeahead import Typeahead
+from components.typeahead.typeahead_results import TypeaheadResults
 
 app_name = "components"
 
@@ -14,4 +16,6 @@ urlpatterns = [
     path('<uuid:tenant_id>/components/board/<str:board_type>/<uuid:board_id>/<str:op>/', Board.as_view(), name='board'),
     path('<uuid:tenant_id>/components/board/<str:board_type>/<uuid:board_id>/<str:op>/<uuid:team_id>/', Board.as_view(), name='board-team'),
     path('<uuid:tenant_id>/components/tags/routine-tags/', RoutineTags.as_view(), name='routine-tags'),
+    path("<uuid:tenant_id>/typeahead/select/", Typeahead.as_view(), name='typeahead-select'),
+    path("<uuid:tenant_id>/typeahead/search/", TypeaheadResults.as_view(), name='typeahead-search'),
 ]
