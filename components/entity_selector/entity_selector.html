@@ -1,0 +1,53 @@
+{% load i18n %}
+{% load component_tags %}
+
+<div class="entity_selector"
+    x-data="{
+        selected: null
+    }"
+    x-init="
+        console.log('selected watcher');
+        $watch('selected', () => { console.log('selected changed', selected); $dispatch('selected-trigger'); });
+    {% if initial_value and initial_value.id %} 
+        $nextTick(() => {
+            selected = {
+                'id': '{{ initial_value.id | escapejs }}',
+                'name': '{{ initial_value.name | escapejs }}',
+                'type': '{{ target | escapejs }}',
+                'index': -1,
+            }   
+        })
+    {% endif %}
+    "
+    hx-post="{{ url }}"
+    hx-trigger="selected-trigger"
+    hx-include="this"
+    hx-target="this"
+    hx-swap="outerHTML">
+
+    <input type="hidden" name="entity_id" value="{{ entity.id }}"/>
+    <input type="hidden" name="value_id" :value="selected ? selected.id : ''"/>
+    <input type="hidden" name="value_name" :value="selected ? selected.name : ''"/>
+
+    <div x-cloak class="d-inline-flex align-items-center flex-wrap">
+      <div class="btn-group m-1" role="group" x-show="selected && selected.id != null && selected.id != ''">
+        <button class="btn btn-primary disabled mx-0" x-text="selected ? selected.name : ''">
+          {{ selected.name }}
+        </button>
+        <button 
+            class="btn btn-primary mx-0"
+            hx-delete="{{ url }}"
+            hx-trigger="click"
+            hx-include="closest .entity_selector"
+            hx-target="closest .entity_selector"
+            hx-vals='{"removed_value_name": "{{ selected.name | escapejs }}", "removed_value_id": "{{ selected.id | escapejs }}" }'
+            hx-swap="outerHTML">X</button>
+      </div>
+      <div class="m-1" x-show="!selected || selected.id == null || selected.id == ''">
+        {% component 'typeahead' x-model="selected" target=target placeholder=search_placeholder %}
+        {% endcomponent %}
+      </div>
+    {% comment %}
+    {% endcomment %}
+    </div>
+</div>

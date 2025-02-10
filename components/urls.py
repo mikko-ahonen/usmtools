@@ -7,6 +7,8 @@ from components.board.board import Board
 from components.board.board_list import BoardList
 from components.typeahead.typeahead import Typeahead
 from components.typeahead.typeahead_results import TypeaheadResults
+from components.entity_selector.action_profile_selector import ActionProfileSelector
+from components.entity_selector.action_org_unit_selector import ActionOrgUnitSelector
 
 app_name = "components"
 
@@ -18,4 +20,6 @@ urlpatterns = [
     path('<uuid:tenant_id>/components/tags/routine-tags/', RoutineTags.as_view(), name='routine-tags'),
     path("<uuid:tenant_id>/typeahead/select/", Typeahead.as_view(), name='typeahead-select'),
     path("<uuid:tenant_id>/typeahead/search/", TypeaheadResults.as_view(), name='typeahead-search'),
+    path("<uuid:tenant_id>/components/actions/profiles/select", ActionProfileSelector.as_view(), name='action-select-profile'),
+    path("<uuid:tenant_id>/components/actions/organization-units/select", ActionOrgUnitSelector.as_view(), name='action-select-org-unit'),
 ]

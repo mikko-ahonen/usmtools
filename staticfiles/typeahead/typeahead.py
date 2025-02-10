@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 from taggit.models import Tag
 from workflows.tenant import current_tenant_id
+from workflows.models import OrganizationUnit, Profile
 
 @component.register("typeahead")
 class Typeahead(component.Component):
@@ -45,6 +46,10 @@ class Typeahead(component.Component):
         logger.error(f"target {target}")
         if target == "t":
             new_item, created = Tag.objects.get_or_create(name=new_item_value)
+        elif target == "p":
+            new_item, created = Profile.objects.get_or_create(name=new_item_value)
+        elif target == "o":
+            new_item, created = OganizationUnit.objects.get_or_create(name=new_item_value)
         else:
             raise ValueError(f"Invalid typeahead type: {target}")
 

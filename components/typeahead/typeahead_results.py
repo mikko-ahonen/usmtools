@@ -3,11 +3,10 @@ import uuid
 from django_components import component
 from workflows.tenant import current_tenant_id
 
-from workflows.search import search_routines
+from workflows.search import search_routines, search_profiles, search_organization_units
 
 from django.db.models import Q
 from taggit.models import Tag
-from workflows.search import search_routines
 
 def is_valid_uuid(s):
     try:
@@ -28,6 +27,10 @@ class TypeaheadResults(component.Component):
         else:
             if t == "r":
                 results = [{'id': r.id, 'name': str(r), 'type': 'r'} for r in search_routines(q)]
+            elif t == "o":
+                results = [{'id': r.id, 'name': str(r), 'type': 'o'} for r in search_organization_units(q)]
+            elif t == "p":
+                results = [{'id': r.id, 'name': str(r), 'type': 'r'} for r in search_profiles(q)]
             elif t == "t":
                 results = [{'id': r.id, 'name': r.name, 'type': 't'} for r in Tag.objects.filter(name__startswith=q)]
                 print(results)

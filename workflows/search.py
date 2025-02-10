@@ -2,7 +2,7 @@ import re
 from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank, TrigramSimilarity
 from django.db.models import Case, When, Value, Q, F, CharField
 from django.db.models.functions import Collate
-from .models import Routine
+from .models import Routine, Profile, OrganizationUnit
 
 TSQUERY_PATTERN = re.compile(r'\s+')
 
@@ -16,7 +16,7 @@ def tsquery(query):
     tsquery += ":*"
     return SearchQuery(tsquery, search_type="raw")
 
-def search_routines(search, similarity_threshold=0.38, rank_threshold=0.05, limit_routine_ids=None):
+def search_by_name(cls, search, similarity_threshold=0.38, rank_threshold=0.05, limit_routine_ids=None):
     if search is not None:
         search_query = tsquery(search)
         if search_query:
@@ -25,8 +25,8 @@ def search_routines(search, similarity_threshold=0.38, rank_threshold=0.05, limi
             q_match_name = Q(name__istartswith=search)
 
             q = Q(search=search_query) | Q(match_name=1)
-            qs = (Routine
-                    .objects
+            qs = (cls
+                    .unscoped
                     .annotate(name_similarity=TrigramSimilarity('name', search))
                     .annotate(search=search_vector, rank=SearchRank(search_vector, search_query))
                     .annotate(match_name=Case(
@@ -40,4 +40,13 @@ def search_routines(search, similarity_threshold=0.38, rank_threshold=0.05, limi
             if limit_routine_ids:
                 qs = qs.filter(id__in=limit_routine_ids)
             return qs[0:10]
-    return Routine.objects.none()
+    return cls.objects.none()
+
+def search_routines(search, similarity_threshold=0.38, rank_threshold=0.05):
+    return search_by_name(Routine, search, similarity_threshold=similarity_threshold, rank_threshold=rank_threshold)
+
+def search_organization_units(search, similarity_threshold=0.38, rank_threshold=0.05):
+    return search_by_name(OrganizationUnit, search, similarity_threshold=similarity_threshold, rank_threshold=rank_threshold)
+
+def search_profiles(search, similarity_threshold=0.38, rank_threshold=0.05):
+    return search_by_name(Profile, search, similarity_threshold=similarity_threshold, rank_threshold=rank_threshold)

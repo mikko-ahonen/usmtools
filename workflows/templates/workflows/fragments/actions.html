@@ -3,30 +3,30 @@
 {% load checkbox_value %}
 
 {% if actions.count > 0 %}
-<table style="width: 100%; overflow-wrap: break-word;">
+<table class="table" style="width: 100%; overflow-wrap: break-word;">
   <thead>
     <tr>
       <th width="3%">
       </th>
-      <th width="50%">
+      <th width="20%">
         <strong>{% trans 'Action' %}</strong>
       </th>
-      <th width="30%">
-        <strong>{% trans 'Who' %}</strong>
+      <th width="15%">
+        <strong>{% trans 'Profile' %}</strong>
+      </th>
+      <th width="15%">
+        <strong>{% trans 'Organization' %}</strong>
       </th>
       <th>
-        <center><strong>R</strong></center>
       </th>
       <th>
-        <center><strong>A</strong></center>
       </th>
       <th>
-        <center><strong>C</strong></center>
       </th>
       <th>
-        <center><strong>I</strong></center>
       </th>
-      <th width="13%"/>
+      <th width="13%">
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -39,13 +39,19 @@
         {{ action.title|default:'' }}
       </td>
       <td>
-        {{ action.profile|default:'' }}
-        {% if action.profile and action.organization_unit %} / {% endif %}
-        {{ action.organization_unit|default:'' }}
+        {% component 'action_profile_selector' entity=action %}
+        {% endcomponent %}
+      </td>
+      <td>
+        {% component 'action_org_unit_selector' entity=action %}
+        {% endcomponent %}
       </td>
       {% for rtype in 'RACI' %}
-      <td>
-        <center><input class="responsibility-checkbox form-check" type="checkbox" data-rtype="{{ rtype }}" data-action="{{ action.id }}" {{ action|has_responsibility_type:rtype|checkbox_value }}/></center>
+      <td class="align-middle">
+          <div class="form-check form-switch">
+            <input id="{{ action.id }}-{{ rtype }}" type="checkbox" class="responsibility-checkbox form-check-input fs-4" role="switch" data-rtype="{{ rtype }}" data-action="{{ action.id }}" {{ action|has_responsibility_type:rtype|checkbox_value }}/>
+            <label class="form-check-label" for="{{ action.id }}-{{ rtype }}">{{ rtype }}</label>
+          </div>
       </td>
       {% endfor %}
       <td>

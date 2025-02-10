@@ -1116,6 +1116,20 @@ class ActionRemoveResponsibilities(TenantMixin, GetActionMixin, View):
         action.save()
         return JsonResponse({'status': 'ok', 'types': action.types})
 
+class ActionUp(TenantMixin, GetActionMixin, View):
+    def get(self, request, tenant_id=None, pk=None, types=''):
+        action = self.get_action(pk)
+        action.up()
+        tenant_id = self.kwargs.get('tenant_id')
+        return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity_id))
+
+class ActionDown(TenantMixin, GetProfileMixin, View):
+    def get(self, request, tenant_id=None, pk=None, types=''):
+        action = self.get_action(pk)
+        action.up()
+        tenant_id = self.kwargs.get('tenant_id')
+        return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity_id))
+
 #######################################################################################################################
 #
 # WORK INSTRUCTION
