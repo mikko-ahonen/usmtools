@@ -1,9 +1,9 @@
 {% load i18n %}
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link {% if '/trainings/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'mir:training-list' tenant.id %}">{% trans 'Trainings' %}</a>
+    <a class="nav-link {% if request.resolver_match.view_name == 'mir:training-list' %}active{% endif %}" href="{% url 'mir:training-list' tenant.id %}">{% trans 'Trainings' %}</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link {% if '/employees/' in request.path %} %}active" aria-current="page"{% else %}"{% endif %} href="{% url 'mir:employee-list' tenant.id %}">{% trans 'Employees' %}</a>
+    <a class="nav-link {% if request.resolver_match.view_name == 'mir:employee-list' %}active{% endif %}" href="{% url 'mir:employee-list' tenant.id %}">{% trans 'Employees' %}</a>
   </li>
 </ul>

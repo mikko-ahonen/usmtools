@@ -31,7 +31,7 @@
             </li>
             <li class="nav-item px-2">
               <h5>
-                <a class="nav-link  {% if request.resolver_match.app_name == 'mir' %}active{% endif %}" href="{% url 'mir:entity-list' tenant.id %}">
+                <a class="nav-link  {% if request.resolver_match.app_name == 'mir' %}active{% endif %}" href="{% url 'mir:training-list' tenant.id %}">
                   <i class="bi bi-diagram-3"></i>
                   &nbsp;&nbsp;{% trans 'Infrastructure' %}
                 </a>
