@@ -3,8 +3,7 @@
 {% load breadcrumbs %}
 {% load dict_key %}
 {% block content %}
-<section class="app">
-<div class="container-fluid">
+<div class="container-fluid m-5">
 {% breadcrumbs tenant True 'compliances' %}
 <h1>{% trans 'Projects' %}</h1>
   {% for project in projects %}
@@ -32,6 +31,5 @@
     <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'projects:project-create' tenant.id %}" href="{% url 'projects:project-create' tenant.id %}">{% trans 'Create a new project' %}</a>
   </p>
 </div>
-</section>
 {% include 'projects/fragments/modal.html' %}
 {% endblock %}

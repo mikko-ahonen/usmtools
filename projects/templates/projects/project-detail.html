@@ -3,8 +3,7 @@
 {% load breadcrumbs %}
 {% load dict_key %}
 {% block content %}
-<section class="app">
-<div class="container-fluid">
+<div class="container-fluid m-5">
 {% breadcrumbs tenant True 'compliances' %}
 <h1>{% trans 'Project' %} {{ project.name }}</h1>
 
@@ -20,6 +19,5 @@
   {% endif %}
 {% endfor %}
 </div>
-</section>
 {% include 'projects/fragments/modal.html' %}
 {% endblock %}

@@ -11,7 +11,7 @@ from taggit.models import Tag
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.utils.safestring import mark_safe
 from django.views import View
 from django.shortcuts import render
@@ -813,7 +813,10 @@ class StepDetail(TenantMixin, DetailView):
 
     def get_queryset(self, **kwargs):
         qs = super().get_queryset()
-        qs = qs.select_related('routine').prefetch_related('activities').prefetch_related('activities__actions').prefetch_related('activities__actions__work_instructions')
+        activities_prefetch = Prefetch('activities', queryset=Activity.objects.order_by('index'))
+        actions_prefetch = Prefetch('activities__actions', queryset=Action.objects.order_by('index'))
+        qs = qs.select_related('routine').prefetch_related(activities_prefetch).prefetch_related(actions_prefetch).prefetch_related('activities__actions__work_instructions')
+
         return qs
 
 
@@ -966,6 +969,7 @@ class ActivityDelete(TenantMixin, GetActivityMixin, DeleteView):
 class ActivityUp(TenantMixin, GetActivityMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         activity = self.get_activity(pk)
+        breakpoint()
         activity.up()
         tenant_id = self.kwargs.get('tenant_id')
         return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.step_id))
@@ -1123,10 +1127,10 @@ class ActionUp(TenantMixin, GetActionMixin, View):
         tenant_id = self.kwargs.get('tenant_id')
         return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity_id))
 
-class ActionDown(TenantMixin, GetProfileMixin, View):
+class ActionDown(TenantMixin, GetActionMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         action = self.get_action(pk)
-        action.up()
+        action.down()
         tenant_id = self.kwargs.get('tenant_id')
         return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity_id))
 

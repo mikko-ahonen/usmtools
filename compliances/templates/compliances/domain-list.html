@@ -4,7 +4,7 @@
 {% load breadcrumbs %}
 {% block content %}
 <section class="app">
-<div class="container">
+<div class="container-fluid m-5">
 <h3>{% trans 'Compliance domains' %}</h3>
   {% for domain in domains %}
   <h3 class="mb-0"><a href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}">{{ domain.name }}</a></h3>

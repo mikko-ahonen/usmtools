@@ -31,7 +31,7 @@
     <label class="form-label" for="id_title">
       {% trans 'Title' %}
     </label>
-    <input class="textinput form-control" id="id_title" maxlength="255" name="title" type="text" value="{{ form.title.value }}">
+    <input class="textinput form-control" id="id_title" maxlength="255" name="title" type="text" value="{{ form.title.value|default:'' }}">
   </div>
 
   <div class="mb-3" id="div_id_description">
@@ -39,7 +39,7 @@
       {% trans 'Description' %}
     </label>
     <textarea class="textarea form-control" cols="40" id="id_description" name="description" rows="4">
-    {{ form.description.value }}
+    {{ form.description.value|default:'' }}
     </textarea>
   </div>
 

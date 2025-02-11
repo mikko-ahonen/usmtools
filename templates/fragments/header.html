@@ -24,14 +24,14 @@
             {% if tenant %}
             <li class="nav-item px-2">
               <h5>
-                <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:service-list' tenant.id %}">
+                <a class="nav-link text-left  {% if request.resolver_match.app_name == 'workflows' %}active{% endif %}" aria-current="page" href="{% url 'workflows:service-list' tenant.id %}">
                   <i class="bi bi-gear"></i>&nbsp;&nbsp;{% trans 'Services' %}
                 </a>
               </h5>
             </li>
             <li class="nav-item px-2">
               <h5>
-                <a class="nav-link" href="{% url 'mir:entity-list' tenant.id %}">
+                <a class="nav-link  {% if request.resolver_match.app_name == 'mir' %}active{% endif %}" href="{% url 'mir:entity-list' tenant.id %}">
                   <i class="bi bi-diagram-3"></i>
                   &nbsp;&nbsp;{% trans 'Infrastructure' %}
                 </a>
@@ -39,7 +39,7 @@
             </li>
             <li class="nav-item px-2">
               <h5>
-                <a class="nav-link" href="{% url 'compliances:domain-list' tenant.id %}">
+                <a class="nav-link {% if request.resolver_match.app_name == 'compliances' or request.resolver_match.app_name == 'projects' %}active{% endif %}" href="{% url 'compliances:domain-list' tenant.id %}">
                   <i class="bi bi-ui-checks"></i>
                   &nbsp;&nbsp;{% trans 'Compliance' %}
                 </a>

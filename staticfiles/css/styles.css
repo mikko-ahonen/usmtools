@@ -12440,15 +12440,16 @@ nav {
 
 }
 */
+/*
 .navbar-custom a.dropdown-toggle, a:focus.dropdown-toggle, a:hover.dropdown-toggle {
-  color: #fefefe;
-  text-decoration: none;
+    color: #fefefe;
+    text-decoration: none;
 }
 
 .navbar-custom .navbar-nav .nav-link {
-  color: #fefefe;
+    color: #fefefe;
 }
-
+*/
 /* Extra spacing before first h3 */
 h3:not(:first-of-type), .h3:not(:first-of-type) {
   padding-top: 50px;

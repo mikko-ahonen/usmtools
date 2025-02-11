@@ -5,8 +5,7 @@
 {% load component_tags %}
 {% load crispy_forms_tags %}
 {% block content %}
-<section class="app">
-<div class="container-fluid">
+<div class="container-fluid m-5">
 
 {% include 'compliances/fragments/compliances-tabs.html' %}
 
@@ -24,7 +23,6 @@
 {% endcomponent %}
 
 </div>
-</section>
 {% component 'modal' %}
 {% endcomponent 'modal' %}
 {% if open_story_id %}
