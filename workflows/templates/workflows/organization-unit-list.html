@@ -4,51 +4,27 @@
 {% block content %}
 <div class="container-fluid m-5">
 {% include 'workflows/fragments/service-tabs.html' %}
-<h3 class="mt-3">{% trans 'Your organizations:' %}</h3>
-{% for ou in organization_units %}
-  {% include 'workflows/fragments/organization-unit.html' with tenant=tenant organization_unit=ou level=0 only %}
+<h3 class="mt-3">{% trans 'Oganizations' %}</h3>
+{% for organization_unit in organization_units %}
+<div class="col-3" style="mid-width: 18rem">
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    {{ organization_unit.name }}
+  </div>
+  <div class="card-footer bg-primary-subtle">
+    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-detail' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-detail' tenant.id organization_unit.id %}">{% trans 'Chart'  %}</a>
+    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}">{% trans 'Edit'  %}</a>
+    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}">{% trans 'Delete' %}</i></a>
+  </div>
+</div>
 {% empty %}
   <p>
   {% trans 'You have not defined any organizations yet.' %}
   </p>
 {% endfor %}
 
-{% comment %}
-<div id="#chartContainerId"></div>
-<script>
-var options = {
-  'id': 'rootNode', // It's a optional property which will be used as id attribute of node
-  // and data-parent attribute, which contains the id of the parent node
-  'collapsed': true, // By default, the children nodes of current node is hidden.
-  'className': 'top-level', // It's a optional property
-  // which will be used as className attribute of node.
-  'nodeTitle': 'name', // This property is used to retrieve “title” value in datasource
-  'nodeContent': 'title',// This property is used to retrieve "content" value in datasource
-  'relationship': relationshipValue, // Note: when you activate ondemand loading nodes feature,
-  // you should use json datsource (local or remote) and set this property.
-  // This property implies that whether this node has parent, siblings, children.
-  // relationshipValue is a string composed of three "0/1" identifier.
-  // First character stands for wether current node has parent node;
-  // Scond character stands for wether current node has siblings nodes;
-  // Third character stands for wether current node has children node.
-  'children': [ // The property stands for nested nodes.
-    { 'name': 'Bo Miao', 'title': 'department manager', 'relationship': '110' },
-    { 'name': 'Su Miao', 'title': 'department manager', 'relationship': '111',
-      'children': [
-        { 'name': 'Tie Hua', 'title': 'senior engineer', 'relationship': '110' },
-        { 'name': 'Hei Hei', 'title': 'senior engineer', 'relationship': '110' }
-      ]
-    },
-    { 'name': 'Yu Jie', 'title': 'department manager', 'relationship': '110' }
-  ],
-  'otherPro': anyValue // feel free to append any useful properties
-};
-var oc = $('#chartContainerId').orgchart(options);
-</script>
-{% endcomment %}
-
-<p>
-  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-create' tenant.id %}" href="{% url 'workflows:organization-unit-create' tenant.id %}">{% trans 'Create a new organization unit' %}</a>
+<p class="mt-3">
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-create' tenant.id %}" href="{% url 'workflows:organization-unit-create' tenant.id %}">{% trans 'Create a new organization' %}</a>
 </p>
 </div>
 {% include 'workflows/fragments/modal.html' %}

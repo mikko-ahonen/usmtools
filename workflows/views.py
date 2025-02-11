@@ -266,6 +266,12 @@ class OrganizationUnitList(TenantMixin, ListView):
         return qs
 
 
+class OrganizationUnitDetail(TenantMixin, DetailView):
+    model = OrganizationUnit
+    template_name = 'workflows/organization-unit-detail.html'
+    context_object_name = 'organization_unit'
+
+
 class OrganizationUnitUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     model = OrganizationUnit
     template_name = 'workflows/modals/organization-unit-create-or-update.html'

@@ -1,17 +1,20 @@
 {% load i18n %}
 {% load component_tags %}
 <h3>{% trans 'Routines' %}</h3>
-{% for routine in routines %}
-  <div class="card my-3">
-    <div class="card-header">
-      <a class="fs-2 mx-1" href="{% url 'workflows:routine-detail' tenant.id routine.id %}">{{ routine.name }}</a>
 
-      {% component 'routine_tags' entity=routine %}{% endcomponent %}
+<div class="row">
+{% for routine in routines %}
+<div class="col-3" style="min-width: 18rem">
+  <div class="card my-3">
+    <div class="card-header bg-primary">
+      <a class="fs-2 mx-1 text-white" href="{% url 'workflows:routine-detail' tenant.id routine.id %}">{{ routine.name }}</a>
     </div>
-    <div class="card-body">
-      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:routine-delete' tenant.id routine.id %}" href="{% url 'workflows:routine-delete' tenant.id routine.id %}">{% trans 'Delete' %}</a>
+    <div class="card-body bg-primary-subtle d-flex-row">
+      {% component 'routine_tags' entity=routine %}{% endcomponent %}
+      <a class="btn btn-outline-primary open-popup m-2" data-popup-url="{% url 'workflows:routine-delete' tenant.id routine.id %}" href="{% url 'workflows:routine-delete' tenant.id routine.id %}">{% trans 'Delete' %}</a>
     </div>
   </div>
+</div>
 {% empty %}
   <p>
     {% trans 'No routines.' %}

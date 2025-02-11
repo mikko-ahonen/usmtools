@@ -17,6 +17,7 @@ urlpatterns = [
     path('<uuid:pk>/delete/', views.TenantDelete.as_view(), name='tenant-delete'),
     path('<uuid:tenant_id>/export/', views.TenantExport.as_view(), name='tenant-export'),
     path('<uuid:tenant_id>/organization-units/', views.OrganizationUnitList.as_view(), name='organization-unit-list'),
+    path('<uuid:tenant_id>/organization-units/<uuid:pk>/', views.OrganizationUnitDetail.as_view(), name='organization-unit-detail'),
     path('<uuid:tenant_id>/organization-units/create/', views.OrganizationUnitCreate.as_view(), name='organization-unit-create'),
     path('<uuid:tenant_id>/organization-units/<uuid:pk>/delete/', views.OrganizationUnitDelete.as_view(), name='organization-unit-delete'),
     path('<uuid:tenant_id>/organization-units/<uuid:pk>/update/', views.OrganizationUnitUpdate.as_view(), name='organization-unit-update'),
