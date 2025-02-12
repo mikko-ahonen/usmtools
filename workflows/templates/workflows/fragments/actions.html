@@ -50,7 +50,7 @@
     </div>
     {% endfor %}
   </div>
-  <div class="col-2 align-self-center">
+  <div class="col-2 d-inline-flex align-items-center">
     <a class="btn btn-sm btn-outline-primary open-popup" data-popup-url="{% url 'workflows:action-update' tenant.id action.id %}" href="{% url 'workflows:action-update' tenant.id action.id %}"><i class="bi bi-pencil"></i></a>
     <a class="btn btn-sm btn-outline-primary open-popup" href="{% url 'workflows:action-delete' tenant.id action.id %}" data-popup-url="{% url 'workflows:action-delete' tenant.id action.id %}"><i class="bi bi-trash3"></i></a>
     {% with wi=action.work_instructions.first %}
