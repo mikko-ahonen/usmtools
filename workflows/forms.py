@@ -148,9 +148,25 @@ class OrganizationUnitCreateOrUpdate(ModelForm):
     #    return parent
 
     def __init__(self, *args, **kwargs):
+        # if parent is set and None, it means create a root entity. If parent is not set, 
+        # allow choosing the parent.
+        parent_set = False
         user = kwargs.pop('user', None)
+        if 'parent' in kwargs:
+            parent_set = True
+            parent = kwargs.pop('parent', None)
         super().__init__(*args, **kwargs)
-        self.fields['parent'].queryset = OrganizationUnit.objects.all().with_tree_fields()
+
+        if parent_set:
+            field = self.fields['parent']
+            field.widget = field.hidden_widget()
+            # if parent is None, we create a new root entity.
+            if parent:
+                field.queryset = OrganizationUnit.objects.filter(id=parent.id)
+            self.initial['parent'] = parent
+        else:
+            self.fields['parent'].queryset = OrganizationUnit.objects.all().with_tree_fields()
+
         self.helper = FormHelper()
         self.helper.form_tag = False
         #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))

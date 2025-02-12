@@ -19,6 +19,7 @@ urlpatterns = [
     path('<uuid:tenant_id>/organization-units/', views.OrganizationUnitList.as_view(), name='organization-unit-list'),
     path('<uuid:tenant_id>/organization-units/<uuid:pk>/', views.OrganizationUnitDetail.as_view(), name='organization-unit-detail'),
     path('<uuid:tenant_id>/organization-units/create/', views.OrganizationUnitCreate.as_view(), name='organization-unit-create'),
+    path('<uuid:tenant_id>/organization-units/<uuid:pk>/create/', views.OrganizationUnitCreate.as_view(), name='organization-unit-create-child'),
     path('<uuid:tenant_id>/organization-units/<uuid:pk>/delete/', views.OrganizationUnitDelete.as_view(), name='organization-unit-delete'),
     path('<uuid:tenant_id>/organization-units/<uuid:pk>/update/', views.OrganizationUnitUpdate.as_view(), name='organization-unit-update'),
     #path('<uuid:tenant_id>/shares/', views.ShareList.as_view(), name='share-list'),

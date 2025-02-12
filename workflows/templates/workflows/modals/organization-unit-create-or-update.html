@@ -6,10 +6,13 @@
   {% if object %}
     {% trans 'Update organization unit' %} {{ object }}
   {% else %}
-    {% trans 'Create an organization unit' %}
+    {% if parent %}
+      {% trans 'Create a child organization for ' %} {{ parent }}
+    {% else %}
+      {% trans 'Create a new organization' %}
+    {% endif %}
   {% endif %}
 </h3>
-
 
 <form method="POST" action="{{request.path}}">
 {% crispy form %}

@@ -287,10 +287,23 @@ class OrganizationUnitCreate(TenantMixin, CreateView):
     template_name = 'workflows/modals/organization-unit-create-or-update.html'
     context_object_name = 'organization_unit'
     form_class = forms.OrganizationUnitCreateOrUpdate
+    parent = None
+
+    def get_parent(self):
+        if not self.parent:
+            parent_id = self.kwargs.get('pk', None)
+            self.parent = OrganizationUnit.objects.filter(id=parent_id).first()
+        return self.parent
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['parent'] = self.get_parent()
+        return context
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
+        kwargs['parent'] = self.get_parent()
         return kwargs
 
     def form_valid(self, form):
@@ -305,7 +318,6 @@ class OrganizationUnitCreate(TenantMixin, CreateView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         return reverse_lazy('workflows:organization-unit-list', kwargs={'tenant_id': tenant_id})
-
 
 
 

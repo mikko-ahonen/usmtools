@@ -3,6 +3,7 @@
       <span class="">
       {{ organization_unit.name }} 
       </span>
+      <a class="btn btn-sm extra-small-btn btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-create-child' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-create-child' tenant.id organization_unit.id %}"><i class="bi bi-plus"></i></a>
       <a class="btn btn-sm extra-small-btn btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}"><i class="bi bi-pencil"></i></a>
       <a class="btn btn-sm extra-small-btn btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}"><i class="bi bi-trash3"></i></a><br/>
     </span>
