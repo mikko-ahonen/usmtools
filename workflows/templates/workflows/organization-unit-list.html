@@ -10,8 +10,8 @@
 <div class="card mt-3">
   <div class="card-header bg-primary text-white">
     <span class="fs-2">
-    {{ organization_unit.name }}
-    <a class="btn btn-sm extra-small-btn btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-create-child' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-create-child' tenant.id organization_unit.id %}"><i class="bi bi-plus"></i></a>
+      {{ organization_unit.name }}
+      <a class="btn btn-sm extra-small-btn btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-create-child' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-create-child' tenant.id organization_unit.id %}"><i class="bi bi-plus"></i></a>
     </span>
     <ul class="org-unit-hierarchy list-unstyled">
       {% for ou in organization_unit.children.all %}

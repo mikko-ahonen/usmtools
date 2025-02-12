@@ -4,21 +4,23 @@
 
 {% if actions.count > 0 %}
 <div class="row">
-  <div class="col">
+  <div class="col-1">
   </div>
-  <div class="col">
+  <div class="col-3">
     <strong>{% trans 'Action' %}</strong>
   </div>
-  <div class="col">
-    <strong>{% trans 'Profile' %}</strong>
+  <div class="col-3">
+    <strong>{% trans 'Profile' %} / {% trans 'Organization' %}</strong>
   </div>
-  <div class="col">
-    <strong>{% trans 'Organization' %}</strong>
+  <div class="col-3">
+    <strong>{% trans 'Responsibilities' %}</strong>
+  </div>
+  <div class="col-2">
   </div>
 </div>
 {% for action in actions.all %}
 <div class="row">
-  <div class="col-2 align-self-center">
+  <div class="col-1 align-self-center">
     {% if not forloop.first %}
       <a class="mx-1 btn btn-sm btn-outline-primary action-up" href="{% url 'workflows:action-up' tenant.id action.id %}"><i class="bi bi-arrow-up"></i></a>
     {% else %}
@@ -29,19 +31,19 @@
     {% else %}
       <button class="mx-1 btn btn-sm btn-outline-primary" href="#" disabled><i class="bi bi-arrow-down"></i></button>
     {% endif %}
+  </div>
+  <div class="col-3 align-self-center">
     {{ forloop.counter }}.
     {{ action.title|default:'' }}
   </div>
-  <div class="col-2 align-self-center">
+  <div class="col-3 d-inline-flex align-self-center">
     {% component 'action_profile_selector' entity=action %}
     {% endcomponent %}
-  </div>
-  <div class="col-2 align-self-center">
     {% component 'action_org_unit_selector' entity=action %}
     {% endcomponent %}
   </div>
   <div class="col-3 d-inline-flex">
-    {% for rtype in 'RACI' %}
+    {% for rtype in 'RASCI' %}
     <div class="form-check form-switch mx-3 align-items-center justify-content-evenly">
       <input id="{{ action.id }}-{{ rtype }}" type="checkbox" class="responsibility-checkbox form-check-input fs-4 align-self-center" role="switch" data-rtype="{{ rtype }}" data-action="{{ action.id }}" {{ action|has_responsibility_type:rtype|checkbox_value }}/>
       <label class="form-check-label fs-4" for="{{ action.id }}-{{ rtype }}">{{ rtype }}</label>

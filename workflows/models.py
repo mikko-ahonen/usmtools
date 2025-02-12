@@ -336,15 +336,17 @@ class Action(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    RACI_RESPONSIBLE = "R"
-    RACI_ACCOUNTABLE = "A"
-    RACI_CONSULTED = "C"
-    RACI_INFORMED = "I"
-    RACI_CHOICES = [
-        (RACI_RESPONSIBLE, _("Responsible")),
-        (RACI_ACCOUNTABLE, _("Accountable")),
-        (RACI_CONSULTED, _("Consulted")),
-        (RACI_INFORMED, _("Informed")),
+    RASCI_RESPONSIBLE = "R"
+    RASCI_ACCOUNTABLE = "A"
+    RASCI_SUPPORTING = "S"
+    RASCI_CONSULTED = "C"
+    RASCI_INFORMED = "I"
+    RASCI_CHOICES = [
+        (RASCI_RESPONSIBLE, _("Responsible")),
+        (RASCI_ACCOUNTABLE, _("Accountable")),
+        (RASCI_SUPPORTING, _("Supporting")),
+        (RASCI_CONSULTED, _("Consulted")),
+        (RASCI_INFORMED, _("Informed")),
     ]
     types = models.CharField(max_length=4, blank=True, default='')
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
@@ -361,7 +363,7 @@ class Action(TenantAwareOrderedModelBase):
 
     def get_types_display(self):
         retval = []
-        for (k, v) in Action.RACI_CHOICES:
+        for (k, v) in Action.RASCI_CHOICES:
             if k in self.types:
                 retval.append(str(v))
         if len(retval) == 0:

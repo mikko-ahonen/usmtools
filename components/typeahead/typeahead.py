@@ -49,7 +49,7 @@ class Typeahead(component.Component):
         elif target == "p":
             new_item, created = Profile.objects.get_or_create(name=new_item_value)
         elif target == "o":
-            new_item, created = OganizationUnit.objects.get_or_create(name=new_item_value)
+            new_item, created = OrganizationUnit.objects.get_or_create(name=new_item_value)
         else:
             raise ValueError(f"Invalid typeahead type: {target}")
 
