@@ -1,13 +1,3 @@
-<div class="orgchart">
+<div id="orgchart-container">
 </div>
-{{ data|json_script:"data" }}
-<script>
-var data = JSON.parse(document.getElementById('data').textContent);
-
-orgchart = new OrgChart({
-  'chartContainer': '#orgchart',
-  'data' : data,
-  'depth': 4
-});
-
-</script>
+{{ orgchart_data|json_script:"orgchart-data" }}

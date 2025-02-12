@@ -12588,4 +12588,42 @@ button.accordion-button:focus {
   box-shadow: inherit;
 }
 
+.org-unit-hierarchy span {
+  display: block;
+  margin: 0 15px;
+}
+
+.org-unit-hierarchy ul {
+  padding: 0 0 0 1px;
+  margin: 1px 0 0 15px;
+}
+
+.org-unit-hierarchy ul li {
+  border-left: 1px dotted black;
+  position: relative;
+}
+
+.org-unit-hierarchy ul > li {
+  padding-bottom: 10px;
+}
+
+.org-unit-hierarchy ul li:before {
+  content: '';
+  width: 14px;
+  position: absolute;
+  border-bottom: 1px dotted black;
+  left: 0px;
+  top: 10px;
+}
+
+.org-unit-hierarchy ul li:last-child {
+  border-left: none;
+}
+
+.org-unit-hierarchy ul li:last-child:before {
+  border-left: 1px dotted black;
+  height: 10px;
+  margin-top: -10px;
+}
+
 /*# sourceMappingURL=styles.css.map */

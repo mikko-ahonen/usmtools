@@ -1,0 +1,45 @@
+/*
+
+.orgchart .test .title {
+  background-color: #006699;
+}
+
+.orgchart .test .content {
+  border-color: #006699;
+}
+
+#orgchart-container .orgchart .node .edge {
+  font-size: 15px;
+  position: absolute;
+  color: #000000;
+  cursor: default;
+  transition: .2s;
+  -webkit-transition: .2s;
+}
+
+
+#orgchart-container .orgchart tr.lines .topLine {
+  border-top: 2px solid #000000;
+}
+
+#orgchart-container .orgchart tr.lines .rightLine {
+  border-right: 1px #000000;
+  float: none;
+  border-radius: 0;
+}
+
+#orgchart-container .orgchart tr.lines .leftLine {
+  border-left: 1px solid #000000;
+  float: none;
+  border-radius: 0;
+}
+
+#orgchart-container .orgchart tr.lines .downLine {
+  background-color: #000000;
+  margin: 0 auto;
+  height: 20px;
+  width: 2px;
+  float: none;
+}
+
+*/
