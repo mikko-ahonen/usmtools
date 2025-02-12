@@ -9,19 +9,19 @@
 <div class="col-12" style="mid-width: 18rem">
 <div class="card">
   <div class="card-header bg-primary text-white">
-    <div class="org-unit-hierarchy-container">
-    <span class="fs-3">
+    <span class="fs-2">
     {{ organization_unit.name }}
     </span>
-    <ul class="org-unit-hierarchy">
+    <ul class="org-unit-hierarchy list-unstyled">
       {% for ou in organization_unit.children.all %}
         {% include 'workflows/fragments/organization-unit.html' with tenant=tenant organization_unit=ou only %}
       {% endfor %}
     </ul>
-    </div>
   </div>
   <div class="card-footer bg-primary-subtle">
-    <a class="btn btn-outline-primary " href="{% url 'workflows:organization-unit-detail' tenant.id organization_unit.id %}">{% trans 'Chart'  %}</a>
+    {% comment %}
+    <a class="btn btn-outline-primary" href="{% url 'workflows:organization-unit-detail' tenant.id organization_unit.id %}">{% trans 'Chart'  %}</a>
+    {% endcomment %}
     <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}">{% trans 'Edit'  %}</a>
     <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}">{% trans 'Delete' %}</i></a>
   </div>
@@ -33,7 +33,7 @@
 {% endfor %}
 
 <p class="mt-3">
-  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-create' tenant.id %}" href="{% url 'workflows:organization-unit-create' tenant.id %}">{% trans 'Create a new organization' %}</a>
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-create' tenant.id %}" href="{% url 'workflows:organization-unit-create' tenant.id %}">{% trans 'Add a new organization unit' %}</a>
 </p>
 </div>
 {% include 'workflows/fragments/modal.html' %}

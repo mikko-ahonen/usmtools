@@ -1,9 +1,13 @@
 <li>
-  <div class="">
-    {{ organization_unit.name }} <a class="btn btn-sm btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-sm btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}"><i class="bi bi-trash3"></i></a><br/></strong>
-  </div>
+   <span style="padding: 20px;"> 
+      <span class="">
+      {{ organization_unit.name }} 
+      </span>
+      <a class="btn btn-sm extra-small-btn btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-update' tenant.id organization_unit.id %}"><i class="bi bi-pencil"></i></a>
+      <a class="btn btn-sm extra-small-btn btn-outline-light mx-1 open-popup" data-popup-url="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}" href="{% url 'workflows:organization-unit-delete' tenant.id organization_unit.id %}"><i class="bi bi-trash3"></i></a><br/>
+    </span>
 {% if organization_unit.children.count %}
-<ul class="org-unit-hierarchy">
+<ul class="org-unit-hierarchy list-unstyled">
 {% for child_ou in organization_unit.children.all %}
   {% include 'workflows/fragments/organization-unit.html' with tenant=tenant organization_unit=child_ou only %}
 {% endfor %}

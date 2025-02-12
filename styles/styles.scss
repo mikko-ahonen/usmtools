@@ -417,26 +417,28 @@ ul.org-unit-hierarchy > li:last-child {
 
 ul.org-unit-hierarchy {
     padding: 0 0 0 1px;
-    margin: 1px 0 0 16px;    
+    //padding: 0 0 0 20px;
+    margin: 1px 0 0 30px;    
 }
 
 ul.org-unit-hierarchy li {
     border-left: 1px solid white;
-    list-style-type: none;
+    //list-style-type: none;
     position: relative;
 }
 
 ul.org-unit-hierarchy > li  {
-    padding-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 0px;
 }
 
 ul.org-unit-hierarchy li:before {
     content: '';
-    width: 14px;
+    width: 16px;
     position: absolute;
     border-bottom: 1px solid white;
     left: 0px;
-    top: 16px;
+    top: 34px;
 }
 
 ul.org-unit-hierarchy li:last-child {
@@ -445,6 +447,14 @@ ul.org-unit-hierarchy li:last-child {
 
 ul.org-unit-hierarchy li:last-child:before {
    border-left:1px solid white;
-   height: 16px;
-   margin-top:-16px;
+   height: 40px;
+   margin-top:-40px;
 }
+
+/*
+.extra-small-btn {
+    font-size: 10px;
+    padding: 2px 5px;
+    line-height: 1;
+}
+*/
