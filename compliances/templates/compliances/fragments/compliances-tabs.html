@@ -26,6 +26,13 @@
   </li>
   <li class="nav-item">
     {% if domain.project %}
+      <a class="nav-link {% if request.resolver_match.view_name == 'compliances:definition-list' %}active{% endif %}" href="{% url 'compliances:definition-list' tenant.id domain.id %}">{% trans 'References' %}</a>
+    {% else %}
+      <a class="nav-link disabled" href="#">{% trans 'References' %}</a>
+    {% endif %}
+  </li>
+  <li class="nav-item">
+    {% if domain.project %}
       <a class="nav-link {% if request.resolver_match.view_name == 'compliances:domain-audit' %}active{% endif %}" href="{% url 'compliances:domain-audit' tenant.id domain.id %}">{% trans 'Audit' %}</a>
     {% else %}
       <a class="nav-link disabled" href="#">{% trans 'Audit' %}</a>

@@ -5,7 +5,8 @@ import math
 
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, FormView, RedirectView, TemplateView
+from django.views.generic import ListView, DetailView, FormView, RedirectView, TemplateView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils.translation import gettext as _
 from django.conf import settings
 from django.http import HttpResponse, Http404
@@ -16,12 +17,12 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from workflows.models import Tenant
-from workflows.views import TenantMixin
+from workflows.views import TenantMixin, UpdateModifiedByMixin
 from workflows.tenant import current_tenant_id
 
 from projects.models import Project, Release, Epic, Roadmap, Story, Backlog, Sprint, Team
 from boards.models import Board
-from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, DataManagement
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, DataManagement, Definition
 
 from . import forms
 
@@ -479,3 +480,90 @@ def team_category_select(request, tenant_id, team_id, category_id):
         return HttpResponse("OK")
     else:
         raise Http404(f"Invalid method: {request.method}")
+
+
+class GetDomainMixin():
+    domain = None
+
+    def get_domain(self, domain_id):
+        if self.domain is None:
+            self.domain = Domain.objects.get(pk=domain_id)
+        return self.domain
+
+class DefinitionList(TenantMixin, GetDomainMixin, ListView):
+    model = Definition
+    template_name = 'compliances/definition-list.html'
+    context_object_name = 'definitions'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs.get('tenant_id')
+        domain_id = self.kwargs.get('domain_id')
+        context['tenant'] = self.get_tenant(tenant_id)
+        context['domain'] = self.get_domain(domain_id)
+        return context
+
+
+class DefinitionUpdate(GetDomainMixin, UpdateView, UpdateModifiedByMixin):
+    model = Definition
+    template_name = 'compliances/modals/create-or-update.html'
+    form_class = forms.DefinitionCreateOrUpdate
+    context_object_name = 'definition'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs.get('tenant_id')
+        domain_id = self.kwargs.get('domain_id')
+        context['tenant'] = self.get_tenant(tenant_id)
+        context['domain'] = self.get_domain(domain_id)
+        context['verbose_name'] = verbose_name = _('definition')
+        return context
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        domain_id = self.kwargs.get('domain_id')
+        return reverse_lazy('compliances:definition-list', kwargs={'tenant_id': tenant_id, 'domain_id': domain_id})
+
+
+class DefinitionCreate(TenantMixin, GetDomainMixin, CreateView):
+    model = Definition
+    template_name = 'compliances/modals/definition-create-or-update.html'
+    form_class = forms.DefinitionCreateOrUpdate
+    verbose_name = _('definition')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tenant_id = self.kwargs.get('tenant_id')
+        domain_id = self.kwargs.get('domain_id')
+        context['tenant'] = self.get_tenant(tenant_id)
+        context['domain'] = self.get_domain(domain_id)
+        context['verbose_name'] = verbose_name = _('definition')
+        return context
+
+    def form_valid(self, form):
+        tenant = self.get_tenant()
+        domain = self.get_domain()
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.modified_by = self.request.user
+        self.object.tenant = tenant
+        self.object.domain = domain
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url()) 
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        domain_id = self.kwargs.get('domain_id')
+        return reverse_lazy('compliances:definition-list', kwargs={'tenant_id': tenant_id, 'domain_id': domain_id})
+
+
+class DefinitionDelete(TenantMixin, DeleteView):
+    model = Definition
+    template_name = 'compliances/modals/definition-delete.html'
+    context_object_name = 'definition'
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        domain_id = self.kwargs.get('domain_id')
+        return reverse_lazy('compliances:definition-list', kwargs={'tenant_id': tenant_id, 'domain_id': domain_id})

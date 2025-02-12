@@ -1,0 +1,66 @@
+{% extends 'compliances/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+{% load verbose_name %}
+{% load referred_foreign_keys %}
+{% load danger %}
+{% with verbose_name=object|verbose_name %}
+<h3>{% trans 'Delete the' %} {{ verbose_name }} {{ object }}?</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    {% danger %}
+    <p>
+    {% blocktranslate trimmed %}
+      The entity will be deleted permanently, including all the referred entities.
+    {% endblocktranslate %}
+    </p>
+    <p>
+    {% blocktranslate trimmed %}
+      This operation cannot be undone.
+    {% endblocktranslate %}
+    </p>
+    <p>
+    {% blocktranslate trimmed %}
+      Are you sure you want to delete?
+    {% endblocktranslate %}
+    </p>
+    {% enddanger %}
+    {% with rfks=object|referred_foreign_keys %}
+    {% if rfks %}
+    {% if counts_only %}
+    <p>
+      {% trans 'The following referred entities will also be permanently deleted:' %}
+      <ul>
+    {% endif %}
+    {% for name, attr, field in rfks %}
+    {% if attr.count %}
+    {% if counts_only %}
+        <li>
+          {{ attr.count }} {{ attr.model|verbose_name_plural }}
+        </li>
+    {% else %}
+    <p>
+      {% trans 'The following' %} {{ attr.model|verbose_name_plural }} {% trans 'will be permanently deleted:' %}
+      <ul>
+        {% for o in attr.all %}
+        <li>
+            {{ o }}
+        </li>
+        {% endfor %}
+      </ul>
+    </p>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    {% if counts_only %}
+      <ul>
+    </p>
+    {% endif %}
+    {% endif %}
+    {% endwith %}
+    <p> 
+      <a class="button btn btn-secondary" href="{{ cancel_url }}">Cancel</a>
+      <input class="button btn btn-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endwith %}
+{% endblock content %}

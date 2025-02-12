@@ -2,7 +2,7 @@ from django import forms
 from django.utils.translation import gettext as _
 
 from projects.models import Team
-from .models import Target
+from .models import Target, Definition
 
 from crispy_forms.helper import FormHelper
 
@@ -15,3 +15,8 @@ class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ["name"]
+
+class DefinitionCreateOrUpdate(forms.ModelForm):
+    class Meta:
+        model = Definition
+        fields = ["term", "definition", "ref_entity_type"]
