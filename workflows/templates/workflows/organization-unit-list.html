@@ -34,7 +34,7 @@
 {% endfor %}
 
 <p class="mt-3">
-  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-create' tenant.id %}" href="{% url 'workflows:organization-unit-create' tenant.id %}">{% trans 'Add a new organization unit' %}</a>
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:organization-unit-create' tenant.id %}" href="{% url 'workflows:organization-unit-create' tenant.id %}">{% trans 'Add a new top-level organization' %}</a>
 </p>
 </div>
 {% include 'workflows/fragments/modal.html' %}
