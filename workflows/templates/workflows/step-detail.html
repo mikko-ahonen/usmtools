@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load step_process_badge %}
 {% load breadcrumbs %}
+{% load usm %}
 {% block content %}
 <div class="container-fluid mx-5">
 
@@ -24,7 +25,7 @@
   {% endif %}
 </h1>
 <p>
-  {{ step.routine.description|linebreaks }}
+  {{ step.routine.description|usm_format_links|linebreaks }}
 </p>
 <div class="row mb-3">
   {% include 'workflows/fragments/routine-steps-diagram.html' with routine=step.routine selected_step=step %}
@@ -41,7 +42,7 @@
   </div>
 </h2> 
 
-<div class="text-white text-muted small">{{ step.description|linebreaks }}</div>
+<div class="text-white text-muted small">{{ step.description|usm_format_links|linebreaks }}</div>
 
 {% for activity in step.activities.all %}
   <div id="activity-{{ activity.id }}" class="card bg-dark text-light mb-3">
@@ -64,7 +65,7 @@
         {% endif %}
       </h5>
       <div class="activity-description">
-        {{ activity.description|linebreaks }}
+        {{ activity.description|usm_format_links|linebreaks }}
       </div>
     </div>
     <div class="card-body bg-primary-subtle text-black">

@@ -10,7 +10,7 @@
       <h2 class="accordion-header" id="lightboard-accordion-header-{{ forloop.counter }}a">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#lightboard-accordion-collapse-{{ forloop.counter }}a" aria-expanded="true" aria-controls="lightboard-accordion-collapse-{{ forloop.counter }}a">
           <div class="col-1">{{ section|section_status }}</div>
-          <div class="col-11"><small>{{ section.doc }} {{ section.docid }} {{ section.title }}</small></div>
+          <div class="col-11"><small><strong>{{ section.doc }} {{ section.docid }} {{ section.title }}</strong></small></div>
         </button>
       </h2>
       <div id="lightboard-accordion-collapse-{{ forloop.counter }}a" class="accordion-collapse collapse" aria-labelledby="lightboard-accordion-header-{{ forloop.counter }}a" data-bs-parent="#lightboard-accordion-{{ forloop.counter }}a">
@@ -23,7 +23,7 @@
       <h2 class="accordion-header" id="lightboard-accordion-header-{{ forloop.counter }}b">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#lightboard-accordion-collapse-{{ forloop.counter }}b" aria-expanded="true" aria-controls="lightboard-accordion-collapse-{{ forloop.counter }}b">
           <div class="col-1">{{ section|section_status }}</div>
-          <div class="col-11"><small>{{ section.doc }} {{ section.docid }} {{ section.title }}</small></div>
+          <div class="col-11"><small><strong>{{ section.doc }} {{ section.docid }} {{ section.title }}</strong></small></div>
         </button>
       </h2>
       <div id="lightboard-accordion-collapse-{{ forloop.counter }}b" class="accordion-collapse collapse" aria-labelledby="lightboard-accordion-header-{{ forloop.counter }}b" data-bs-parent="#lightboard-accordion-{{ forloop.counter }}b">
@@ -32,7 +32,7 @@
 {% if section.requirements.count > 0 %}
           {% for requirement in section.requirements.all %}
           <div class="row d-flex align-items-center">
-              <div class="col-1">{{ requirement | requirement_status }}</div>
+              <div class="col-1"><span class="ms-3">{{ requirement | requirement_status }}</span></div>
               <div class="col-11"><small>{{ requirement.text }}</small></div>
             </div>
           {% endfor %}

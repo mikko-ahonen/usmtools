@@ -12,7 +12,7 @@ class ActionOrgUnitSelector(EntitySelector):
     entity_target = 'o'
     value_attr = 'organization_unit'
     value_class = OrganizationUnit
-    search_placeholder = _('Organization unit')
+    search_placeholder = _('Organization')
 
     def get_entity_url(sef, entity):
         tenant_id = current_tenant_id()
