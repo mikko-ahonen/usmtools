@@ -5,7 +5,7 @@ htmx.on("htmx:afterSwap", (e) => {
 
   if (e.detail.target.id == "dialog") {
     console.log("showing the modal");
-    modal.modal('show');
+    modal.show(); //modal('show');
   }
 });
 
@@ -14,7 +14,7 @@ htmx.on("htmx:beforeSwap", (e) => {
   // Empty response targeting #dialog => hide the modal
   if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
     var modal = new bootstrap.Modal(document.getElementById("modal"));
-    modal.modal('hide');
+    modal.hide();
     console.log("hiding the modal");
     $('body').removeClass('modal-open');
     $('.modal-backdrop').remove();

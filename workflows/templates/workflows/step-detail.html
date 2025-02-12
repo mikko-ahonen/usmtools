@@ -58,10 +58,10 @@
         <a class="mx-1 btn btn-sm btn-outline-light open-popup" data-popup-url="{% url 'workflows:activity-update' tenant.id activity.id %}" href="{% url 'workflows:activity-update' tenant.id activity.id %}"><i class="bi bi-pencil"></i></a>
         <a class="mx-1 btn btn-sm btn-outline-light open-popup" data-popup-url="{% url 'workflows:activity-delete' tenant.id activity.id %}" href="{% url 'workflows:activity-delete' tenant.id activity.id %}"><i class="bi bi-trash3"></i></a>
         {% if not forloop.first %}
-        <a class="mx-1 btn btn-sm btn-outline-light activity-down" href="{% url 'workflows:activity-up' tenant.id activity.id %}"><i class="bi bi-arrow-up"></i></a>
+          <a class="mx-1 btn btn-sm btn-outline-light activity-down" href="{% url 'workflows:activity-up' tenant.id activity.id %}"><i class="bi bi-arrow-up"></i></a>
         {% endif %}
         {% if not forloop.last %}
-        <a class="mx-1 btn btn-sm btn-outline-light activity-down" href="{% url 'workflows:activity-down' tenant.id activity.id %}"><i class="bi bi-arrow-down"></i></a>
+          <a class="mx-1 btn btn-sm btn-outline-light activity-down" href="{% url 'workflows:activity-down' tenant.id activity.id %}"><i class="bi bi-arrow-down"></i></a>
         {% endif %}
       </h5>
       <div class="activity-description">
