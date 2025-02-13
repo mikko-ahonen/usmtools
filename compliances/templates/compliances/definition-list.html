@@ -17,7 +17,7 @@
       </h5>
       <p>
         <small class="text-white">
-          {{ definition.definition | usm_format_links | linebreaks }}</a>
+          {{ definition.definition | default:'' | usm_format_links | linebreaks }}</a>
         </small>
       </p>
     </div>

@@ -114,18 +114,15 @@ def create_definitions(tenant, domain, constraint):
             definition = Definition.unscoped.get(tenant_id=tenant.id, domain_id=domain.id, term__iexact=term)
         except Definition.DoesNotExist:
             index = get_next_value('definitions')
-            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term, index=index, ref_entity_type=entity_type)
+            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term.capitalize(), index=index, ref_entity_type=entity_type)
 
     for term in re.findall(r'\@([^@]*)\@', constraint.text):
-
-        singular_term = inflection.singularize(term)
-        entity_type = get_entity_type(singular_term) or EntityType.NOT_DEFINED
 
         try:
             definition = Definition.unscoped.get(tenant_id=tenant.id, domain_id=domain.id, term__iexact=term)
         except Definition.DoesNotExist:
             index = get_next_value('definitions')
-            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term, index=index, ref_plural=True, ref_entity_type=entity_type)
+            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term.capitalize(), index=index, ref_plural=True)
 
 def create_dependencies(tenant, domain, constraint, deps):
     if not isnan(deps):
