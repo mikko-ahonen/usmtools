@@ -20,3 +20,8 @@ class DefinitionCreateOrUpdate(forms.ModelForm):
     class Meta:
         model = Definition
         fields = ["term", "definition", "ref_entity_type"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False

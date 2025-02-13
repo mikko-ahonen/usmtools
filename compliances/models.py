@@ -9,6 +9,7 @@ from colorfield.fields import ColorField
 
 from projects.models import Project, Story, Team
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
+from .entity_types import EntityType, get_class_by_entity_type
 
 class Domain(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -174,21 +175,7 @@ class Definition(TenantAwareOrderedModelBase):
     term = models.CharField(max_length=255, blank=True, null=True)
     definition = models.TextField(blank=True, null=True)
 
-    ENTITY_TYPE_NOT_DEFINED = "not-defined"
-    ENTITY_TYPE_DOCUMENT = "document"
-    ENTITY_TYPE_TASK = "task"
-    ENTITY_TYPE_ROUTINE = "routine"
-    ENTITY_TYPE_PROFILE = "profile"
-
-    ENTITY_TYPES = [
-        (ENTITY_TYPE_NOT_DEFINED, _("Not defined")),
-        (ENTITY_TYPE_DOCUMENT, _("Document")),
-        (ENTITY_TYPE_TASK, _("Task")),
-        (ENTITY_TYPE_ROUTINE, _("Routine")),
-        (ENTITY_TYPE_PROFILE, _("Profile")),
-    ]
-
-    ref_entity_type = models.CharField(max_length=32, choices=ENTITY_TYPES, default=ENTITY_TYPE_NOT_DEFINED)
+    ref_entity_type = models.CharField(max_length=32, choices=EntityType.CHOICES, default=EntityType.NOT_DEFINED)
     ref_content_type = models.ForeignKey(ContentType, null=True, blank=True, on_delete=models.SET_NULL)
     ref_object_id = models.UUIDField(null=True, blank=True)
     ref_object = GenericForeignKey("ref_content_type", "ref_object_id")

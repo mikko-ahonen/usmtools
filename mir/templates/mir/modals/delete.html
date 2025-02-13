@@ -1,0 +1,14 @@
+{% extends 'mir/modals/modal-base.html' %}
+{% block content %}
+{% load i18n %}
+<h3>{% trans 'Delete ' %} {{ object }}</h3>
+<form action="{{ request.path }}" method="post">{% csrf_token %}
+    <p>
+      {% trans 'Are you sure you want to delete it?' %}
+    </p>
+    <p> 
+      <a class="button btn btn-secondary" href="{% url 'mir:training-list' tenant.id %}">Cancel</a>
+      <input class="button btn btn-primary" type="submit" value="OK">
+    </p>
+</form>
+{% endblock content %}

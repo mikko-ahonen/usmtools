@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from . import forms
 
 from workflows.models import Tenant
-from .models import Training, Employee
+from .models import Training, Employee, Document
 
 logger = logging.getLogger(__name__)
 
@@ -177,3 +177,51 @@ class EmployeeDelete(TenantMixin, DeleteView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         return reverse_lazy('mir:employee-list', kwargs={'tenant_id': tenant_id})
+
+#######################################################################################################################
+#
+# Document
+#
+
+class DocumentList(TenantMixin, ListView):
+    model = Document
+    template_name = 'mir/document-list.html'
+    context_object_name = 'documents'
+
+
+class DocumentUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
+    model = Document
+    template_name = 'mir/modals/create-or-update.html'
+    form_class = forms.DocumentCreateOrUpdate
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('mir:document-list', kwargs={'tenant_id': tenant_id})
+
+class DocumentCreate(TenantMixin, CreateView):
+    model = Document
+    template_name = 'mir/modals/create-or-update.html'
+    form_class = forms.DocumentCreateOrUpdate
+
+    def form_valid(self, form):
+        tenant = self.get_tenant()
+        self.object = form.save(commit=False)
+        self.object.tenant = tenant
+        self.object.created_by = self.request.user
+        self.object.modified_by = self.request.user
+        self.object.save()
+        form.save_m2m()
+        return HttpResponseRedirect(self.get_success_url()) 
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('mir:document-list', kwargs={'tenant_id': tenant_id})
+
+
+class DocumentDelete(TenantMixin, DeleteView):
+    model = Document
+    template_name = 'mir/modals/delete.html'
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('mir:document-list', kwargs={'tenant_id': tenant_id})

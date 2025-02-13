@@ -14,6 +14,27 @@ class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
 
+class Document(TenantAwareModelBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+    modified_at = models.DateTimeField(auto_now=True)
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+
+    tags = TaggableManager(through=UUIDTaggedItem)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Document')
+        verbose_name_plural = _('Documents')
+        default_related_name = 'documents'
+
 class Training(TenantAwareModelBase):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

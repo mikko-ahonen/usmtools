@@ -1,9 +1,10 @@
 {% extends "compliances/base.html" %}
 {% load i18n %}
 {% load usm %}
+{% load component_tags %}
 {% block content %}
 <div class="container-fluid m-5">
-{% include 'compliances/fragments/compliance-tabs.html' %}
+{% include 'compliances/fragments/compliances-tabs.html' %}
 <h3 class="mt-3">{% trans 'References' %}</h3>
 <div class="row">
 {% for definition in definitions %}
@@ -14,8 +15,8 @@
       <h5 class="text-white">
         {{ definition.term }}</a>
       </h5>
-      <p class="text-white">
-        <small>
+      <p>
+        <small class="text-white">
           {{ definition.definition | usm_format_links | linebreaks }}</a>
         </small>
       </p>
@@ -23,8 +24,10 @@
   </div>
   <div class="card-body bg-primary-subtle">
     <div class="card-text">
-      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-update' tenant.id domain.id %}">{% trans 'Edit' %}</a>
-      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-delete' tenant.id domain.id %}">{% trans 'Delete' %}</a>
+      {% component 'definition_reference_selector' entity=definition %}
+      {% endcomponent %}
+      <a class="my-2 mx-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}">{% trans 'Edit' %}</a>
+      <a class="my-2 mx-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}">{% trans 'Delete' %}</a>
     </div>
   </div>
 </div>

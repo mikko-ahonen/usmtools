@@ -5,8 +5,6 @@
 {% load referred_foreign_keys %}
 {% load danger %}
 {% load crispy_forms_tags %}
-{% block content %}
-{% with verbose_name=object|verbose_name %}
 <h3>
   {% if object %}
     {% trans 'Update the ' %} {{ verbose_name }} {{ object }}
@@ -19,5 +17,4 @@
 {% crispy form %}
 <button class="btn btn-outline-primary" type="submit">{% trans 'Save' %}</button>
 </form>
-{% endwith %}
 {% endblock %}

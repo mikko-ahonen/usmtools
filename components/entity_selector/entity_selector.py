@@ -13,10 +13,12 @@ class EntitySelector(component.Component):
     template_name = "entity_selector/entity_selector.html"
 
     def get_context_data(self, **kwargs):
+
         if not self.entity_class:
             raise ValueError("instantiate through subclass")
 
         entity = kwargs['entity']
+
         url = self.get_entity_url(entity)
         value = self.get_value(entity)
 
@@ -24,10 +26,20 @@ class EntitySelector(component.Component):
             'entity': entity,
             'initial_value': { 'id': value.id if value else None, 'name': value.name if value else None },
             'url': url,
-            'target': self.entity_target,
-            'search_placeholder': self.search_placeholder,
+            'target': self.get_entity_target(entity),
+            'search_placeholder': self.get_search_placeholder(entity),
         }
         return ctx
+
+
+    def get_value_class(self, entity):
+        return self.value_class
+
+    def get_search_placeholder(self, entity):
+        return self.search_placeholder
+
+    def get_entity_target(self, entity):
+        return self.entity_target
 
     def get_param(self, qd, name):
         v = qd.get(name)
@@ -44,10 +56,11 @@ class EntitySelector(component.Component):
 
     def get_value(self, qd):
         value_id = self.get_param(qd, 'value_id')
+        value_class = self.get_value_class()
         if value_id:
-            value = self.value_class.objects.get(id=value_id)
+            value = value_class.objects.get(id=value_id)
             return value
-        raise ValueError(f"Value not found with id {value_id} and class {self.value_class}")
+        raise ValueError(f"Value not found with id {value_id} and class {value_class}")
 
     def delete(self, request, *args, **kwargs):
         qd = request.GET
@@ -72,7 +85,7 @@ class EntitySelector(component.Component):
     def get_value(self, entity):
         return getattr(entity,self.value_attr)
 
-    def set_value(self, entity, value_id, vaölue_name):
+    def set_value(self, entity, value_id, value_name):
         setattr(entity, self.value_attr + '_id', value_id)
 
     def delete_value(self, entity, value_id, value_name):

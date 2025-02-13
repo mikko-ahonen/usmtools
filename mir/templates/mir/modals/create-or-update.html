@@ -1,0 +1,17 @@
+{% extends 'mir/modals/modal-base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>
+  {% if object %}
+    {% trans 'Update ' %} {{ verbose_name }} {{ object }}
+  {% else %}
+    {% trans 'Add a new ' %} {{ verbose_name }}
+  {% endif %}
+</h3>
+
+
+<form method="POST" action="{{request.path}}">
+{% crispy form %}
+</form>
+{% endblock %}

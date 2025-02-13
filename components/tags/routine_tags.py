@@ -12,7 +12,6 @@ logger = logging.getLogger(__name__)
 @component.register("routine_tags")
 class RoutineTags(Tags):
     entity_class = Routine
-    entity_target = 't'
 
     def get_entity_url(sef, entity):
         tenant_id = current_tenant_id()

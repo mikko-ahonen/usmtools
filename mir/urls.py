@@ -15,4 +15,8 @@ urlpatterns = [
     path('<uuid:tenant_id>/employees/create/', views.EmployeeCreate.as_view(), name='employee-create'),
     path('<uuid:tenant_id>/employees/<uuid:pk>/delete/', views.EmployeeDelete.as_view(), name='employee-delete'),
     path('<uuid:tenant_id>/employees/<uuid:pk>/update/', views.EmployeeUpdate.as_view(), name='employee-update'),
+    path('<uuid:tenant_id>/documents/', views.DocumentList.as_view(), name='document-list'),
+    path('<uuid:tenant_id>/documents/create/', views.DocumentCreate.as_view(), name='document-create'),
+    path('<uuid:tenant_id>/documents/<uuid:pk>/delete/', views.DocumentDelete.as_view(), name='document-delete'),
+    path('<uuid:tenant_id>/documents/<uuid:pk>/update/', views.DocumentUpdate.as_view(), name='document-update'),
 ]

@@ -9,7 +9,7 @@ from django.views.generic import ListView, DetailView, FormView, RedirectView, T
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils.translation import gettext as _
 from django.conf import settings
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.db import transaction
@@ -504,11 +504,10 @@ class DefinitionList(TenantMixin, GetDomainMixin, ListView):
         return context
 
 
-class DefinitionUpdate(GetDomainMixin, UpdateView, UpdateModifiedByMixin):
+class DefinitionUpdate(TenantMixin, GetDomainMixin, UpdateView, UpdateModifiedByMixin):
     model = Definition
     template_name = 'compliances/modals/create-or-update.html'
     form_class = forms.DefinitionCreateOrUpdate
-    context_object_name = 'definition'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -516,7 +515,8 @@ class DefinitionUpdate(GetDomainMixin, UpdateView, UpdateModifiedByMixin):
         domain_id = self.kwargs.get('domain_id')
         context['tenant'] = self.get_tenant(tenant_id)
         context['domain'] = self.get_domain(domain_id)
-        context['verbose_name'] = verbose_name = _('definition')
+        context['verbose_name'] = _('definition')
+
         return context
 
     def get_success_url(self):
@@ -527,9 +527,8 @@ class DefinitionUpdate(GetDomainMixin, UpdateView, UpdateModifiedByMixin):
 
 class DefinitionCreate(TenantMixin, GetDomainMixin, CreateView):
     model = Definition
-    template_name = 'compliances/modals/definition-create-or-update.html'
+    template_name = 'compliances/modals/create-or-update.html'
     form_class = forms.DefinitionCreateOrUpdate
-    verbose_name = _('definition')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -537,12 +536,14 @@ class DefinitionCreate(TenantMixin, GetDomainMixin, CreateView):
         domain_id = self.kwargs.get('domain_id')
         context['tenant'] = self.get_tenant(tenant_id)
         context['domain'] = self.get_domain(domain_id)
-        context['verbose_name'] = verbose_name = _('definition')
+        context['verbose_name'] = _('definition')
         return context
 
     def form_valid(self, form):
-        tenant = self.get_tenant()
-        domain = self.get_domain()
+        tenant_id = self.kwargs.get('tenant_id')
+        tenant = self.get_tenant(tenant_id)
+        domain_id = self.kwargs.get('domain_id')
+        domain = self.get_domain(domain_id)
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user

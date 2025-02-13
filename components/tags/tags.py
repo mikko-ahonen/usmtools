@@ -24,7 +24,7 @@ class Tags(component.Component):
             'entity': entity,
             'tags': tags,
             'url': url,
-            'target': self.entity_target,
+            'target': 't',
         }
         ctx.update(self.get_extra_context_data(entity))
         return ctx
