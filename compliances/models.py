@@ -172,9 +172,11 @@ class Requirement(TenantAwareOrderedModelBase):
 
 class Definition(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
     term = models.CharField(max_length=255, blank=True, null=True)
     definition = models.TextField(blank=True, null=True)
 
+    ref_plural = models.BooleanField(default=False)
     ref_entity_type = models.CharField(max_length=32, choices=EntityType.CHOICES, default=EntityType.NOT_DEFINED)
     ref_content_type = models.ForeignKey(ContentType, null=True, blank=True, on_delete=models.SET_NULL)
     ref_object_id = models.UUIDField(null=True, blank=True)
@@ -244,6 +246,18 @@ class Statement(TenantAwareOrderedModelBase):
         ordering = ('index',)
 
 
+class ConstraintDependency(TenantAwareOrderedModelBase):
+    source = models.ForeignKey('Constraint', on_delete=models.CASCADE, null=True, related_name='+')
+    target = models.ForeignKey('Constraint', on_delete=models.CASCADE, null=True, related_name='+')
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
+    order_with_respect_to = 'target'
+
+    class Meta:
+        ordering = ('index',)
+
+
 class Constraint(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
@@ -257,6 +271,7 @@ class Constraint(TenantAwareOrderedModelBase):
     story_points = models.FloatField(null=True, blank=True)
     is_generic = models.BooleanField(default=True, help_text="If True statement, only this needs to be done only once. If False, needs to be implemented seperately for each target in scope.")
     key = models.CharField(max_length=255, blank=True, null=True)
+    dependencies = models.ManyToManyField('Constraint', through="ConstraintDependency")
 
     STATUS_NEW = "new"
     STATUS_ONGOING = "ongoing"

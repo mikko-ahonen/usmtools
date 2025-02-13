@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import math
 import random
+import inflection
 
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
@@ -15,7 +16,8 @@ from django.utils import timezone
 
 from sequences import get_next_value
 
-from .models import Domain, Section, Requirement, Constraint, Category, Statement, ConstraintStatement, DataManagement
+from .models import Domain, Section, Requirement, Constraint, Category, Statement, ConstraintStatement, DataManagement, ConstraintDependency, Definition
+from .entity_types import EntityType
 from workflows.tenant_models import Tenant
 
 def strip(s):
@@ -98,6 +100,39 @@ def get_docid_path(docid):
         p.append(dd)
 
     return p
+
+def get_entity_type(term):
+    a = term.split()
+    if len(a) > 0:
+        return EntityType.get_by_name(a[-1])
+    return None
+        
+def create_definitions(tenant, domain, constraint):
+    for term in re.findall(r'\$([^$]*)\$', constraint.text):
+        entity_type = get_entity_type(term) or EntityType.NOT_DEFINED
+        try:
+            definition = Definition.unscoped.get(tenant_id=tenant.id, domain_id=domain.id, term__iexact=term)
+        except Definition.DoesNotExist:
+            index = get_next_value('definitions')
+            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term, index=index, ref_entity_type=entity_type)
+
+    for term in re.findall(r'\@([^@]*)\@', constraint.text):
+
+        singular_term = inflection.singularize(term)
+        entity_type = get_entity_type(singular_term) or EntityType.NOT_DEFINED
+
+        try:
+            definition = Definition.unscoped.get(tenant_id=tenant.id, domain_id=domain.id, term__iexact=term)
+        except Definition.DoesNotExist:
+            index = get_next_value('definitions')
+            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term, index=index, ref_plural=True, ref_entity_type=entity_type)
+
+def create_dependencies(tenant, domain, constraint, deps):
+    if not isnan(deps):
+        deps = deps
+        for cid in [ x.strip() for x in deps.strip().split(',')]:
+            dep = Constraint.unscoped.filter(tenant_id=tenant.id, domain_id=domain.id, key=cid).first()
+            constraint.dependencies.add(dep)
 
 def import_excel(tenant, path):
     now = timezone.now()
@@ -198,7 +233,11 @@ def import_excel(tenant, path):
             else:
                 category = top_category
             constraint, created = Constraint.unscoped.get_or_create(tenant=tenant, domain_id=domain.id, key=e["C. ID"].strip(), defaults={"title": e["C. Title"], "text": e["C. Text"], "story_points": float(e["C. Story points"]), "is_generic": is_generic, "category": category, "index": get_next_value('constraint')})
+
             if created:
                 ConstraintStatement(constraint=constraint, statement=statement).save()
+
+            create_dependencies(tenant, domain, constraint, e["C. Dependencies"])
+            create_definitions(tenant, domain, constraint)
 
         p = e.copy()

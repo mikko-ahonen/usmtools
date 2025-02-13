@@ -16,23 +16,35 @@ class EntityType:
         (PROFILE, _("Profile")),
     ]
 
+    @classmethod
+    def get_by_name(cls, s):
+        s = s.strip().lower()
+        for entity_type, name in cls.CHOICES:
+            if entity_type == s:
+                return entity_type
+        return None
+        
+
 def get_class_by_entity_type(entity_type):
     match entity_type:
+
+        case EntityType.NOT_DEFINED:
+            return None
 
         case EntityType.DOCUMENT:
             from mir.models import Document
             return Document
 
         case EntityType.TASK:
-            from compliances.models import Task
+            from workflows.models import Task
             return Task
 
         case EntityType.ROUTINE:
-            from compliances.models import Routine
+            from workflows.models import Routine
             return Routine
 
         case EntityType.PROFILE:
-            from compliances.models import Profile
+            from workflows.models import Profile
             return Profile
 
         case _:

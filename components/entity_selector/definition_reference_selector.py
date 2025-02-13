@@ -22,7 +22,7 @@ class DefinitionReferenceSelector(EntitySelector):
 
     def get_search_placeholder(self, entity):
         cls = get_class_by_entity_type(entity.ref_entity_type)
-        return cls._meta.verbose_name
+        return _('Search ') + cls._meta.verbose_name_plural.lower()
 
     def get_entity_url(sef, entity):
         tenant_id = current_tenant_id()

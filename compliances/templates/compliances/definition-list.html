@@ -24,8 +24,12 @@
   </div>
   <div class="card-body bg-primary-subtle">
     <div class="card-text">
-      {% component 'definition_reference_selector' entity=definition %}
-      {% endcomponent %}
+      {% if definition.ref_entity_type and definition.ref_entity_type != 'not-defined'  %}
+        {% component 'definition_reference_selector' entity=definition %}
+        {% endcomponent %}
+      {% else %}
+        <span class="text-danger">{% trans 'Entity type missing' %}</span>
+      {% endif %}
       <a class="my-2 mx-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}">{% trans 'Edit' %}</a>
       <a class="my-2 mx-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}">{% trans 'Delete' %}</a>
     </div>
