@@ -10,7 +10,7 @@
     <strong>{% trans 'Action' %}</strong>
   </div>
   <div class="col-3">
-    <strong>{% trans 'Profile' %} / {% trans 'Organization' %}</strong>
+    <strong>{% trans 'Profile' %} {% comment %}/ {% trans 'Organization' %}{% endcomment %}</strong>
   </div>
   <div class="col-3">
     <strong>{% trans 'Responsibilities' %}</strong>
@@ -39,8 +39,10 @@
   <div class="col-3 d-inline-flex align-self-center">
     {% component 'action_profile_selector' entity=action %}
     {% endcomponent %} <span class="fs-3"> &thinsp;/&thinsp; </span>
+    {% comment %}
     {% component 'action_org_unit_selector' entity=action %}
     {% endcomponent %}
+    {% endcomment %}
   </div>
   <div class="col-3 d-inline-flex align-self-center">
     {% for rtype in 'RASCI' %}
