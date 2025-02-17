@@ -1,5 +1,6 @@
+import re
 from django import template
-from django.utils.html import mark_safe, format_html
+from django.utils.html import mark_safe, format_html, format_html_join, escape
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
@@ -129,6 +130,35 @@ links = {
     "$Responsibility$": "https://usmwiki.com/index.php/Responsibility",
 }
 
+def strong_repl(m):
+    return format_html('<strong>{}</strong>', m.group(0))
+
+@register.filter
+def compliances_format_text(text):
+    retval = []
+
+    for m in re.finditer(r'(?:([^$@]*)(?:\$([^$]*)\$)?([^$@]*)|([^@]*)(?:@([^$@]*)@)?([^$@]*))', text):
+        if m.group(1):
+            retval.append(escape(m.group(1)))
+        if m.group(2):
+            retval.append(format_html("<strong>{}</strong>", m.group(2)))
+        if m.group(3):
+            retval.append(escape(m.group(3)))
+        if m.group(4):
+            retval.append(escape(m.group(4)))
+        if m.group(5):
+            retval.append(format_html("<strong>{}</strong>", m.group(5)))
+        if m.group(6):
+            retval.append(escape(m.group(6)))
+
+    return mark_safe("".join(retval))
+
+
+@register.filter
+def constraint_status_text(status):
+    return Constraint.status_text(status)
+
+constraint_status_text
 @register.filter
 def compliances_format_links(text):
     for link, url in links.items():

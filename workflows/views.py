@@ -987,7 +987,6 @@ class ActivityDelete(TenantMixin, GetActivityMixin, DeleteView):
 class ActivityUp(TenantMixin, GetActivityMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         activity = self.get_activity(pk)
-        breakpoint()
         activity.up()
         tenant_id = self.kwargs.get('tenant_id')
         return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.step_id))

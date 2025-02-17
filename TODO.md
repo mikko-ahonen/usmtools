@@ -25,23 +25,34 @@
     [x] project status
 
 # Demo
-[ ] MIR
-    [ ] Training Organized
-    [ ] Training Attended
-    [ ] Document
-    [ ] Action
-[ ] Projects
+[x] MIR
+    [x] Training Organized
+    [x] Training Attended
+    [x] Document
+    [x] Action
+[x] Projects
     [x] Priority to Story
     [x] Epic card styling
-    [ ] Epic editing
+    [x] Epic editing
     [x] Story card styling
     [x] Story editing
 [x] Audit
     [x] Audit view
-    [ ] Link to the proof
-    [ ] Mark requirement as audited or failed
+    [x] Link to the proof
+    [x] Mark requirement as audited or failed
+[ ] Profile
+    [ ] Link to organization unit
+    [ ] Link to employee
+    [ ] Default profile to routine
+    [ ] Default profile to step
+    [ ] Default profile to activity
+    [ ] Task lists
+[ ] Filters
+    [ ] Team filter in roadmap view
+    [ ] Team filter in backlog view
+    [ ] Team filter in sprint view
 [ ] Bug fixes
-    [ ] Workflows action update checkboxes broken. Maybe rewrite the profile/organization selection component
+    [ ] Workflows action update checkboxes broken. Maybe rewrite the profile/organization selection component
     [ ] Roadmap start sprint remove
     [ ] Backlog start sprint list broken
     [ ] Roadmap/backlog do not use component

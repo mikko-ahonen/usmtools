@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load compliances %}
+{% load component_tags %}
+
+<div class="constraint"
+    x-data="{
+    }">
+
+    <h5 class="fs-3">{% trans 'Constraint' %}</h3>
+
+    <p>
+      {{ constraint | constraint_status_small }} {{ constraint.key }} {{ constraint.text | compliances_format_text }}
+    </p>
+
+    {% for definition in constraint.definitions.all %}
+      <div class="row">
+        <div class="col-md-3 align-self-center fs-4">{{ definition.term }}</div>
+        <div class="col-md-9">
+          {% component 'constraint_references' tenant_id=tenant_id domain=domain constraint=constraint definition=definition %}
+          {% endcomponent %}
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="mt-3 d-inline-flex align-items-center">
+      {% for target_status in constraint.target_statuses %}
+        <button 
+            class="m-1 btn btn-outline-primary"
+            hx-post="{% url 'components:constraint-editor' tenant_id domain.id constraint.id %}"
+            hx-vals='{"target_status": "{{ target_status | escapejs }}"}'
+            hx-target="closest .constraint"
+            hx-swap="outerHTML"
+            >{{ target_status | constraint_status_text }}</button>
+      {% endfor %}
+    </div>
+</div>

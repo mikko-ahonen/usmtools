@@ -25,10 +25,15 @@
     hx-target="this"
     hx-swap="outerHTML">
 
+    <input type="hidden" name="constraint_id" value="{{ constraint.id }}"/>
+    <input type="hidden" name="definition_id" value="{{ definition.id }}"/>
+    <input type="hidden" name="reference_id" :value="selected ? selected.id : ''"/>
+    <input type="hidden" name="reference_name" :value="selected ? selected.name : ''"/>
+
     {% if definition.ref_object %}
     <div class="btn-group m-1" role="group">
       <button class="btn btn-primary disabled mx-0">
-        {{ definition.term }} 
+        {{ definition.ref_object.name }} 
       </button>
       <button 
          class="btn btn-primary mx-0"
@@ -36,15 +41,9 @@
           hx-trigger="click"
           hx-include="closest .constraint_references"
           hx-target="closest .constraint_references"
-          hx-vals='{"definition_name": "{{ definition.name | escapejs }}", "definition_id": "{{ definition.id | escapejs }}" }'
           hx-swap="outerHTML">X</button>
     </div>
-    {% endif %}
-
-    <input type="hidden" name="constraint_id" value="{{ constraint.id }}"/>
-    <input type="hidden" name="definition_id" value="{{ definition.id }}"/>
-    <input type="hidden" name="reference_id" :value="selected ? selected.id : ''"/>
-    <input type="hidden" name="reference_name" :value="selected ? selected.name : ''"/>
+    {% else %}
 
     <div x-cloak class="d-inline-flex align-items-center flex-wrap">
       <div class="m-1" x-show="!selected || selected.id == null || selected.id == ''">
@@ -52,4 +51,5 @@
         {% endcomponent %}
       </div>
     </div>
+    {% endif %}
 </div>

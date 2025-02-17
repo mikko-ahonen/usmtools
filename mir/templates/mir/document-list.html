@@ -13,12 +13,14 @@
     <div class="card-text">
       <h5 class="text-white">
       {{ document.name }}
+      {% comment %}
       {% if not forloop.first %}
         <a class="btn btn-sm btn-outline-primary document-down" href="{% url 'mir:document-up' tenant.id document.id %}"><i class="bi bi-arrow-up"></i></a>
       {% endif %}
       {% if not forloop.last %}
         <a class="btn btn-sm btn-outline-primary document-down" href="{% url 'mir:document-down' tenant.id document.id %}"><i class="bi bi-arrow-down"></i></a>
       {% endif %}</h5>
+      {% endcomment %}
     </div>
   </div>
   <div class="card-body bg-primary-subtle">

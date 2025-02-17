@@ -8,7 +8,9 @@ from taggit.models import Tag
 from workflows.tenant import current_tenant_id
 from workflows.models import OrganizationUnit, Profile
 from mir.models import Document
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
+
+from inflection import pluralize
 
 @component.register("typeahead")
 class Typeahead(component.Component):
@@ -40,9 +42,13 @@ class Typeahead(component.Component):
             placeholder = _('organization units')
         elif target in ["d", "document"]:
             placeholder = _('document')
+        elif target in ["task"]:
+            placeholder = _('task')
+        elif target in ["risk"]:
+            placeholder = _('risk')
         else:
             raise ValueError(f"Invalid typeahead type: {target}")
-        return _('Search') + ' ' + placeholder + '...'
+        return _('Search') + ' ' + pluralize(placeholder) + '...'
 
     def post(self, request, *args, **kwargs):
 

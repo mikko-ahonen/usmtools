@@ -1,4 +1,4 @@
-inflect==7.5.0
+inflection==0.5.1
 processpiper==0.8.1
 django-colorfield==0.11.0
 openpyxl==3.1.5

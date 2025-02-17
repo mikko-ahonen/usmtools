@@ -88,17 +88,23 @@ class Domain(TenantAwareOrderedModelBase):
     def constraints(self):
         return self.constraint_set(manager='unscoped')
 
+    def recursive_status(self, section):
+        child_statuses = [self.recursive_status(section) for section in section.children.all()]
+        section._status = Constraint.most_urgent_status([r.get_status() for r in section.requirements.all()])
+        if section._status:
+            child_statuses.append(section._status)
+        section._status = Constraint.most_urgent_status(child_statuses)
+        return section._status or Constraint.STATUS_NEW
+
     def sections_with_status(self):
         sections = list(Section
                         .unscoped
                         .filter(tenant_id=self.tenant.id, domain_id=self.id)
                         .with_tree_fields())
+
         for section in sections:
-            section._status = Constraint.most_urgent_status([r.get_status() for r in section.requirements.all()])
-            if not section._status:
-                section._status = Constraint.STATUS_NEW
-            if section.parent:
-                section.parent._status = Constraint.most_urgent_status([section._status, section.parent._status])
+            section._status = self.recursive_status(section)
+
         return sections
 
     def __str__(self):
@@ -111,7 +117,7 @@ class Section(TenantAwareTreeModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     doc = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(max_length=255, blank=True, null=True)
-    parent = models.ForeignKey('Section', on_delete=models.CASCADE, null=True)
+    parent = models.ForeignKey('Section', on_delete=models.CASCADE, null=True, related_name='children')
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True)
     docid = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -295,6 +301,16 @@ class Constraint(TenantAwareOrderedModelBase):
         (STATUS_AUDITED, _("Audited")),
     ]
 
+    STATUS_TRANSITIONS = {
+        STATUS_NEW: [STATUS_ONGOING, STATUS_IMPLEMENTED, STATUS_FAILED, STATUS_NON_COMPLIANT, STATUS_COMPLIANT],
+        STATUS_ONGOING: [STATUS_IMPLEMENTED, STATUS_FAILED, STATUS_NON_COMPLIANT, STATUS_COMPLIANT],
+        STATUS_FAILED: [STATUS_ONGOING, STATUS_IMPLEMENTED, STATUS_FAILED, STATUS_NON_COMPLIANT, STATUS_COMPLIANT],
+        STATUS_NON_COMPLIANT: [STATUS_FAILED, STATUS_ONGOING, STATUS_IMPLEMENTED, STATUS_FAILED, STATUS_COMPLIANT],
+        STATUS_IMPLEMENTED: [STATUS_FAILED, STATUS_ONGOING, STATUS_COMPLIANT, STATUS_FAILED, STATUS_NON_COMPLIANT, STATUS_AUDITED],
+        STATUS_COMPLIANT: [STATUS_FAILED, STATUS_ONGOING, STATUS_IMPLEMENTED, STATUS_FAILED, STATUS_NON_COMPLIANT, STATUS_AUDITED],
+        STATUS_AUDITED: [STATUS_FAILED, STATUS_ONGOING, STATUS_IMPLEMENTED, STATUS_FAILED, STATUS_NON_COMPLIANT],
+    }
+
     STATUS_URGENCY = {v: i for i, v in enumerate([
         STATUS_AUDITED,
         STATUS_COMPLIANT,
@@ -308,6 +324,13 @@ class Constraint(TenantAwareOrderedModelBase):
     status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NEW)
 
     @classmethod
+    def status_text(cls, status):
+        for status_text in cls.STATUSES:
+            if status == status_text[0]:
+                return status_text[1]
+        return "None"
+
+    @classmethod
     def cmp_status_urgency(cls, a, b):
         if not a:
             if b:
@@ -317,7 +340,7 @@ class Constraint(TenantAwareOrderedModelBase):
             if a:
                 return -1
             assert False
-        return cls.STATUS_URGENCY[a] - cls.STATUS_URGENCY[b]
+        return cls.STATUS_URGENCY[b] - cls.STATUS_URGENCY[a]
 
     @classmethod
     def most_urgent_status(cls, statuses):
@@ -337,6 +360,9 @@ class Constraint(TenantAwareOrderedModelBase):
     @property
     def statements(self):
         return [cs.statement for cs in self.constraint_statements(manager='unscoped').all()]
+
+    def target_statuses(self):
+        return self.STATUS_TRANSITIONS[self.status]
 
     def __str__(self):
         return self.text or self.slug

@@ -2,7 +2,6 @@
 {% load crispy_forms_tags %}
 {% load component_tags %}
 <div class="modal-content">
-<form id="base_form" class="form" hx-post="{{ request.path }}" novalidate>
 <div class="modal-header">
 <h3>
   {% if object %}
@@ -13,6 +12,7 @@
 </h3>
 </div>
 <div class="modal-body">
+<form id="base_form" class="form" hx-post="{{ request.path }}" novalidate>
 {% if help_text %}
   {{ help_text | linebreaks }}
 {% endif %}
@@ -27,21 +27,14 @@
 {% endif %}
 
 {% crispy form %}
+</form>
 
-{% for definition in object.constraint.definitions.all %}
-  <div class="row">
-    <div class="col-md-3">{{ definition.term }}</div>
-    <div class="col-md-9">
-      {% component 'constraint_references' tenant_id=tenant_id domain=project.domains.first constraint=object.constraint definition=definition %}
-      {% endcomponent %}
-    </div>
-  </div>
-{% endfor %}
+{% component 'constraint_editor'  tenant_id=tenant_id domain=project.domains.first constraint=object.constraint %}
+{% endcomponent %}
 
 </div>
 <div class="modal-footer">
-<input type="submit" name="submit" value="{% trans 'Save' %}" form="base_form" class="btn btn-outline-primary">
+<input type="submit" form="base_form" name="submit" value="{% trans 'Save' %}" form="base_form" class="btn btn-outline-primary">
 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">{% trans 'Cancel' %}</button>
-</form>
 </div>
 </div>

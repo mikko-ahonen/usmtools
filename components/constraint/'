@@ -1,0 +1,33 @@
+{% load i18n %}
+{% load compliances %}
+{% load component_tags %}
+
+<div class="constraint"
+    x-data="{
+    }">
+
+    <h5 class="fs-3">{% trans 'Constraint' %}</h3>
+
+    <p>
+      {{ constraint | constraint_status }} {{ constraint.key }} {{ constraint.text }}
+      {% for target_status in constraint.target_statuses %}
+        <button 
+            class="m-1 btn btn-primary-outline"
+            hx-post="{% url 'components:constraint_editor' tenant_id domain.id constraint.id"
+            hx-target="nearest .constraint"
+            hx-vals="{'target_status': '{{ target_status | ecapejs }}'}"
+            hx-swap="outerHTML"
+            >{{ target_status }}</button>
+      {% endfor %}
+    </p>
+
+    {% for definition in object.constraint.definitions.all %}
+      <div class="row">
+        <div class="col-md-3 align-self-center fs-4">{{ definition.term }}</div>
+        <div class="col-md-9">
+          {% component 'constraint_references' tenant_id=tenant_id domain=project.domains.first constraint=object.constraint definition=definition %}
+          {% endcomponent %}
+        </div>
+      </div>
+    {% endfor %}
+</div>

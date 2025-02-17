@@ -3,15 +3,24 @@
 {% load compliances %}
 {% load breadcrumbs %}
 {% block content %}
-<section class="app">
 <div class="container-fluid m-5">
-<h3>{% trans 'Compliance domains' %}</h3>
-  {% for domain in domains %}
-  <h3 class="mb-0"><a href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}">{{ domain.name }}</a></h3>
-  <small class="mt-0 text-muted">{{ domain.description }}
-  </small>
-  {% endfor %}
+<h1>{% trans 'Compliance domains' %}</h1>
+<div class="row">
+{% for domain in domains %}
+<div class="col-3" style="min-width: 18rem">
+<div class="card">
+  <div class="card-header bg-primary">
+    <div class="card-text">
+      <h5><a class="text-white" href="{% url 'compliances:domain-dashboard' tenant.id domain.id %}">{{ domain.name }}</a></h5>
+    </div>
+  </div>
+  <div class="card-body bg-primary-subtle">
+    <small class="mt-0 card-text text-muted">{{ domain.description }}</small>
+  </div>
 </div>
-</section>
+</div>
+{% endfor %}
+</div>
+</div>
 {% include 'compliances/fragments/modal.html' %}
 {% endblock %}

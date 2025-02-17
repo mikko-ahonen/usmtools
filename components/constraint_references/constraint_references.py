@@ -74,7 +74,6 @@ class ConstraintReferences(component.Component):
         qd = request.GET
         constraint = self.get_constraint(qd)
         definition_id = self.get_param(qd, 'definition_id')
-        #definition_name = self.get_param(qd, 'definition_name')
         definition = constraint.definitions.filter(id=definition_id).first()
 
         if definition.ref_plural:
@@ -109,6 +108,7 @@ class ConstraintReferences(component.Component):
         if not reference_id:
             raise ValueError("reference_id is required")
 
+        print(reference_id)
         cls = get_class_by_entity_type(definition.ref_entity_type)
         reference = cls.objects.filter(id=reference_id).first()
         definition.ref_object = reference

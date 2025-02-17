@@ -142,7 +142,7 @@
       {% endcomment %}
       <div class="btn-group mx-1 my-1  d-inline-flex align-items-center">
           <input
-            class="search form-control form-control-sm"
+            class="search form-control"
             hx-post="{% url 'components:typeahead-search' tenant_id %}"
             hx-trigger="keyup changed delay:500ms"
             hx-target="next .typeahead_results_container"
@@ -158,14 +158,14 @@
             autofocus
             autocomplete="off"
             placeholder="{{ placeholder | default:'' | escapejs }}"/>
-          <div 
-            class="typeahead_results_container"
-            x-show="open"
-            x-on:htmx:after-settle="showResults()"
-            x-on:click.away="closeResults()">
-          </div>
         <button class="btn btn-primary disabled">+</button>
         <button class="btn btn-primary disabled">X</button>
+      </div>
+      <div 
+        class="typeahead_results_container"
+        x-show="open"
+        x-on:htmx:after-settle="showResults()"
+        x-on:click.away="closeResults()">
       </div>
     </form>
 </div>
