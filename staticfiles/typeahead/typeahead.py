@@ -8,6 +8,7 @@ from taggit.models import Tag
 from workflows.tenant import current_tenant_id
 from workflows.models import OrganizationUnit, Profile
 from mir.models import Document
+from django.utils.translation import gettext_lazy as _
 
 @component.register("typeahead")
 class Typeahead(component.Component):
@@ -16,18 +17,32 @@ class Typeahead(component.Component):
     def get_context_data(self, **kwargs):
         new_item = kwargs.get("new_item", None)
 
-        if "target" not in kwargs:
+        target = kwargs.get('target', None)
+        if target is None:
             raise ValueError("target required")
         if "x-model" not in kwargs:
             raise ValueError("x-model required")
         tenant_id = current_tenant_id()
         return {
-            "placeholder": kwargs.get("placeholder", None),
+            "placeholder": self.get_placeholder(target),
             "x_model": kwargs["x-model"],
-            "target": kwargs["target"],
+            "target": target,
             "new_item": new_item,
             "tenant_id": tenant_id,
         }
+
+    def get_placeholder(self, target):
+        if target == 't':
+            placeholder = _('tags')
+        elif target in ["p", "profile"]:
+            placeholder = _('profiles')
+        elif target in ["o", "organization_unit"]:
+            placeholder = _('organization units')
+        elif target in ["d", "document"]:
+            placeholder = _('document')
+        else:
+            raise ValueError(f"Invalid typeahead type: {target}")
+        return _('Search') + ' ' + placeholder + '...'
 
     def post(self, request, *args, **kwargs):
 

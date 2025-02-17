@@ -11,6 +11,7 @@ from components.typeahead.typeahead_results import TypeaheadResults
 from components.entity_selector.action_profile_selector import ActionProfileSelector
 from components.entity_selector.action_org_unit_selector import ActionOrgUnitSelector
 from components.entity_selector.definition_reference_selector import DefinitionReferenceSelector
+from components.constraint_references.constraint_references import ConstraintReferences
 
 app_name = "components"
 
@@ -26,4 +27,5 @@ urlpatterns = [
     path("<uuid:tenant_id>/components/actions/profiles/select", ActionProfileSelector.as_view(), name='action-select-profile'),
     path("<uuid:tenant_id>/components/actions/organization-units/select", ActionOrgUnitSelector.as_view(), name='action-select-org-unit'),
     path("<uuid:tenant_id>/components/definitions/references/select/<str:entity_type>/", DefinitionReferenceSelector.as_view(), name='definition-select-reference'),
+    path("<uuid:tenant_id>/constraints/references/<uuid:domain_id>/", ConstraintReferences.as_view(), name='constraint-references'),
 ]

@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import math
 import random
-import inflection
+from inflection import singularize
 
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
@@ -116,13 +116,19 @@ def create_definitions(tenant, domain, constraint):
             index = get_next_value('definitions')
             definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term.capitalize(), index=index, ref_entity_type=entity_type)
 
-    for term in re.findall(r'\@([^@]*)\@', constraint.text):
+        constraint.definitions.add(definition)
 
+    for term_plural in re.findall(r'\@([^@]*)\@', constraint.text):
+
+        term = singularize(term_plural)
+        entity_type = get_entity_type(term) or EntityType.NOT_DEFINED
         try:
             definition = Definition.unscoped.get(tenant_id=tenant.id, domain_id=domain.id, term__iexact=term)
         except Definition.DoesNotExist:
             index = get_next_value('definitions')
-            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term.capitalize(), index=index, ref_plural=True)
+            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term.capitalize(), index=index, ref_entity_type=entity_type, ref_plural=True)
+
+        constraint.definitions.add(definition)
 
 def create_dependencies(tenant, domain, constraint, deps):
     if not isnan(deps):

@@ -272,6 +272,11 @@ class Constraint(TenantAwareOrderedModelBase):
     is_generic = models.BooleanField(default=True, help_text="If True statement, only this needs to be done only once. If False, needs to be implemented seperately for each target in scope.")
     key = models.CharField(max_length=255, blank=True, null=True)
     dependencies = models.ManyToManyField('Constraint', through="ConstraintDependency")
+    definitions = models.ManyToManyField('Definition', through="ConstraintDefinition")
+
+    @property
+    def unscoped_definitions(self):
+        return self.definitions(manager="unscoped")
 
     STATUS_NEW = "new"
     STATUS_ONGOING = "ongoing"
@@ -341,6 +346,18 @@ class Constraint(TenantAwareOrderedModelBase):
 
     def get_goal(self):
         return (self.category.slug + '_' + self.slug).replace("-", "_")
+
+
+class ConstraintDefinition(TenantAwareOrderedModelBase):
+    constraint = models.ForeignKey(Constraint, on_delete=models.CASCADE, null=True)
+    definition = models.ForeignKey(Definition, on_delete=models.CASCADE, null=True)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    order_field_name = 'index'
+    order_with_respect_to = 'constraint'
+
+    class Meta:
+        ordering = ('index',)
 
 
 class ConstraintStatement(TenantAwareOrderedModelBase):

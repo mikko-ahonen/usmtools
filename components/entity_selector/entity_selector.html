@@ -43,6 +43,7 @@
             hx-vals='{"removed_value_name": "{{ selected.name | escapejs }}", "removed_value_id": "{{ selected.id | escapejs }}" }'
             hx-swap="outerHTML">X</button>
       </div>
+
       <div class="m-1" x-show="!selected || selected.id == null || selected.id == ''">
         {% component 'typeahead' x-model="selected" target=target placeholder=search_placeholder %}
         {% endcomponent %}

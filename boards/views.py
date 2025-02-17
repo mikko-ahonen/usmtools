@@ -28,7 +28,7 @@ def get_task_form_class_and_template_by_type(board_type):
         return form_cls
     elif board_type == 'sprint':
         from projects.forms import StoryForm
-        return StoryForm, "projects/modals/create-or-update.html"
+        return StoryForm, "projects/modals/task-create-or-update.html"
     else:
         raise ValueError(f"Invalid board type: {board_type}")
 
@@ -250,4 +250,5 @@ def task_modal(request, tenant_id, board_type, task_uuid):
     tenant_id = current_tenant_id()
     object_type = task_cls._meta.verbose_name
 
-    return render(request, form_template, {"tenant_id": tenant_id, "task": task, "form": form, "object": task, "object_type": object_type})
+    project = task.get_project()
+    return render(request, form_template, {"tenant_id": tenant_id, "task": task, "form": form, "object": task, "project": project, "object_type": object_type})
