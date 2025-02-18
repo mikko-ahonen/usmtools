@@ -349,7 +349,7 @@ class Action(TenantAwareOrderedModelBase):
         (RASCI_INFORMED, _("Informed")),
     ]
     types = models.CharField(max_length=4, blank=True, default='')
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, related_name='actions')
     organization_unit = models.ForeignKey(OrganizationUnit, on_delete=models.CASCADE, null=True)
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='actions')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -357,6 +357,7 @@ class Action(TenantAwareOrderedModelBase):
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, null=True, related_name='actions')
 
     order_field_name = 'index'
     order_with_respect_to = 'activity'
@@ -423,7 +424,6 @@ class WorkInstruction(TenantAwareModelBase):
 class Task(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
-    actions = models.ManyToManyField(Action, related_name="actions")
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)

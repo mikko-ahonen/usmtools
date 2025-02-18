@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.forms import ModelForm, ModelChoiceField, Select, BooleanField, CharField, ValidationError, formset_factory, ChoiceField
-from django.forms.widgets import Textarea, RadioSelect
+from django.forms import Form, ModelForm, ModelChoiceField, Select, BooleanField, CharField, ValidationError, formset_factory, ChoiceField, ModelChoiceField, ModelMultipleChoiceField
+from django.forms.widgets import Textarea, RadioSelect, CheckboxSelectMultiple
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Column, Row, HTML, Div
 import pprint
@@ -395,3 +395,21 @@ class ServiceShareFormSetHelper(FormHelper):
         self.form_tag = False
         self.render_required_fields = True
 
+
+class ProfileAddActionsToTaskForm(Form):
+    task = ModelChoiceField(
+        queryset=Task.objects.none()
+    )
+
+    actions = ModelMultipleChoiceField(
+        queryset=Action.objects.none(),
+        widget=CheckboxSelectMultiple
+    )
+
+    def __init__(self, *args, **kwargs):
+        profile = kwargs.pop('profile', None)
+        super().__init__(*args, **kwargs)
+        self.form_tag = False
+        if profile:
+            self.fields['task'].queryset = Task.objects.filter(profile_id=profile.id)
+            self.fields['actions'].queryset = Action.objects.filter(profile_id=profile.id, task_id__isnull=True)

@@ -1,12 +1,11 @@
 {% extends 'workflows/modals/modal-base.html' %}
-{% block content %}
 {% load i18n %}
 {% load verbose_name %}
 {% load referred_foreign_keys %}
 {% load danger %}
 {% load crispy_forms_tags %}
 {% block content %}
-{% with verbose_name=object|verbose_name %}
+{{ object }}
 <h3>
   {% if object %}
     {% trans 'Update the ' %} {{ verbose_name }} {{ object }}
@@ -19,5 +18,4 @@
 {% crispy form %}
 <button class="btn btn-outline-primary" type="submit">{% trans 'Save' %}</button>
 </form>
-{% endwith %}
 {% endblock %}

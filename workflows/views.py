@@ -351,11 +351,28 @@ class ProfileList(TenantMixin, ListView):
     context_object_name = 'profiles'
 
 
-class ProfileDetail(TenantMixin, DetailView):
+class ProfileDetail(TenantMixin, GetProfileMixin, DetailView, FormView):
     model = Profile
     template_name = 'workflows/profile-detail.html'
     context_object_name = 'profile'
+    form_class = forms.ProfileAddActionsToTaskForm
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        tenant_id = self.kwargs.get('tenant_id')
+        service_id = self.kwargs.get('pk')
+        service = self.get_service(service_id)
+        kwargs['tenant_id'] = tenant_id
+        kwargs['profile'] = [ sc.customer_id for sc in service.service_customers.all() ]
+        return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        #profile_id = self.kwargs.get('pk', None)
+        #profile = self.get_profile(profile_id)
+        profile = self.get_object()
+        context['profile_actions_without_task'] = profile.actions.filter(task__isnull=True).order_by('index')
+        return context
 
 class ProfileUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     model = Profile
@@ -867,28 +884,28 @@ class StepUnskip(TenantMixin, GetStepMixin, View):
 #
 # TASK
 #
-class TaskCreate(TenantMixin, GetActivityMixin, CreateView):
+class TaskCreate(TenantMixin, GetProfileMixin, CreateView):
     model = Task
     template_name = 'workflows/modals/create-or-update.html'
-    context_object_name = 'task'
     form_class = forms.TaskCreateOrUpdate
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        activity_id = self.kwargs.get('pk')
-        activity = self.get_activity(activity_id)
-        context['activity'] = activity
+        profile_id = self.kwargs.get('pk')
+        profile = self.get_profile(profile_id)
+        context['profile'] = profile
+        context['verbose_name'] = _('task')
         return context
 
     def form_valid(self, form):
         tenant = self.get_tenant()
-        activity_id = self.kwargs.get('pk')
-        activity = self.get_activity(activity_id)
+        profile_id = self.kwargs.get('pk')
+        profile = self.get_profile(profile_id)
         self.object = form.save(commit=False)
         self.object.tenant = tenant
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
-        self.object.activity = activity
+        self.object.profile = profile
         self.object.save()
 
         return HttpResponseRedirect(self.get_success_url()) 
@@ -896,7 +913,7 @@ class TaskCreate(TenantMixin, GetActivityMixin, CreateView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         new_task = self.object
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': new_task.activity.step_id}) + '#activity-' + str(new_task.activity_id)
+        return reverse_lazy('workflows:profile-detail', kwargs={'tenant_id': tenant_id, 'pk': new_task.profile_id})
 
 class TaskUpdate(TenantMixin, GetTaskMixin, UpdateView, UpdateModifiedByMixin):
     model = Task
@@ -907,7 +924,40 @@ class TaskUpdate(TenantMixin, GetTaskMixin, UpdateView, UpdateModifiedByMixin):
         tenant_id = self.kwargs.get('tenant_id')
         task_id = self.kwargs.get('pk')
         task = self.get_task(task_id)
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': task.activity.step_id}) + '#activity-' + str(task.activity.id)
+        return reverse_lazy('workflows:profile-detail', kwargs={'tenant_id': tenant_id, 'pk': task.profile_id})
+
+class ProfileAddActionsToTask(TenantMixin, GetProfileMixin, FormView, UpdateModifiedByMixin):
+    template_name = 'workflows/modals/create-or-update.html'
+    form_class = forms.ProfileAddActionsToTaskForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        profile_id = self.kwargs['pk']
+        profile = self.get_profile(profile_id)
+        kwargs['profile'] = profile
+        return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        profile_id = self.kwargs.get('pk')
+        profile = self.get_profile(profile_id)
+        context['profile'] = profile
+        context['verbose_name'] = _('task')
+        return context
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        profile_id = self.kwargs['pk']
+        return reverse_lazy('workflows:profile-detail', kwargs={'tenant_id': tenant_id, 'pk': profile_id})
+
+    def form_valid(self, form):
+        profile_id = self.kwargs['pk']
+        task = form.cleaned_data['task']
+        for actions in form.cleaned_data['actions']:
+            action.task = task
+            action.save()
+
+        return super().form_valid(form)
 
 class TaskDelete(TenantMixin, GetTaskMixin, DeleteView):
     model = Task
@@ -918,7 +968,7 @@ class TaskDelete(TenantMixin, GetTaskMixin, DeleteView):
         tenant_id = self.kwargs.get('tenant_id')
         task_id = self.kwargs.get('pk')
         task = self.get_task(activity_id)
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': activity.step_id}) + '#activity-' + str(activity.step_id)
+        return reverse_lazy('workflows:profile-detail', kwargs={'tenant_id': tenant_id, 'pk': task.profile_id})
 
 
 

@@ -40,8 +40,13 @@
     [x] Audit view
     [x] Link to the proof
     [x] Mark requirement as audited or failed
+[ ] Ou 
+    [ ] Move to MIR
+[ ] Customer
+    [ ] Move to MIR
 [ ] Profile
     [ ] Link to organization unit
+    [ ] Link to employee
     [ ] Link to employee
     [ ] Default profile to routine
     [ ] Default profile to step

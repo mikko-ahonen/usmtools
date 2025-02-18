@@ -40,6 +40,7 @@ urlpatterns = [
     path('<uuid:tenant_id>/profiles/<uuid:pk>/update/', views.ProfileUpdate.as_view(), name='profile-update'),
     path('<uuid:tenant_id>/profiles/<uuid:pk>/up/', views.ProfileUp.as_view(), name='profile-up'),
     path('<uuid:tenant_id>/profiles/<uuid:pk>/down/', views.ProfileDown.as_view(), name='profile-down'),
+    path('<uuid:tenant_id>/profiles/<uuid:pk>/actions/add/', views.ProfileAddActionsToTask.as_view(), name='profile-add-actions-to-task'),
     path('<uuid:tenant_id>/customers/', views.CustomerList.as_view(), name='customer-list'),
     path('<uuid:tenant_id>/customers/create/', views.CustomerCreate.as_view(), name='customer-create'),
     path('<uuid:tenant_id>/customers/<uuid:pk>/delete/', views.CustomerDelete.as_view(), name='customer-delete'),

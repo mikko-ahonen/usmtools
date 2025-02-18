@@ -1,27 +1,62 @@
 {% extends "workflows/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 {% load breadcrumbs %}
 {% block content %}
 <div class="container-fluid m-5">
 {% include 'workflows/fragments/service-tabs.html' %}
 <h3 class="mt-3">{% trans 'Profile' %} {{ profile }}</h3>
+<div class="row">
 {% for task in profile.tasks.all %}
-<div class="col-3" style="mid-width: 18rem">
+<div class="col-3 mt-3" style="mid-width: 18rem">
 <div class="card">
-  <div class="card-header">
-    {{ task.name }}
+  <div class="card-header bg-primary">
+    <span class="text-white">
+      {{ task.name }}
+    </span>
   </div>
-  <div class="card-footer bg-primary-subtle">
+  <div class="card-body bg-primary-subtle">
+    <span class="card-text">
+      <ul>
+      {% for action in task.actions.all %}
+        <li>
+          <a href="{% url 'workflows:step-detail' tenant.id action.activity.step_id %}#activity-{{ action.activity.id }}">{{ action }}</a>
+        </li>
+      {% empty %}
+        <li>{% trans 'This task does not have any actions.' %}
+      {% endfor %}
+      </ul>
+    </span>
     <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-update' tenant.id task.id %}" href="{% url 'workflows:task-update' tenant.id task.id %}">{% trans 'Edit'  %}</a>
     <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-delete' tenant.id task.id %}" href="{% url 'workflows:task-delete' tenant.id task.id %}">{% trans 'Remove' %}</i></a>
   </div>
+</div>
 </div>
 {% empty %}
   <p>
     {% trans 'You have not defined any tasks yet for this profile.' %}
   </p>
 {% endfor %}
-<p>
+
+{% if profile_actions_without_task %}
+<form hx-post="{% url 'workflows:profile-add-actions-to-task' tenant.id profile.id %}">
+{% for action in profile_actions_without_task %}
+<div class="row">
+  <div class="col">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="{{ action.id | escapejs }}" name="actions">
+      <label class="form-check-label">
+        {{ action.title }}
+      </label>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% crispy form %}
+</form>
+{% endif %}
+
+<p class="mt-3">
   <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-create' tenant.id profile.id %}" href="{% url 'workflows:task-create' tenant.id profile.id %}">{% trans 'Create a new task' %}</a>
 </p>
 </div>
