@@ -1,1 +1,1 @@
-python manage.py migrate compliances zero && python manage.py migrate stats zero && python manage.py migrate projects zero && python manage.py migrate workflows zero #&& python manage.py migrate && python manage.py iso27k --file fixtures/iso27k/iso27k.xlsx
+python manage.py migrate compliances zero && python manage.py migrate stats zero && python manage.py migrate projects zero && python manage.py migrate workflows zero && python manage.py migrate && python manage.py iso27k --file fixtures/iso27k/iso27k.xlsx
