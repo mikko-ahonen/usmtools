@@ -1,14 +1,14 @@
 from django_components import component
 
 from .entity_selector import EntitySelector
-from workflows.models import Action, Profile
+from workflows.models import Responsibility, Profile
 from workflows.tenant import current_tenant_id
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 @component.register("action_profile_selector")
 class ActionProfileSelector(EntitySelector):
-    entity_class = Action
+    entity_class = Responsibility
     entity_target = 'p'
     value_attr = 'profile'
     value_class = Profile

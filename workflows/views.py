@@ -28,7 +28,7 @@ from django.contrib import messages
 from .raci import RACI
 
 from . import forms
-from .models import Service, Routine, Step, Profile, Activity, Action, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer, Task
+from .models import Service, Routine, Step, Profile, Activity, Responsibility, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer, Task, Action
 from .export import export_as_usm_dif
 from .diagrams import diagram
 
@@ -351,28 +351,15 @@ class ProfileList(TenantMixin, ListView):
     context_object_name = 'profiles'
 
 
-class ProfileDetail(TenantMixin, GetProfileMixin, DetailView, FormView):
+class ProfileDetail(TenantMixin, DetailView):
     model = Profile
     template_name = 'workflows/profile-detail.html'
     context_object_name = 'profile'
-    form_class = forms.ProfileAddActionsToTaskForm
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        tenant_id = self.kwargs.get('tenant_id')
-        service_id = self.kwargs.get('pk')
-        service = self.get_service(service_id)
-        kwargs['tenant_id'] = tenant_id
-        kwargs['profile'] = [ sc.customer_id for sc in service.service_customers.all() ]
+        kwargs['profile'] = self.get_object()
         return kwargs
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        #profile_id = self.kwargs.get('pk', None)
-        #profile = self.get_profile(profile_id)
-        profile = self.get_object()
-        context['profile_actions_without_task'] = profile.actions.filter(task__isnull=True).order_by('index')
-        return context
 
 class ProfileUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     model = Profile
@@ -925,39 +912,6 @@ class TaskUpdate(TenantMixin, GetTaskMixin, UpdateView, UpdateModifiedByMixin):
         task_id = self.kwargs.get('pk')
         task = self.get_task(task_id)
         return reverse_lazy('workflows:profile-detail', kwargs={'tenant_id': tenant_id, 'pk': task.profile_id})
-
-class ProfileAddActionsToTask(TenantMixin, GetProfileMixin, FormView, UpdateModifiedByMixin):
-    template_name = 'workflows/modals/create-or-update.html'
-    form_class = forms.ProfileAddActionsToTaskForm
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        profile_id = self.kwargs['pk']
-        profile = self.get_profile(profile_id)
-        kwargs['profile'] = profile
-        return kwargs
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        profile_id = self.kwargs.get('pk')
-        profile = self.get_profile(profile_id)
-        context['profile'] = profile
-        context['verbose_name'] = _('task')
-        return context
-
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        profile_id = self.kwargs['pk']
-        return reverse_lazy('workflows:profile-detail', kwargs={'tenant_id': tenant_id, 'pk': profile_id})
-
-    def form_valid(self, form):
-        profile_id = self.kwargs['pk']
-        task = form.cleaned_data['task']
-        for actions in form.cleaned_data['actions']:
-            action.task = task
-            action.save()
-
-        return super().form_valid(form)
 
 class TaskDelete(TenantMixin, GetTaskMixin, DeleteView):
     model = Task

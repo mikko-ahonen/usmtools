@@ -38,24 +38,6 @@
   </p>
 {% endfor %}
 
-{% if profile_actions_without_task %}
-<form hx-post="{% url 'workflows:profile-add-actions-to-task' tenant.id profile.id %}">
-{% for action in profile_actions_without_task %}
-<div class="row">
-  <div class="col">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="{{ action.id | escapejs }}" name="actions">
-      <label class="form-check-label">
-        {{ action.title }}
-      </label>
-    </div>
-  </div>
-</div>
-{% endfor %}
-{% crispy form %}
-</form>
-{% endif %}
-
 <p class="mt-3">
   <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-create' tenant.id profile.id %}" href="{% url 'workflows:task-create' tenant.id profile.id %}">{% trans 'Create a new task' %}</a>
 </p>

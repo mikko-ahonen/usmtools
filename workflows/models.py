@@ -335,7 +335,26 @@ class Activity(TenantAwareOrderedModelBase):
 class Action(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=100, blank=True, null=True)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+    modified_at = models.DateTimeField(auto_now=True)
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, null=True)
+
+    order_field_name = 'index'
+    order_with_respect_to = 'activity'
+
+    class Meta:
+        verbose_name = _('action')
+        verbose_name_plural = _('actions')
+        ordering = ['index',]
+        default_related_name = 'actions'
+
+class Responsibility(TenantAwareOrderedModelBase):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     RASCI_RESPONSIBLE = "R"
     RASCI_ACCOUNTABLE = "A"
     RASCI_SUPPORTING = "S"
@@ -349,18 +368,16 @@ class Action(TenantAwareOrderedModelBase):
         (RASCI_INFORMED, _("Informed")),
     ]
     types = models.CharField(max_length=4, blank=True, default='')
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, related_name='actions')
-    organization_unit = models.ForeignKey(OrganizationUnit, on_delete=models.CASCADE, null=True)
-    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='actions')
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    action = models.ForeignKey(Action, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    task = models.ForeignKey('Task', on_delete=models.CASCADE, null=True, related_name='actions')
 
     order_field_name = 'index'
-    order_with_respect_to = 'activity'
+    order_with_respect_to = 'action'
 
     def get_types_display(self):
         retval = []
@@ -372,26 +389,22 @@ class Action(TenantAwareOrderedModelBase):
         return ", ".join(retval)
 
     def __str__(self):
-        if self.profile and self.organization_unit:
-            name = self.profile.name + ' / ' + self.organization_unit.name
-        elif self.profile:
+        if self.profile:
             name = self.profile.name
-        elif self.organization_unit:
-            name = self.organization_unit.name
         else:
             name = "no name"
         return self.get_types_display() + ': ' + name 
 
     class Meta:
-        verbose_name = _('responsible')
-        verbose_name_plural = _('responsibles')
-        ordering = ['modified_at',]
-        default_related_name = 'responsibles'
+        verbose_name = _('responsibilities')
+        verbose_name_plural = _('responsibilities')
+        ordering = ['index',]
+        default_related_name = 'responsibilities'
 
 class WorkInstruction(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    responsible = models.ForeignKey(Action, on_delete=models.CASCADE)
+    responsible = models.ForeignKey(Responsibility, on_delete=models.CASCADE)
 
     description = models.TextField(blank=True, null=True)
 
