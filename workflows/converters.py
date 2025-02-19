@@ -1,5 +1,5 @@
 from django.urls.converters import StringConverter
-from .raci import RACI
+from .rasci import RASCI
 
 class ResponsibilityTypesConverter(StringConverter):
-    regex = RACI.REGEX
+    regex = RASCI.REGEX

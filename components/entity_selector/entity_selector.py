@@ -41,12 +41,6 @@ class EntitySelector(component.Component):
     def get_entity_target(self, entity):
         return self.entity_target
 
-    def get_param(self, qd, name):
-        v = qd.get(name)
-        if v and v != '' and v != 'None':
-            return v
-        return None
-
     def get_entity(self, qd):
         entity_id = self.get_param(qd, 'entity_id')
         if entity_id:
@@ -71,6 +65,12 @@ class EntitySelector(component.Component):
         entity.save()
         context = self.get_context_data(entity=entity)
         return self.render_to_response(context=context, slots={}, kwargs={'entity': entity})
+
+    def get_param(self, qd, name):
+        v = qd.get(name)
+        if v and v != '' and v != 'None':
+            return v
+        return None
 
     def post(self, request, *args, **kwargs):
         qd = QueryDict(request.body)

@@ -1,0 +1,40 @@
+https://www.color-hex.com/color/36589c
+
+Shades of #36589c
+#36589c
+#304f8c
+#2b467c
+#253d6d
+#20345d
+#1b2c4e
+#15233e
+#101a2e
+#0a111f
+#05080f
+#000000
+
+Tints of #36589c
+#36589c
+#4a68a5
+#5e79af
+#728ab9
+#869ac3
+#9aabcd
+#aebcd7
+#c2cce1
+#d6ddeb
+#eaeef5
+#ffffff
+
+
+Monochromatic Colors of #36589c
+#223863
+#294376
+#2f4d89
+#36589c
+#3d63af
+#466ebf
+#597dc6
+
+
+

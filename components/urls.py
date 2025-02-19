@@ -12,6 +12,7 @@ from components.entity_selector.responsibility_profile_selector import Responsib
 from components.entity_selector.definition_reference_selector import DefinitionReferenceSelector
 from components.constraint_references.constraint_references import ConstraintReferences
 from components.constraint.constraint_editor import ConstraintEditor
+from components.action.responsibility_editor import ResponsibilityEditor
 
 app_name = "components"
 
@@ -28,4 +29,5 @@ urlpatterns = [
     path("<uuid:tenant_id>/components/definitions/references/select/<str:entity_type>/", DefinitionReferenceSelector.as_view(), name='definition-select-reference'),
     path("<uuid:tenant_id>/<uuid:domain_id>/constraints/references/", ConstraintReferences.as_view(), name='constraint-references'),
     path("<uuid:tenant_id>/<uuid:domain_id>/constraints/<uuid:constraint_id>/editor/", ConstraintEditor.as_view(), name='constraint-editor'),
+    path("<uuid:tenant_id>/responsibilities/<uuid:responsibility_id>/editor/", ResponsibilityEditor.as_view(), name='responsibility-editor'),
 ]

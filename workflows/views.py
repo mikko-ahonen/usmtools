@@ -25,7 +25,7 @@ from extra_views import ModelFormSetView
 
 from django.contrib import messages
 
-from .raci import RACI
+from .rasci import RASCI
 
 from . import forms
 from .models import Service, Routine, Step, Profile, Activity, Responsibility, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer, Task, Action
@@ -1043,7 +1043,7 @@ class ResponsibilityCreate(TenantMixin, GetActionMixin, View):
         action_id = self.kwargs.get('pk')
         action = self.get_action(action_id)
         responsibility = Responsibility.objects.create(action=action, tenant_id=tenant_id, created_by=self.request.user, modified_by=self.request.user)
-        return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity_id))
+        return JsonResponse({'status': 'ok'})
 
 class ResponsibilityDelete(TenantMixin, GetResponsibilityMixin, View):
     def get_success_url(self):
@@ -1051,29 +1051,7 @@ class ResponsibilityDelete(TenantMixin, GetResponsibilityMixin, View):
         responsibility_id = self.kwargs.get('pk')
         responsibility = self.get_responsibility(responsibility_id)
         responsibility.delete()
-        activity = responsibility.action.activity
-        activity_id = activity.id
-        step_id = activity.step_id
-
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step_id}) + '#activity-' + str(activity_id)
-
-
-class ResponsibilityAddTypes(TenantMixin, GetResponsibilityMixin, View):
-    def get(self, request, tenant_id=None, pk=None, types=''):
-        responsibility = self.get_responsibility(pk)
-        responsibility.types = RACI(action.types).add_types(types).get_types()
-        responsibility.modified_by = request.user
-        responsibility.save()
-        return JsonResponse({'status': 'ok', 'types': responsibility.types})
-
-
-class ResponsibilityRemoveTypes(TenantMixin, GetResponsibilityMixin, View):
-    def get(self, request, tenant_id=None, pk=None, types=''):
-        responsibility = self.get_responsibility(pk)
-        responsibility.types = RACI(action.types).remove_types(types).get_types()
-        responsibility.modified_by = request.user
-        responsibility.save()
-        return JsonResponse({'status': 'ok', 'types': responsibility.types})
+        return JsonResponse({'status': 'ok'})
 
 
 
@@ -1087,15 +1065,6 @@ class ActionCreateOrUpdate(TenantMixin, GetActivityMixin, CreateView):
     template_name = 'workflows/modals/action-create-or-update.html'
     context_object_name = 'action'
     form_class = forms.ActionCreateOrUpdate
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        tenant_id = self.kwargs.get('tenant_id')
-        activity_id = self.kwargs.get('pk')
-        activity = self.get_activity(activity_id)
-        kwargs['tenant_id'] = tenant_id
-        kwargs['exclude_profile_ids'] = [ r.profile_id for r in activity.actions.all() if r.profile_id ]
-        return kwargs
 
     def form_valid(self, form):
         tenant = self.get_tenant()

@@ -381,7 +381,7 @@ class Responsibility(TenantAwareOrderedModelBase):
 
     def get_types_display(self):
         retval = []
-        for (k, v) in Action.RASCI_CHOICES:
+        for (k, v) in Responsibility.RASCI_CHOICES:
             if k in self.types:
                 retval.append(str(v))
         if len(retval) == 0:

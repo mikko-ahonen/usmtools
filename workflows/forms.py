@@ -179,8 +179,6 @@ class ActionCreateOrUpdate(ModelForm):
         fields = ['title', 'description']
 
     def __init__(self, *args, **kwargs):
-        tenant_id = kwargs.pop('tenant_id')
-        tenant_id = kwargs.pop('exclude_profile_ids')
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False

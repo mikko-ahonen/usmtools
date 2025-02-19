@@ -68,9 +68,11 @@
         {{ activity.description|usm_format_links|linebreaks }}
       </div>
     </div>
-    <div class="card-body bg-primary-subtle text-black">
+    <div class="card-body text-black" style="background-color: #5e79af">
       {% include 'workflows/fragments/actions.html' with tenant=tenant actions=activity.actions only %}
-      <a class="mt-3 btn btn-outline-primary open-popup" href="{% url 'workflows:action-create' tenant.id activity.id %}" data-popup-url="{% url 'workflows:action-create' tenant.id activity.id %}">{% trans 'Add a new action' %}</a>
+      <p>
+      <a class="mt-3 btn btn-outline-light open-popup" href="{% url 'workflows:action-create' tenant.id activity.id %}" data-popup-url="{% url 'workflows:action-create' tenant.id activity.id %}">{% trans 'Add a new action' %}</a>
+      </p>
     </div>
   </div>
 {% empty %}
@@ -85,25 +87,6 @@
 
 {% block footer-scripts %}
 <script>
-$(document).on("change", ".responsibility-checkbox", function (e) {
-    var action = null;
-    if ($(this).is(":checked")) {
-        action = 'add-responsibilities';
-    } else {
-        action = 'remove-responsibilities';
-    }
-    var rtype = $(this).data('rtype');
-    var tenant_id = '{{ tenant.id }}';
-    var url = '/workflows/' + tenant_id + '/actions/' + $(this).data('action') + '/' + action + '/' + rtype + '/';
-    console.log(url);
-
-    $.ajax({
-        url: url
-    }).then(function(data) {
-        console.log(data);
-    });
-});
-
 $(document).on("click", ".activity-up", function (e) {
     var activity = $(this).data('activity');
     var tenant_id = '{{ tenant.id }}';
