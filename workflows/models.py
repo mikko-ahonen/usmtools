@@ -57,19 +57,14 @@ class OrganizationUnit(TenantAwareTreeModelBase):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='organizations_created')
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='organizations_modified')
-    #index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=None, null=True)
 
     def __str__(self):
         return self.name
-
-    #order_field_name = 'index'
-    #order_with_respect_to = 'tenant'
 
     class Meta:
         verbose_name = _('organization unit')
         verbose_name_plural = _('organization units')
         default_related_name = 'organization_units'
-    #    ordering = ('index',)
 
 
 class Service(TenantAwareTreeModelBase):
@@ -83,22 +78,14 @@ class Service(TenantAwareTreeModelBase):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='services_created')
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='services_modified')
-    #index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=None, null=True)
 
     def __str__(self):
         return self.name
-
-    #order_field_name = 'index'
-    #order_with_respect_to = 'tenant'
-
-    #def get_absolute_url(self):
-    #    return reverse('workflows:service-detail', kwargs={'pk': self.id})
 
     def __str__(self):
         return self.name
 
     class Meta:
-    #    ordering = ('index',)
         verbose_name = _('service')
         verbose_name_plural = _('services')
         default_related_name = 'services'
@@ -401,10 +388,10 @@ class Responsibility(TenantAwareOrderedModelBase):
         ordering = ['index',]
         default_related_name = 'responsibilities'
 
-class WorkInstruction(TenantAwareModelBase):
+class Instruction(TenantAwareModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    responsible = models.ForeignKey(Responsibility, on_delete=models.CASCADE)
+    responsibility = models.OneToOneField(Responsibility, on_delete=models.CASCADE, related_name='instruction', null=True)
 
     description = models.TextField(blank=True, null=True)
 
@@ -414,24 +401,20 @@ class WorkInstruction(TenantAwareModelBase):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
     class Meta:
-        verbose_name = _('work instruction')
-        verbose_name_plural = _('work instructions')
+        verbose_name = _('instruction')
+        verbose_name_plural = _('instructions')
         ordering = ['modified_at',]
-        default_related_name = 'work_instructions'
+        default_related_name = 'instructions'
 
     def __str__(self):
-        profile = self.responsible.profile
-        ou = self.responsible.organization_unit
-        if profile and ou:
-            name = profile.name + ' / ' + ou.name
-        elif profile:
+        profile = self.responsibility.profile
+        if profile:
             name = profile.name
-        elif ou:
-            name = ou.name
         else:
             name = "no name"
 
-        return f"{self.responsible.activity.step.routine.name}/{self.responsible.activity.step.name}/{self.responsible.activity.name}/{name}"
+        activity = self.responsibility.action.activity
+        return f"{activity.step.routine.name}/{activity.step.name}/{activity.name}/{name}"
 
 
 class Task(TenantAwareOrderedModelBase):

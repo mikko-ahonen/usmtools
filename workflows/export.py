@@ -6,14 +6,14 @@ def uuid_as_str(uuid):
 def export_as_usm_dif(tenant):
 
     return {
-        'usm_dif_version': '1.0.0',
+        'usm_dif_version': '2.0.0',
         'source_system': {
-            'vendor': 'usm.coach',
-            'name': 'bpm-tool',
-            'version': '0.1.0',
+            'vendor': 'USM Coach',
+            'name': 'usm.tools',
+            'version': '0.2.0',
             'instance': '6a831346-fc7d-45cc-9b66-2ea0040f7278',
         },
-        'export-version': '1.0.,0',
+        'export-version': '2.0.,0',
         'tenant': {
             'id': uuid_as_str(tenant.id),
             'name': tenant.name,
@@ -66,22 +66,22 @@ def export_as_usm_dif(tenant):
                         'id': uuid_as_str(activity.id),
                         'sort_index': activity.index,
                         'description': step.description,
-                        'responsibles': [ {
-                            'id': uuid_as_str(responsible.id),
-                            'types': responsible.types,
+                        'responsibilities': [ {
+                            'id': uuid_as_str(responsibility.id),
+                            'types': responsibility.types,
                             'organization': {
-                                'id': uuid_as_str(responsible.organization_unit.id),
-                                'name': responsible.organization_unit.name,
-                            } if responsible.organization_unit else None,
+                                'id': uuid_as_str(responsibility.organization_unit.id),
+                                'name': responsibility.organization_unit.name,
+                            } if responsibility.organization_unit else None,
                             'profile': {
-                                'id': uuid_as_str(responsible.profile.id),
-                                'name': responsible.profile.name,
-                            } if responsible.profile else None,
-                            'work_instructions': [ {
-                                'id': uuid_as_str(wi.id),
-                                'description': wi.description,
-                            } for wi in responsible.work_instructions.all() ],
-                        } for responsible in activity.responsibles.all() ],
+                                'id': uuid_as_str(responsibility.profile.id),
+                                'name': responsibility.profile.name,
+                            } if responsibility.profile else None,
+                            'instruction': {
+                                'id': uuid_as_str(i.id),
+                                'description': i.description,
+                            } if responsibility.instruction else None,
+                        } for responsibility in action.responsibility.all() ],
                     } for activity in step.activities.all() ],
                 } for step in routine.steps.all() ]
             } for routine in service.routines.all() ]

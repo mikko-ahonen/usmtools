@@ -28,7 +28,7 @@ from django.contrib import messages
 from .rasci import RASCI
 
 from . import forms
-from .models import Service, Routine, Step, Profile, Activity, Responsibility, WorkInstruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer, Task, Action
+from .models import Service, Routine, Step, Profile, Activity, Responsibility, Instruction, Customer, Share, OrganizationUnit, Tenant, ServiceCustomer, Task, Action
 from .export import export_as_usm_dif
 from .diagrams import diagram
 
@@ -146,13 +146,13 @@ class GetResponsibilityMixin():
         return self.responsibility
 
 
-class GetWorkInstructionMixin():
-    work_instruction = None
+class GetInstructionMixin():
+    instruction = None
 
-    def get_work_instruction(self, work_instruction_id):
-        if self.work_instruction is None:
-            self.work_instruction = WorkInstruction.objects.filter(pk=work_instruction_id).select_related('action').select_related('action__activity').select_related('action__activity__step').select_related('action__activity__step__routine').select_related('action__activity__step__routine__service').first()
-        return self.work_instruction
+    def get_instruction(self, instruction_id):
+        if self.instruction is None:
+            self.instruction = Instruction.objects.filter(pk=instruction_id).select_related('responsibility__action').select_related('responsibility__action__activity').select_related('responsibility__action__activity__step').select_related('responsibility__action__activity__step__routine').select_related('responsibility__action__activity__step__routine__service').first()
+        return self.instruction
 
 
 class GetStepMixin():
@@ -1147,14 +1147,14 @@ class ActionDown(TenantMixin, GetActionMixin, View):
 
 #######################################################################################################################
 #
-# WORK INSTRUCTION
+# INSTRUCTION
 #
 
-class WorkInstructionCreate(TenantMixin, GetResponsibilityMixin, CreateView):
-    model = WorkInstruction
-    template_name = 'workflows/modals/work-instruction-create-or-update.html'
-    context_object_name = 'work_instruction'
-    form_class = forms.WorkInstructionCreateOrUpdate
+class InstructionCreate(TenantMixin, GetResponsibilityMixin, CreateView):
+    model = Instruction
+    template_name = 'workflows/modals/instruction-create-or-update.html'
+    context_object_name = 'instruction'
+    form_class = forms.InstructionCreateOrUpdate
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -1165,7 +1165,6 @@ class WorkInstructionCreate(TenantMixin, GetResponsibilityMixin, CreateView):
 
     def form_valid(self, form):
         tenant = self.get_tenant()
-        breakpoint()
         responsibility_id = self.kwargs.get('pk')
         responsibility = self.get_responsibility(responsibility_id)
         self.object = form.save(commit=False)
@@ -1178,29 +1177,29 @@ class WorkInstructionCreate(TenantMixin, GetResponsibilityMixin, CreateView):
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        new_work_instruction = self.object
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': new_work_instruction.action.activity.step_id}) + '#activity-' + str(new_work_instruction.action.activity_id)
+        new_instruction = self.object
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': new_instruction.responsibility.action.activity.step_id}) + '#activity-' + str(new_instruction.responsibility.action.activity_id)
 
 
-class WorkInstructionUpdate(TenantMixin, GetWorkInstructionMixin, UpdateView, UpdateModifiedByMixin):
-    model = WorkInstruction
-    template_name = 'workflows/modals/work-instruction-create-or-update.html'
-    form_class = forms.WorkInstructionCreateOrUpdate
-
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        work_instruction_id = self.kwargs.get('pk')
-        work_instruction = self.get_work_instruction(work_instruction_id)
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.action.activity.step_id}) + '#activity-' + str(work_instruction.action.activity_id)
-
-
-class WorkInstructionDelete(TenantMixin, GetWorkInstructionMixin, DeleteView):
-    model = WorkInstruction
-    template_name = 'workflows/modals/work-instruction-delete.html'
-    context_object_name = 'work_instruction'
+class InstructionUpdate(TenantMixin, GetInstructionMixin, UpdateView, UpdateModifiedByMixin):
+    model = Instruction
+    template_name = 'workflows/modals/instruction-create-or-update.html'
+    form_class = forms.InstructionCreateOrUpdate
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        work_instruction_id = self.kwargs.get('pk')
-        work_instruction = self.get_work_instruction(work_instruction_id)
-        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': work_instruction.action.activity.step_id}) + '#activity-' + str(work_instruction.action.activity_id)
+        instruction_id = self.kwargs.get('pk')
+        instruction = self.get_instruction(instruction_id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': instruction.responsibility.action.activity.step_id}) + '#activity-' + str(instruction.responsibility.action.activity_id)
+
+
+class InstructionDelete(TenantMixin, GetInstructionMixin, DeleteView):
+    model = Instruction
+    template_name = 'workflows/modals/instruction-delete.html'
+    context_object_name = 'instruction'
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        instruction_id = self.kwargs.get('pk')
+        instruction = self.get_instruction(instruction_id)
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': instruction.responsibility.action.activity.step_id}) + '#activity-' + str(instruction.responsibility.action.activity_id)

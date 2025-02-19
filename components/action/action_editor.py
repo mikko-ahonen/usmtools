@@ -51,7 +51,6 @@ class ActionEditor(component.Component):
         action = Action.objects.get(tenant_id=tenant_id, id=action_id)
         if tenant_id != str(action.tenant_id):
             raise SuspiciousOperation(f"Parameter tenant_id {tenant_id} while action tenant_id {action.tenant_id}")
-        breakpoint()
         responsibility = Responsibility.objects.create(action=action, tenant_id=tenant_id, created_by=request.user, modified_by=request.user)
 
         context = self.get_context_data(tenant_id=tenant_id, action=action)

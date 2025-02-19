@@ -11,7 +11,7 @@ from tree_queries.forms import TreeNodeChoiceField
 #from dal import autocomplete
 #from dal_select2_taggit.widgets import TaggitSelect2
 
-from .models import Routine, Activity, Responsibility, Profile, Service, WorkInstruction, Customer, OrganizationUnit, Share, Tenant, ServiceCustomer, Task, Action
+from .models import Routine, Activity, Responsibility, Profile, Service, Instruction, Customer, OrganizationUnit, Share, Tenant, ServiceCustomer, Task, Action
 
 
 class UUIDModelChoiceField(ModelChoiceField):
@@ -215,10 +215,10 @@ class ActivityCreateOrUpdate(ModelForm):
         #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
-class WorkInstructionCreateOrUpdate(ModelForm):
+class InstructionCreateOrUpdate(ModelForm):
 
     class Meta:
-        model = WorkInstruction
+        model = Instruction
         fields = ['description']
         widgets = {
             'description': Textarea(attrs={'rows': 4}),

@@ -51,13 +51,13 @@
             ({{ action.get_types_display }})
             </strong>
           </p>
-          {% for wi in action.work_instructions.all %}
+          {% if action.instruction %}
           <p>
-            {{ wi.description|linebreaks }}
+            {{ action.instruction.description|linebreaks }}
           </p>
-          {% empty %}
+          {% else %}
           <p>
-            {% trans 'No work instructions.' %}
+            {% trans 'No work instruction.' %}
           </p>
           {% endfor %}
         {% empty %}
