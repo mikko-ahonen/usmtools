@@ -142,7 +142,7 @@ class GetResponsibilityMixin():
 
     def get_responsibility(self, responsibility_id):
         if self.responsibility is None:
-            self.responsibility = Responsibility.objects.filter(pk=responsibility_id).select_related('profile').select_related('action').select_related('action__activity').select_related('action__activity__step').select_related('action__activity__step__service').first()
+            self.responsibility = Responsibility.objects.filter(pk=responsibility_id).select_related('profile').select_related('action').select_related('action__activity').select_related('action__activity__step').select_related('action__activity__step__routine').first()
         return self.responsibility
 
 
@@ -358,6 +358,10 @@ class ProfileList(TenantMixin, ListView):
     model = Profile
     template_name = 'workflows/profile-list.html'
     context_object_name = 'profiles'
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset()
+        return qs
 
 
 class ProfileDetail(TenantMixin, DetailView):
@@ -1032,28 +1036,6 @@ class ActivityUnskip(TenantMixin, GetActivityMixin, View):
             status=204, headers={"HX-Redirect": url}
         )
 
-#######################################################################################################################
-#
-# RESPONSIBILITY
-#
-
-class ResponsibilityCreate(TenantMixin, GetActionMixin, View):
-    def get(self, request, tenant_id=None, pk=None, types=''):
-        tenant_id = self.kwargs.get('tenant_id')
-        action_id = self.kwargs.get('pk')
-        action = self.get_action(action_id)
-        responsibility = Responsibility.objects.create(action=action, tenant_id=tenant_id, created_by=self.request.user, modified_by=self.request.user)
-        return JsonResponse({'status': 'ok'})
-
-class ResponsibilityDelete(TenantMixin, GetResponsibilityMixin, View):
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        responsibility_id = self.kwargs.get('pk')
-        responsibility = self.get_responsibility(responsibility_id)
-        responsibility.delete()
-        return JsonResponse({'status': 'ok'})
-
-
 
 #######################################################################################################################
 #
@@ -1168,7 +1150,7 @@ class ActionDown(TenantMixin, GetActionMixin, View):
 # WORK INSTRUCTION
 #
 
-class WorkInstructionCreate(TenantMixin, GetActionMixin, CreateView):
+class WorkInstructionCreate(TenantMixin, GetResponsibilityMixin, CreateView):
     model = WorkInstruction
     template_name = 'workflows/modals/work-instruction-create-or-update.html'
     context_object_name = 'work_instruction'
@@ -1176,19 +1158,20 @@ class WorkInstructionCreate(TenantMixin, GetActionMixin, CreateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        action_id = self.kwargs.get('pk')
-        action = self.get_action(action_id)
-        context['action'] = action
+        responsibility_id = self.kwargs.get('pk')
+        responsibility = self.get_responsibility(responsibility_id)
+        context['responsibility'] = responsibility
         return context
 
     def form_valid(self, form):
         tenant = self.get_tenant()
-        action_id = self.kwargs.get('pk')
-        action = self.get_action(action_id)
+        breakpoint()
+        responsibility_id = self.kwargs.get('pk')
+        responsibility = self.get_responsibility(responsibility_id)
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
-        self.object.action = action
+        self.object.responsibility = responsibility
         self.object.tenant = tenant
         self.object.save()
         return HttpResponseRedirect(self.get_success_url()) 

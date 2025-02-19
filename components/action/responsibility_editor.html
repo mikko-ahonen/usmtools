@@ -11,7 +11,17 @@
     </div>
     {% endfor %}
   </div>
-  <div class="col-9 d-inline-flex align-self-center">
+  <div class="col-1 d-inline-flex align-self-center">
+    {% with i=action.instructions.first %}
+    {% if i %}
+      <a class="btn btn-sm btn-outline-primary open-popup m-1" href="{% url 'workflows:work-instruction-update' tenant_id i.id %}" data-popup-url="{% url 'workflows:work-instruction-update' tenant_id i.id %}"><i class="bi bi-person-lines-fill"></i></a>
+    {% else %}
+      <a class="btn btn-sm btn-outline-primary open-popup m-1" href="{% url 'workflows:work-instruction-create' tenant_id responsibility.id %}" data-popup-url="{% url 'workflows:work-instruction-create' tenant_id responsibility.id %}"><i class="bi bi-person-lines-fill"></i></a>
+    {% endif %}
+    {% endwith %}
+    <a class="btn btn-sm btn-outline-primary m-1" hx-delete="{% url 'components:responsibility-delete' tenant_id responsibility.id %}" hx-swap="outerHTML" hx-target="closest .action"><i class="bi bi-trash3"></i></a>
+  </div>
+  <div class="col-8 d-inline-flex align-self-center">
     {% component 'responsibility_profile_selector' entity=responsibility %}
     {% endcomponent %} <span class="fs-3">
   </div>

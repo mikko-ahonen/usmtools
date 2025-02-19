@@ -3,11 +3,8 @@ from django.urls import path,register_converter
 from django.views.generic.base import RedirectView
 
 from . import views
-from .converters import ResponsibilityTypesConverter
 
 app_name = "workflows"
-
-register_converter(ResponsibilityTypesConverter, 'responsibility_types')
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/workflows/tenants/')),
@@ -65,7 +62,6 @@ urlpatterns = [
     path('<uuid:tenant_id>/actions/<uuid:pk>/down/', views.ActionDown.as_view(), name='action-down'),
     path('<uuid:tenant_id>/responsibilities/<uuid:pk>/work-instructions/create/', views.WorkInstructionCreate.as_view(), name='work-instruction-create'),
     path('<uuid:tenant_id>/actions/<uuid:pk>/tasks/create/', views.TaskCreate.as_view(), name='task-create'),
-    path('<uuid:tenant_id>/actions/<uuid:pk>/responsibilities/create/', views.ResponsibilityCreate.as_view(), name='responsibility-create'),
     path('<uuid:tenant_id>/tasks/<uuid:pk>/update/', views.TaskUpdate.as_view(), name='task-update'),
     path('<uuid:tenant_id>/tasks/<uuid:pk>/delete/', views.TaskDelete.as_view(), name='task-delete'),
     path('<uuid:tenant_id>/work-instructions/<uuid:pk>/delete/', views.WorkInstructionDelete.as_view(), name='work-instruction-delete'),

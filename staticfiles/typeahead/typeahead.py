@@ -53,6 +53,9 @@ class Typeahead(component.Component):
     def post(self, request, *args, **kwargs):
 
         logger.error("POSTing")
+
+        tenant_id = current_tenant_id()
+
         placeholder = request.POST.get('placeholder')
 
         x_model = request.POST.get('x_model')
@@ -67,11 +70,11 @@ class Typeahead(component.Component):
         target = request.POST.get('t')
         logger.error(f"target {target}")
         if target == "t":
-            new_item, created = Tag.objects.get_or_create(name=new_item_value)
+            new_item, created = Tag.objects.get_or_create(tenant_id=tenant_id, name=new_item_value)
         elif target in ["p", "profile"]:
-            new_item, created = Profile.objects.get_or_create(name=new_item_value)
+            new_item, created = Profile.objects.get_or_create(tenant_id=tenant_id, name=new_item_value)
         elif target in ["o", "organization_unit"]:
-            new_item, created = OrganizationUnit.objects.get_or_create(name=new_item_value)
+            new_item, created = OrganizationUnit.objects.get_or_create(tenant_id=tenant_id, name=new_item_value)
         elif target in ["d", "document"]:
             new_item = Document.objects.filter(name=new_item_value).first()
         else:

@@ -13,6 +13,7 @@ from components.entity_selector.definition_reference_selector import DefinitionR
 from components.constraint_references.constraint_references import ConstraintReferences
 from components.constraint.constraint_editor import ConstraintEditor
 from components.action.responsibility_editor import ResponsibilityEditor
+from components.action.action_editor import ActionEditor
 
 app_name = "components"
 
@@ -30,4 +31,6 @@ urlpatterns = [
     path("<uuid:tenant_id>/<uuid:domain_id>/constraints/references/", ConstraintReferences.as_view(), name='constraint-references'),
     path("<uuid:tenant_id>/<uuid:domain_id>/constraints/<uuid:constraint_id>/editor/", ConstraintEditor.as_view(), name='constraint-editor'),
     path("<uuid:tenant_id>/responsibilities/<uuid:responsibility_id>/editor/", ResponsibilityEditor.as_view(), name='responsibility-editor'),
+    path("<uuid:tenant_id>/actions/<uuid:action_id>/responsibilities/create/", ActionEditor.as_view(), name='responsibility-create'),
+    path("<uuid:tenant_id>/responsibilities/<uuid:responsibility_id>/delete/", ActionEditor.as_view(), name='responsibility-delete'),
 ]

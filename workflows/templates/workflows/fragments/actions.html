@@ -3,7 +3,7 @@
 {% load checkbox_value %}
 
 {% for action in actions.all %}
-  {% component 'action' action=action %}
+  {% component 'action_editor' action=action %}
   {% endcomponent %}
   <div class="mt-3"></div>
 {% empty %}
