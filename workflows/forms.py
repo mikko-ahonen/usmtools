@@ -179,6 +179,8 @@ class ActionCreateOrUpdate(ModelForm):
         fields = ['title', 'description']
 
     def __init__(self, *args, **kwargs):
+        tenant_id = kwargs.pop('tenant_id')
+        tenant_id = kwargs.pop('exclude_profile_ids')
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -191,6 +193,7 @@ class CustomerCreateOrUpdate(ModelForm):
         fields = ['name', 'customer_type', 'description']
 
     def __init__(self, *args, **kwargs):
+        tenant_id = kwargs.pop('tenant_id')
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -207,6 +210,7 @@ class ActivityCreateOrUpdate(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        tenant_id = kwargs.pop('tenant_id')
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -227,6 +231,7 @@ class WorkInstructionCreateOrUpdate(ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
+
 
 
 class RoutineUpdate(ModelForm):

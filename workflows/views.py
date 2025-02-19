@@ -137,6 +137,15 @@ class GetActivityMixin():
         return self.activity
 
 
+class GetResponsibilityMixin():
+    responsibility = None
+
+    def get_responsibility(self, responsibility_id):
+        if self.responsibility is None:
+            self.responsibility = Responsibility.objects.filter(pk=responsibility_id).select_related('profile').select_related('action').select_related('action__activity').select_related('action__activity__step').select_related('action__activity__step__service').first()
+        return self.responsibility
+
+
 class GetWorkInstructionMixin():
     work_instruction = None
 
@@ -837,7 +846,7 @@ class StepDetail(TenantMixin, DetailView):
         qs = super().get_queryset()
         activities_prefetch = Prefetch('activities', queryset=Activity.objects.order_by('index'))
         actions_prefetch = Prefetch('activities__actions', queryset=Action.objects.order_by('index'))
-        qs = qs.select_related('routine').prefetch_related(activities_prefetch).prefetch_related(actions_prefetch).prefetch_related('activities__actions__work_instructions')
+        qs = qs.select_related('routine').prefetch_related(activities_prefetch).prefetch_related(actions_prefetch).prefetch_related('activities__actions__responsibilities')
 
         return qs
 
@@ -1025,6 +1034,51 @@ class ActivityUnskip(TenantMixin, GetActivityMixin, View):
 
 #######################################################################################################################
 #
+# RESPONSIBILITY
+#
+
+class ResponsibilityCreate(TenantMixin, GetActionMixin, View):
+    def get(self, request, tenant_id=None, pk=None, types=''):
+        tenant_id = self.kwargs.get('tenant_id')
+        action_id = self.kwargs.get('pk')
+        action = self.get_action(action_id)
+        responsibility = Responsibility.objects.create(action=action, tenant_id=tenant_id, created_by=self.request.user, modified_by=self.request.user)
+        return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity_id))
+
+class ResponsibilityDelete(TenantMixin, GetResponsibilityMixin, View):
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        responsibility_id = self.kwargs.get('pk')
+        responsibility = self.get_responsibility(responsibility_id)
+        responsibility.delete()
+        activity = responsibility.action.activity
+        activity_id = activity.id
+        step_id = activity.step_id
+
+        return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step_id}) + '#activity-' + str(activity_id)
+
+
+class ResponsibilityAddTypes(TenantMixin, GetResponsibilityMixin, View):
+    def get(self, request, tenant_id=None, pk=None, types=''):
+        responsibility = self.get_responsibility(pk)
+        responsibility.types = RACI(action.types).add_types(types).get_types()
+        responsibility.modified_by = request.user
+        responsibility.save()
+        return JsonResponse({'status': 'ok', 'types': responsibility.types})
+
+
+class ResponsibilityRemoveTypes(TenantMixin, GetResponsibilityMixin, View):
+    def get(self, request, tenant_id=None, pk=None, types=''):
+        responsibility = self.get_responsibility(pk)
+        responsibility.types = RACI(action.types).remove_types(types).get_types()
+        responsibility.modified_by = request.user
+        responsibility.save()
+        return JsonResponse({'status': 'ok', 'types': responsibility.types})
+
+
+
+#######################################################################################################################
+#
 # ACTION
 #
 
@@ -1125,28 +1179,13 @@ class ActionUpdate(TenantMixin, GetActionMixin, UpdateView, UpdateModifiedByMixi
         return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity.id)
 
 
-class ActionAddResponsibilities(TenantMixin, GetActionMixin, View):
-    def get(self, request, tenant_id=None, pk=None, types=''):
-        action = self.get_action(pk)
-        action.types = RACI(action.types).add_types(types).get_types()
-        action.modified_by = request.user
-        action.save()
-        return JsonResponse({'status': 'ok', 'types': action.types})
-
-class ActionRemoveResponsibilities(TenantMixin, GetActionMixin, View):
-    def get(self, request, tenant_id=None, pk=None, types=''):
-        action = self.get_action(pk)
-        action.types = RACI(action.types).remove_types(types).get_types()
-        action.modified_by = request.user
-        action.save()
-        return JsonResponse({'status': 'ok', 'types': action.types})
-
 class ActionUp(TenantMixin, GetActionMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         action = self.get_action(pk)
         action.up()
         tenant_id = self.kwargs.get('tenant_id')
         return HttpResponseRedirect(reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': action.activity.step_id}) + '#activity-' + str(action.activity_id))
+
 
 class ActionDown(TenantMixin, GetActionMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):

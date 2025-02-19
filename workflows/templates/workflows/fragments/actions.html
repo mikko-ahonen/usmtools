@@ -10,7 +10,7 @@
     <strong>{% trans 'Action' %}</strong>
   </div>
   <div class="col-3">
-    <strong>{% trans 'Profile' %} {% comment %}/ {% trans 'Organization' %}{% endcomment %}</strong>
+    <strong>{% trans 'Profile' %}</strong>
   </div>
   <div class="col-3">
     <strong>{% trans 'Responsibilities' %}</strong>
@@ -36,23 +36,6 @@
     {{ forloop.counter }}.
     {{ action.title|default:'' }}
   </div>
-  <div class="col-3 d-inline-flex align-self-center">
-    {% component 'action_profile_selector' entity=action %}
-    {% endcomponent %} <span class="fs-3">
-    {% comment %}
-    &thinsp;/&thinsp; </span>
-    {% component 'action_org_unit_selector' entity=action %}
-    {% endcomponent %}
-    {% endcomment %}
-  </div>
-  <div class="col-3 d-inline-flex align-self-center">
-    {% for rtype in 'RASCI' %}
-    <div class="form-check form-switch mx-3 align-items-center justify-content-evenly">
-      <input id="{{ action.id }}-{{ rtype }}" type="checkbox" class="responsibility-checkbox form-check-input fs-4 align-self-center" role="switch" data-rtype="{{ rtype }}" data-action="{{ action.id }}" {{ action|has_responsibility_type:rtype|checkbox_value }}/>
-      <label class="form-check-label fs-4" for="{{ action.id }}-{{ rtype }}">{{ rtype }}</label>
-    </div>
-    {% endfor %}
-  </div>
   <div class="col-2 d-inline-flex align-items-center">
     <a class="btn btn-sm btn-outline-primary open-popup m-1" data-popup-url="{% url 'workflows:action-update' tenant.id action.id %}" href="{% url 'workflows:action-update' tenant.id action.id %}"><i class="bi bi-pencil"></i></a>
     <a class="btn btn-sm btn-outline-primary open-popup m-1" href="{% url 'workflows:action-delete' tenant.id action.id %}" data-popup-url="{% url 'workflows:action-delete' tenant.id action.id %}"><i class="bi bi-trash3"></i></a>
@@ -63,6 +46,29 @@
       <a class="btn btn-sm btn-outline-primary open-popup m-1" href="{% url 'workflows:work-instruction-create' tenant.id action.id %}" data-popup-url="{% url 'workflows:work-instruction-create' tenant.id action.id %}"><i class="bi bi-person-lines-fill"></i></a>
     {% endif %}
     {% endwith %}
+  </div>
+  <div class="col-6">
+  {% for responsibility in action.responsibilities.all %}
+  <div class="row">
+    <div class="col-3 d-inline-flex align-self-center">
+      {% component 'responsibility_profile_selector' entity=responsibility %}
+      {% endcomponent %} <span class="fs-3">
+    </div>
+    <div class="col-3 d-inline-flex align-self-center">
+      {% for rtype in 'RASCI' %}
+      <div class="form-check form-switch mx-3 align-items-center justify-content-evenly">
+        <input id="{{ action.id }}-{{ rtype }}" type="checkbox" class="responsibility-checkbox form-check-input fs-4 align-self-center" role="switch" data-rtype="{{ rtype }}" data-action="{{ action.id }}" {{ responsibility|has_responsibility_type:rtype|checkbox_value }}/>
+        <label class="form-check-label fs-4" for="{{ action.id }}-{{ rtype }}">{{ rtype }}</label>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-sm btn-outline-primary m-1" href="{% url 'workflows:responsibility-create' tenant.id action.id %}">{% trans 'Add a responsibility' %}</button>
+    </div>
+  </div>
   </div>
 </div>
 {% endfor %}
