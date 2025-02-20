@@ -2,6 +2,7 @@ from django.urls import path
 
 from django.views.generic.base import RedirectView
 
+from components.tags.action_tags import ActionTags
 from components.tags.routine_tags import RoutineTags
 from components.tags.document_tags import DocumentTags
 from components.board.board import Board
@@ -23,6 +24,7 @@ urlpatterns = [
     path('<uuid:tenant_id>/components/board/<str:board_type>/<uuid:board_id>/<str:op>/', Board.as_view(), name='board'),
     path('<uuid:tenant_id>/components/board/<str:board_type>/<uuid:board_id>/<str:op>/<uuid:team_id>/', Board.as_view(), name='board-team'),
     path('<uuid:tenant_id>/components/tags/routine-tags/', RoutineTags.as_view(), name='routine-tags'),
+    path('<uuid:tenant_id>/components/tags/action-tags/', ActionTags.as_view(), name='action-tags'),
     path('<uuid:tenant_id>/components/tags/document-tags/', DocumentTags.as_view(), name='document-tags'),
     path("<uuid:tenant_id>/typeahead/select/", Typeahead.as_view(), name='typeahead-select'),
     path("<uuid:tenant_id>/typeahead/search/", TypeaheadResults.as_view(), name='typeahead-search'),

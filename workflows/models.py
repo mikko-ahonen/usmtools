@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 
 from taggit.managers import TaggableManager
-from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
+from taggit.models import Tag, GenericUUIDTaggedItemBase, TaggedItemBase
 
 from accounts.validators import RestrictedUsernameValidator
 from accounts.models import Invitation
@@ -331,8 +331,27 @@ class Action(TenantAwareOrderedModelBase):
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     task = models.ForeignKey('Task', on_delete=models.CASCADE, null=True)
 
+    tags = TaggableManager(through=UUIDTaggedItem)
+
     order_field_name = 'index'
     order_with_respect_to = 'activity'
+
+    def get_tasks(self):
+        routine_id = self.activity.step.routine_id
+        profile_ids = self.responsibilities.values_list('profile_id', flat=True).distinct()
+        tag_ids = self.tags.values_list('id', flat=True).distinct()
+        return Task.objects.filter(
+            routine_id=routine_id,
+            profile_id__in=profile_ids,
+            action_require_tag_id__in=tag_ids)
+
+        #return Task.objects.filter(
+        #    routine_id=routine_id,
+        #    profile_id__in=responsibilities__profile_id,
+        #    action_require_tag_id__in=tags__id)
+
+    def __str__(self):
+        return f"{self.title}"
 
     class Meta:
         verbose_name = _('action')
@@ -423,6 +442,8 @@ class Task(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    routine = models.ForeignKey(Routine, on_delete=models.CASCADE, related_name='+', null=True)
+    action_require_tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, related_name='+', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
@@ -435,6 +456,9 @@ class Task(TenantAwareOrderedModelBase):
 
     def __str__(self):
         return self.name
+
+    def get_actions(self):
+        return Action.objects.filter(tags__id=self.action_require_tag_id, activity__step__routine_id=self.routine_id, responsibilities__profile_id=self.profile_id)
 
     def get_absolute_url(self):
         return reverse('workflows:task-detail', kwargs={'pk': self.id})

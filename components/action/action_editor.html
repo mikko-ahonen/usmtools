@@ -20,6 +20,21 @@
       <a class="btn btn-sm btn-outline-primary open-popup m-1" data-popup-url="{% url 'workflows:action-update' tenant_id action.id %}" href="{% url 'workflows:action-update' tenant_id action.id %}"><i class="bi bi-pencil"></i></a>
       <a class="btn btn-sm btn-outline-primary open-popup m-1" href="{% url 'workflows:action-delete' tenant_id action.id %}" data-popup-url="{% url 'workflows:action-delete' tenant_id action.id %}"><i class="bi bi-trash3"></i></a>
     </h5>
+    {% component 'action_tags' entity=action %}
+    {% endcomponent %}
+
+    {% if action.get_tasks %}
+    <p class="mt-3">
+    {% trans 'In tasks' %}:
+    <ul>
+      {% for task in action.get_tasks %}
+        <li>
+          <a href="{% url 'workflows:task-detail' tenant_id task.id %}">{{ task.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    </p>
+    {% endif %}
   </div>
   <div class="card-body">
   {% for responsibility in action.responsibilities.all %}

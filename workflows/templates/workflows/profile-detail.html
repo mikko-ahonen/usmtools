@@ -11,19 +11,26 @@
 <div class="col-3 mt-3" style="mid-width: 18rem">
 <div class="card">
   <div class="card-header bg-primary">
-    <span class="text-white">
-      {{ task.name }}
-    </span>
+    <h5>
+      <span class="badge text-bg-secondary">{% trans 'Task' %}</span>
+      <a class="text-white" href="{% url 'workflows:task-detail' tenant.id task.id %}">{{ task.name }}</a>
+    </h5>
+    <small class="text-white-50">
+        {% blocktrans with profile_name=profile.name routine_name=task.routine.name action_require_tag=task.action_require_tag %}
+        Actions in routine "{{ routine_name }}" labeled as "{{ action_require_tag }}"
+        and assigned to profile "{{ profile_name }}" 
+        {% endblocktrans %}
+    </small>
   </div>
   <div class="card-body bg-primary-subtle">
     <span class="card-text">
       <ul>
-      {% for action in task.actions.all %}
+      {% for action in task.get_actions.all %}
         <li>
-          <a href="{% url 'workflows:step-detail' tenant.id action.activity.step_id %}#activity-{{ action.activity.id }}">{{ action }}</a>
+          <a href="{% url 'workflows:step-detail' tenant.id action.activity.step_id %}#activity-{{ action.activity.id }}">{{ action.title }}</a>
         </li>
       {% empty %}
-        <li>{% trans 'This task does not have any actions.' %}
+        <li>{% trans 'No matches.' %}
       {% endfor %}
       </ul>
     </span>

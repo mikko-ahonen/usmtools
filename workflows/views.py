@@ -178,7 +178,7 @@ class GetTaskMixin():
 
     def get_task(self, task_id):
         if self._task is None:
-            self._task = Task.objects.filter(pk=action_id).select_related('actions').first()
+            self._task = Task.objects.filter(pk=task_id).first()
         return self._task
 
 class UpdateModifiedByMixin():
@@ -369,10 +369,6 @@ class ProfileDetail(TenantMixin, DetailView):
     template_name = 'workflows/profile-detail.html'
     context_object_name = 'profile'
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['profile'] = self.get_object()
-        return kwargs
 
 class ProfileUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     model = Profile
@@ -884,10 +880,22 @@ class StepUnskip(TenantMixin, GetStepMixin, View):
 #
 # TASK
 #
+class TaskDetail(TenantMixin, DetailView):
+    model = Task
+    template_name = 'workflows/task-detail.html'
+    context_object_name = 'task'
+
 class TaskCreate(TenantMixin, GetProfileMixin, CreateView):
     model = Task
     template_name = 'workflows/modals/create-or-update.html'
     form_class = forms.TaskCreateOrUpdate
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        profile_id = self.kwargs.get('pk')
+        profile = self.get_profile(profile_id)
+        kwargs['profile'] = profile
+        return kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -919,6 +927,13 @@ class TaskUpdate(TenantMixin, GetTaskMixin, UpdateView, UpdateModifiedByMixin):
     model = Task
     template_name = 'workflows/modals/create-or-update.html'
     form_class = forms.TaskCreateOrUpdate
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        task_id = self.kwargs.get('pk')
+        task = self.get_task(task_id)
+        kwargs['profile'] = task.profile
+        return kwargs
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')

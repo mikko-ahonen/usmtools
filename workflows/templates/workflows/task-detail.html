@@ -1,0 +1,49 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load breadcrumbs %}
+{% block content %}
+<div class="container-fluid m-5">
+{% include 'workflows/fragments/service-tabs.html' %}
+<h1 class="mt-3">
+  <span class="badge text-bg-secondary">{% trans 'Task' %}</span>
+  {{ task.name }}
+</h1>
+<p class="text-muted">
+  {% blocktrans with profile_name=task.profile.name routine_name=task.routine.name action_require_tag=task.action_require_tag %}
+    Actions in routine "{{ routine_name }}" labeled as "{{ action_require_tag }}"
+    for profile "{{ profile_name }}" 
+  {% endblocktrans %}
+</p>
+
+{% for action in task.get_actions.all %}
+<h3><a href="{% url 'workflows:step-detail' tenant.id action.activity.step_id %}#activity-{{ action.activity.id }}">{{ action.title }}</a></h3>
+<p>
+  {{ action.description | linebreaks }}
+</p>
+
+<h5>{% trans 'Action responsibilities' %}</h5>
+{% for responsibility in action.responsibilities.all %}
+<ul>
+  <li>
+    {{ responsibility.profile.name }} ({{ responsibility.get_types_display }})
+  </li>
+</ul>
+{% endfor %}
+
+{% for responsibility in action.responsibilities.all %}
+{% if responsibility.profile_id == task.profile.id and responsibility.instruction %}
+<h5>{% trans 'Instructions for' %} {{ task.profile.name }}</h5>
+<p>
+  {{ responsibility.instruction.description | linebreaks }}
+</p>
+{% endif %}
+{% endfor %}
+{% empty %}
+  <p>
+    {% trans 'Task does not include any actions.' %}
+  </p>
+{% endfor %}
+</div>
+{% include 'workflows/fragments/modal.html' %}
+{% endblock %}

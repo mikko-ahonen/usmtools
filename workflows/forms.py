@@ -37,10 +37,15 @@ class TaskCreateOrUpdate(ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name']
+        fields = ['name', 'routine', 'action_require_tag']
 
     def __init__(self, *args, **kwargs):
+        profile = kwargs.pop('profile', None)
         super().__init__(*args, **kwargs)
+        if profile:
+            self.fields['routine'].queryset = Routine.objects.filter(is_template=False)
+        else:
+            self.fields['routine'].queryset = Routine.objects.none()
         self.helper = FormHelper()
         self.helper.form_tag = False
         #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))

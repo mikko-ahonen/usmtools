@@ -26,7 +26,7 @@ def search_by_name(cls, search, similarity_threshold=0.38, rank_threshold=0.05, 
 
             q = Q(search=search_query) | Q(match_name=1)
             qs = (cls
-                    .unscoped
+                    .objects
                     .annotate(name_similarity=TrigramSimilarity('name', search))
                     .annotate(search=search_vector, rank=SearchRank(search_vector, search_query))
                     .annotate(match_name=Case(

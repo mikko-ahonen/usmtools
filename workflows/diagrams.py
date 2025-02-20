@@ -4,9 +4,9 @@ def diagram(routine, filename):
 
     actions = []
 
-    for step in routine.steps(manager='unscoped').filter(skipped=False).order_by('index'):
-        for activity in step.activities(manager='unscoped').filter(skipped=False).order_by('index'):
-            for action in activity.actions(manager='unscoped').all():
+    for step in routine.steps.filter(skipped=False).order_by('index'):
+        for activity in step.activities.filter(skipped=False).order_by('index'):
+            for action in activity.actions.all():
                 print(f"Appending {str(action.id)}")
                 actions.append(action)
 
