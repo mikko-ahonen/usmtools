@@ -1,0 +1,12 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% load breadcrumbs %}
+{% block content %}
+<div class="container-fluid m-5">
+
+{% include 'workflows/fragments/service-header.html' %}
+
+{% include 'workflows/fragments/service-routines.html' with tenant=tenant service=service routines=routines only %}
+{% endblock %}
+</div>
+{% include 'workflows/fragments/service-footer.html' %}

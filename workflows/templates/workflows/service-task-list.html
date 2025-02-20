@@ -1,0 +1,24 @@
+{% extends "workflows/base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container-fluid m-5">
+{% include 'workflows/fragments/service-header.html' %}
+<h1 class="mt-3">{% trans 'Tasks' %}</h1>
+<div class="row">
+{% for task in tasks %}
+  <div class="col-3 mt-3" style="mid-width: 18rem">
+    {% component 'task_card' task=task %}
+    {% endcomponent %}
+  </div>
+{% empty %}
+  <p>
+    {% trans 'You have not added any tasks to this service yet.' %}
+  </p>
+</div>
+{% endfor %}
+<p class="mt-3">
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-create' tenant.id %}" href="{% url 'workflows:task-create' tenant.id %}">{% trans 'Create a new task' %}</a>
+</p>
+</div>
+{% endblock %}
+{% include 'workflows/fragments/service-footer.html' %}

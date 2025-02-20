@@ -4,41 +4,17 @@
 {% load breadcrumbs %}
 {% block content %}
 <div class="container-fluid m-5">
-{% include 'workflows/fragments/service-tabs.html' %}
-<h3 class="mt-3">{% trans 'Profile' %} {{ profile }}</h3>
+{% include 'workflows/fragments/service-header.html' %}
+<h3 class="mt-3">
+  <span class="badge text-bg-secondary">{% trans 'Profile' %}</span>
+  {{ profile }}
+</h3>
 <div class="row">
-{% for task in profile.tasks.all %}
-<div class="col-3 mt-3" style="mid-width: 18rem">
-<div class="card">
-  <div class="card-header bg-primary">
-    <h5>
-      <span class="badge text-bg-secondary">{% trans 'Task' %}</span>
-      <a class="text-white" href="{% url 'workflows:task-detail' tenant.id task.id %}">{{ task.name }}</a>
-    </h5>
-    <small class="text-white-50">
-        {% blocktrans with profile_name=profile.name routine_name=task.routine.name action_require_tag=task.action_require_tag %}
-        Actions in routine "{{ routine_name }}" labeled as "{{ action_require_tag }}"
-        and assigned to profile "{{ profile_name }}" 
-        {% endblocktrans %}
-    </small>
+  {% for task in profile.tasks.all %}
+  <div class="col-3 mt-3" style="mid-width: 18rem">
+    {% component 'task_card' task=task %}
+    {% endcomponent %}
   </div>
-  <div class="card-body bg-primary-subtle">
-    <span class="card-text">
-      <ul>
-      {% for action in task.get_actions.all %}
-        <li>
-          <a href="{% url 'workflows:step-detail' tenant.id action.activity.step_id %}#activity-{{ action.activity.id }}">{{ action.title }}</a>
-        </li>
-      {% empty %}
-        <li>{% trans 'No matches.' %}
-      {% endfor %}
-      </ul>
-    </span>
-    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-update' tenant.id task.id %}" href="{% url 'workflows:task-update' tenant.id task.id %}">{% trans 'Edit'  %}</a>
-    <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-delete' tenant.id task.id %}" href="{% url 'workflows:task-delete' tenant.id task.id %}">{% trans 'Remove' %}</i></a>
-  </div>
-</div>
-</div>
 {% empty %}
   <p>
     {% trans 'You have not defined any tasks yet for this profile.' %}
@@ -46,8 +22,8 @@
 {% endfor %}
 
 <p class="mt-3">
-  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-create' tenant.id profile.id %}" href="{% url 'workflows:task-create' tenant.id profile.id %}">{% trans 'Create a new task' %}</a>
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:profile-task-create' tenant.id profile.id %}" href="{% url 'workflows:profile-task-create' tenant.id profile.id %}">{% trans 'Create a new task' %}</a>
 </p>
 </div>
-{% include 'workflows/fragments/modal.html' %}
 {% endblock %}
+{% include 'workflows/fragments/service-footer.html' %}

@@ -3,7 +3,7 @@
 {% load breadcrumbs %}
 {% block content %}
 <div class="container-fluid m-5">
-{% include 'workflows/fragments/service-tabs.html' %}
+{% include 'workflows/fragments/service-header.html' %}
 <h3 class="mt-3">{% trans 'Profiles' %}</h3>
 <div class="row">
 {% for profile in profiles %}
@@ -31,7 +31,7 @@
 </div>
 {% empty %}
   <p>
-    {% trans 'You have not defined any profiles yet.' %}
+    {% trans 'You have not added any profiles to this service yet.' %}
   </p>
 </div>
 {% endfor %}
@@ -39,5 +39,5 @@
   <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:profile-create' tenant.id %}" href="{% url 'workflows:profile-create' tenant.id %}">{% trans 'Create a new profile' %}</a>
 </p>
 </div>
-{% include 'workflows/fragments/modal.html' %}
 {% endblock %}
+{% include 'workflows/fragments/service-footer.html' %}

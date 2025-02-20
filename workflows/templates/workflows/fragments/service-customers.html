@@ -13,7 +13,7 @@
       <ul>
       {% for cs in sc.customer.service_customers.all %}
         <li>
-            <a class="text-white" href="{% url 'workflows:service-detail' tenant.id cs.service_id %}">{{ cs.service.name }}</a>
+            <a class="text-white" href="{% url 'workflows:service-routine-list' tenant.id cs.service_id %}">{{ cs.service.name }}</a>
         </li>
       {% endfor %}
       </ul>

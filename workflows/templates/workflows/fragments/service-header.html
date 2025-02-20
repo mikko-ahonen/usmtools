@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<a href="{% url 'workflows:tenant-list' %}">{% trans 'Tenants' %}</a>
+&gt; <a href="{% url 'workflows:service-list' tenant.id %}">{{ tenant.name }}</a>
+{% if service %}
+&gt; <a href="{% url 'workflows:service-list' tenant.id %}">{% trans 'Services' %}</a>
+&gt;
+<span class="fs-4">{{ service.name }} <a class="btn btn-sm btn-outline-primary open-popup" data-popup-url="{% url 'workflows:service-update' tenant.id service.id %}" href="{% url 'workflows:service-update' tenant.id service.id %}"><i class="bi bi-pencil"></i></a> {% comment %}<a class="btn btn-sm btn-outline-primary open-popup" data-popup-url="{% url 'workflows:service-share' tenant.id service.id %}" href="{% url 'workflows:service-share' tenant.id service.id %}"><i class="bi bi-share"></i></a>{% endcomment %}</span>
+{% endif %}
+
+<ul class="mt-3 nav nav-tabs">
+  {% if service %}
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.view_name == 'workflows:service-routine-list' %}active{% endif %}" href="{% url 'workflows:service-routine-list' tenant.id service.id %}">{% trans 'Routines' %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.view_name == 'workflows:service-customer-list' %}active{% endif %}" href="{% url 'workflows:service-customer-list' tenant.id service.id %}">{% trans 'Customers' %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.view_name == 'workflows:service-profile-list' or request.resolver_match.view_name == 'workflows:profile-detail' %}active{% endif %}" href="{% url 'workflows:service-profile-list' tenant.id service.id %}">{% trans 'Profiles' %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.view_name == 'workflows:service-task-list' or request.resolver_match.view_name == 'workflows:task-detail' %}active{% endif %}" href="{% url 'workflows:service-task-list' tenant.id service.id %}">{% trans 'Tasks' %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.view_name == 'workflows:service-responsibility-list' %}active{% endif %}" href="{% url 'workflows:service-responsibility-list' tenant.id service.id %}">{% trans 'Responsibilities' %}</a>
+  </li>
+  {% endif %}
+</ul>

@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container-fluid m-5">
 
-{% include 'workflows/fragments/service-tabs.html' %}
+{% include 'workflows/fragments/service-header.html' %}
 
 <div class="mt-3 mb-0">
 <h1 class="mb-0">{{ service.name }} <a class="btn btn-sm btn-outline-primary open-popup" data-popup-url="{% url 'workflows:service-update' tenant.id service.id %}" href="{% url 'workflows:service-update' tenant.id service.id %}"><i class="bi bi-pencil"></i></a> {% comment %}<a class="btn btn-sm btn-outline-primary open-popup" data-popup-url="{% url 'workflows:service-share' tenant.id service.id %}" href="{% url 'workflows:service-share' tenant.id service.id %}"><i class="bi bi-share"></i></a>{% endcomment %}</h1>
@@ -16,23 +16,9 @@
 {% comment %}
 {% include 'workflows/fragments/service-profiles.html' with tenant=tenant service=service profiles=service.profiles.all only %}
 {% endcomment %}
+{% include 'workflows/fragments/service-responsibilities.html' with tenant=tenant service=service only %}
 {% include 'workflows/fragments/service-routines.html' with tenant=tenant service=service routines=service.routines.all only %}
 </div>
-{% include 'workflows/fragments/modal.html' with modal_size='xl' %}
 {% endblock %}
+{% include 'workflows/fragments/service-footer.html' %}
 
-{% block footer-scripts %}
-<script>
-  $('#popup').on('show.bs.modal', function () {
-    console.log("MODAL SHOWN");
-  });
-
-  {% if open_share_popup %}
-  var popup = $("#popup");
-  var popup_url = "{% url 'workflows:service-share' tenant.id service.id %}";
-  $(".modal-body", popup).load(popup_url, function () {
-    popup.modal("show");
-  });
-  {% endif %}
-</script>
-{% endblock footer-scripts %}

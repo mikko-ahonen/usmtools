@@ -354,6 +354,22 @@ class OrganizationUnitDelete(TenantMixin, DeleteView):
 # PROFILE
 #
 
+class ServiceProfileList(TenantMixin, GetServiceMixin, ListView):
+    model = Profile
+    template_name = 'workflows/service-profile-list.html'
+    context_object_name = 'profiles'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['service'] = self.get_service(self.kwargs.get('pk'))
+        return context
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset()
+        service_id = self.kwargs.get('pk', None)
+        profile_ids = Responsibility.objects.filter(action__activity__step__routine__service_id=service_id).values_list('profile_id', flat=True).distinct()
+        return qs.filter(id__in=profile_ids)
+
 class ProfileList(TenantMixin, ListView):
     model = Profile
     template_name = 'workflows/profile-list.html'
@@ -497,6 +513,14 @@ class ShareDelete(TenantMixin, GetShareMixin, View):
 # Services
 #
 
+class ServiceResponsibilityList(TenantMixin, GetServiceMixin, TemplateView):
+    template_name = 'workflows/service-responsibility-list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['service'] = self.get_service(self.kwargs.get('pk'))
+        return context
+
 class ServiceList(TenantMixin, ListView):
     model = Service
     template_name = 'workflows/service-list.html'
@@ -507,6 +531,22 @@ class ServiceList(TenantMixin, ListView):
         qs = qs.filter(parent=None)
         return qs
 
+class ServiceCustomerList(TenantMixin, GetServiceMixin, ListView):
+    model = Customer
+    template_name = 'workflows/service-customer-list.html'
+    context_object_name = 'customers'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['service'] = self.get_service(self.kwargs.get('pk'))
+        return context
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset()
+        service_id = self.kwargs.get('pk', None)
+        if service_id:
+            qs = qs.filter(service_customers__service_id=service_id)
+        return qs
 
 class ServiceCustomerAdd(TenantMixin, GetServiceMixin, CreateView):
     model = ServiceCustomer
@@ -684,6 +724,24 @@ class ServiceShare(TenantMixin, CreateView):
 #
 # ROUTINE
 #
+
+class ServiceRoutineList(TenantMixin, GetServiceMixin, ListView):
+    model = Routine
+    template_name = 'workflows/service-routine-list.html'
+    context_object_name = 'routines'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['service'] = self.get_service(self.kwargs.get('pk'))
+        return context
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset()
+        service_id = self.kwargs.get('pk', None)
+        if service_id:
+            qs = qs.filter(service_id=service_id)
+        return qs
+
 
 class RoutineCreate(TenantMixin, GetServiceMixin, CreateView):
     model = Routine
@@ -880,6 +938,25 @@ class StepUnskip(TenantMixin, GetStepMixin, View):
 #
 # TASK
 #
+class ServiceTaskList(TenantMixin, GetServiceMixin, ListView):
+    model = Task
+    template_name = 'workflows/service-task-list.html'
+    context_object_name = 'tasks'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['service'] = self.get_service(self.kwargs.get('pk'))
+        return context
+
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset()
+        service_id = self.kwargs.get('pk', None)
+        if service_id:
+            qs = qs.filter(routine__service_id=service_id)
+        return qs
+
+
+
 class TaskDetail(TenantMixin, DetailView):
     model = Task
     template_name = 'workflows/task-detail.html'
@@ -892,28 +969,31 @@ class TaskCreate(TenantMixin, GetProfileMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        profile_id = self.kwargs.get('pk')
-        profile = self.get_profile(profile_id)
-        kwargs['profile'] = profile
+        profile_id = self.kwargs.get('pk', None)
+        if profile_id:
+            profile = self.get_profile(profile_id)
+            kwargs['profile'] = profile
         return kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        profile_id = self.kwargs.get('pk')
-        profile = self.get_profile(profile_id)
-        context['profile'] = profile
+        profile_id = self.kwargs.get('pk', None)
+        if profile_id:
+            profile = self.get_profile(profile_id)
+            context['profile'] = profile
         context['verbose_name'] = _('task')
         return context
 
     def form_valid(self, form):
         tenant = self.get_tenant()
-        profile_id = self.kwargs.get('pk')
-        profile = self.get_profile(profile_id)
         self.object = form.save(commit=False)
         self.object.tenant = tenant
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
-        self.object.profile = profile
+        profile_id = self.kwargs.get('pk', None)
+        if profile_id:
+            profile = self.get_profile(profile_id)
+            self.object.profile = profile
         self.object.save()
 
         return HttpResponseRedirect(self.get_success_url()) 

@@ -1,0 +1,40 @@
+{% load i18n %}
+<div class="responsibility_matrix">
+<h3>
+  {{ routine.name }}
+</h3>
+{% with profiles=routine.get_profiles %}
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      {% for profile in profiles %}
+        <th width="50px" class="p-2 align-bottom justify-content-center"><span style="transform: rotate(180deg); writing-mode: vertical-lr;">{{ profile.name }}</span></th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for step in routine.steps.all %}
+    {% for activity in step.activities.all %}
+    {% for action in activity.actions.all %}
+    <tr>
+      <th class="p-2 text-end">
+        {{ action.title }}
+      </th>
+      {% for profile in profiles.all %}
+      <td width="50px" class="p-2 align-bottom justify-content-center">
+        {% for responsibility in action.responsibilities.all %}
+          {% if responsibility.profile_id == profile.id %}
+            {{ responsibility.types | upper }}
+          {% endif %}
+        {% endfor %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    {% endfor %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endwith %}
+</div>

@@ -133,8 +133,8 @@ class ServiceCustomer(TenantAwareModelBase):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='service_customers_created')
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='service_customers_modified')
-    service = models.ForeignKey(Service, null=False, blank=False, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, null=False, blank=False, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, null=False, blank=False, on_delete=models.CASCADE, related_name='service_customers')
+    customer = models.ForeignKey(Customer, null=False, blank=False, on_delete=models.CASCADE, related_name='service_customers')
 
     def __str__(self):
         return f"{self.service} <-> {self.customer}"
@@ -182,6 +182,10 @@ class Routine(TenantAwareOrderedModelBase):
 
     def get_absolute_url(self):
         return reverse('workflows:routine-detail', kwargs={'pk': self.id})
+
+    def get_profiles(self):
+        profile_ids = Responsibility.objects.filter(action__activity__step__routine_id=self.id).values_list('profile_id', flat=True)
+        return Profile.objects.filter(id__in=profile_ids)
 
     def can_draw_diagram(self):
         count = 0
@@ -241,6 +245,10 @@ class Profile(TenantAwareOrderedModelBase):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
     order_field_name = 'index'
+
+    def get_routines(self):
+        routine_ids = Responsibility.objects.filter(profile_id=self.id).values_list('action__activity__step__routine_id', flat=True).distinct()
+        return Routine.objects.filter(id__in=routine_ids)
 
     def __str__(self):
         return self.name

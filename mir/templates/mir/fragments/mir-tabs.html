@@ -9,4 +9,10 @@
   <li class="nav-item">
     <a class="nav-link {% if request.resolver_match.view_name == 'mir:employee-list' %}active{% endif %}" href="{% url 'mir:employee-list' tenant.id %}">{% trans 'Employees' %}</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.view_name == 'workflows:organization-unit-list' %}active{% endif %}" href="{% url 'workflows:organization-unit-list' tenant.id %}">{% trans 'Organizations' %}</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link  {% if request.resolver_match.view_name == 'workflows:customer-list' %}active{% endif %}" href="{% url 'workflows:customer-list' tenant.id %}">{% trans 'Customers' %}</a>
+  </li>
 </ul>

@@ -10,7 +10,7 @@
       {% trans 'This will not delete the information related to the customer. The customer information can still be accessed through the customer list view.' %}
     </p>
     <p> 
-      <a class="button btn btn-secondary" href="{% url 'workflows:service-detail' tenant.id service_customer.service_id %}">Cancel</a>
+      <a class="button btn btn-secondary" href="{% url 'workflows:service-customer-list' tenant.id service_customer.service_id %}">Cancel</a>
       <input class="button btn btn-primary" type="submit" value="OK">
     </p>
 </form>

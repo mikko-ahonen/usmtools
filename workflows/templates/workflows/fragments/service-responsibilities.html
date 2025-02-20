@@ -1,0 +1,11 @@
+{% load i18n %}
+{% load component_tags %}
+{% for routine in service.routines.all %}
+  <div class="mt-3"></div>
+  {% component 'responsibility_matrix' routine=routine %}
+  {% endcomponent %}
+{% empty %}
+  <p>
+    {% trans 'No routines.' %}
+  </p>
+{% endfor %}

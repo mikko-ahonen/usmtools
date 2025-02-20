@@ -37,19 +37,16 @@ class TaskCreateOrUpdate(ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name', 'routine', 'action_require_tag']
+        fields = ['profile', 'name', 'routine', 'action_require_tag']
 
     def __init__(self, *args, **kwargs):
         profile = kwargs.pop('profile', None)
         super().__init__(*args, **kwargs)
+        self.fields['routine'].queryset = Routine.objects.filter(is_template=False)
         if profile:
-            self.fields['routine'].queryset = Routine.objects.filter(is_template=False)
-        else:
-            self.fields['routine'].queryset = Routine.objects.none()
+            self.fields['profile'].widget.attrs['readonly'] = True
         self.helper = FormHelper()
         self.helper.form_tag = False
-        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
-
 
 class ServiceCreateOrUpdate(ModelForm):
 
@@ -196,7 +193,6 @@ class CustomerCreateOrUpdate(ModelForm):
         fields = ['name', 'customer_type', 'description']
 
     def __init__(self, *args, **kwargs):
-        tenant_id = kwargs.pop('tenant_id')
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
