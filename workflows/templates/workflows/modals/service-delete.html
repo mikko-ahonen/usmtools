@@ -1,10 +1,8 @@
 {% extends 'workflows/modals/modal-base.html' %}
 {% block content %}
 {% load i18n %}
-{% comment %}
 <h3>{% trans 'Delete service' %} {{ service }}</h3>
 <form action="{{ request.path }}" method="post">{% csrf_token %}
-    {% comment %}
     {% with total_children=service.descendants.count %}
     {% if total_children > 0 %}
     <p>
@@ -14,7 +12,6 @@
     </p>
     {% endif %}
     {% endwith %}
-    {% endcomment %}
     <p>
       {% trans 'Are you sure you want to delete it?' %}
     </p>
@@ -36,5 +33,4 @@
       <input class="btn btn-outline-primary" type="submit" value="OK">
     </p>
 </form>
-{% endcomment %}
 {% endblock content %}

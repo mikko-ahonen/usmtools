@@ -1,7 +1,6 @@
 {% block footer-scripts %}
-{% include 'workflows/fragments/modal.html' with modal_size='xl' %}
 
-{{ block.super }}
+{% include 'workflows/fragments/modal.html' with modal_size='xl' %}
 
 <script>
   $('#popup').on('show.bs.modal', function () {

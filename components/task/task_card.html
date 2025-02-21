@@ -3,7 +3,7 @@
   <div class="card-header bg-primary">
     <h5>
       <span class="badge text-bg-secondary">{% trans 'Task' %}</span>
-      <a class="text-white" href="{% url 'workflows:task-detail' tenant.id task.id %}">{{ task.name }}</a>
+      <a class="text-white" href="{% url 'workflows:service-task-detail' tenant.id task.routine.service.id task.id %}">{{ task.name }}</a>
     </h5>
     <p class="text-white-50">
       {% blocktrans with profile_name=task.profile.name routine_name=task.routine.name action_require_tag=task.action_require_tag %}

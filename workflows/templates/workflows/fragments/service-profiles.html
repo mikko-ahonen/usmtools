@@ -5,7 +5,7 @@
 {% for profile in profiles %}
 <div class="col-3" style="min-width: 18rem">
 <div class="card mt-3">
-  <div class="card-header bg-primary">
+  <div class="card-header bg-primary text-white">
     <div class="card-text">
       <h5>
       <a class="text-white" href="{% url 'workflows:profile-detail' tenant.id profile.id %}">{{ profile.name }}</a>

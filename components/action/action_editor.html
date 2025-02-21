@@ -2,7 +2,7 @@
 {% load has_responsibility_type %}
 {% load checkbox_value %}
 
-<div class="action card">
+<div id="action-{{ action.id }}" class="action card">
   <div class="card-header bg-primary-subtle" style="f-background-color: #d6ddeb">
     <h5>
       {{ forloop.counter }}.
@@ -29,7 +29,7 @@
     <ul>
       {% for task in action.get_tasks %}
         <li>
-          <a href="{% url 'workflows:task-detail' tenant_id task.id %}">{{ task.name }}</a>
+          <a href="{% url 'workflows:service-task-detail' tenant_id task.routine.service_id task.id %}">{{ task.name }}</a>
         </li>
       {% endfor %}
     </ul>

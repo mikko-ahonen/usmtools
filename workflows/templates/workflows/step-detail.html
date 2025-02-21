@@ -4,7 +4,7 @@
 {% load breadcrumbs %}
 {% load usm %}
 {% block content %}
-<div class="container-fluid mx-5">
+<div class="container-fluid m-5">
 
 {% include 'workflows/fragments/service-header.html' %}
 
@@ -13,9 +13,13 @@
 <h1>
   {{ step.routine.name }}
   <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:routine-update' tenant.id step.routine.id %}" href="{% url 'workflows:routine-update' tenant.id step.routine.id %}"><i class="bi bi-pencil"></i></a>
+  {% comment %}
   <a class="btn btn-outline-primary" href="{% url 'workflows:routine-detail-printable' tenant.id step.routine.id %}"><i class="bi bi-printer"></i></a>
+  {% endcomment %}
   {% if step.routine.can_draw_diagram %}
-    <a class="btn btn-outline-primary" target="_blank" href="{% url 'workflows:routine-diagram' tenant.id step.routine.id %}"><i class="bi bi-diagram-3"></i></a>
+    <a class="btn btn-outline-primary" target="_blank" href="{% url 'workflows:routine-diagram-svg' tenant.id step.routine.id %}"><i class="bi bi-filetype-svg"></i></a>
+    <a class="btn btn-outline-primary" target="_blank" href="{% url 'workflows:routine-diagram-png' tenant.id step.routine.id %}"><i class="bi bi-filetype-png"></i></a>
+    <a class="btn btn-outline-primary" target="_blank" href="{% url 'workflows:routine-diagram-bpmn' tenant.id step.routine.id %}"><i class="bi bi-diagram-3"></i></a>
   {% else %}
     <span data-bs-toggle="tooltip" title="{% trans 'To draw a BPM diagram, the routine must have at least two actions.' %}">
       <button disabled class="btn btn-outline-primary">
@@ -82,12 +86,11 @@
 {% endfor %}
 <a class="mb-5 btn btn-outline-primary open-popup" href="{% url 'workflows:activity-create' tenant.id step.id %}" data-popup-url="{% url 'workflows:activity-create' tenant.id step.id %}">{% trans 'Create a new activity' %}</a>
 </div>
-{% endblock content %}
 
 {% include 'workflows/fragments/service-footer.html' %}
-
+{% endblock content %}
 {% block footer-scripts %}
-{{ block.super }}
+{{ block.super }}
 <script>
 $(document).on("click", ".activity-up", function (e) {
     var activity = $(this).data('activity');

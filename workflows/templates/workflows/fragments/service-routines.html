@@ -4,12 +4,24 @@
 {% for routine in routines %}
 <div class="col-3" style="min-width: 18rem">
   <div class="card my-3">
-    <div class="card-header bg-primary">
-      <a class="fs-2 mx-1 text-white" href="{% url 'workflows:routine-detail' tenant.id routine.id %}">{{ routine.name }}</a>
+    <div class="card-header bg-primary text-white">
+      <h5>
+        <span class="badge text-bg-secondary">{% trans 'Routine' %}</span>
+        <a class="fs-2 mx-1 text-white" href="{% url 'workflows:routine-detail' tenant.id routine.id %}">{{ routine.name }}</a>
+        {% if routine.description %}
+        <p>
+          {{ routine.description | linebreaks }}
+        </p>
+        {% endif %}
+      </h5>
     </div>
     <div class="card-body bg-primary-subtle d-flex-row">
       {% component 'routine_tags' entity=routine %}{% endcomponent %}
-      <a class="btn btn-outline-primary open-popup m-2" data-popup-url="{% url 'workflows:routine-delete' tenant.id routine.id %}" href="{% url 'workflows:routine-delete' tenant.id routine.id %}">{% trans 'Delete' %}</a>
+      <a class="btn btn-outline-primary open-popup m-1" data-popup-url="{% url 'workflows:routine-update' tenant.id routine.id %}" href="{% url 'workflows:routine-update' tenant.id routine.id %}">{% trans 'Edit' %}</a>
+      <a class="btn btn-outline-primary open-popup m-1" data-popup-url="{% url 'workflows:routine-delete' tenant.id routine.id %}" href="{% url 'workflows:routine-delete' tenant.id routine.id %}">{% trans 'Delete' %}</a>
+      <a class="btn btn-outline-primary m-1" target="_blank" href="{% url 'workflows:routine-diagram-svg' tenant.id routine.id %}">Export SVG</a>
+      <a class="btn btn-outline-primary m-1" target="_blank" href="{% url 'workflows:routine-diagram-png' tenant.id routine.id %}">Export PNG</a>
+      <a class="btn btn-outline-primary m-1" target="_blank" href="{% url 'workflows:routine-diagram-bpmn' tenant.id routine.id %}">Export BPMN</a>
     </div>
   </div>
 </div>

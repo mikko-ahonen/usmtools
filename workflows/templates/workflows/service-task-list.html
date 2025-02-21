@@ -17,8 +17,8 @@
 </div>
 {% endfor %}
 <p class="mt-3">
-  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:task-create' tenant.id %}" href="{% url 'workflows:task-create' tenant.id %}">{% trans 'Create a new task' %}</a>
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:service-task-create' tenant.id service.id %}" href="{% url 'workflows:service-task-create' tenant.id service.id %}">{% trans 'Create a new task' %}</a>
 </p>
 </div>
-{% endblock %}
 {% include 'workflows/fragments/service-footer.html' %}
+{% endblock %}

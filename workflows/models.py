@@ -85,6 +85,10 @@ class Service(TenantAwareTreeModelBase):
     def __str__(self):
         return self.name
 
+    def get_profiles(self):
+        profile_ids = Responsibility.objects.filter(action__activity__step__routine__service_id=self.id).values_list('profile_id', flat=True)
+        return Profile.objects.filter(id__in=profile_ids)
+
     class Meta:
         verbose_name = _('service')
         verbose_name_plural = _('services')
@@ -239,6 +243,7 @@ class Profile(TenantAwareOrderedModelBase):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    organization_unit = models.ForeignKey(OrganizationUnit, on_delete=models.CASCADE, related_name='+', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
@@ -469,7 +474,7 @@ class Task(TenantAwareOrderedModelBase):
         return Action.objects.filter(tags__id=self.action_require_tag_id, activity__step__routine_id=self.routine_id, responsibilities__profile_id=self.profile_id)
 
     def get_absolute_url(self):
-        return reverse('workflows:task-detail', kwargs={'pk': self.id})
+        return reverse('workflows:service-task-detail', kwargs={'pk': self.id, 'service_id': self.routine.service_id, 'tenant_id': self.tenant_id})
 
     class Meta:
         verbose_name = _('task')

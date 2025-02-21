@@ -3,12 +3,14 @@
   <li class="nav-item">
     <a class="nav-link {% if request.resolver_match.view_name == 'mir:document-list' %}active{% endif %}" href="{% url 'mir:document-list' tenant.id %}">{% trans 'Documents' %}</a>
   </li>
+  {% comment %}
   <li class="nav-item">
     <a class="nav-link {% if request.resolver_match.view_name == 'mir:training-list' %}active{% endif %}" href="{% url 'mir:training-list' tenant.id %}">{% trans 'Trainings' %}</a>
   </li>
   <li class="nav-item">
     <a class="nav-link {% if request.resolver_match.view_name == 'mir:employee-list' %}active{% endif %}" href="{% url 'mir:employee-list' tenant.id %}">{% trans 'Employees' %}</a>
   </li>
+  {% endcomment %}
   <li class="nav-item">
     <a class="nav-link {% if request.resolver_match.view_name == 'workflows:organization-unit-list' %}active{% endif %}" href="{% url 'workflows:organization-unit-list' tenant.id %}">{% trans 'Organizations' %}</a>
   </li>

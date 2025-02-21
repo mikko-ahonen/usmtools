@@ -41,10 +41,14 @@ class TaskCreateOrUpdate(ModelForm):
 
     def __init__(self, *args, **kwargs):
         profile = kwargs.pop('profile', None)
+        service = kwargs.pop('service', None)
         super().__init__(*args, **kwargs)
-        self.fields['routine'].queryset = Routine.objects.filter(is_template=False)
         if profile:
             self.fields['profile'].widget.attrs['readonly'] = True
+        if service:
+            self.fields['profile'].queryset = service.get_profiles()
+            self.fields['routine'].queryset = Routine.objects.filter(service_id=service.id, is_template=False)
+
         self.helper = FormHelper()
         self.helper.form_tag = False
 
@@ -209,11 +213,9 @@ class ActivityCreateOrUpdate(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        tenant_id = kwargs.pop('tenant_id')
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        #self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-outline-primary'))
 
 
 class InstructionCreateOrUpdate(ModelForm):
