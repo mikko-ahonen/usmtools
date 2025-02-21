@@ -4,7 +4,7 @@ from django_components import component
 from workflows.tenant import current_tenant_id
 
 from workflows.search import search_routines, search_profiles, search_organization_units
-from mir.search import search_documents
+from mir.search import search_documents, search_risks
 
 from django.db.models import Q
 from taggit.models import Tag
@@ -30,6 +30,8 @@ class TypeaheadResults(component.Component):
                 results = [{'id': r.id, 'name': str(r), 'type': 'r'} for r in search_routines(q)]
             elif t in ["d", "document"]:
                 results = [{'id': r.id, 'name': str(r), 'type': 'd'} for r in search_documents(q)]
+            elif t in ["risk"]:
+                results = [{'id': r.id, 'name': str(r), 'type': 'd'} for r in search_risks(q)]
             elif t in ["o", "organization_unit"]:
                 results = [{'id': r.id, 'name': str(r), 'type': 'o'} for r in search_organization_units(q)]
             elif t in ["p", "profile"]:

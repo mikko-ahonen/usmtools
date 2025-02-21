@@ -5,6 +5,7 @@ from django.views.generic.base import RedirectView
 from components.tags.action_tags import ActionTags
 from components.tags.routine_tags import RoutineTags
 from components.tags.document_tags import DocumentTags
+from components.tags.risk_tags import RiskTags
 from components.board.board import Board
 from components.board.board_list import BoardList
 from components.typeahead.typeahead import Typeahead
@@ -26,6 +27,7 @@ urlpatterns = [
     path('<uuid:tenant_id>/components/tags/routine-tags/', RoutineTags.as_view(), name='routine-tags'),
     path('<uuid:tenant_id>/components/tags/action-tags/', ActionTags.as_view(), name='action-tags'),
     path('<uuid:tenant_id>/components/tags/document-tags/', DocumentTags.as_view(), name='document-tags'),
+    path('<uuid:tenant_id>/components/tags/risk-tags/', RiskTags.as_view(), name='risk-tags'),
     path("<uuid:tenant_id>/typeahead/select/", Typeahead.as_view(), name='typeahead-select'),
     path("<uuid:tenant_id>/typeahead/search/", TypeaheadResults.as_view(), name='typeahead-search'),
     path("<uuid:tenant_id>/components/responsibilities/profiles/select", ResponsibilityProfileSelector.as_view(), name='responsibility-select-profile'),

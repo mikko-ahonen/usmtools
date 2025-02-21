@@ -5,7 +5,7 @@ from django.forms.widgets import Textarea
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
 
-from .models import Training, Employee, Document
+from .models import Training, Employee, Document, Risk
 
 
 class UUIDModelChoiceField(ModelChoiceField):
@@ -52,6 +52,18 @@ class DocumentCreateOrUpdate(ModelForm):
     class Meta:
         model = Document
         fields = ['name', 'description', 'url']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.add_input(Submit('submit', _('Save'), css_class='btn btn-primary'))
+
+class RiskCreateOrUpdate(ModelForm):
+
+    class Meta:
+        model = Risk
+        fields = ['name', 'description', 'url', 'category', 'inherent_likelihood', 'mitigation_plan', 'residual_impact', 'residual_likelihood', 'responsible_party_name', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

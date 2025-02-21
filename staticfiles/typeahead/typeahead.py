@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 from taggit.models import Tag
 from workflows.tenant import current_tenant_id
 from workflows.models import OrganizationUnit, Profile
-from mir.models import Document
+from mir.models import Document, Risk
 from django.utils.translation import gettext as _
 
 from inflection import pluralize
@@ -75,6 +75,8 @@ class Typeahead(component.Component):
             new_item, created = Profile.objects.get_or_create(tenant_id=tenant_id, name=new_item_value)
         elif target in ["o", "organization_unit"]:
             new_item, created = OrganizationUnit.objects.get_or_create(tenant_id=tenant_id, name=new_item_value)
+        elif target in ["risk"]:
+            new_item = Risk.objects.filter(name=new_item_value).first()
         elif target in ["d", "document"]:
             new_item = Document.objects.filter(name=new_item_value).first()
         else:

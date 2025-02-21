@@ -19,4 +19,8 @@ urlpatterns = [
     path('<uuid:tenant_id>/documents/create/', views.DocumentCreate.as_view(), name='document-create'),
     path('<uuid:tenant_id>/documents/<uuid:pk>/delete/', views.DocumentDelete.as_view(), name='document-delete'),
     path('<uuid:tenant_id>/documents/<uuid:pk>/update/', views.DocumentUpdate.as_view(), name='document-update'),
+    path('<uuid:tenant_id>/risks/', views.RiskList.as_view(), name='risk-list'),
+    path('<uuid:tenant_id>/risks/create/', views.RiskCreate.as_view(), name='risk-create'),
+    path('<uuid:tenant_id>/risks/<uuid:pk>/delete/', views.RiskDelete.as_view(), name='risk-delete'),
+    path('<uuid:tenant_id>/risks/<uuid:pk>/update/', views.RiskUpdate.as_view(), name='risk-update'),
 ]

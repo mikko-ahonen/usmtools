@@ -170,6 +170,8 @@ class Risk(TenantAwareModelBase):
         help_text=_("Provide a detailed description of the risk.")
     )
 
+    url = models.URLField(blank=True, null=True, verbose_name=_('URL'), help_text=_('URL for this risk'))
+
     CATEGORY_OPERATIONAL = 'operational'
     CATEGORY_FINANCIAL = 'financial'
     CATEGORY_COMPLIANCE = 'compliance'
@@ -231,10 +233,10 @@ class Risk(TenantAwareModelBase):
         help_text=_("Assess the likelihood of the risk occurring after mitigation actions.")
     )
 
-    responsible_party = models.CharField(
+    responsible_party_name = models.CharField(
         max_length=255,
-        verbose_name=_("Responsible Party"),
-        help_text=_("Specify the individual or department responsible for managing this risk.")
+        verbose_name=_("Name of responsible party"),
+        help_text=_("Specify the name of the individual or department responsible for managing this risk.")
     )
 
     # Status Choices
@@ -264,6 +266,8 @@ class Risk(TenantAwareModelBase):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
+
+    tags = TaggableManager(through=UUIDTaggedItem)
 
     def __str__(self):
         return self.name

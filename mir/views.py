@@ -1,16 +1,16 @@
-import json
 import logging
 
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
-from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, FormView, TemplateView, RedirectView
 
-from . import forms
+from django.http import HttpResponseRedirect
 
 from workflows.models import Tenant
-from .models import Training, Employee, Document
+
+from .models import Training, Employee, Document, Risk
+from . import forms
+
 
 logger = logging.getLogger(__name__)
 
@@ -225,3 +225,50 @@ class DocumentDelete(TenantMixin, DeleteView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         return reverse_lazy('mir:document-list', kwargs={'tenant_id': tenant_id})
+#######################################################################################################################
+#
+# Risk
+#
+
+class RiskList(TenantMixin, ListView):
+    model = Risk
+    template_name = 'mir/risk-list.html'
+    context_object_name = 'risks'
+
+
+class RiskUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
+    model = Risk
+    template_name = 'mir/modals/create-or-update.html'
+    form_class = forms.RiskCreateOrUpdate
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('mir:risk-list', kwargs={'tenant_id': tenant_id})
+
+class RiskCreate(TenantMixin, CreateView):
+    model = Risk
+    template_name = 'mir/modals/create-or-update.html'
+    form_class = forms.RiskCreateOrUpdate
+
+    def form_valid(self, form):
+        tenant = self.get_tenant()
+        self.object = form.save(commit=False)
+        self.object.tenant = tenant
+        self.object.created_by = self.request.user
+        self.object.modified_by = self.request.user
+        self.object.save()
+        form.save_m2m()
+        return HttpResponseRedirect(self.get_success_url()) 
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('mir:risk-list', kwargs={'tenant_id': tenant_id})
+
+
+class RiskDelete(TenantMixin, DeleteView):
+    model = Risk
+    template_name = 'mir/modals/delete.html'
+
+    def get_success_url(self):
+        tenant_id = self.kwargs.get('tenant_id')
+        return reverse_lazy('mir:risk-list', kwargs={'tenant_id': tenant_id})

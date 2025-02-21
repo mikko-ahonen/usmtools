@@ -5,6 +5,7 @@ class EntityType:
     NOT_DEFINED = "not-defined"
     DOCUMENT = "document"
     TASK = "task"
+    RISK = "risk"
     ROUTINE = "routine"
     PROFILE = "profile"
 
@@ -12,6 +13,7 @@ class EntityType:
         (NOT_DEFINED, _("Not defined")),
         (DOCUMENT, _("Document")),
         (TASK, _("Task")),
+        (RISK, _("Risk")),
         (ROUTINE, _("Routine")),
         (PROFILE, _("Profile")),
     ]
@@ -38,6 +40,10 @@ def get_class_by_entity_type(entity_type):
         case EntityType.TASK:
             from workflows.models import Task
             return Task
+
+        case EntityType.RISK:
+            from mir.models import Risk
+            return Risk
 
         case EntityType.ROUTINE:
             from workflows.models import Routine
