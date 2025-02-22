@@ -8,7 +8,7 @@ from django.apps import apps
 from django.shortcuts import get_object_or_404
 from django.db import models
 
-from projects.models import Team
+from projects.models import Team, Sprint
 
 from workflows.tenant import current_tenant_id
 
