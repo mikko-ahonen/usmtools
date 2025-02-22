@@ -3,7 +3,7 @@
 {% load checkbox_value %}
 
 <div class="responsibility_editor row">
-  <div class="col-3 d-inline-flex align-self-center">
+  <div class="col-5 d-inline-flex align-self-center">
     {% for rtype in 'RASCI' %}
     <div class="form-check form-switch mx-3 align-items-center justify-content-evenly">
       <input hx-post="{% url 'components:responsibility-editor' tenant_id responsibility.id %}" hx-vals='{"rtype": "{{ rtype|escapejs }}"}' id="{{ responsibility.action_id }}-{{ rtype }}" type="checkbox" name="responsibility-checkbox" class="form-check-input align-self-center" role="switch" {{ responsibility|has_responsibility_type:rtype|checkbox_value }}/>
@@ -19,7 +19,7 @@
     {% endif %}
     <a class="btn btn-sm btn-outline-primary m-1" hx-delete="{% url 'components:responsibility-delete' tenant_id responsibility.id %}" hx-swap="outerHTML" hx-target="closest .action"><i class="bi bi-trash3"></i></a>
   </div>
-  <div class="col-8 d-inline-flex align-self-center">
+  <div class="col-6 d-inline-flex align-self-center">
     {% component 'responsibility_profile_selector' entity=responsibility %}
     {% endcomponent %} <span class="fs-3">
   </div>

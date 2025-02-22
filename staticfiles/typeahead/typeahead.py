@@ -34,7 +34,7 @@ class Typeahead(component.Component):
         }
 
     def get_placeholder(self, target):
-        if target == 't':
+        if target in ['t', 'tags']:
             placeholder = _('tags')
         elif target in ["p", "profile"]:
             placeholder = _('profiles')
@@ -69,7 +69,7 @@ class Typeahead(component.Component):
 
         target = request.POST.get('t')
         logger.error(f"target {target}")
-        if target == "t":
+        if target in ["t", "tags"]:
             new_item, created = Tag.objects.get_or_create(name=new_item_value)
         elif target in ["p", "profile"]:
             new_item, created = Profile.objects.get_or_create(tenant_id=tenant_id, name=new_item_value)
