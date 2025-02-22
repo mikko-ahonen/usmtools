@@ -5,6 +5,7 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericForeignKey, ContentType
 
+from taggit.models import Tag
 from colorfield.fields import ColorField
 
 from projects.models import Project, Story, Team
@@ -179,11 +180,13 @@ class Requirement(TenantAwareOrderedModelBase):
 class Definition(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, blank=True)
-    term = models.CharField(max_length=255, blank=True, null=True)
-    definition = models.TextField(blank=True, null=True)
+    term = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('Term (singular)'))
+    term_plural = models.CharField(max_length=255, blank=True, null=True, verbose_name=_('Term (plural)'))
+    definition = models.TextField(blank=True, null=True, verbose_name=_('Definition for the term'))
 
-    ref_plural = models.BooleanField(default=False)
-    ref_entity_type = models.CharField(max_length=32, choices=EntityType.CHOICES, default=EntityType.NOT_DEFINED)
+    ref_plural = models.BooleanField(default=False, verbose_name=_('If checked, this is a plural definition'))
+    ref_plural_tag = models.ForeignKey(Tag, null=True, blank=True, on_delete=models.PROTECT, verbose_name=_('The label used by plural definitions'))
+    ref_entity_type = models.CharField(max_length=32, choices=EntityType.CHOICES, default=EntityType.NOT_DEFINED, verbose_name=_('Entity type used by definition'))
     ref_content_type = models.ForeignKey(ContentType, null=True, blank=True, on_delete=models.SET_NULL)
     ref_object_id = models.UUIDField(null=True, blank=True)
     ref_object = GenericForeignKey("ref_content_type", "ref_object_id")
@@ -191,6 +194,17 @@ class Definition(TenantAwareOrderedModelBase):
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
     order_field_name = 'index'
+
+    def get_matches(self):
+        if not self.ref_plural:
+            raise ValueError("Only plural definitions support getting matchs")
+
+        cls = get_class_by_entity_type(self.ref_entity_type)
+
+        return cls.objects.filter(tags__id=self.ref_plural_tag_id)
+
+    def __str__(self):
+        return self.term_plural if self.ref_plural and self.term_plural else self.term
 
     class Meta:
         ordering = ('index',)

@@ -1,9 +1,10 @@
 {% extends "workflows/base.html" %}
 {% load i18n %}
-{% load breadcrumbs %}
 {% block content %}
 <div class="container-fluid m-5">
+<div class="row mt-3">
 {% for tenant in tenants %}
+<div class="col-3" style="min-width: 18rem">
   {% include 'workflows/fragments/tenant.html' with tenant=tenant user=user only %}
 {% empty %}
   <p>
@@ -14,8 +15,10 @@
   </p>
 {% endfor %}
 <p>
-  <a class="btn btn-primary open-popup" data-popup-url="{% url 'workflows:tenant-create' %}" href="{% url 'workflows:tenant-create' %}">{% trans 'Create a new tenant' %}</a>
+  <a class="btn btn-primary-outline open-popup" data-popup-url="{% url 'workflows:tenant-create' %}" href="{% url 'workflows:tenant-create' %}">{% trans 'Create a new tenant' %}</a>
 </p>
+</div>
+</div>
 </div>
 {% include 'workflows/fragments/modal.html' %}
 {% endblock %}

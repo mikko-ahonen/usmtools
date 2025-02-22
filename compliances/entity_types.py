@@ -26,6 +26,21 @@ class EntityType:
                 return entity_type
         return None
         
+    @classmethod
+    def get_name(cls, s):
+        s = s.strip().lower()
+        for entity_type, name in cls.CHOICES:
+            if entity_type == s:
+                return name
+        return None
+        
+    @classmethod
+    def get_name_plural(cls, s):
+        name = cls.get_name(s)
+        if not name:
+            return None
+        return name + 's'
+
 
 def get_class_by_entity_type(entity_type):
     match entity_type:

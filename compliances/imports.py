@@ -126,7 +126,7 @@ def create_definitions(tenant, domain, constraint):
             definition = Definition.unscoped.get(tenant_id=tenant.id, domain_id=domain.id, term__iexact=term)
         except Definition.DoesNotExist:
             index = get_next_value('definitions')
-            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term.capitalize(), index=index, ref_entity_type=entity_type, ref_plural=True)
+            definition = Definition.unscoped.create(tenant_id=tenant.id, domain_id=domain.id, term=term.capitalize(), index=index, ref_entity_type=entity_type, ref_plural=True, term_plural=term_plural)
 
         constraint.definitions.add(definition)
 

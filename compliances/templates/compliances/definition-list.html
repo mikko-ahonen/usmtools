@@ -1,7 +1,9 @@
 {% extends "compliances/base.html" %}
+{% load verbose_name %}
 {% load i18n %}
 {% load usm %}
 {% load component_tags %}
+{% load compliances %}
 {% block content %}
 <div class="container-fluid m-5">
 {% include 'compliances/fragments/compliances-tabs.html' %}
@@ -13,7 +15,11 @@
   <div class="card-header bg-primary">
     <div class="card-text">
       <h5 class="text-white">
-        {{ definition.term }}</a>
+        <span class="badge text-bg-secondary">{% trans 'Reference' %}</span>
+        {% if definition.ref_plural and definition.term_plural %}{{ definition.term_plural }}{% else %}{{ definition.term }}{% endif %}</a>
+        {% if definition.ref_plural %}
+          <span class="badge text-bg-danger">{% trans 'Plural' %}</span>
+        {% endif %}
       </h5>
       <p>
         <small class="text-white">
@@ -24,14 +30,25 @@
   </div>
   <div class="card-body bg-primary-subtle">
     <div class="card-text">
-      {% if definition.ref_entity_type and definition.ref_entity_type != 'not-defined'  %}
-        {% component 'definition_reference_selector' entity=definition %}
-        {% endcomponent %}
+      {% if definition.ref_plural %}
+        {{ definition.ref_entity_type|definition_entity_type_name_plural }} {% trans 'matching label' %} {{ definition.ref_plural_tag.name }}:
+        <ul>
+        {% for m in definition.get_matches.all %}
+            <li>{{ m }}</li>
+        {% empty %}
+            <li>{% trans 'No matches' %}</li>
+        {% endfor %}
+        </ul>
       {% else %}
-        <span class="text-danger">{% trans 'Entity type missing' %}</span>
+        {% if definition.ref_entity_type and definition.ref_entity_type != 'not-defined'  %}
+          {% component 'definition_reference_selector' entity=definition %}
+          {% endcomponent %}
+        {% else %}
+          <span class="text-danger">{% trans 'Entity type missing' %}</span>
+        {% endif %}
       {% endif %}
-      <a class="my-2 mx-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}">{% trans 'Edit' %}</a>
-      <a class="my-2 mx-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}">{% trans 'Delete' %}</a>
+      <a class="m-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-update' tenant.id domain.id definition.id %}">{% trans 'Edit' %}</a>
+      <a class="m-2 btn btn-outline-primary open-popup" data-popup-url="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}" href="{% url 'compliances:definition-delete' tenant.id domain.id definition.id %}">{% trans 'Delete' %}</a>
     </div>
   </div>
 </div>

@@ -77,9 +77,9 @@ class ConstraintReferences(component.Component):
         definition = constraint.definitions.filter(id=definition_id).first()
 
         if definition.ref_plural:
-            raise ValueError("Plurals not yet supported")
-
-        definition.ref_object = None
+            definition.ref_plural_tag = None
+        else:
+            definition.ref_object = None
         definition.save()
 
         context = self.get_context_data(constraint=constraint, definition=definition, domain=domain)
@@ -102,16 +102,17 @@ class ConstraintReferences(component.Component):
             definition = self.get_definition(qd)
 
         if definition.ref_plural:
-            raise ValueError("Plurals not yet supported")
+            plural_tag_id = self.get_param(qd, 'selected_id')
+            definition.plural_tag = Tag.objects.get(id=plural_tag_id)
+        else:
+            selected_id = self.get_param(qd, 'selected_id')
+            if not selected_id:
+                raise ValueError("selected_id is required")
 
-        reference_id = self.get_param(qd, 'reference_id')
-        if not reference_id:
-            raise ValueError("reference_id is required")
+            cls = get_class_by_entity_type(definition.ref_entity_type)
+            reference = cls.objects.filter(id=selected_id).first()
+            definition.ref_object = reference
 
-        print(reference_id)
-        cls = get_class_by_entity_type(definition.ref_entity_type)
-        reference = cls.objects.filter(id=reference_id).first()
-        definition.ref_object = reference
         definition.save()
         
         context = self.get_context_data(constraint=constraint, definition=definition, domain=domain)

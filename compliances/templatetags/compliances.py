@@ -8,7 +8,15 @@ register = template.Library()
 
 from projects.models import Story
 from ..models import TargetSection, Constraint
+from ..entity_types import EntityType
 
+@register.filter
+def definition_entity_type_name(s):
+    return EntityType.get_name(s)
+
+@register.filter
+def definition_entity_type_name_plural(s):
+    return EntityType.get_name_plural(s)
 
 @register.filter
 def target_section_checked(target, section):

@@ -27,13 +27,17 @@
 
     <input type="hidden" name="constraint_id" value="{{ constraint.id }}"/>
     <input type="hidden" name="definition_id" value="{{ definition.id }}"/>
-    <input type="hidden" name="reference_id" :value="selected ? selected.id : ''"/>
-    <input type="hidden" name="reference_name" :value="selected ? selected.name : ''"/>
+    <input type="hidden" name="selected_id" :value="selected ? selected.id : ''"/>
+    <input type="hidden" name="selected_name" :value="selected ? selected.name : ''"/>
 
     {% if definition.ref_object %}
     <div class="btn-group m-1" role="group">
       <button class="btn btn-primary disabled mx-0">
-        {{ definition.ref_object.name }} 
+        {% if definition.ref_plural %}
+          {{ definition.ref_entity_type }} | {{ definition.ref_plural_tag.name }} | {{ definition.ref_plural_tag.name }} 
+        {% else %}
+          {{ definition.ref_object.name }} 
+        {% endif %}
       </button>
       <button 
          class="btn btn-primary mx-0"
@@ -45,11 +49,20 @@
     </div>
     {% else %}
 
+    {% if definition.ref_plural %}
+    <div x-cloak class="d-inline-flex align-items-center flex-wrap">
+      <div class="m-1" x-show="!selected || selected.id == null || selected.id == ''">
+        {% component 'typeahead' x-model="selected" target='tags' %}
+        {% endcomponent %}
+      </div>
+    </div>
+    {% else %}
     <div x-cloak class="d-inline-flex align-items-center flex-wrap">
       <div class="m-1" x-show="!selected || selected.id == null || selected.id == ''">
         {% component 'typeahead' x-model="selected" target=definition.ref_entity_type %}
         {% endcomponent %}
       </div>
     </div>
+    {% endif %}
     {% endif %}
 </div>
