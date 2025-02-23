@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
-<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body class="d-flex flex-column vh-100 vw-100" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     {% for message in messages %}
     <div class="container-fluid p-0 d-print-none">
       <div class="alert {{ message.tags }} alert-dismissible m-0" role="alert" >
@@ -59,8 +59,8 @@
     </div>
 
     {% block footer %}
-    <footer class="page-footer d-print-none">
-      <div class="container">
+    <footer class="page-footer d-print-none  mt-auto">
+      <div class="container-fluid">
         <div class="row">
           <div class="col col-lg-3 col-md-12">
               <a href="/public/about/"><img src="{% static 'img/usm_coach_logo_wg_150x80.png' %}" width="150px" alt="Logo"/></a>

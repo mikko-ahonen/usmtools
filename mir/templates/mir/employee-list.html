@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load breadcrumbs %}
 {% block content %}
-<div class="container-fluid m-5">
+<div class="container-fluid p-5 overflow-auto">
 {% include 'mir/fragments/mir-tabs.html' %}
 <h3 class="mt-3">{% trans 'Employees' %}</h3>
 {% for employee in employees %}

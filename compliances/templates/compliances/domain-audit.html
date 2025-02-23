@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block content %}
 
-<div class="container-fluid m-5">
+<div class="container-fluid p-5 overflow-auto">
 {% include 'compliances/fragments/compliances-tabs.html' %}
 
 <h3 class="mt-3">{% trans 'Audit' %} {{ domain.name }}</h3>

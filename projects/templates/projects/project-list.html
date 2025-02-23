@@ -3,7 +3,7 @@
 {% load breadcrumbs %}
 {% load dict_key %}
 {% block content %}
-<div class="container-fluid m-5">
+<div class="container-fluid p-5 overflow-auto">
 {% breadcrumbs tenant True 'compliances' %}
 <h1>{% trans 'Projects' %}</h1>
   {% for project in projects %}

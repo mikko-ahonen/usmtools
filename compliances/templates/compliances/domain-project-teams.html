@@ -3,7 +3,7 @@
 {% load breadcrumbs %}
 {% load constraint %}
 {% block content %}
-<div class="container-fluid m-5">
+<div class="container-fluid p-5 overflow-auto">
 {% with domain=project.domains.all.0 %}
 {% include 'compliances/fragments/compliances-tabs.html' %}
 <h1 class="mb-3 pb-0">{% trans 'Setup teams for project' %} {{ project.name }}</h1>
