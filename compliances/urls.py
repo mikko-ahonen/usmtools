@@ -30,5 +30,5 @@ urlpatterns = [
     path("<uuid:tenant_id>/projects/<uuid:pk>/targets/<uuid:target_id>/delete/", views.delete_target, name="target-delete"),
     path("<uuid:tenant_id>/projects/<uuid:pk>/teams/<uuid:team_id>/delete/", views.delete_team, name="team-delete"),
     path("<uuid:tenant_id>/data-management/<uuid:pk>/team/", views.data_management_team, name="data-management-team"),
-    path("<uuid:tenant_id>/data-management/<uuid:pk>/policy/", views.data_management_policy, name="data-management-policy"),
+    path("<uuid:tenant_id>/data-management/<uuid:pk>/plan/", views.data_management_plan, name="data-management-plan"),
 ]

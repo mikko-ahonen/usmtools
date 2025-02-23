@@ -1,6 +1,9 @@
 {% load i18n %}
 <ul class="nav nav-tabs">
   <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.view_name == 'mir:dashboard' %}active{% endif %}" href="{% url 'mir:dashboard' tenant.id %}">{% trans 'Dashboard' %}</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link {% if request.resolver_match.view_name == 'mir:document-list' %}active{% endif %}" href="{% url 'mir:document-list' tenant.id %}">{% trans 'Documents' %}</a>
   </li>
   <li class="nav-item">

@@ -3,6 +3,7 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.contenttypes.fields import GenericForeignKey, ContentType
 
 from taggit.managers import TaggableManager
 from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
@@ -271,3 +272,76 @@ class Risk(TenantAwareModelBase):
 
     def __str__(self):
         return self.name
+
+
+class DataManagement(TenantAwareOrderedModelBase):
+    """
+    Meta class to define the data management policy and status for a model class
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
+    index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=0)
+    allow_policy_change = models.BooleanField(default=True)
+
+    POLICY_NOT_DEFINED = "not-defined"
+    POLICY_MANUAL = "manual"
+    POLICY_LINK = "linked"
+    POLICY_REPLICATED = "replicated"
+    POLICY_MANAGED = "managed"
+
+    POLICIES = [
+        (POLICY_NOT_DEFINED, _("Not defined")),
+        (POLICY_MANUAL, _("Manual")),
+        (POLICY_LINK, _("Link")),
+        (POLICY_REPLICATED, _("Replicated")),
+        (POLICY_MANAGED, _("Managed")),
+    ]
+
+    policy = models.CharField(max_length=32, choices=POLICIES, default=POLICY_NOT_DEFINED)
+
+    STATUS_NOT_DEFINED = "not-defined"
+    STATUS_PROTOTYPING = "prototyping"
+    STATUS_DEVELOPMENT = "development"
+    STATUS_TESTING = "testing"
+    STATUS_PRODUCTION = "production"
+
+    STATUSES = [
+        (STATUS_NOT_DEFINED, _("Not defined")),
+        (STATUS_PROTOTYPING, _("Prototyping")),
+        (STATUS_DEVELOPMENT, _("Development")),
+        (STATUS_TESTING, _("Testing")),
+        (STATUS_PRODUCTION, _("Production")),
+    ]
+
+    status = models.CharField(max_length=32, choices=STATUSES, default=STATUS_NOT_DEFINED)
+
+    order_field_name = 'index'
+
+    @classmethod
+    def is_valid_policy(cls, policy):
+        for p in cls.POLICIES:
+            if policy == p[0]:
+                return True
+        return False
+
+    @classmethod
+    def is_valid_status(cls, status):
+        for s in cls.STATUSES:
+            if status == s[0]:
+                return True
+        return False
+
+    def get_entity_name(self):
+        if self.content_type:
+            cls = self.content_type.model_class()
+            if cls:
+                return cls._meta.verbose_name
+        return _("Unknown entity")
+
+    def __str__(self):
+        cls = self.content_type.model_class()
+        return cls._meta.verbose_name + ': ' + self.get_policy_display()
+
+    class Meta:
+        ordering = ('index',)

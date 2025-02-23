@@ -21,8 +21,10 @@
     <div class="card-text">
       <a class="m-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:tenant-update' tenant.id %}" href="{% url 'workflows:tenant-update' tenant.id %}">{% trans 'Edit' %}</a>
       <a class="m-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:tenant-delete' tenant.id %}" href="{% url 'workflows:tenant-delete' tenant.id %}">{% trans 'Delete' %}</a>
+      {% comment %}
       <a class="m-1 btn btn-outline-primary" href="{% url 'workflows:tenant-export' tenant.id %}" download="{{ tenant.name }}.usm.json">Export JSON</a>
       <a class="m-1 btn btn-outline-primary" href="{% url 'workflows:tenant-export' tenant.id %}">{% trans 'Export JSON HTML' %}</a>
+      {% endcomment %}
     </div>
   </div>
 </div>

@@ -249,6 +249,8 @@ class Profile(TenantAwareOrderedModelBase):
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
+    tags = TaggableManager(through=UUIDTaggedItem)
+
     order_field_name = 'index'
 
     def get_routines(self):

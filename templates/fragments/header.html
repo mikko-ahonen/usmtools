@@ -1,102 +1,93 @@
 {% load i18n %}
 {% load static %}
+
     {% block header %}
     <div id="header">
       <nav class="navbar navbar-custom navbar-expand-md sticky-top navbar-dark bg-dark d-print-none">
 
-        <a class="navbar-brand" href="/"><img height="45px" style="margin-left: 20px" src="{% static 'img/usm_tools_logo_no_bg_375x200.png' %}" alt="Logo"/></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/"><img height="45px" style="margin-left: 20px" src="{% static 'img/usm_tools_logo_no_bg_375x200.png' %}" alt="Logo"/></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-        <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
-          <ul class="list-unstyled navbar-nav"> {% comment %}bootstrap 4 is broken, and does not allow styling this in the class {% endcomment %}
-            {% if user.is_authenticated %}
-            {% if not tenant %}
-            <li class="nav-item px-2">
-             <h5>
-               <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
-                 <i class="bi bi-house"></i>&nbsp;&nbsp;{% trans 'Tenants' %}
-               </a>
-              </h5>
-            </li>
-            {% endif %}
-            {% if tenant %}
-            <li class="nav-item px-2">
-              <h5>
-                <a class="nav-link text-left  {% if request.resolver_match.app_name == 'workflows' %}active{% endif %}" aria-current="page" href="{% url 'workflows:service-list' tenant.id %}">
-                  <i class="bi bi-gear"></i>&nbsp;&nbsp;{% trans 'Services' %}
-                </a>
-              </h5>
-            </li>
-            <li class="nav-item px-2">
-              <h5>
-                <a class="nav-link  {% if request.resolver_match.app_name == 'mir' %}active{% endif %}" href="{% url 'mir:document-list' tenant.id %}">
-                  <i class="bi bi-diagram-3"></i>
-                  &nbsp;&nbsp;{% trans 'Infrastructure' %}
-                </a>
-              </h5>
-            </li>
-            <li class="nav-item px-2">
-              <h5>
-                <a class="nav-link {% if request.resolver_match.app_name == 'compliances' or request.resolver_match.app_name == 'projects' %}active{% endif %}" href="{% url 'compliances:domain-list' tenant.id %}">
-                  <i class="bi bi-ui-checks"></i>
-                  &nbsp;&nbsp;{% trans 'Compliance' %}
-                </a>
-              </h5>
-            </li>
-            {% endif %}
-            {% for group in request.user.groups.all %}
-                {% if group.name == 'XREF' %}
-                <li class="nav-item px-2 {% if "/xref" in request.path %}active{% endif %}">
-                  <a class="nav-link" href="/xref/">{% trans 'XREF tool' %} <span class="badge bg-danger">beta</span></a>
+          <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
+            <ul class="list-unstyled navbar-nav">
+              {% if user.is_authenticated %}
+              {% if not tenant %}
+              <li class="nav-item px-2">
+               <h5>
+                 <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
+                   <i class="bi bi-house"></i>&nbsp;&nbsp;{% trans 'Tenants' %}
+                 </a>
+                </h5>
+              </li>
+              {% endif %}
+              {% if tenant %}
+              <li class="nav-item px-2">
+                <h5>
+                  <a class="nav-link text-left  {% if request.resolver_match.app_name == 'workflows' %}active{% endif %}" aria-current="page" href="{% url 'workflows:service-list' tenant.id %}">
+                    <i class="bi bi-gear"></i>&nbsp;&nbsp;{% trans 'Services' %}
+                  </a>
+                </h5>
+              </li>
+              <li class="nav-item px-2">
+                <h5>
+                  <a class="nav-link  {% if request.resolver_match.app_name == 'mir' %}active{% endif %}" href="{% url 'mir:document-list' tenant.id %}">
+                    <i class="bi bi-diagram-3"></i>
+                    &nbsp;&nbsp;{% trans 'Data' %}
+                  </a>
+                </h5>
+              </li>
+              <li class="nav-item px-2">
+                <h5>
+                  <a class="nav-link {% if request.resolver_match.app_name == 'compliances' or request.resolver_match.app_name == 'projects' %}active{% endif %}" href="{% url 'compliances:domain-list' tenant.id %}">
+                    <i class="bi bi-ui-checks"></i>
+                    &nbsp;&nbsp;{% trans 'Compliance' %}
+                  </a>
+                </h5>
+              </li>
+              {% endif %}
+              {% for group in request.user.groups.all %}
+                  {% if group.name == 'XREF' %}
+                  <li class="nav-item px-2 {% if "/xref" in request.path %}active{% endif %}">
+                    <a class="nav-link" href="/xref/">{% trans 'XREF tool' %} <span class="badge bg-danger">beta</span></a>
+                  </li>
+                  {% endif %}
+              {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
+          <div class="collapse navbar-collapse justify-content-end me-3" id="navbarSupportedContent2">
+            <ul class="list-unstyled navbar-nav">
+              {% if user.is_authenticated %}
+                <li class="nav-item px-2 dropdown">
+  
+                  <a class="dropdown-toggle text-white" role="button" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ user }}
+                  </a>
+
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                    <li><form method="post" action="{% url 'accounts:auth_logout' %}">
+                      {% csrf_token %}
+                      <button class="dropdown-item btn btn-link" type="submit">{% trans "Log out" %}</button>
+                      </form>
+                    </li>
+
+
+                    <li><a class="dropdown-item" href="{% url 'accounts:auth_password_change' %}">{% trans "Change password" %}</a></li>
+                    {% if user.is_staff %}
+                      <li><a class="dropdown-item" href="/admin">{% trans "Site admin" %}</a></li>
+                    {% endif %}
+                  </ul>
                 </li>
-                {% endif %}
-            {% endfor %}
-            {% endif %}
-          </ul>
-        </div>
-        <div class="collapse navbar-collapse justify-content-end me-3" id="navbarSupportedContent">
-          <ul class="list-unstyled navbar-nav"> {% comment %}bootstrap 4 is broken, and does not allow styling this in the class {% endcomment %}
-            {% comment %}
-            {% get_current_language as current_language %}
-            {% get_available_languages as LANGUAGES %}
-            {% get_language_info_list for LANGUAGES as languages %}
-            {% for language in languages %}
-              {% if current_language != language.code %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'public.lang' language.code %}?next={{ request.path | urlencode }}"><img height="20" src="/static/img/lang_{{ language.code }}.png" alt="{{ language.code }}"/></a>
+              {% else %}
+                <li class="nav-item px-2">
+                  <a class="nav-link" href="{% url 'accounts:auth_login' %}">{% trans "Log In" %}</a>
                 </li>
               {% endif %}
-            {% endfor %}
-            {% endcomment %}
-
-            {% if user.is_authenticated %}
-              <li class="nav-item px-2 dropdown">
-
-                <a class="dropdown-toggle" role="button" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ user }}
-                </a>
-
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                  <li><a class="dropdown-item" href="{% url 'accounts:auth_logout' %}">{% trans "Log out" %}</a></li>
-                  <li><a class="dropdown-item" href="{% url 'accounts:auth_password_change' %}">{% trans "Change password" %}</a></li>
-                  {% if user.is_staff %}
-                    <li><a class="dropdown-item" href="/admin">{% trans "Site admin" %}</a></li>
-                  {% endif %}
-                </ul>
-              </li>
-              {% comment %}
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
-                  </ul>
-              {% endcomment %}
-            {% else %}
-              <li class="nav-item px-2">
-                <a class="nav-link" href="{% url 'accounts:auth_login' %}">{% trans "Log In" %}</a>
-              </li>
-            {% endif %}
-          </ul>
+            </ul>
+          </div>
         </div>
       </nav>
     </div>

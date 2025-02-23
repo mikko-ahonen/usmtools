@@ -22,7 +22,7 @@ from workflows.tenant import current_tenant_id
 
 from projects.models import Project, Release, Epic, Roadmap, Story, Backlog, Sprint, Team
 from boards.models import Board
-from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, DataManagement, Definition
+from .models import Domain, Requirement, Constraint, Target, TargetSection, Category, DataManagementPlan, Definition
 
 from . import forms
 
@@ -75,7 +75,7 @@ class DomainProjectDataManagement(TenantMixin, DetailView):
         project = get_object_or_404(Project, tenant_id=tenant_id, pk=project_id)
         domain_id = self.kwargs['domain_id']
         domain = get_object_or_404(Domain, tenant_id=tenant_id, id=domain_id)
-        context['data_managements'] = DataManagement.objects.filter(domain_id=domain_id)
+        context['data_management_plans'] = DataManagementPlan.objects.filter(domain_id=domain_id)
         return context
 
 class DomainCreateProject(TenantMixin, RedirectView):
@@ -91,7 +91,7 @@ class DomainCreateProject(TenantMixin, RedirectView):
             category.team = team
             category.save()
             if category.name == 'MIR':
-                for dm in DataManagement.objects.all():
+                for dm in DataManagementPlan.objects.all():
                     dm.team = team
                     dm.save()
 
@@ -423,28 +423,28 @@ def delete_team(request, tenant_id, pk, team_id):
     team.delete()
     return teams(request, project)
 
-def data_management_policy(request, tenant_id, pk):
+def data_management_plan(request, tenant_id, pk):
 
-    dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
-    if not dm.allow_policy_change:
-        raise ValueError("policy cannot be changed for built-in data types")
-    policy = request.POST.get('policy', None)
-    if not policy:
-        raise ValueError("policy is required")
-    if not DataManagement.is_valid_policy(policy):
-        raise ValueError("policy value is not valid")
-    dm.policy = policy
-    dm.save()
+    dmp = get_object_or_404(DataManagementPlan, tenant_id=tenant_id, pk=pk)
+    if not dmp.data_management.allow_policy_change:
+        raise ValueError("plan cannot be changed for built-in data types")
+    plan = request.POST.get('plan', None)
+    if not plan:
+        raise ValueError("plan is required")
+    if not DataManagementPlan.is_valid_plan(plan):
+        raise ValueError(f"plan value {plan} is not valid")
+    dmp.plan = plan
+    dmp.save()
     return HttpResponse("OK")
 
 def data_management_team(request, tenant_id, pk):
-    dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
+    dmp = get_object_or_404(DataManagementPlan, tenant_id=tenant_id, pk=pk)
     team_id = request.POST.get('team', None)
     if not team_id:
         raise ValueError("team is required")
     team = get_object_or_404(Team, tenant_id=tenant_id, id=team_id)
-    dm.team = team
-    dm.save()
+    dmp.team = team
+    dmp.save()
     return HttpResponse("OK")
 
 def target_section_select(request, tenant_id, target_id, section_id):

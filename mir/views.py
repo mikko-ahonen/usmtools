@@ -3,12 +3,14 @@ import logging
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, FormView, TemplateView, RedirectView
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
 
 from django.http import HttpResponseRedirect
 
 from workflows.models import Tenant
 
-from .models import Training, Employee, Document, Risk
+from .models import Training, Employee, Document, Risk, DataManagement
 from . import forms
 
 
@@ -52,6 +54,22 @@ class UpdateModifiedByMixin():
        form.modified_by = self.request.user
        form.save()
        return super().form_valid(form)
+
+#######################################################################################################################
+#
+# Dashboard
+#
+
+class Dashboard(TenantMixin, ListView):
+    model = DataManagement
+    template_name = 'mir/dashboard.html'
+    context_object_name = 'data_managements'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['tenant'] = self.get_tenant()
+        return context
+
 
 #######################################################################################################################
 #
@@ -272,3 +290,29 @@ class RiskDelete(TenantMixin, DeleteView):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         return reverse_lazy('mir:risk-list', kwargs={'tenant_id': tenant_id})
+
+def data_management_policy(request, tenant_id, pk):
+
+    dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
+    if not dm.allow_policy_change:
+        raise ValueError("policy for {dm} cannot be changed, built-in data types")
+    policy = request.POST.get('policy', None)
+    if not policy:
+        raise ValueError("policy is required")
+    if not DataManagement.is_valid_policy(policy):
+        raise ValueError(f"policy value {policy} is not valid")
+    dm.policy = policy
+    dm.save()
+    return HttpResponse("OK")
+
+def data_management_status(request, tenant_id, pk):
+
+    dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
+    status = request.POST.get('status', None)
+    if not status:
+        raise ValueError("status is required")
+    if not DataManagement.is_valid_status(status):
+        raise ValueError(f"status value {status} is not valid")
+    dm.status = status
+    dm.save()
+    return HttpResponse("OK")

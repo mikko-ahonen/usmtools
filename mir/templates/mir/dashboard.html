@@ -1,0 +1,41 @@
+{% extends "compliances/base.html" %}
+{% load i18n %}
+{% load compliances %}
+{% block content %}
+<div class="container-fluid m-5">
+
+<table class="table">
+  <tbody>
+    {% for dm in data_managements %}
+    <tr>
+      <td>
+        {{ dm.get_entity_name|title }}{% if not dm.allow_policy_change %} ({% trans 'built-in' %}){% endif %}
+      </td>
+      <td>
+        <select name="policy" {% if not dm.allow_policy_change %}disabled{% endif %} class="form-select border-dark" aria-label="Policy" hx-post="{% url 'mir:data-management-policy' tenant.id dm.id %}" hx-swap="none">
+          <option {% if dm.policy == 'not-defined' %}selected{% endif %} value="not-defined">{% trans 'Select data management policy' %}</option>
+          <option {% if dm.policy == 'manual' %}selected{% endif %} value="manual">{%  trans 'Manual' %}</option>
+          <option {% if dm.policy == 'linked' %}selected{% endif %} value="linked">{% trans 'Linked' %}</option>
+          <option {% if dm.policy == 'replicated' %}selected{% endif %} value="replicated">{% trans 'Replicated' %}</option>
+          <option {% if dm.policy == 'managed' %}selected{% endif %} value="managed">{% trans 'Managed' %}</option>
+        </select>
+      </td>
+      <td>
+        <select name="status" {% if not dm.allow_policy_change %}disabled{% endif %} class="form-select border-dark" aria-label="Status" hx-post="{% url 'mir:data-management-status' tenant.id dm.id %}" hx-swap="none">
+          <option {% if dm.status == 'not-defined' %}selected{% endif %} value="not-defined">{% trans 'Select status' %}</option>
+          <option {% if dm.status == 'prototyping' %}selected{% endif %} value="prototyping">{%  trans 'Prototyping' %}</option>
+          <option {% if dm.status == 'development' %}selected{% endif %} value="development">{% trans 'Development' %}</option>
+          <option {% if dm.status == 'testing' %}selected{% endif %} value="testing">{% trans 'Testing' %}</option>
+          <option {% if dm.status == 'production' %}selected{% endif %} value="production">{% trans 'Production' %}</option>
+        </select>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+
+</div>
+{% include 'compliances/fragments/modal.html' %}
+{% endblock %}

@@ -7,6 +7,7 @@ from . import views
 app_name = "mir"
 
 urlpatterns = [
+    path('<uuid:tenant_id>/dashboard/', views.Dashboard.as_view(), name='dashboard'),
     path('<uuid:tenant_id>/trainings/', views.TrainingList.as_view(), name='training-list'),
     path('<uuid:tenant_id>/trainings/create/', views.TrainingCreate.as_view(), name='training-create'),
     path('<uuid:tenant_id>/trainings/<uuid:pk>/delete/', views.TrainingDelete.as_view(), name='training-delete'),
@@ -23,4 +24,6 @@ urlpatterns = [
     path('<uuid:tenant_id>/risks/create/', views.RiskCreate.as_view(), name='risk-create'),
     path('<uuid:tenant_id>/risks/<uuid:pk>/delete/', views.RiskDelete.as_view(), name='risk-delete'),
     path('<uuid:tenant_id>/risks/<uuid:pk>/update/', views.RiskUpdate.as_view(), name='risk-update'),
+    path("<uuid:tenant_id>/data-management/<uuid:pk>/policy/", views.data_management_policy, name="data-management-policy"),
+    path("<uuid:tenant_id>/data-management/<uuid:pk>/status/", views.data_management_status, name="data-management-status"),
 ]

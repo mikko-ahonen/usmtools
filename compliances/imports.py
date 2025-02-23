@@ -16,9 +16,10 @@ from django.utils import timezone
 
 from sequences import get_next_value
 
-from .models import Domain, Section, Requirement, Constraint, Category, Statement, ConstraintStatement, DataManagement, ConstraintDependency, Definition
+from .models import Domain, Section, Requirement, Constraint, Category, Statement, ConstraintStatement, DataManagementPlan, ConstraintDependency, Definition
 from .entity_types import EntityType
 from workflows.tenant_models import Tenant
+from mir.models import DataManagement
 
 def strip(s):
     return re.sub(r"^[\s\n\t]*(.*)[\s\n\t\r]*", r"\1", s)
@@ -41,13 +42,15 @@ def get_domain(tenant_id, name, description):
     return domain
 
 def create_data_managements(tenant, domain):
-        for i, name in enumerate("Routine".split()):
+        for i, name in enumerate("Routine Task".split()):
             content_type = ContentType.objects.get(app_label='workflows', model=name.lower())
-            DataManagement.objects.create(tenant_id=tenant.id, domain_id=domain.id, index=i, content_type=content_type, policy=DataManagement.POLICY_MANAGED, allow_policy_change=False)
+            dm = DataManagement.objects.create(tenant_id=tenant.id, index=i, content_type=content_type, policy=DataManagement.POLICY_MANAGED, allow_policy_change=False, status=DataManagement.STATUS_PROTOTYPING)
+            DataManagementPlan.objects.create(tenant_id=tenant.id, domain_id=domain.id, index=i, plan=DataManagementPlan.PLAN_IMPLEMENT, data_management=dm)
 
-        for i, name in enumerate("Employee Training TrainingOrganized TrainingAttended".split()):
+        for i, name in enumerate("Employee Training TrainingOrganized TrainingAttended".split(), start=10):
             content_type = ContentType.objects.get(app_label='mir', model=name.lower())
-            DataManagement.objects.create(tenant_id=tenant.id, domain_id=domain.id, index=i, content_type=content_type, policy=DataManagement.POLICY_MANAGED)
+            dm = DataManagement.objects.create(tenant_id=tenant.id, index=i, content_type=content_type, policy=DataManagement.POLICY_MANAGED, status=DataManagement.STATUS_PROTOTYPING)
+            DataManagementPlan.objects.create(tenant_id=tenant.id, domain_id=domain.id, index=i, plan=DataManagementPlan.PLAN_IMPLEMENT, data_management=dm)
 
 colors = [
     "#0d6efd", # blue

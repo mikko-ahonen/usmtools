@@ -48,13 +48,8 @@
       </div>
     </div>
     {% endfor %}
-  <div class="row g-0">
-    <div class="col col-md-auto d-print-none" id="sidenav-container">
-        {% block sidenav %}{% endblock %}
-    </div>
-    <div class="col">
+
     {% include 'fragments/header.html' %}
-    </div>
 
     <div id="content">
     {% block content %}

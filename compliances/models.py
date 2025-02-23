@@ -11,6 +11,7 @@ from colorfield.fields import ColorField
 from projects.models import Project, Story, Team
 from workflows.tenant_models import TenantAwareOrderedModelBase, TenantAwareTreeModelBase, TenantAwareModelBase
 from .entity_types import EntityType, get_class_by_entity_type
+from mir.models import DataManagement
 
 class Domain(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -53,10 +54,10 @@ class Domain(TenantAwareOrderedModelBase):
     def is_project_data_management_setup_complete(self):
         if project := self.project():
             domain = project.domains.first()
-            for dm in domain.data_managements.all():
+            for dm in domain.data_management_plans.all():
                 if not dm.team:
                     return False
-                if dm.policy == DataManagement.POLICY_NOT_DEFINED:
+                if dm.plan == DataManagementPlan.PLAN_NOT_DEFINED:
                     return False
             return True
         return False
@@ -200,6 +201,9 @@ class Definition(TenantAwareOrderedModelBase):
             raise ValueError("Only plural definitions support getting matchs")
 
         cls = get_class_by_entity_type(self.ref_entity_type)
+
+        if not hasattr(cls, 'tags'):
+            raise ValueError(f"Class {cls} does not have tags attribute, but there is still a reference")
 
         return cls.objects.filter(tags__id=self.ref_plural_tag_id)
 
@@ -428,49 +432,42 @@ class TargetSection(TenantAwareModelBase):
     target = models.ForeignKey(Target, on_delete=models.CASCADE, null=True, related_name='target_sections')
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True, related_name='+')
 
-class DataManagement(TenantAwareOrderedModelBase):
+
+class DataManagementPlan(TenantAwareOrderedModelBase):
     """
-    Meta class to define the data management policy for a model class
+    The planned approach for managing data
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='data_managements')
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, related_name='data_managements')
-    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, null=True, related_name='data_management_plans')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, related_name='data_managements', verbose_name='Team responsible for this data type')
+    data_management = models.ForeignKey(DataManagement, null=True, on_delete=models.CASCADE)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True, default=0)
-    allow_policy_change = models.BooleanField(default=True)
 
-    POLICY_NOT_DEFINED = "not-defined"
-    POLICY_MANUAL = "manual"
-    POLICY_LINK = "linked"
-    POLICY_REPLICATED = "replicated"
-    POLICY_MANAGED = "managed"
+    PLAN_NOT_DEFINED = "not-defined"
+    PLAN_KEEP = "keep"
+    PLAN_IMPLEMENT = "implement"
+    PLAN_ANOTHER_PROJECT = "another-project"
+    PLAN_POSTPONE = "postpone"
 
-    POLICIES = [
-        (POLICY_NOT_DEFINED, _("Not defined")),
-        (POLICY_MANUAL, _("Manual")),
-        (POLICY_LINK, _("Link")),
-        (POLICY_REPLICATED, _("Replicated")),
-        (POLICY_MANAGED, _("Managed")),
+    PLANS = [
+        (PLAN_NOT_DEFINED, _("Not defined")),
+        (PLAN_KEEP, _("Keep the existing status")),
+        (PLAN_IMPLEMENT, _("Implement in this project")),
+        (PLAN_ANOTHER_PROJECT, _("Implemented in another project")),
+        (PLAN_POSTPONE, _("Postpone integration")),
     ]
 
-    policy = models.CharField(max_length=32, choices=POLICIES, default=POLICY_NOT_DEFINED)
-
-    order_field_name = 'index'
+    plan = models.CharField(max_length=32, choices=PLANS, default=PLAN_NOT_DEFINED)
 
     @classmethod
-    def is_valid_policy(cls, policy):
-        for p in cls.POLICIES:
-            if policy == p[0]:
+    def is_valid_plan(cls, status):
+        for p in cls.PLANS:
+            if status == p[0]:
                 return True
         return False
 
-    def get_entity_name(self):
-        if self.content_type:
-            cls = self.content_type.model_class()
-            if cls:
-                return cls._meta.verbose_name
-        return _("Unknown entity")
+    order_field_name = 'index'
 
     def __str__(self):
         cls = self.content_type.model_class()

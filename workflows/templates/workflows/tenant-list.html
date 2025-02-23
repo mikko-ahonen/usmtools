@@ -14,8 +14,8 @@
     {% trans 'You should create a new tenant for each organization that may share customers, profiles, services, organization structure, and workflows.' %}
   </p>
 {% endfor %}
-<p>
-  <a class="btn btn-primary-outline open-popup" data-popup-url="{% url 'workflows:tenant-create' %}" href="{% url 'workflows:tenant-create' %}">{% trans 'Create a new tenant' %}</a>
+<p class="mt-3">
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:tenant-create' %}" href="{% url 'workflows:tenant-create' %}">{% trans 'Create a new tenant' %}</a>
 </p>
 </div>
 </div>
