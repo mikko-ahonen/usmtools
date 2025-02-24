@@ -191,15 +191,41 @@ class Routine(TenantAwareOrderedModelBase):
         profile_ids = Responsibility.objects.filter(action__activity__step__routine_id=self.id).values_list('profile_id', flat=True)
         return Profile.objects.filter(id__in=profile_ids)
 
-    def can_draw_diagram(self):
+
+    def validate(self):
         count = 0
-        for step in self.steps.all():
-            for activity in step.activities.all():
+        errors = []
+        for step in self.steps.filter(skipped=False).order_by('index'):
+            for activity in step.activities.filter(skipped=False).order_by('index'):
                 for action in activity.actions.all():
-                    count += 1
-                    if count > 1:
-                        return True
-        return False
+                    r = action.get_responsible_responsibility()
+
+                    if not r:
+                        error = _("Responsibility R is not assigned for action %(action_title)s") % {"action_title": action.title, "activity_name": activity.name, "step_name": step.name}
+                        errors.append(error)
+                    else:
+                        count += 1
+
+        if count < 2:
+            error = _("Routine %(routine_name)s must have at least two actions to draw a diagram") % {"routine_name": self.name}
+            errors.append(error)
+
+        if errors:
+            return False, errors
+        else:
+            return True, []
+        
+
+    def can_draw_diagram(self):
+        ok, _ = self.validate()
+        return ok
+
+    def diagram_errors(self):
+        error = ""
+        _, errors = self.validate()
+        for e in errors:
+            error += " " + e
+        return error
 
     class Meta:
         verbose_name = _('routine')
@@ -350,6 +376,13 @@ class Action(TenantAwareOrderedModelBase):
 
     order_field_name = 'index'
     order_with_respect_to = 'activity'
+
+    def get_responsibilities_by_type(self, rtype='R'):
+        assert len(rtype) == 1, "The query only supports strings of length 1"
+        return self.responsibilities.filter(types__icontains=rtype)
+
+    def get_responsible_responsibility(self):
+        return self.get_responsibilities_by_type('R').first()
 
     def get_tasks(self):
         routine_id = self.activity.step.routine_id

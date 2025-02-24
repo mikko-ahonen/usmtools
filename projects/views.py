@@ -109,7 +109,8 @@ class ProjectSprints(TenantMixin, DetailView):
         project = self.get_project()
         context['domain'] = project.domains.first()
         context['project'] = project
-        context['roadmap'] = project.roadmap
+        if hasattr(project, 'roadmap'):
+            context['roadmap'] = project.roadmap
         return context
 
 class ProjectRoadmap(TenantMixin, FilterView):
@@ -131,15 +132,18 @@ class ProjectRoadmap(TenantMixin, FilterView):
         project = self.get_project()
         context['domain'] = project.domains.first()
         context['project'] = project
-        context['roadmap'] = project.roadmap
+        if hasattr(project, 'roadmap'):
+            context['roadmap'] = project.roadmap
         return context
 
     def get_queryset(self, form_class=None):
         tenant_id = self.kwargs['tenant_id']
         project_id = self.kwargs['pk']
         project = self.get_project()
-        roadmap_id = project.roadmap.id # cannnot use project.roadmap_id because of one-to-one relationship
-        return Release.unscoped.filter(tenant_id=tenant_id, board_id=project.roadmap.id, status__in=[Release.STATUS_NEW, Release.STATUS_READY, Release.STATUS_ONGOING]).order_by('index')
+        if hasattr(project, 'roadmap'):
+            roadmap_id = project.roadmap.id # cannnot use project.roadmap_id because of one-to-one relationship
+            return Release.objects.filter(board_id=project.roadmap.id, status__in=[Release.STATUS_NEW, Release.STATUS_READY, Release.STATUS_ONGOING]).order_by('index')
+        return Release.objects.none()
 
 
 class ProjectBacklog(TenantMixin, FilterView):
@@ -161,14 +165,18 @@ class ProjectBacklog(TenantMixin, FilterView):
         context = super().get_context_data(*args, **kwargs)
         context['domain'] = project.domains.first()
         context['project'] = project
-        context['backlog'] = project.backlog
+        if hasattr(project, 'backlog'):
+            context['backlog'] = project.backlog
         return context
 
     def get_queryset(self, form_class=None):
         tenant_id = self.kwargs['tenant_id']
         project = self.get_project()
-        backlog_id = project.backlog.id # cannnot use project.roadmap_id because of one-to-one relationship
-        return Sprint.unscoped.filter(tenant_id=tenant_id, board_id=project.backlog.id, status__in=[Sprint.STATUS_NEW, Sprint.STATUS_READY, Sprint.STATUS_ONGOING]).order_by('index')
+        if hasattr(project, 'backlog'):
+            backlog_id = project.backlog.id # cannnot use project.roadmap_id because of one-to-one relationship
+            return Sprint.objects.filter(board_id=project.backlog.id, status__in=[Sprint.STATUS_NEW, Sprint.STATUS_READY, Sprint.STATUS_ONGOING]).order_by('index')
+        else:
+            return Sprint.objects.none()
 
 class ProjectSprint(TenantMixin, FilterView):
     model = Story
@@ -223,7 +231,7 @@ class ProjectSprint(TenantMixin, FilterView):
         tenant_id = self.kwargs['tenant_id']
         project_id = self.kwargs['pk']
         team_id = self.kwargs.get('team_id')
-        return Sprint.unscoped.filter(tenant_id=tenant_id, project_id=project_id, team_id=team_id, status=Sprint.STATUS_ONGOING)
+        return Sprint.objects.filter(project_id=project_id, team_id=team_id, status=Sprint.STATUS_ONGOING)
 
 
 class ProjectReports(TenantMixin, DetailView):

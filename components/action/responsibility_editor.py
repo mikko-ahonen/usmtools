@@ -4,10 +4,11 @@ from django.http import QueryDict
 
 from django_components import component
 
-from workflows.tenant import current_tenant_id
 from workflows.models import Responsibility
 from workflows.rasci import RASCI
 from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
+
 
 @component.register("responsibility_editor")
 class ResponsibilityEditor(component.Component):
@@ -35,6 +36,8 @@ class ResponsibilityEditor(component.Component):
         return None
 
     def post(self, request, *args, **kwargs):
+        tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
         responsibility_id = kwargs.get('responsibility_id', None)
         responsibility = Responsibility.objects.get(id=responsibility_id)
         qd = QueryDict(request.body)
@@ -48,7 +51,6 @@ class ResponsibilityEditor(component.Component):
         responsibility.save()
 
         context = self.get_context_data(responsibility=responsibility)
-        tenant_id = current_tenant_id()
 
         return self.render_to_response(context=context, slots={}, kwargs={'tenant_id': tenant_id, 'responsibility': responsibility})
 

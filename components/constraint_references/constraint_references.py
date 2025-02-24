@@ -7,8 +7,9 @@ from django.utils.translation import gettext_lazy as _
 
 from compliances.entity_types import get_class_by_entity_type
 
-from workflows.tenant import current_tenant_id
 from compliances.models import Domain, Constraint, Definition
+from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +67,8 @@ class ConstraintReferences(component.Component):
     def delete(self, request, *args, **kwargs):
         tenant_id = current_tenant_id()
 
+        tenant_check(request=request, tenant_id=tenant_id)
+
         domain_id = kwargs.get('domain_id', None)
         if not domain_id:
             raise ValueError("domain_id is required")
@@ -87,6 +90,8 @@ class ConstraintReferences(component.Component):
 
     def post(self, request, *args, **kwargs):
         tenant_id = current_tenant_id()
+
+        tenant_check(request=request, tenant_id=tenant_id)
 
         domain_id = kwargs.get('domain_id', None)
         if not domain_id:

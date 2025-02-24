@@ -19,8 +19,12 @@
 
 <div class="mt-3"></div>
 
+{% if roadmap %}
 {% component "board" board=roadmap lists=releases %}
 {% endcomponent %}
+{% else %}
+<h3>Project does not have roadmap.</h3>
+{% endif %}
 
 </div>
 {% include 'projects/fragments/modal.html' %}

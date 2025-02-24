@@ -19,8 +19,8 @@
   </div>
   <div class="card-body bg-primary-subtle">
     <div class="card-text">
-      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:profile-update' tenant.id profile.id %}" href="{% url 'workflows:profile-update' tenant.id profile.id %}">{% trans 'Edit' %}</a>
-      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:profile-delete' tenant.id profile.id %}" href="{% url 'workflows:profile-delete' tenant.id profile.id %}">{% trans 'Delete' %}</a>
+      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:service-profile-update' tenant.id service.id profile.id %}" href="{% url 'workflows:service-profile-update' tenant.id service.id profile.id %}">{% trans 'Edit' %}</a>
+      <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:service-profile-delete' tenant.id service.id profile.id %}" href="{% url 'workflows:service-profile-delete' tenant.id service.id profile.id %}">{% trans 'Delete' %}</a>
     </div>
   </div>
 </div>
@@ -32,6 +32,6 @@
 </div>
 {% endfor %}
 <p class="mt-3">
-  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:profile-create' tenant.id service.id %}" href="{% url 'workflows:profile-create' tenant.id service.id %}">{% trans 'Add a new profile to this service' %}</a>
+  <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'workflows:service-profile-create' tenant.id service.id %}" href="{% url 'workflows:service-profile-create' tenant.id service.id %}">{% trans 'Add a new profile to this service' %}</a>
 </p>
 </div>

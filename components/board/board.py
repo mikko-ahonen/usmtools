@@ -11,6 +11,7 @@ from django.db import models
 from projects.models import Team, Sprint
 
 from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
 
    
 def preserve_order(uuids):
@@ -133,7 +134,8 @@ class Board(component.Component):
         tenant_id = current_tenant_id()
 
         if board_type == 'backlog':
-            lists = Sprint.unscoped.filter(tenant_id=tenant_id, board_id=board_id, status__in=[Sprint.STATUS_NEW, Sprint.STATUS_READY, Sprint.STATUS_ONGOING]).order_by('index')
+            from projects.models import Sprint
+            lists = Sprint.objects.filter(tenant_id=tenant_id, board_id=board_id, status__in=[Sprint.STATUS_NEW, Sprint.STATUS_READY, Sprint.STATUS_ONGOING]).order_by('index')
 
         elif board_type == 'sprint':
             assert team_id, "team_id required"
@@ -141,7 +143,8 @@ class Board(component.Component):
             lists = team.current_sprint.lists.order_by('index')
 
         elif board_type == 'roadmap':
-            lists = Release.unscoped.filter(tenant_id=tenant_id, board_id=board_id, status__in=[Release.STATUS_NEW, Release.STATUS_READY, Release.STATUS_ONGOING]).order_by('index')
+            from projects.models import Release
+            lists = Release.objects.filter(tenant_id=tenant_id, board_id=board_id, status__in=[Release.STATUS_NEW, Release.STATUS_READY, Release.STATUS_ONGOING]).order_by('index')
 
         else:
             raise ValueError(f"Invalid board type: {board_type}")
@@ -158,6 +161,8 @@ class Board(component.Component):
 
     def post(self, request, *args, **kwargs):
         tenant_id = kwargs['tenant_id']
+        tenant_check(request=request, tenant_id=tenant_id)
+
         board_type = kwargs['board_type']
         board_id = kwargs['board_id']
 

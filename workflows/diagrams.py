@@ -1,12 +1,5 @@
 from processpiper import ProcessMap, EventType, ActivityType, GatewayType
 
-def get_responsibilities_by_type(action, rtype='R'):
-    assert len(rtype) == 1, "The query only supports strings of length 1"
-    return action.responsibilities.filter(types__icontains=rtype)
-
-def get_responsible_responsibility(action):
-    return get_responsibilities_by_type(action, 'R').first()
-
 def diagram(routine, filename, filetype):
 
     actions = []
@@ -25,15 +18,15 @@ def diagram(routine, filename, filetype):
     if len(actions) == 0:
         return None
 
-    #if filetype in ['svg', 'bpmn']:
-    #    painter_type = 'SVG'
-    #else:
-    #    painter_type = 'PNG'
+    if filetype in ['svg', 'bpmn']:
+        painter_type = 'SVG'
+    else:
+        painter_type = 'PNG'
 
-    with ProcessMap(routine.name, colour_theme="BLUEMOUNTAIN") as process_map:
+    with ProcessMap(routine.name, colour_theme="BLUEMOUNTAIN", painter_type=painter_type) as process_map:
         for index, action in enumerate(actions):
 
-            r = get_responsible_responsibility(action)
+            r = action.get_responsible_responsibility()
 
             if not r:
                 raise ValueError("No responsible")

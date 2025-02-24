@@ -28,7 +28,7 @@ def sprint_teams(request):
     if not project_id:
         return Team.objects.none()
 
-    return Team.unscoped.filter(tenant_id=tenant_id, project_id=project.id)
+    return Team.objects.filter(project_id=project.id)
 
 
 class ReleaseFilter(django_filters.FilterSet):

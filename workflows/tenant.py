@@ -1,7 +1,5 @@
 import threading
 
-#from .models import Tenant
-
 _threadlocal = threading.local()
 
 def set_tenant_id(id):

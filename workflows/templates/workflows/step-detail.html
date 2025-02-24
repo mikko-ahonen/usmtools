@@ -21,11 +21,23 @@
     <a class="btn btn-outline-primary" target="_blank" href="{% url 'workflows:routine-diagram-png' tenant.id step.routine.id %}"><i class="bi bi-filetype-png"></i></a>
     <a class="btn btn-outline-primary" target="_blank" href="{% url 'workflows:routine-diagram-bpmn' tenant.id step.routine.id %}"><i class="bi bi-diagram-3"></i></a>
   {% else %}
-    <span data-bs-toggle="tooltip" title="{% trans 'To draw a BPM diagram, the routine must have at least two actions.' %}">
+    {% with diagram_errors=step.routine.diagram_errors|escapejs %}
+    <span data-bs-toggle="tooltip" title="{{ diagram_errors }}">
+      <button disabled class="btn btn-outline-primary">
+        <i class="bi bi-filetype-svg"></i>
+     </button>
+    </span>
+    <span data-bs-toggle="tooltip" title="{{ diagram_errors }}">
+      <button disabled class="btn btn-outline-primary">
+        <i class="bi bi-filetype-png"></i>
+     </button>
+    </span>
+    <span data-bs-toggle="tooltip" title="{{ diagram_errors }}">
       <button disabled class="btn btn-outline-primary">
         <i class="bi bi-diagram-3"></i>
      </button>
     </span>
+    {% endwith %}
   {% endif %}
 </h1>
 <p>

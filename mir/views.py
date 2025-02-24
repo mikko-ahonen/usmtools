@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, FormView, TemplateView, RedirectView
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
+from workflows.views import tenant_check
 
 from django.http import HttpResponseRedirect
 
@@ -292,6 +293,7 @@ class RiskDelete(TenantMixin, DeleteView):
         return reverse_lazy('mir:risk-list', kwargs={'tenant_id': tenant_id})
 
 def data_management_policy(request, tenant_id, pk):
+    tenant_check(request=request, tenant_id=tenant_id)
 
     dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
     if not dm.allow_policy_change:
@@ -306,6 +308,7 @@ def data_management_policy(request, tenant_id, pk):
     return HttpResponse("OK")
 
 def data_management_status(request, tenant_id, pk):
+    tenant_check(request=request, tenant_id=tenant_id)
 
     dm = get_object_or_404(DataManagement, tenant_id=tenant_id, pk=pk)
     status = request.POST.get('status', None)

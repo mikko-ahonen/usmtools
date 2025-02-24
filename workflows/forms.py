@@ -86,6 +86,7 @@ class ProfileCreateOrUpdate(ModelForm):
         fields = ['name', 'description']
 
     def __init__(self, *args, **kwargs):
+        tenant_id = kwargs.pop('tenant_id', None)
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -185,6 +186,8 @@ class ActionCreateOrUpdate(ModelForm):
         fields = ['title', 'description']
 
     def __init__(self, *args, **kwargs):
+        tenant_id = kwargs.pop('tenant_id', None)
+        exclude_profile_ids = kwargs.pop('exclude_profile_ids', None)
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False

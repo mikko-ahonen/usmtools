@@ -17,6 +17,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from workflows.models import Tenant
+from workflows.tenant_models import tenant_check
 from workflows.views import TenantMixin, UpdateModifiedByMixin
 from workflows.tenant import current_tenant_id
 
@@ -352,8 +353,9 @@ class DomainProjectCreateRoadmap(TenantMixin, TemplateView):
         else:
             return render(request, self.template_name, context)
 
-def targets(request, project):
+def _targets(request, project):
     tenant_id = current_tenant_id()
+    tenant_check(request, tenant_id=tenant_id)
     targets = Target.objects.filter(project_id=project.id)
     template = "compliances/_targets.html"
     domain = project.domains.first()
@@ -367,23 +369,22 @@ def targets(request, project):
     response["HX-Retarget"] = "#targets"
     return response
 
-def teams(request, project):
-    tenant_id = current_tenant_id()
+def _teams(request, project):
     teams = Team.objects.filter(project_id=project.id)
     template = "compliances/_teams.html"
     domain = project.domains.first()
     response = render(request, template, {
-        "tenant_id": tenant_id, 
+        "tenant_id": project.tenant_id, 
         "project": project, 
         "teams": teams, 
         "domain": domain,
-        "ordered_categories": domain.categories.filter(tenant_id=tenant_id, domain=domain.id).order_by('index'),
+        "ordered_categories": domain.categories.filter(tenant_id=project.tenant_id, domain=domain.id).order_by('index'),
     })
     response["HX-Retarget"] = "#teams"
     return response
 
-# TODO: check permissions
 def create_target_for_project(request, tenant_id, pk):
+    tenant_check(request, tenant_id=tenant_id)
     project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
     form = forms.TargetForm(request.POST or None)
 
@@ -395,17 +396,17 @@ def create_target_for_project(request, tenant_id, pk):
         for section in domain.root_sections:
             TargetSection.objects.create(tenant_id=tenant_id, target_id=target.id, section_id=section.id)
 
-    return targets(request, project)
+    return _targets(request, project)
 
-# TODO: check permissions
 def delete_target(request, tenant_id, pk, target_id):
+    tenant_check(request, tenant_id=tenant_id)
     project = get_object_or_404(Project, tenant_id=tenant_id, id=pk)
     target = get_object_or_404(Target, tenant_id=tenant_id, id=target_id)
     target.delete()
-    return targets(request, project)
+    return _targets(request, project)
 
-# TODO: check permissions
 def create_team_for_project(request, tenant_id, pk):
+    tenant_check(request, tenant_id=tenant_id)
     project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
     form = forms.TeamForm(request.POST or None)
 
@@ -414,16 +415,17 @@ def create_team_for_project(request, tenant_id, pk):
         form.instance.project_id = pk
         team = form.save()
 
-    return teams(request, project)
+    return _teams(request, project)
 
-# TODO: check permissions
 def delete_team(request, tenant_id, pk, team_id):
+    tenant_check(request, tenant_id=tenant_id)
     project = get_object_or_404(Project, tenant_id=tenant_id, pk=pk)
     team = get_object_or_404(Team, tenant_id=tenant_id, id=team_id)
     team.delete()
-    return teams(request, project)
+    return _teams(request, project)
 
 def data_management_plan(request, tenant_id, pk):
+    tenant_check(request, tenant_id=tenant_id)
 
     dmp = get_object_or_404(DataManagementPlan, tenant_id=tenant_id, pk=pk)
     if not dmp.data_management.allow_policy_change:
@@ -438,6 +440,7 @@ def data_management_plan(request, tenant_id, pk):
     return HttpResponse("OK")
 
 def data_management_team(request, tenant_id, pk):
+    tenant_check(request, tenant_id=tenant_id)
     dmp = get_object_or_404(DataManagementPlan, tenant_id=tenant_id, pk=pk)
     team_id = request.POST.get('team', None)
     if not team_id:
@@ -448,6 +451,7 @@ def data_management_team(request, tenant_id, pk):
     return HttpResponse("OK")
 
 def target_section_select(request, tenant_id, target_id, section_id):
+    tenant_check(request, tenant_id=tenant_id)
     if request.method == "POST":
         new_value = (request.POST.get("selected", "off") == "on")
 
@@ -465,6 +469,7 @@ def target_section_select(request, tenant_id, target_id, section_id):
         raise Http404(f"Invalid method: {request.method}")
 
 def team_category_select(request, tenant_id, team_id, category_id):
+    tenant_check(request, tenant_id=tenant_id)
     if request.method == "POST":
         new_value = (request.POST.get("selected", "off") == "on")
 

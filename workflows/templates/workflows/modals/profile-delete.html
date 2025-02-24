@@ -10,7 +10,7 @@
       {% trans 'This will also delete all tasks assigned to this person. The actions belonging to tasks are not affected.' %}
     </p>
     <p> 
-      <a class="btn btn-outline-primary" href="{% url 'workflows:profile-list' tenant.id %}">{% trans 'Cancel' %}</a>
+      <a class="btn btn-outline-primary" href="{% url 'workflows:service-profile-list' tenant.id service.id %}">{% trans 'Cancel' %}</a>
       <input class="btn btn-outline-primary" type="submit" value="{% trans 'OK' %}">
     </p>
 </form>

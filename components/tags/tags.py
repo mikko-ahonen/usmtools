@@ -6,6 +6,9 @@ from django.urls import reverse_lazy
 
 logger = logging.getLogger(__name__)
 
+from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
+
 @component.register("tags")
 class Tags(component.Component):
     template_name = "tags/tags.html"
@@ -44,6 +47,9 @@ class Tags(component.Component):
         raise ValueError(f"Entity not found with id {entity_id}")
 
     def delete(self, request, *args, **kwargs):
+        tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
+
         qd = request.GET
         entity = self.get_entity(qd)
         removed_tag_id = self.get_param(qd, 'removed_tag_id')
@@ -53,6 +59,9 @@ class Tags(component.Component):
         return self.render_to_response(context=context, slots={}, kwargs={'entity': entity})
 
     def post(self, request, *args, **kwargs):
+        tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
+
         qd = QueryDict(request.body)
         entity = self.get_entity(qd)
         added_tag_id = self.get_param(qd, 'added_tag_id')

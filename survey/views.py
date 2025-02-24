@@ -92,6 +92,11 @@ class RejectView(LoginRequiredMixin, UpdateView):
         self.object.save()
         return HttpResponseRedirect(reverse_lazy('survey:lead-list'))
 
+class LeadList(LoginRequiredMixin, ListView):
+    model = Lead
+    template_name = 'survey/lead-list.html'
+    context_object_name = 'leads'
+
 
 class USMSurveyWelcome(TemplateView):
     template_name = 'survey/usm-survey-welcome.html'
@@ -120,11 +125,6 @@ class USMSurveyQualify(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('survey:usm-survey-qualify-thank-you', kwargs={'pk': self.object.id})
-
-class LeadList(ListView):
-    model = Lead
-    template_name = 'survey/lead-list.html'
-    context_object_name = 'leads'
 
 class USMSurveyQualifyThankYou(DetailView):
     template_name = 'survey/usm-survey-qualify-thank-you.html'

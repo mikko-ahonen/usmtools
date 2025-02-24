@@ -117,3 +117,16 @@ class TreeModel(TenantAwareTreeModelBase):
     class Meta:
         abstract = True
 
+
+def tenant_check(request=None, tenant=None, tenant_id=None):
+    if not request:
+        raise ValueError("Must have request")
+    if tenant_id and not tenant:
+        tenant = Tenant.objects.get(id=tenant_id)
+    user = request.user
+    if user.is_authenticated:
+        if user.is_superuser:
+            return
+        if tenant and tenant.owner_id == user.pk:
+            return
+    raise PermissionDenied("Not logged in or not tenant owner")

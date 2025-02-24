@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
+
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +59,8 @@ class EntitySelector(component.Component):
         raise ValueError(f"Value not found with id {value_id} and class {value_class}")
 
     def delete(self, request, *args, **kwargs):
+        tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
         qd = request.GET
         entity = self.get_entity(qd)
         removed_value_id = self.get_param(qd, 'removed_value_id')
@@ -73,6 +77,8 @@ class EntitySelector(component.Component):
         return None
 
     def post(self, request, *args, **kwargs):
+        tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
         qd = QueryDict(request.body)
         entity = self.get_entity(qd)
         value_id = self.get_param(qd, 'value_id')

@@ -5,10 +5,11 @@ from django_components import component
 logger = logging.getLogger(__name__)
 
 from taggit.models import Tag
-from workflows.tenant import current_tenant_id
 from workflows.models import OrganizationUnit, Profile
 from mir.models import Document, Risk
 from django.utils.translation import gettext as _
+from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
 
 from inflection import pluralize
 
@@ -55,6 +56,7 @@ class Typeahead(component.Component):
         logger.error("POSTing")
 
         tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
 
         placeholder = request.POST.get('placeholder')
 

@@ -19,8 +19,12 @@
 
 <div class="mt-3"></div>
 
+{% if backlog %}
 {% component "board" board=backlog lists=sprints %}
 {% endcomponent %}
+{% else %}
+<h3>Project does not have backlog.</h3>
+{% endif %}
 
 </div>
 {% include 'projects/fragments/modal.html' %}

@@ -51,6 +51,20 @@ class GetTenantMixin():
         return self.tenant
 
 
+def tenant_check(request=None, tenant=None, tenant_id=None):
+    if not request:
+        raise ValueError("Must have request")
+    if tenant_id and not tenant:
+        tenant = Tenant.objects.get(id=tenant_id)
+    user = request.user
+    if user.is_authenticated:
+        if user.is_superuser:
+            return
+        if tenant and tenant.owner_id == user.pk:
+            return
+    raise PermissionDenied("Not logged in or not tenant owner")
+
+
 class TenantMixin(LoginRequiredMixin, GetTenantMixin, UserPassesTestMixin):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -364,21 +378,11 @@ class ServiceProfileList(TenantMixin, GetServiceMixin, ListView):
         context['service'] = self.get_service(self.kwargs.get('pk'))
         return context
 
-    def get_queryset(self, **kwargs):
-        qs = super().get_queryset()
-        service_id = self.kwargs.get('pk', None)
-        profile_ids = Responsibility.objects.filter(action__activity__step__routine__service_id=service_id).values_list('profile_id', flat=True).distinct()
-        return qs.filter(id__in=profile_ids)
-
-class ProfileList(TenantMixin, ListView):
-    model = Profile
-    template_name = 'workflows/profile-list.html'
-    context_object_name = 'profiles'
-
-    def get_queryset(self, **kwargs):
-        qs = super().get_queryset()
-        return qs
-
+    #def get_queryset(self, **kwargs):
+        #qs = super().get_queryset()
+        #service_id = self.kwargs.get('pk', None)
+        #profile_ids = Responsibility.objects.filter(action__activity__step__routine__service_id=service_id).values_list('profile_id', flat=True).distinct()
+        #return qs.filter(id__in=profile_ids)
 
 # TODO: Deprecated by ServiceProfileDetail
 class ProfileDetail(TenantMixin, DetailView):
@@ -397,16 +401,17 @@ class ServiceProfileDetail(TenantMixin, GetServiceMixin, DetailView):
         return context
 
 
-class ProfileUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
+class ServiceProfileUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     model = Profile
     template_name = 'workflows/modals/profile-create.html'
     form_class = forms.ProfileCreateOrUpdate
 
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:profile-list', kwargs={'tenant_id': tenant_id})
+        service_id = self.kwargs.get('service_id', None)
+        return reverse_lazy('workflows:service-profile-list', kwargs={'tenant_id': tenant_id, 'pk': service_id})
 
-class ProfileCreate(TenantMixin, GetServiceMixin, CreateView):
+class ServiceProfileCreate(TenantMixin, CreateView):
     model = Profile
     template_name = 'workflows/modals/profile-create.html'
     context_object_name = 'profile'
@@ -420,34 +425,38 @@ class ProfileCreate(TenantMixin, GetServiceMixin, CreateView):
         self.object.tenant = tenant
         self.object.save()
 
-        return HttpResponseRedirect(self.get_success_url()) 
+        service_id = self.kwargs.get('service_id', None)
+        url = reverse_lazy('workflows:service-profile-list', kwargs={'tenant_id': tenant.id, 'pk': service_id})
+        return HttpResponseRedirect(url)
 
-    def get_success_url(self):
-        tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:profile-list', kwargs={'tenant_id': tenant_id})
-
-class ProfileDelete(TenantMixin, DeleteView):
+class ServiceProfileDelete(TenantMixin, GetServiceMixin, DeleteView):
     model = Profile
     template_name = 'workflows/modals/profile-delete.html'
     context_object_name = 'profile'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['service'] = self.get_service(self.kwargs.get('service_id'))
+        return context
+
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
-        return reverse_lazy('workflows:profile-list', kwargs={'tenant_id': tenant_id})
+        service_id = self.kwargs.get('service_id', None)
+        return reverse_lazy('workflows:service-profile-list', kwargs={'tenant_id': tenant_id, 'pk': service_id})
 
 class ProfileUp(TenantMixin, GetProfileMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         profile = self.get_profile(pk)
         profile.up()
         tenant_id = self.kwargs.get('tenant_id')
-        return HttpResponseRedirect(reverse_lazy('workflows:profile-list', kwargs={'tenant_id': tenant_id}))
+        return HttpResponseRedirect(reverse_lazy('workflows:service-profile-list', kwargs={'tenant_id': tenant_id, 'pk': profile.service_id}))
 
 class ProfileDown(TenantMixin, GetProfileMixin, View):
     def get(self, request, tenant_id=None, pk=None, types=''):
         profile = self.get_profile(pk)
         profile.down()
         tenant_id = self.kwargs.get('tenant_id')
-        return HttpResponseRedirect(reverse_lazy('workflows:profile-list', kwargs={'tenant_id': tenant_id}))
+        return HttpResponseRedirect(reverse_lazy('workflows:service-profile-list', kwargs={'tenant_id': tenant_id, 'pk': profile.service_id}))
 
 
 #######################################################################################################################
@@ -819,7 +828,7 @@ class RoutineCreate(TenantMixin, GetServiceMixin, CreateView):
         service_id = self.kwargs.get('pk')
         return reverse_lazy('workflows:service-routine-list', kwargs={'tenant_id': tenant_id, 'pk': service_id})
 
-class RoutineUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
+class RoutineUpdate(TenantMixin, GetRoutineMixin, UpdateView, UpdateModifiedByMixin):
     model = Routine
     template_name = 'workflows/modals/routine-create.html'
     form_class = forms.RoutineUpdate
@@ -833,7 +842,8 @@ class RoutineUpdate(TenantMixin, UpdateView, UpdateModifiedByMixin):
     def get_success_url(self):
         tenant_id = self.kwargs.get('tenant_id')
         routine_id = self.kwargs.get('pk')
-        return reverse_lazy('workflows:routine-detail', kwargs={'tenant_id': tenant_id, 'pk': routine_id})
+        routine = self.get_routine(routine_id)
+        return reverse_lazy('workflows:service-routine-list', kwargs={'tenant_id': tenant_id, 'pk': routine.service_id})
 
 
 class RoutineDetail(TenantMixin, GetRoutineMixin, RedirectView):
@@ -841,7 +851,7 @@ class RoutineDetail(TenantMixin, GetRoutineMixin, RedirectView):
         tenant_id = self.kwargs.get('tenant_id')
         routine_id = self.kwargs.get('pk')
         routine = self.get_routine(routine_id)
-        step = routine.steps.order_by('index').first()
+        step = routine.steps(manager='unscoped').order_by('index').first()
         return reverse_lazy('workflows:step-detail', kwargs={'tenant_id': tenant_id, 'pk': step.id})
 
 
@@ -987,12 +997,12 @@ class ServiceTaskList(TenantMixin, GetServiceMixin, ListView):
         context['service'] = self.get_service(self.kwargs.get('pk'))
         return context
 
-    def get_queryset(self, **kwargs):
-        qs = super().get_queryset()
-        service_id = self.kwargs.get('pk', None)
-        if service_id:
-            qs = qs.filter(routine__service_id=service_id)
-        return qs
+    #def get_queryset(self, **kwargs):
+        #qs = super().get_queryset()
+        #service_id = self.kwargs.get('pk', None)
+        #if service_id:
+        #    qs = qs.filter(routine__service_id=service_id)
+        #return qs
 
 
 

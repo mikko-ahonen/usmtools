@@ -5,8 +5,9 @@ from django.core.exceptions import SuspiciousOperation
 
 from django_components import component
 
-from workflows.tenant import current_tenant_id
 from workflows.models import Action, Responsibility
+from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
 
 @component.register("action_editor")
 class ActionEditor(component.Component):
@@ -34,6 +35,7 @@ class ActionEditor(component.Component):
 
     def delete(self, request, *args, **kwargs):
         tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
         responsibility_id = kwargs.get('responsibility_id', None)
         responsibility = Responsibility.objects.get(tenant_id=tenant_id, id=responsibility_id)
         action = responsibility.action
@@ -47,6 +49,7 @@ class ActionEditor(component.Component):
 
     def post(self, request, *args, **kwargs):
         tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
         action_id = kwargs.get('action_id', None)
         action = Action.objects.get(tenant_id=tenant_id, id=action_id)
         if tenant_id != str(action.tenant_id):

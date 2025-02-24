@@ -1,11 +1,11 @@
 import logging
 
-from workflows.tenant import current_tenant_id
-
 from django_components import component
 from django.shortcuts import get_object_or_404
 
 from projects.models import Sprint, Backlog
+from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
 
 @component.register("board_list")
 class BoardList(component.Component):

@@ -2,6 +2,8 @@ import re
 import uuid
 from django_components import component
 from workflows.tenant import current_tenant_id
+from workflows.tenant_models import tenant_check
+
 
 from workflows.search import search_routines, search_profiles, search_organization_units
 from mir.search import search_documents, search_risks
@@ -21,6 +23,9 @@ class TypeaheadResults(component.Component):
     template_name = "typeahead/typeahead_results.html"
 
     def post(self, request, *args, **kwargs):
+        tenant_id = current_tenant_id()
+        tenant_check(request=request, tenant_id=tenant_id)
+
         q = request.POST.get('q') # query string
         t = request.POST.get('t') # type of search
         if q is None or q == "" or t is None or t == "":
