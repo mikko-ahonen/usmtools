@@ -73,7 +73,7 @@ def create_board(request, tenant_id, board_type):
 
     return render(request, "boards/board_form.html", {"tenant_id": tenant_id, "form": form})
 
-def board(request, tenant_id, board_type, board_uuid, partial=False):
+def _board(request, tenant_id, board_type, board_uuid, partial=False):
     tenant_check(request=request, tenant_id=tenant_id)
 
     board_cls = get_board_class_by_type(board_type)
@@ -94,28 +94,30 @@ class ListForm(forms.ModelForm):
         fields = ["name"]
 
 
-#def list_form_factory(model):
-#    name = model.__name__ + 'Form'
-#    parents = (forms.ModelForm,)
-#    attrs = {
-#        'Meta': type('Meta', (object,), {'model': model, 'fields': ['name']}),
-#    }
-#    return ModelFormMetaclass(name, parents, attrs)
+def create_list_form(model):
+    class Meta:
+        fields = ["name"]
+
+    Meta.model = model
+
+    attrs = {'__module__': 'boards.views', 'Meta': Meta}
+    return type('ListForm', (forms.ModelForm,), attrs)
+
+
 
 def create_list(request, tenant_id, board_type, board_uuid):
     tenant_check(request=request, tenant_id=tenant_id)
     board_cls = get_board_class_by_type(board_type)
     list_cls = get_list_class_by_type(board_type)
     board = get_object_or_404(board_cls, id=board_uuid)
-    form_cls = ListForm
-    form_cls.Meta.model = list_cls
+    form_cls = create_list_form(list_cls)
     form = form_cls(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
         form.instance.board = board
         form.instance.tenant_id = tenant_id
         form.save()
-        return board(request, tenant_id, board_type, board_uuid, partial=True)
+        return _board(request, tenant_id, board_type, board_uuid, partial=True)
 
     return render(request, "boards/board_form.html", {"tenant_id": tenant_id, "form": form})
 
@@ -128,7 +130,7 @@ def delete_list(request, tenant_id, board_type, board_uuid, list_uuid):
     if request.method == "POST":
         list.delete()
 
-    return board(request, tenant_id, board_type, board_uuid, partial=True)
+    return _board(request, tenant_id, board_type, board_uuid, partial=True)
 
 
 def create_task_form(model):
@@ -153,7 +155,7 @@ def create_task(request, tenant_id, board_type, board_uuid, list_uuid):
         form.instance.list = list
         form.instance.tenant_id = tenant_id
         task = form.save()
-        return board(request, tenant_id, board_type, board_uuid, partial=True)
+        return _board(request, tenant_id, board_type, board_uuid, partial=True)
 
     return render(request, "boards/board_form.html", {"tenant_id": tenant_id, "form": form})
 
@@ -168,7 +170,7 @@ def edit_task(request, tenant_id, board_type, board_uuid, task_uuid):
 
     if request.method == "POST" and form.is_valid():
         task = form.save()
-        return board(request, tenant_id, board_type, board_uuid, partial=True)
+        return _board(request, tenant_id, board_type, board_uuid, partial=True)
 
     return render(request, "boards/board_form.html", {"tenant_id": tenant_id, "form": form})
 
@@ -205,7 +207,7 @@ def list_move(request, tenant_id, board_type, board_uuid):
     list_uuids = form.cleaned_data["list_uuids"]
     list_cls = get_list_class_by_type(board_type)
     list_cls.objects.filter(uuid__in=list_uuids).update(index=preserve_order(list_uuids))
-    return board(request, tenant_id, board_type, board_uuid, partial=True)
+    return _board(request, tenant_id, board_type, board_uuid, partial=True)
 
 
 class TaskMoveForm(forms.Form):
@@ -239,7 +241,7 @@ def task_move(request, tenant_id, board_type, board_uuid):
             list_id=list_cls.objects.filter(id=to_list).order_by().values("id"),
         )
 
-    return board(request, tenant_id, board_type, board_uuid, partial=True)
+    return _board(request, tenant_id, board_type, board_uuid, partial=True)
 
 
 def task_modal(request, tenant_id, board_type, task_uuid):

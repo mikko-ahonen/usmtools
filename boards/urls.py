@@ -9,7 +9,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/workflows/tenants/')),
     path("<uuid:tenant_id>/", views.boards, name="boards"),
     path("<uuid:tenant_id>/<str:board_type>/create_board/", views.create_board, name="create_board"),
-    path("<uuid:tenant_id>/<str:board_type>/<uuid:board_uuid>/", views.board, name="board"),
+    path("<uuid:tenant_id>/<str:board_type>/<uuid:board_uuid>/", views._board, name="board"),
     # lists:
 
     path("<uuid:tenant_id>/<str:board_type>/<uuid:board_uuid>/create_list/", views.create_list, name="create_list"),
