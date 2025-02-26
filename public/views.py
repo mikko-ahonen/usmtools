@@ -24,8 +24,8 @@ def make_next_url_safe(url):
 
 class SetLangView(View):
     def get(self, request, lang, *args, **kwargs):
-        if lang not in ['fi', 'en']:
-            raise ValueError("Only fi and en are supported. Vain kielet fi ja en tuettu.")
+        if lang not in ['fi', 'en', 'nl']:
+            raise ValueError("Only fi, nl and en are supported. Vain kielet fi, nl ja en tuettu. Alleen de talen fi, nl en en worden ondersteund.")
         activate(lang)
         next_url = make_next_url_safe(self.request.GET.get('next', None))
         response = HttpResponseRedirect(next_url)

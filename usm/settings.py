@@ -168,6 +168,7 @@ LOCALE_PATHS = (
 LANGUAGES = [
     ('fi', _('Finnish')),
     ('en', _('English')),
+    ('nl', _('Dutch')),
 ]
 
 # Static files (CSS, JavaScript, Images)

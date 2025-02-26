@@ -1,0 +1,3225 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-26 08:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounts/forms.py:46
+msgid "An account already exists with this email."
+msgstr "Er bestaat al een account met deze e -mail."
+
+#: accounts/forms.py:48
+msgid "This email address is already in the waiting list."
+msgstr "Dit e -mailadres staat al in de wachtlijst."
+
+#: accounts/forms.py:62
+msgid "Email addresses to invite, separated by comma"
+msgstr "E -mailadressen om uit te nodigen, gescheiden door komma"
+
+#: accounts/forms.py:76
+#: accounts/templates/accounts/join_waiting_list_form.html:5
+#: accounts/templates/accounts/join_waiting_list_form.html:8
+msgid "Join waiting list"
+msgstr "Word lid van de wachtlijst"
+
+#: accounts/forms.py:84
+msgid "I have read and agree to the Terms of Service"
+msgstr "Ik heb gelezen en akkoord met de Servicevoorwaarden"
+
+#: accounts/forms.py:85
+msgid "You must agree to the Terms of Service to register"
+msgstr "U moet akkoord gaan met de Servicevoorwaarden om zich te registreren"
+
+#: accounts/forms.py:92
+msgid "Register"
+msgstr "Register"
+
+#: accounts/forms.py:102 onboarding/models.py:50 survey/models.py:162
+#: survey/models.py:179 templates/base.html:71
+msgid "Email"
+msgstr "E -mail"
+
+#: accounts/forms.py:109 accounts/forms.py:119
+#: accounts/templates/accounts/password_reset_form.html:5
+#: accounts/templates/accounts/password_reset_form.html:8
+msgid "Reset password"
+msgstr "Reset wachtwoord"
+
+#: accounts/forms.py:125
+#: accounts/templates/accounts/password_change_form.html:5
+#: templates/fragments/header.html:99
+#: templates/registration/password_change_form.html:11
+#: templates/registration/password_reset_confirm.html:15
+msgid "Change password"
+msgstr "Wijzig het wachtwoord"
+
+#: accounts/forms.py:137 templates/registration/login.html:7
+#: templates/registration/login.html:27
+#: templates/registration/password_reset_form.html:7
+msgid "Login"
+msgstr "Login"
+
+#: accounts/models.py:32 accounts/models.py:47
+msgid "Email address"
+msgstr "E -mailadres"
+
+#: accounts/models.py:33
+msgid "Why do you want to use this service?"
+msgstr "Waarom wil je deze service gebruiken?"
+
+#: accounts/models.py:34
+msgid "Where did you hear about this service?"
+msgstr "Waar heb je over deze service gehoord?"
+
+#: accounts/models.py:35
+msgid ""
+"Are you member of a groups that might have people interested in "
+"participating in USM Tools?"
+msgstr ""
+"Bent u lid van groepen die mogelijk mensen hebben die geïnteresseerd zijn in"
+" deelname aan USM -tools?"
+
+#: accounts/templates/accounts/activate.html:4
+msgid "Activation Failure"
+msgstr "Activeringsstoring"
+
+#: accounts/templates/accounts/activate.html:7
+msgid "Account activation failed."
+msgstr "Accountactivering is mislukt."
+
+#: accounts/templates/accounts/activation_complete.html:4
+msgid "Account Activated"
+msgstr "Account geactiveerd"
+
+#: accounts/templates/accounts/activation_complete.html:7
+msgid "Account"
+msgstr "Rekening"
+
+#: accounts/templates/accounts/activation_complete.html:7
+msgid "activated"
+msgstr "geactiveerd"
+
+#: accounts/templates/accounts/activation_complete.html:10
+msgid "Your account is now activated."
+msgstr "Uw account is nu geactiveerd."
+
+#: accounts/templates/accounts/activation_complete.html:15
+#: compliances/templates/compliances/domain-project-data-management.html:83
+#: compliances/templates/compliances/domain-project-scope.html:19
+#: compliances/templates/compliances/domain-project-teams.html:17
+msgid "Continue"
+msgstr "Doorgaan"
+
+#: accounts/templates/accounts/activation_complete.html:15
+msgid "by setting up a new tenant."
+msgstr "door een nieuwe huurder op te zetten."
+
+#: accounts/templates/accounts/activation_complete.html:17
+msgid "You can "
+msgstr "Je kan"
+
+#: accounts/templates/accounts/activation_complete.html:17
+#: accounts/templates/accounts/password_reset_complete.html:11
+#: accounts/templates/accounts/registration_form.html:13
+msgid "log in"
+msgstr "inloggen"
+
+#: accounts/templates/accounts/activation_email.html:6
+msgid "registration"
+msgstr "registratie"
+
+#: accounts/templates/accounts/activation_email.html:11
+#: accounts/templates/accounts/activation_email.txt:2
+msgid ""
+"\n"
+"You (or someone pretending to be you) have asked to register an account at USM Tools. If this wasn't you, please ignore this email and your address will be removed from our records.\n"
+msgstr ""
+"U (of iemand die zich voordoet als u bent) heeft gevraagd om een ​​account "
+"te registreren bij USM -tools. Als jij dit niet was, negeer dan deze e -mail"
+" en je adres wordt uit onze records verwijderd."
+
+#: accounts/templates/accounts/activation_email.html:17
+#: accounts/templates/accounts/activation_email.txt:6
+#, python-format
+msgid ""
+"\n"
+"To activate this account, please click the following link within the next %(expiration_days)s days:\n"
+msgstr ""
+"Om dit account te activeren, klikt u op de volgende link binnen de volgende "
+"%(expiration_days) s dagen:"
+
+#: accounts/templates/accounts/activation_email.html:29
+#: accounts/templates/accounts/activation_email.txt:12
+#: accounts/templates/accounts/invitation_email.html:37
+#: accounts/templates/accounts/invitation_email.txt:20
+#: accounts/templates/accounts/password_reset_email.html:26
+msgid "Sincerely,"
+msgstr "Eerlijk,"
+
+#: accounts/templates/accounts/activation_email.html:33
+#: accounts/templates/accounts/activation_email.txt:14
+#: accounts/templates/accounts/invitation_email.html:41
+#: accounts/templates/accounts/invitation_email.txt:22
+#: accounts/templates/accounts/password_reset_email.html:30
+msgid "Management"
+msgstr "Beheer"
+
+#: accounts/templates/accounts/delete.html:4
+msgid "Delete account"
+msgstr "Verwijder account"
+
+#: accounts/templates/accounts/delete.html:10
+msgid ""
+"Are you sure that you want to delete your account? Account cannot be "
+"restored after it is deleted."
+msgstr ""
+"Weet u zeker dat u uw account wilt verwijderen? Account kan niet worden "
+"hersteld nadat het is verwijderd."
+
+#: accounts/templates/accounts/delete.html:11
+msgid "I do not want to delete my account"
+msgstr "Ik wil mijn account niet verwijderen"
+
+#: accounts/templates/accounts/delete.html:12
+msgid "I want to delete my account"
+msgstr "Ik wil mijn account verwijderen"
+
+#: accounts/templates/accounts/invitation_email.html:3
+#, python-format
+msgid ""
+"%(sender_email)s invited you to join the waiting list for USM Tools site."
+msgstr ""
+"%(afzender_email) s nodigde u uit om deel te nemen aan de wachtlijst voor "
+"USM Tools -site."
+
+#: accounts/templates/accounts/invitation_email.html:9
+#: accounts/templates/accounts/invitation_email.txt:7
+msgid ""
+"USM Tools is a new kind of Business Process Modeling tool. Some differences "
+"to existing tools:"
+msgstr ""
+"USM Tools is een nieuw soort bedrijfsprocesmodelleringstool. Enkele "
+"verschillen met bestaande tools:"
+
+#: accounts/templates/accounts/invitation_email.html:15
+#: accounts/templates/accounts/invitation_email.txt:10
+#: accounts/templates/accounts/login.html:29
+msgid ""
+"It uses USM, which is based on methodical and systematic approach to "
+"Enterprise Service Management"
+msgstr ""
+"Het maakt gebruik van USM, dat is gebaseerd op methodische en systematische "
+"benadering van enterprise service management"
+
+#: accounts/templates/accounts/invitation_email.html:18
+#: accounts/templates/accounts/invitation_email.txt:11
+#: accounts/templates/accounts/login.html:32
+msgid ""
+"As compared to word processor (such as Word) templates, your data is "
+"structured and you can access it through APIs"
+msgstr ""
+"In vergelijking met tekstverwerker (zoals Word) -sjablonen zijn uw gegevens "
+"gestructureerd en u kunt er toegang toe via API's"
+
+#: accounts/templates/accounts/invitation_email.html:21
+#: accounts/templates/accounts/invitation_email.txt:12
+#: accounts/templates/accounts/login.html:35
+msgid ""
+"It will become much cheaper to standards and frameworks, such as ITIL or ISO"
+" standards."
+msgstr ""
+"Het zal veel goedkoper worden voor normen en frameworks, zoals ITIL- of ISO "
+"-normen."
+
+#: accounts/templates/accounts/invitation_email.html:26
+#: accounts/templates/accounts/invitation_email.txt:14
+msgid "To join the waiting list, please click the following link:"
+msgstr "Klik op de volgende link om deel te nemen aan de wachtlijst:"
+
+#: accounts/templates/accounts/invitation_email.txt:2
+#, python-format
+msgid ""
+"%(sender_email)s invited you to join the waiting list for USM Tools site. "
+"Your position on the waiting list will increase, if you use this link to "
+"join."
+msgstr ""
+"%(afzender_email) s nodigde u uit om deel te nemen aan de wachtlijst voor "
+"USM Tools -site. Uw positie op de wachtlijst zal toenemen, als u deze link "
+"gebruikt om deel te nemen."
+
+#: accounts/templates/accounts/invitation_email_subject.txt:1
+msgid "Invitation to join"
+msgstr "Uitnodiging om lid te worden"
+
+#: accounts/templates/accounts/join_waiting_list_complete.html:4
+#: accounts/templates/accounts/join_waiting_list_complete.html:7
+msgid "Waiting list joined"
+msgstr "Wachtlijst"
+
+#: accounts/templates/accounts/join_waiting_list_complete.html:8
+msgid ""
+"We have added you to the waiting list, and will be sending any invites "
+"promptly. Thank you!"
+msgstr ""
+"We hebben u toegevoegd aan de wachtlijst en sturen eventuele uitnodigingen "
+"onmiddellijk. Bedankt!"
+
+#: accounts/templates/accounts/join_waiting_list_form.html:11
+msgid "You have been invited by"
+msgstr "Je bent uitgenodigd door"
+
+#: accounts/templates/accounts/join_waiting_list_form.html:11
+msgid "to join the waiting list for this service."
+msgstr "om deel te nemen aan de wachtlijst voor deze service."
+
+#: accounts/templates/accounts/join_waiting_list_form.html:16
+msgid "This service is not yet open to the public."
+msgstr "Deze service is nog niet open voor het publiek."
+
+#: accounts/templates/accounts/join_waiting_list_form.html:22
+msgid ""
+"You can join our waiting list by filling your email address below and "
+"answering a few questions below."
+msgstr ""
+"U kunt deelnemen aan onze wachtlijst door hieronder uw e -mailadres in te "
+"vullen en een paar vragen hieronder te beantwoorden."
+
+#: accounts/templates/accounts/join_waiting_list_form.html:29
+msgid ""
+"Optionally, you can also send an invite to your friends, and if they also "
+"join, you will increase the position for all of you in the waiting list."
+msgstr ""
+"Optioneel kunt u ook een uitnodiging naar uw vrienden sturen, en als ze ook "
+"lid worden, vergroot u de functie voor jullie allemaal in de wachtlijst."
+
+#: accounts/templates/accounts/login.html:5
+#: templates/registration/password_reset_done.html:13
+msgid "Log in"
+msgstr "Inloggen"
+
+#: accounts/templates/accounts/login.html:16
+msgid "Forgot your password?"
+msgstr "Uw wachtwoord vergeten?"
+
+#: accounts/templates/accounts/login.html:16
+msgid "Reset it"
+msgstr "Reset het"
+
+#: accounts/templates/accounts/login.html:21
+msgid "What is USM BPM Tool?"
+msgstr "Wat is USM BPM -tool?"
+
+#: accounts/templates/accounts/login.html:23
+msgid ""
+"It is a new kind of Business Process Modeling tool. Some differences to "
+"existing tools:"
+msgstr ""
+"Het is een nieuw soort bedrijfsprocesmodelleringstool. Enkele verschillen "
+"met bestaande tools:"
+
+#: accounts/templates/accounts/login.html:40
+msgid ""
+"The site is currently not open to public.  We are in beta, experimenting the"
+" site with certain interest groups. If you are a member of one of those "
+"interest groups, please use your invitation link to join."
+msgstr ""
+"De site staat momenteel niet open voor openbaar.  We zijn in bèta en "
+"experimenteren de site met bepaalde belangengroepen. Als u lid bent van een "
+"van die belangengroepen, gebruik dan uw uitnodigingslink om lid te worden."
+
+#: accounts/templates/accounts/login.html:47
+msgid ""
+"If you are not a member of any of those groups, you can join our waiting "
+"list."
+msgstr ""
+"Als u geen lid bent van een van die groepen, kunt u deelnemen aan onze "
+"wachtlijst."
+
+#: accounts/templates/accounts/logout.html:4
+#: templates/registration/logged_out.html:7
+#: templates/registration/password_reset_done.html:7
+msgid "Logged out"
+msgstr "Uitgemeld"
+
+#: accounts/templates/accounts/logout.html:9
+msgid "Your account was succesfully deleted."
+msgstr "Uw account is met succes verwijderd."
+
+#: accounts/templates/accounts/logout.html:11
+msgid "Successfully logged out"
+msgstr "Met succes uitgelogd"
+
+#: accounts/templates/accounts/password_change_done.html:4
+#: templates/registration/password_change_done.html:7
+msgid "Password changed"
+msgstr "Wachtwoord gewijzigd"
+
+#: accounts/templates/accounts/password_change_done.html:7
+msgid "Password successfully changed!"
+msgstr "Wachtwoord met succes gewijzigd!"
+
+#: accounts/templates/accounts/password_reset_complete.html:4
+msgid "Password reset complete"
+msgstr "Wachtwoord gereset compleet"
+
+#: accounts/templates/accounts/password_reset_complete.html:8
+msgid "Your password has been reset!"
+msgstr "Uw wachtwoord is gereset!"
+
+#: accounts/templates/accounts/password_reset_complete.html:11
+msgid "You may now"
+msgstr "Je mag nu"
+
+#: accounts/templates/accounts/password_reset_confirm.html:11
+msgid "Confirm password reset"
+msgstr "Bevestig het reset van het wachtwoord"
+
+#: accounts/templates/accounts/password_reset_confirm.html:15
+msgid "Enter your new password below to reset your password:"
+msgstr ""
+"Voer hieronder uw nieuwe wachtwoord in om uw wachtwoord opnieuw in te "
+"stellen:"
+
+#: accounts/templates/accounts/password_reset_confirm.html:18
+msgid "Password reset unsuccessful. Please"
+msgstr "Wachtwoord gereset niet succesvol. Alsjeblieft"
+
+#: accounts/templates/accounts/password_reset_confirm.html:18
+msgid "try again"
+msgstr "Probeer het opnieuw"
+
+#: accounts/templates/accounts/password_reset_done.html:4
+msgid "Password reset"
+msgstr "Wachtwoord gereset"
+
+#: accounts/templates/accounts/password_reset_done.html:8
+msgid ""
+"We have sent you an email with a link to reset your password. Please check "
+"your email and click the link to continue."
+msgstr ""
+"We hebben u een e -mail gestuurd met een link om uw wachtwoord te resetten. "
+"Controleer uw e -mail en klik op de link om door te gaan."
+
+#: accounts/templates/accounts/password_reset_email.html:4
+msgid "Greetings"
+msgstr "Groeten"
+
+#: accounts/templates/accounts/password_reset_email.html:8
+msgid ""
+"You are receiving this email because you (or someone pretending to be you) "
+"requested that your password be reset on the USM Tools site. If you do not "
+"wish to reset your password, please ignore this message."
+msgstr ""
+"U ontvangt deze e -mail omdat u (of iemand die zich voordoet als u zich "
+"voordoet) verzocht om uw wachtwoord te resetten op de USM Tools -site. Als u"
+" uw wachtwoord niet wilt resetten, negeer dit bericht dan."
+
+#: accounts/templates/accounts/password_reset_email.html:12
+msgid ""
+"To reset your password, please click the following link, or copy and paste "
+"it into your web browser:"
+msgstr ""
+"Klik op de volgende link of kopieer en plak deze in uw webbrowser om uw "
+"wachtwoord te resetten."
+
+#: accounts/templates/accounts/password_reset_email.html:22
+msgid "Your username, in case you've forgotten:"
+msgstr "Uw gebruikersnaam, voor het geval u het bent vergeten:"
+
+#: accounts/templates/accounts/password_reset_form.html:10
+msgid ""
+"Forgot your password? Enter your email in the form below and we'll send you "
+"instructions for creating a new one."
+msgstr ""
+"Uw wachtwoord vergeten? Voer uw e -mail in het onderstaande formulier in en "
+"we sturen u instructies voor het maken van een nieuwe."
+
+#: accounts/templates/accounts/registration_closed.html:4
+msgid "Registration failed"
+msgstr "Registratie is mislukt"
+
+#: accounts/templates/accounts/registration_closed.html:7
+msgid ""
+"Registration has been closed. Please contact the person you get the "
+"invitation from if you think this is an error"
+msgstr ""
+"Registratie is gesloten. Neem contact op met de persoon van wie u de "
+"uitnodiging haalt als u denkt dat dit een fout is"
+
+#: accounts/templates/accounts/registration_complete.html:4
+msgid "Activation email sent"
+msgstr "Activerings -e -mail verzonden"
+
+#: accounts/templates/accounts/registration_complete.html:7
+msgid "Activation email was sent"
+msgstr "Activerings -e -mail is verzonden"
+
+#: accounts/templates/accounts/registration_complete.html:8
+msgid ""
+"Please click the link in your email to complete the registration process."
+msgstr "Klik op de link in uw e -mail om het registratieproces te voltooien."
+
+#: accounts/templates/accounts/registration_form.html:5
+msgid "Register for an account"
+msgstr "Registreer je voor een account"
+
+#: accounts/templates/accounts/registration_form.html:10
+msgid "You have been invited to participate in beta testing the USM site"
+msgstr "U bent uitgenodigd om deel te nemen aan bèta -testen van de USM -site"
+
+#: accounts/templates/accounts/registration_form.html:13
+msgid "Already have an account? Please "
+msgstr "Heb je al een account? Alsjeblieft"
+
+#: accounts/templates/accounts/registration_form.html:13
+msgid "Otherwise, register below."
+msgstr "Registreer anders hieronder."
+
+#: accounts/templates/accounts/resend_activation_complete.html:4
+msgid "Account activation resent"
+msgstr "Accountactivering"
+
+#: accounts/templates/accounts/resend_activation_complete.html:8
+#, python-format
+msgid "We have sent an email to %(email)s with further instructions."
+msgstr ""
+"We hebben een e -mail naar %(e -mail) S gestuurd met verdere instructies."
+
+#: accounts/templates/accounts/resend_activation_form.html:4
+msgid "Resend activation email"
+msgstr "Stuur activerings -e -mail opnieuw"
+
+#: accounts/validators.py:10
+msgid ""
+"Enter a valid username. This value may contain only English letters, "
+"numbers, and underscore characters. It must be at three characters at the "
+"minimum."
+msgstr ""
+"Voer een geldige gebruikersnaam in. Deze waarde kan alleen Engelse letters, "
+"cijfers en onderstrepingstekens bevatten. Het moet minimaal op drie tekens "
+"zijn."
+
+#: boards/models.py:13 boards/templates/boards/_board.html:20
+#: compliances/templates/compliances/_data_management.html:62
+#: compliances/templates/compliances/_targets.html:40
+#: compliances/templates/compliances/_teams.html:40
+#: components/board/board.html:22 mir/models.py:20 mir/models.py:42
+#: mir/models.py:166 survey/models.py:178 workflows/forms.py:99
+#: workflows/forms.py:301 workflows/models.py:54 workflows/models.py:72
+#: workflows/models.py:108 workflows/models.py:155 workflows/models.py:269
+#: workflows/models.py:490 workflows/tenant_models.py:17
+msgid "Name"
+msgstr "Naam"
+
+#: boards/models.py:27
+msgid "Text"
+msgstr "Tekst"
+
+#: boards/models.py:34
+msgid "Board"
+msgstr "Bord"
+
+#: boards/models.py:35
+#: compliances/templates/compliances/fragments/compliances-tabs.html:8
+#: compliances/templates/compliances/fragments/compliances-tabs.html:10
+#: projects/templates/projects/fragments/tabs.html:7
+#: projects/templates/projects/project-detail.html:11
+#: projects/templates/projects/project-list.html:18
+msgid "Roadmap"
+msgstr "Routekaart"
+
+#: boards/models.py:36
+#: compliances/templates/compliances/fragments/compliances-tabs.html:15
+#: compliances/templates/compliances/fragments/compliances-tabs.html:17
+#: projects/templates/projects/fragments/tabs.html:10
+#: projects/templates/projects/project-detail.html:14
+#: projects/templates/projects/project-list.html:21
+msgid "Backlog"
+msgstr "Achterstand"
+
+#: boards/models.py:37 boards/models.py:65
+#: projects/templates/projects/fragments/tabs.html:13
+msgid "Sprint"
+msgstr "Sprint"
+
+#: boards/models.py:64
+msgid "Release"
+msgstr "Uitgave"
+
+#: boards/models.py:66 compliances/templatetags/compliances.py:77
+#: compliances/templatetags/compliances.py:80 mir/models.py:263
+#: survey/models.py:217
+msgid "Status"
+msgstr "Status"
+
+#: boards/models.py:84 mir/models.py:21 mir/models.py:43 mir/models.py:171
+#: workflows/models.py:55 workflows/models.py:73 workflows/models.py:109
+#: workflows/models.py:156 workflows/models.py:270 workflows/models.py:491
+#: workflows/templates/workflows/modals/action-create-or-update.html:39
+msgid "Description"
+msgstr "Beschrijving"
+
+#: boards/models.py:89
+msgid "Epic"
+msgstr "Episch"
+
+#: boards/models.py:90
+msgid "Story"
+msgstr "Verhaal"
+
+#: boards/templates/boards/_board.html:15 components/board/board.html:17
+msgid "Add list"
+msgstr "Toevoeglijst toevoegen"
+
+#: boards/templates/boards/_board.html:23
+#: boards/templates/boards/_list.html:30
+#: boards/templates/boards/board_form.html:10
+#: boards/templates/boards/task_modal.html:26
+#: compliances/templates/compliances/_data_management.html:64
+#: compliances/templates/compliances/_targets.html:42
+#: compliances/templates/compliances/_teams.html:42
+#: compliances/templates/compliances/modals/create-or-update.html:18
+#: compliances/templates/compliances/target_form.html:8
+#: components/board/board.html:25 components/board/board_list.html:40
+#: mir/forms.py:32 mir/forms.py:48 mir/forms.py:60 mir/forms.py:72
+#: projects/templates/projects/modals/create-or-update.html:33
+#: projects/templates/projects/modals/task-create-or-update.html:37
+#: workflows/templates/workflows/modals/action-delete.html:11
+#: workflows/templates/workflows/modals/activity-create.html:15
+#: workflows/templates/workflows/modals/create-or-update.html:19
+#: workflows/templates/workflows/modals/customer-create-or-update.html:15
+#: workflows/templates/workflows/modals/instruction-create-or-update.html:15
+#: workflows/templates/workflows/modals/organization-unit-create-or-update.html:19
+#: workflows/templates/workflows/modals/profile-create.html:14
+#: workflows/templates/workflows/modals/routine-create.html:16
+#: workflows/templates/workflows/modals/service-create.html:23
+#: workflows/templates/workflows/modals/service-share.html:69
+#: workflows/templates/workflows/modals/tenant-create-or-update.html:20
+#: xref/forms.py:19 xref/forms.py:31 xref/forms.py:43 xref/forms.py:55
+#: xref/forms.py:67
+msgid "Save"
+msgstr "Redden"
+
+#: boards/templates/boards/_list.html:26 components/board/board_list.html:36
+msgid "Task name"
+msgstr "Taaknaam"
+
+#: boards/templates/boards/_list.html:32
+#: compliances/templates/compliances/_data_management.html:66
+#: compliances/templates/compliances/_data_management.html:67
+#: compliances/templates/compliances/_targets.html:44
+#: compliances/templates/compliances/_targets.html:45
+#: compliances/templates/compliances/_teams.html:44
+#: compliances/templates/compliances/_teams.html:45
+#: compliances/templates/compliances/modals/delete.html:61
+#: components/board/board_list.html:42 mir/templates/mir/modals/delete.html:10
+#: mir/templates/mir/modals/employee-delete.html:10
+#: mir/templates/mir/modals/training-delete.html:10
+#: projects/templates/projects/modals/create-or-update.html:34
+#: projects/templates/projects/modals/project-delete.html:10
+#: projects/templates/projects/modals/task-create-or-update.html:38
+#: workflows/templates/workflows/modals/action-delete.html:10
+#: workflows/templates/workflows/modals/activity-delete.html:11
+#: workflows/templates/workflows/modals/customer-delete.html:22
+#: workflows/templates/workflows/modals/delete.html:61
+#: workflows/templates/workflows/modals/instruction-delete.html:11
+#: workflows/templates/workflows/modals/organization-unit-delete.html:19
+#: workflows/templates/workflows/modals/profile-delete.html:13
+#: workflows/templates/workflows/modals/routine-delete.html:13
+#: workflows/templates/workflows/modals/service-customer-remove.html:13
+#: workflows/templates/workflows/modals/service-delete.html:32
+#: workflows/templates/workflows/modals/task-delete.html:10
+#: workflows/templates/workflows/modals/tenant-delete.html:53
+#: xref/templates/xref/modals/control-delete.html:11
+#: xref/templates/xref/modals/delete.html:11
+#: xref/templates/xref/modals/standard-delete.html:11
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: boards/templates/boards/boards.html:6
+msgid "Boards"
+msgstr "Bord"
+
+#: compliances/entity_types.py:13 compliances/models.py:454 mir/models.py:295
+#: mir/models.py:311
+msgid "Not defined"
+msgstr "Niet gedefinieerd"
+
+#: compliances/entity_types.py:14 mir/models.py:35
+msgid "Document"
+msgstr "Document"
+
+#: compliances/entity_types.py:15 components/task/task_card.html:5
+#: workflows/models.py:515
+#: workflows/templates/workflows/service-task-detail.html:9
+msgid "Task"
+msgstr "Taak"
+
+#: compliances/entity_types.py:16 workflows/models.py:176
+msgid "Risk"
+msgstr "Risico"
+
+#: compliances/entity_types.py:17 workflows/forms.py:303
+#: workflows/models.py:231 workflows/models.py:242 workflows/models.py:493
+#: workflows/templates/workflows/fragments/service-routines.html:9
+#: workflows/templates/workflows/modals/service-share.html:16
+#: workflows/templatetags/breadcrumbs.py:89
+msgid "Routine"
+msgstr "Routine"
+
+#: compliances/entity_types.py:18
+#: components/entity_selector/definition_reference_selector.py:14
+#: components/entity_selector/responsibility_profile_selector.py:15
+#: workflows/models.py:291 workflows/models.py:489
+#: workflows/templates/workflows/profile-detail.html:9
+#: workflows/templates/workflows/service-profile-detail.html:9
+#: workflows/templates/workflows/service-profile-list.html:13
+msgid "Profile"
+msgstr "Profiel"
+
+#: compliances/entity_types.py:38
+msgid "Not defineds"
+msgstr "Niet gedefinieerd"
+
+#: compliances/entity_types.py:39 mir/models.py:36
+#: mir/templates/mir/document-list.html:7
+#: mir/templates/mir/fragments/mir-tabs.html:7
+msgid "Documents"
+msgstr "Documenten"
+
+#: compliances/entity_types.py:40 workflows/models.py:516
+#: workflows/templates/workflows/fragments/service-header.html:17
+#: workflows/templates/workflows/fragments/service-header.html:19
+#: workflows/templates/workflows/fragments/service-header.html:44
+#: workflows/templates/workflows/service-profile-list.html:24
+#: workflows/templates/workflows/service-task-list.html:6
+msgid "Tasks"
+msgstr "Taken"
+
+#: compliances/entity_types.py:41 mir/templates/mir/fragments/mir-tabs.html:10
+#: mir/templates/mir/risk-list.html:7
+msgid "Risks"
+msgstr "Risico's"
+
+#: compliances/entity_types.py:42 workflows/models.py:232
+#: workflows/templates/workflows/fragments/service-header.html:9
+#: workflows/templates/workflows/fragments/service-header.html:13
+#: workflows/templates/workflows/fragments/service-header.html:32
+msgid "Routines"
+msgstr "Routines"
+
+#: compliances/entity_types.py:43 workflows/models.py:292
+#: workflows/templates/workflows/fragments/service-header.html:15
+#: workflows/templates/workflows/fragments/service-header.html:41
+#: workflows/templates/workflows/fragments/service-profiles.html:2
+msgid "Profiles"
+msgstr "Profielen"
+
+#: compliances/imports.py:159
+msgid "This is not Excel file supported by usm.tools"
+msgstr "Dit is geen Excel -bestand ondersteund door USM.Tools"
+
+#: compliances/models.py:184
+msgid "Term (singular)"
+msgstr "Term (enkelvoud)"
+
+#: compliances/models.py:185
+msgid "Term (plural)"
+msgstr "Term (meervoud)"
+
+#: compliances/models.py:186
+msgid "Definition for the term"
+msgstr "Definitie voor de term"
+
+#: compliances/models.py:188
+msgid "If checked, this is a plural definition"
+msgstr "Indien gecontroleerd, is dit een meervoudige definitie"
+
+#: compliances/models.py:189
+msgid "The label used by plural definitions"
+msgstr "Het label dat wordt gebruikt door meervoudige definities"
+
+#: compliances/models.py:190
+msgid "Entity type used by definition"
+msgstr "Entiteitstype gebruikt per definitie"
+
+#: compliances/models.py:313 projects/models.py:101 projects/models.py:137
+#: projects/models.py:226
+msgid "New"
+msgstr "Nieuw"
+
+#: compliances/models.py:314 projects/models.py:103 projects/models.py:139
+#: projects/models.py:228
+msgid "Ongoing"
+msgstr "Doorlopend"
+
+#: compliances/models.py:315
+msgid "Implemented"
+msgstr "Geïmplementeerd"
+
+#: compliances/models.py:316
+msgid "Failed"
+msgstr "Mislukt"
+
+#: compliances/models.py:317
+msgid "Non-compliant"
+msgstr "Niet conform"
+
+#: compliances/models.py:318
+msgid "Compliant"
+msgstr "Meewerkend"
+
+#: compliances/models.py:319
+msgid "Audited"
+msgstr "Gecontroleerd"
+
+#: compliances/models.py:455
+msgid "Keep the existing status"
+msgstr "Houd de bestaande status bij"
+
+#: compliances/models.py:456
+#: compliances/templates/compliances/_data_management.html:25
+msgid "Implement in this project"
+msgstr "Implementeren in dit project"
+
+#: compliances/models.py:457
+msgid "Implemented in another project"
+msgstr "Geïmplementeerd in een ander project"
+
+#: compliances/models.py:458
+msgid "Postpone integration"
+msgstr "De integratie uitstellen"
+
+#: compliances/templates/compliances/_data_management.html:10
+#: mir/templates/mir/dashboard.html:12
+msgid "built-in"
+msgstr "ingebouwd"
+
+#: compliances/templates/compliances/_data_management.html:14
+#: mir/templates/mir/dashboard.html:16
+msgid "Select data management policy"
+msgstr "Selecteer Beleid voor gegevensbeheer"
+
+#: compliances/templates/compliances/_data_management.html:15
+#: compliances/templates/compliances/domain-project-data-management.html:26
+#: mir/models.py:296 mir/templates/mir/dashboard.html:17
+msgid "Manual"
+msgstr "Handmatig"
+
+#: compliances/templates/compliances/_data_management.html:16
+#: mir/templates/mir/dashboard.html:18
+msgid "Linked"
+msgstr "Gekoppeld"
+
+#: compliances/templates/compliances/_data_management.html:17
+#: mir/models.py:298 mir/templates/mir/dashboard.html:19
+msgid "Replicated"
+msgstr "Gerepliceerd"
+
+#: compliances/templates/compliances/_data_management.html:18
+#: mir/models.py:299 mir/templates/mir/dashboard.html:20
+msgid "Managed"
+msgstr "Beheerd"
+
+#: compliances/templates/compliances/_data_management.html:23
+msgid "Select plan"
+msgstr "Selecteer Plan"
+
+#: compliances/templates/compliances/_data_management.html:24
+msgid "No changes"
+msgstr "Geen veranderingen"
+
+#: compliances/templates/compliances/_data_management.html:26
+msgid "Implememented in another project"
+msgstr "Geïmplementeerd in een ander project"
+
+#: compliances/templates/compliances/_data_management.html:27
+msgid "Postpone"
+msgstr "Uitstellen"
+
+#: compliances/templates/compliances/_data_management.html:32
+#: mir/templates/mir/dashboard.html:25
+msgid "Select status"
+msgstr "Selecteer Status"
+
+#: compliances/templates/compliances/_data_management.html:33
+#: mir/models.py:312 mir/templates/mir/dashboard.html:26
+msgid "Prototyping"
+msgstr "Prototyping"
+
+#: compliances/templates/compliances/_data_management.html:34
+#: mir/models.py:313 mir/templates/mir/dashboard.html:27
+msgid "Development"
+msgstr "Ontwikkeling"
+
+#: compliances/templates/compliances/_data_management.html:35
+#: mir/models.py:314 mir/templates/mir/dashboard.html:28
+msgid "Testing"
+msgstr "Testen"
+
+#: compliances/templates/compliances/_data_management.html:36
+#: mir/models.py:315 mir/templates/mir/dashboard.html:29
+msgid "Production"
+msgstr "Productie"
+
+#: compliances/templates/compliances/_targets.html:17
+#: compliances/templates/compliances/_teams.html:17
+msgid "Are you sure"
+msgstr "Weet je het zeker"
+
+#: compliances/templates/compliances/definition-list.html:10
+#: compliances/templates/compliances/fragments/compliances-tabs.html:29
+#: compliances/templates/compliances/fragments/compliances-tabs.html:31
+msgid "References"
+msgstr "Referenties"
+
+#: compliances/templates/compliances/definition-list.html:18
+msgid "Reference"
+msgstr "Referentie"
+
+#: compliances/templates/compliances/definition-list.html:21
+msgid "Plural"
+msgstr "Meervoud"
+
+#: compliances/templates/compliances/definition-list.html:34
+msgid "matching label"
+msgstr "bijpassend label"
+
+#: compliances/templates/compliances/definition-list.html:39
+msgid "No matches"
+msgstr "Geen overeenkomsten"
+
+#: compliances/templates/compliances/definition-list.html:47
+msgid "Entity type missing"
+msgstr "Entiteitstype ontbreekt"
+
+#: compliances/templates/compliances/definition-list.html:50
+#: components/task/task_card.html:27 mir/templates/mir/document-list.html:30
+#: mir/templates/mir/risk-list.html:21
+#: workflows/templates/workflows/customer-list.html:28
+#: workflows/templates/workflows/fragments/service-customers.html:24
+#: workflows/templates/workflows/fragments/service-profiles.html:22
+#: workflows/templates/workflows/fragments/service-routines.html:20
+#: workflows/templates/workflows/fragments/tenant.html:22
+#: workflows/templates/workflows/organization-unit-list.html:27
+#: workflows/templates/workflows/service-customer-list.html:27
+#: workflows/templates/workflows/service-list.html:30
+#: workflows/templates/workflows/service-profile-list.html:50
+#: workflows/templatetags/breadcrumbs.py:11
+msgid "Edit"
+msgstr "Bewerking"
+
+#: compliances/templates/compliances/definition-list.html:51
+#: mir/templates/mir/document-list.html:31 mir/templates/mir/risk-list.html:22
+#: workflows/templates/workflows/customer-list.html:29
+#: workflows/templates/workflows/fragments/service-customers.html:25
+#: workflows/templates/workflows/fragments/service-profiles.html:23
+#: workflows/templates/workflows/fragments/service-routines.html:21
+#: workflows/templates/workflows/fragments/tenant.html:23
+#: workflows/templates/workflows/organization-unit-list.html:28
+#: workflows/templates/workflows/service-customer-list.html:28
+#: workflows/templates/workflows/service-list.html:31
+#: workflows/templates/workflows/service-profile-list.html:51
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: compliances/templates/compliances/definition-list.html:58
+msgid "You have not defined any references yet."
+msgstr "U hebt nog geen referenties gedefinieerd."
+
+#: compliances/templates/compliances/definition-list.html:63
+msgid "Define a new reference"
+msgstr "Definieer een nieuwe referentie"
+
+#: compliances/templates/compliances/domain-audit.html:8
+#: compliances/templates/compliances/fragments/compliances-tabs.html:36
+#: compliances/templates/compliances/fragments/compliances-tabs.html:38
+msgid "Audit"
+msgstr "Audit"
+
+#: compliances/templates/compliances/domain-list.html:7
+msgid "Compliance domains"
+msgstr "Nalevingsdomeinen"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:11
+msgid "Backlog preview for"
+msgstr "Achterstand preview voor"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:15
+msgid ""
+"\n"
+"    On this page, you can create an initial project backlog based on the project roadmap. One backlog\n"
+"    will be created for all the teams participating in the project. The backlog will contain sprints and \n"
+"    stories based on the project parameters (such as the categories for each team) and the epics on the roadmap. \n"
+"    "
+msgstr ""
+"Op deze pagina kunt u een eerste project achterstand maken op basis van de Project Roadmap. Eén achterstand\n"
+"    wordt gemaakt voor alle teams die aan het project deelnemen. De achterstand zal sprints bevatten en \n"
+"    Verhalen op basis van de projectparameters (zoals de categorieën voor elk team) en de EPICS op de routekaart."
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:25
+msgid ""
+"\n"
+"    While the backlog is shared by the teams, each team will have their own sprints. If you filter the\n"
+"    backlog by the team, you will get the team backlog, with the stories either assigned to that team\n"
+"    or unassigned.\n"
+"    "
+msgstr ""
+"Terwijl de achterstand wordt gedeeld door de teams, heeft elk team zijn eigen sprints. Als u het\n"
+"    Backlog door het team, je krijgt het team achterstand, met de verhalen die aan dat team zijn toegewezen\n"
+"    of niet -toegewezen."
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:35
+msgid ""
+"\n"
+"    The stories will be automatically placed in the the sprints according to the ordering of the epics on the roadmap.\n"
+"    Each story will have a size estimation in story points. According to the agile estimation methodology,\n"
+"    story point is only relative to other stories, not an absolute number. Each sprint will be filled with \n"
+"    stories so that the maximum story points is not exceeded. You can refine the backlog after it has been created.\n"
+"    "
+msgstr ""
+"De verhalen worden automatisch in de Sprints geplaatst volgens de bestelling van de Epics op de routekaart.\n"
+"    Elk verhaal zal een schatting van de maat hebben in verhaalpunten. Volgens de Agile schattingsmethode,\n"
+"    Verhaalpunt is alleen relatief ten opzichte van andere verhalen, geen absoluut getal. Elke sprint wordt gevuld met \n"
+"    Verhalen zodat de maximale verhaalpunten niet worden overschreden. U kunt de achterstand verfijnen nadat deze is gemaakt."
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:48
+#: compliances/templates/compliances/domain-project-create-roadmap.html:29
+msgid "Project prefix"
+msgstr "Projectvoorvoegsel"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:56
+#: compliances/templates/compliances/domain-project-create-roadmap.html:37
+msgid "Start date"
+msgstr "Startdatum"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:64
+msgid "Sprint length (in days)"
+msgstr "Sprintlengte (in dagen)"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:72
+msgid "Story points in sprint"
+msgstr "Verhaalpunten in sprint"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:79
+#: compliances/templates/compliances/domain-project-create-roadmap.html:61
+#: compliances/templates/compliances/domain-project-create-roadmap.html:67
+msgid "Preview"
+msgstr "Voorbeeld"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:80
+#: compliances/templates/compliances/domain-project-create-roadmap.html:62
+#: compliances/templates/compliances/fragments/deployment-status.html:23
+#: compliances/templates/compliances/fragments/deployment-status.html:144
+#: compliances/templates/compliances/fragments/deployment-status.html:168
+msgid "Create"
+msgstr "Creëren"
+
+#: compliances/templates/compliances/domain-project-create-roadmap.html:11
+msgid "Create a roadmap for"
+msgstr "Maak een routekaart voor"
+
+#: compliances/templates/compliances/domain-project-create-roadmap.html:17
+msgid ""
+"\n"
+"    On this page, you can create an initial roadmap for the project. Initial roadmap will contain\n"
+"    releases and epics based on the project parameters and your audit targets. Epics will be automatically placed \n"
+"    to the releases. You can refine the roadmap on the roadmap board, including moving epics between releases,\n"
+"    after the initial roadmap has been created. \n"
+"    "
+msgstr ""
+"Op deze pagina kunt u een eerste routekaart voor het project maken. De eerste routekaart zal bevatten\n"
+"    Releases en epics op basis van de projectparameters en uw auditdoelen. Epics worden automatisch geplaatst \n"
+"    naar de releases. U kunt de routekaart op het routekaartbord verfijnen, inclusief bewegende epische verhalen tussen releases,\n"
+"    Nadat de eerste routekaart is gemaakt."
+
+#: compliances/templates/compliances/domain-project-create-roadmap.html:45
+msgid "Release length (in days)"
+msgstr "Lengte vrijgave (in dagen)"
+
+#: compliances/templates/compliances/domain-project-create-roadmap.html:53
+msgid "Epics in release"
+msgstr "Epics in release"
+
+#: compliances/templates/compliances/domain-project-data-management.html:9
+msgid "Setup data management for the project"
+msgstr "Gegevensbeheer instellen voor het project"
+
+#: compliances/templates/compliances/domain-project-data-management.html:11
+msgid ""
+"\n"
+"Define how each type of data needed by this domain is managed. The user interface adapts dynamically to the data \n"
+"management policy for each entity type. For example, if you choose \"managed\", you can modify the data in this tool, \n"
+"but if you choose \"replicated\", you can only view the data in this tool.\n"
+msgstr ""
+"Bepaal hoe elk type gegevens dat dit domein nodig heeft, wordt beheerd. De gebruikersinterface past zich dynamisch aan de gegevens aan \n"
+"Managementbeleid voor elk type entiteit. Als u bijvoorbeeld \"beheerd\" kiest, kunt u de gegevens in deze tool wijzigen, \n"
+"Maar als u \"gerepliceerd\" kiest, kunt u de gegevens alleen in deze tool bekijken."
+
+#: compliances/templates/compliances/domain-project-data-management.html:18
+msgid ""
+"\n"
+"Note: The policy is shared between domains.\n"
+msgstr "Opmerking: het beleid wordt gedeeld tussen domeinen."
+
+#: compliances/templates/compliances/domain-project-data-management.html:30
+msgid ""
+"\n"
+"        The requirements are verified manually and a text field explaining how to verify the data is stored in this system. Choose this when \n"
+"        the data is in a system that does not support deep linking.\n"
+"        "
+msgstr ""
+"De vereisten worden handmatig geverifieerd en een tekstveld waarin wordt uitgelegd hoe de gegevens in dit systeem worden opgeslagen. Kies dit wanneer \n"
+"        De gegevens bevinden zich in een systeem dat geen diepe koppeling ondersteunt."
+
+#: compliances/templates/compliances/domain-project-data-management.html:40
+#: mir/models.py:297
+msgid "Link"
+msgstr "Link"
+
+#: compliances/templates/compliances/domain-project-data-management.html:44
+msgid ""
+"\n"
+"        The requirements are verified manually and a deep link to the entity is stored in this system. Choose this when the data is \n"
+"        in a system that supports deep linking, but you do not want to integrate the system.\n"
+"        "
+msgstr ""
+"De vereisten worden handmatig geverifieerd en een diepe link naar de entiteit wordt in dit systeem opgeslagen. Kies dit wanneer de gegevens zijn \n"
+"        In een systeem dat diepe koppeling ondersteunt, maar u wilt het systeem niet integreren."
+
+#: compliances/templates/compliances/domain-project-data-management.html:54
+msgid "Replicate"
+msgstr "Repliceren"
+
+#: compliances/templates/compliances/domain-project-data-management.html:58
+msgid ""
+"\n"
+"        The entities are replicated into this system. The requirements link to the local copy of entity. You must implement integration from the source system to this system.\n"
+"        "
+msgstr ""
+"De entiteiten worden gerepliceerd in dit systeem. De vereisten link naar de "
+"lokale kopie van entiteit. U moet integratie van het bronsysteem naar dit "
+"systeem implementeren."
+
+#: compliances/templates/compliances/domain-project-data-management.html:67
+msgid "Manage"
+msgstr "Beheren"
+
+#: compliances/templates/compliances/domain-project-data-management.html:71
+msgid ""
+"\n"
+"        The entities are mastered in this system or they are synchronized by manually editing this system. Choose this \n"
+"        when the data does not exist in any other system. Be advised that you need to make sure that \n"
+"        data is synchronized.\n"
+"        "
+msgstr ""
+"De entiteiten zijn onder de knie in dit systeem of ze worden gesynchroniseerd door dit systeem handmatig te bewerken. Kies dit \n"
+"        Wanneer de gegevens niet in een ander systeem bestaan. Houd er rekening mee dat u dat moet weten \n"
+"        Gegevens worden gesynchroniseerd."
+
+#: compliances/templates/compliances/domain-project-scope.html:10
+#: compliances/templates/compliances/fragments/deployment-status.html:68
+#: compliances/templates/compliances/fragments/deployment-status.html:92
+#: compliances/templates/compliances/fragments/deployment-status.html:121
+msgid "Setup"
+msgstr "Instellen"
+
+#: compliances/templates/compliances/domain-project-scope.html:10
+msgid "scope for domain"
+msgstr "reikwijdte voor domein"
+
+#: compliances/templates/compliances/domain-project-scope.html:12
+msgid ""
+"\n"
+"Define the project scope by listing the targets for you wish to verify for the compliance. The targets are used when \n"
+"automatically creating high-level work packages (Epics). Some examples of possible targets include IT systems, \n"
+"processes, organizations.\n"
+msgstr ""
+"Definieer de projectomvang door de doelen voor u te vermelden, wilt verifiëren voor de naleving. De doelen worden gebruikt wanneer \n"
+"automatisch werkpakketten op hoog niveau maken (EPICS). Enkele voorbeelden van mogelijke doelen zijn IT -systemen, \n"
+"processen, organisaties."
+
+#: compliances/templates/compliances/domain-project-teams.html:9
+msgid "Setup teams for project"
+msgstr "Setup -teams voor project"
+
+#: compliances/templates/compliances/domain-project-teams.html:11
+msgid ""
+"\n"
+"Define the teams participating in this project. You need to define which team is responsible for \n"
+"each deployment category. Exactly one team must be responsible for a single category.\n"
+msgstr ""
+"Definieer de teams die deelnemen aan dit project. U moet definiëren voor welk team verantwoordelijk is \n"
+"Elke categorie voor implementatie. Precies één team moet verantwoordelijk zijn voor een enkele categorie."
+
+#: compliances/templates/compliances/fragments/compliances-tabs.html:4
+#: mir/templates/mir/fragments/mir-tabs.html:4
+#: projects/templates/projects/fragments/tabs.html:4
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: compliances/templates/compliances/fragments/compliances-tabs.html:22
+#: compliances/templates/compliances/fragments/compliances-tabs.html:24
+msgid "Sprints"
+msgstr "Sprints"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:14
+#: compliances/templates/compliances/fragments/deployment-status.html:38
+#: projects/templates/projects/project-detail.html:8
+#: projects/templates/projects/project-sprints.html:11
+#: workflows/templatetags/breadcrumbs.py:79
+msgid "Project"
+msgstr "Project"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:14
+msgid "created"
+msgstr "gecreëerd"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:16
+msgid "Create a project for the domain"
+msgstr "Maak een project voor het domein"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:21
+#: compliances/templates/compliances/fragments/deployment-status.html:142
+#: compliances/templates/compliances/fragments/deployment-status.html:166
+#: compliances/templates/compliances/fragments/deployment-status.html:190
+#: compliances/templates/compliances/fragments/deployment-status.html:212
+#: workflows/templatetags/breadcrumbs.py:12
+msgid "View"
+msgstr "Weergave"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:38
+msgid "configured"
+msgstr "geconfigureerd"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:40
+msgid "Configure the project"
+msgstr "Configureer het project"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:44
+msgid "Configure"
+msgstr "Configureren"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:58
+msgid "Project scope defined"
+msgstr "Project Scope gedefinieerd"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:60
+msgid "Targets"
+msgstr "Doelen"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:64
+msgid "Define project scope"
+msgstr "Definieer projectomvang"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:82
+msgid "Project teams defined"
+msgstr "Projectteams gedefinieerd"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:84
+msgid "Teams"
+msgstr "Teams"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:88
+msgid "Define project teams"
+msgstr "Definieer projectteams"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:106
+msgid "Project data management defined"
+msgstr "Projectgegevensbeheer gedefinieerd"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:117
+msgid "Define data management"
+msgstr "Definieer gegevensbeheer"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:135
+msgid "Project has roadmap"
+msgstr "Project heeft routekaart"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:137
+msgid "Create a project roadmap"
+msgstr "Creëer een Project Roadmap"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:159
+msgid "Project has backlog"
+msgstr "Project heeft een achterstand"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:161
+msgid "Create backlog for the project"
+msgstr "Maak achterstand voor het project"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:183
+msgid "Deployment has been completed"
+msgstr "De inzet is voltooid"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:185
+msgid "Deployment project"
+msgstr "Implementatieproject"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:205
+msgid "Audit has been completed"
+msgstr "Audit is voltooid"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:207
+msgid "Complete audit"
+msgstr "Volledige audit"
+
+#: compliances/templates/compliances/modals/create-or-update.html:10
+#: workflows/templates/workflows/modals/create-or-update.html:11
+msgid "Update the "
+msgstr "Update de"
+
+#: compliances/templates/compliances/modals/create-or-update.html:12
+#: mir/templates/mir/modals/create-or-update.html:9
+#: workflows/templates/workflows/modals/create-or-update.html:13
+msgid "Add a new "
+msgstr "Voeg een nieuw toe"
+
+#: compliances/templates/compliances/modals/delete.html:8
+#: workflows/templates/workflows/modals/delete.html:8
+msgid "Delete the"
+msgstr "Verwijder de"
+
+#: compliances/templates/compliances/modals/delete.html:12
+#: workflows/templates/workflows/modals/delete.html:12
+msgid ""
+"The entity will be deleted permanently, including all the referred entities."
+msgstr ""
+"De entiteit zal permanent worden verwijderd, inclusief alle verwezen "
+"entiteiten."
+
+#: compliances/templates/compliances/modals/delete.html:17
+#: workflows/templates/workflows/modals/delete.html:17
+msgid "This operation cannot be undone."
+msgstr "Deze bewerking kan niet ongedaan worden gemaakt."
+
+#: compliances/templates/compliances/modals/delete.html:22
+#: workflows/templates/workflows/modals/action-delete.html:7
+#: workflows/templates/workflows/modals/delete.html:22
+msgid "Are you sure you want to delete?"
+msgstr "Weet u zeker dat u wilt verwijderen?"
+
+#: compliances/templates/compliances/modals/delete.html:31
+#: workflows/templates/workflows/modals/delete.html:31
+msgid "The following referred entities will also be permanently deleted:"
+msgstr "De volgende verwezen entiteiten worden ook permanent verwijderd:"
+
+#: compliances/templates/compliances/modals/delete.html:42
+#: workflows/templates/workflows/modals/delete.html:42
+msgid "The following"
+msgstr "Het volgende"
+
+#: compliances/templates/compliances/modals/delete.html:42
+#: workflows/templates/workflows/modals/delete.html:42
+msgid "will be permanently deleted:"
+msgstr "zal permanent worden verwijderd:"
+
+#: compliances/templates/compliances/modals/delete.html:62
+#: mir/templates/mir/modals/employee-delete.html:11
+#: mir/templates/mir/modals/training-delete.html:11
+#: projects/templates/projects/modals/project-delete.html:11
+#: survey/templates/survey/modals/tenant-delete.html:54
+#: workflows/templates/workflows/modals/activity-delete.html:10
+#: workflows/templates/workflows/modals/customer-delete.html:23
+#: workflows/templates/workflows/modals/delete.html:62
+#: workflows/templates/workflows/modals/instruction-delete.html:10
+#: workflows/templates/workflows/modals/organization-unit-delete.html:20
+#: workflows/templates/workflows/modals/profile-delete.html:14
+#: workflows/templates/workflows/modals/routine-delete.html:14
+#: workflows/templates/workflows/modals/service-customer-remove.html:14
+#: workflows/templates/workflows/modals/service-delete.html:33
+#: workflows/templates/workflows/modals/task-delete.html:11
+#: workflows/templates/workflows/modals/tenant-delete.html:54
+#: xref/templates/xref/modals/control-delete.html:12
+#: xref/templates/xref/modals/delete.html:12
+#: xref/templates/xref/modals/standard-delete.html:12
+msgid "OK"
+msgstr "OK"
+
+#: compliances/templatetags/compliances.py:182
+msgid "No name"
+msgstr "Geen naam"
+
+#: compliances/views.py:87
+msgid "project"
+msgstr "project"
+
+#: compliances/views.py:91
+msgid "Team "
+msgstr "Team"
+
+#: compliances/views.py:272
+msgid "Misc "
+msgstr "Misdrijf"
+
+#: compliances/views.py:298
+msgid "Project finalization"
+msgstr "Projectfinalisatie"
+
+#: compliances/views.py:334
+msgid "roadmap"
+msgstr "routekaart"
+
+#: compliances/views.py:523 compliances/views.py:544
+msgid "definition"
+msgstr "definitie"
+
+#: components/action/action_editor.html:28
+msgid "In tasks"
+msgstr "Bij taken"
+
+#: components/action/action_editor.html:46
+msgid "Add a responsibility"
+msgstr "Voeg een verantwoordelijkheid toe"
+
+#: components/board/board_list.html:11
+msgid "Only empty lists can be deleted"
+msgstr "Alleen lege lijsten kunnen worden verwijderd"
+
+#: components/board/board_list.html:14
+msgid "Start sprint"
+msgstr "Start Sprint"
+
+#: components/board/board_list.html:16
+msgid "End sprint"
+msgstr "Eindsprint"
+
+#: components/board/board_list.html:32
+msgid "Add task"
+msgstr "Taak toevoegen"
+
+#: components/constraint/constraint_editor.html:9
+msgid "Constraint"
+msgstr "Beperking"
+
+#: components/entity_selector/definition_reference_selector.py:25
+msgid "Search "
+msgstr "Zoekopdracht"
+
+#: components/tags/tags.html:34
+msgid "Add a tag ..."
+msgstr "Voeg een tag toe ..."
+
+#: components/task/task_card.html:9
+#, python-format
+msgid ""
+"\n"
+"      Actions in routine \"%(routine_name)s\" labeled as \"%(action_require_tag)s\"\n"
+"      and assigned to profile \"%(profile_name)s\" \n"
+"      "
+msgstr ""
+"Acties in routine \"%(routine_name) S\" gelabeld als \"%(Action_Require_Tag) S\"\n"
+"      en toegewezen aan profiel \"%(profile_name) s\" "
+
+#: components/task/task_card.html:23
+msgid "No matches."
+msgstr "Geen overeenkomsten."
+
+#: components/task/task_card.html:28
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: components/templatetags/boards.py:71
+msgid "Priority"
+msgstr "Prioriteit"
+
+#: components/templatetags/boards.py:82
+msgid "Story points"
+msgstr "Verhaalpunten"
+
+#: components/typeahead/typeahead.py:39
+msgid "Search from tags"
+msgstr "Zoek vanuit tags"
+
+#: components/typeahead/typeahead.py:41
+msgid "Search from profiles"
+msgstr "Zoek vanuit profielen"
+
+#: components/typeahead/typeahead.py:43
+msgid "Search from organization units"
+msgstr "Zoek uit organisatie -eenheden"
+
+#: components/typeahead/typeahead.py:45
+msgid "Search from documents"
+msgstr "Zoek vanuit documenten"
+
+#: components/typeahead/typeahead.py:47
+msgid "Search from tasks"
+msgstr "Zoek uit taken"
+
+#: components/typeahead/typeahead.py:49
+msgid "Search from risks"
+msgstr "Zoek uit risico's"
+
+#: mir/models.py:15 workflows/models.py:102
+msgid "Tag"
+msgstr "Tag"
+
+#: mir/models.py:16 workflows/models.py:103
+msgid "Tags"
+msgstr "Tags"
+
+#: mir/models.py:22 mir/models.py:44 mir/models.py:175
+msgid "URL"
+msgstr "Url"
+
+#: mir/models.py:57
+msgid "Training"
+msgstr "Opleiding"
+
+#: mir/models.py:58 mir/templates/mir/training-list.html:7
+msgid "Trainings"
+msgstr "Trainingen"
+
+#: mir/models.py:84
+msgid "Employee"
+msgstr "Medewerker"
+
+#: mir/models.py:85 mir/templates/mir/employee-list.html:7
+msgid "Employees"
+msgstr "Medewerkers"
+
+#: mir/models.py:105
+msgid "Training attended"
+msgstr "Training is bijgewoond"
+
+#: mir/models.py:106
+msgid "Trainings attended"
+msgstr "Trainingen aanwezig"
+
+#: mir/models.py:126
+msgid "Training organized"
+msgstr "Training georganiseerd"
+
+#: mir/models.py:127
+msgid "Trainings organized"
+msgstr "Trainingen georganiseerd"
+
+#: mir/models.py:143 projects/models.py:246
+msgid "Low"
+msgstr "Laag"
+
+#: mir/models.py:144 projects/models.py:245
+msgid "Medium"
+msgstr "Medium"
+
+#: mir/models.py:145 projects/models.py:244
+msgid "High"
+msgstr "Hoog"
+
+#: mir/models.py:146
+msgid "Critical"
+msgstr "Kritisch"
+
+#: mir/models.py:157
+msgid "Rare"
+msgstr "Zeldzaam"
+
+#: mir/models.py:158
+msgid "Unlikely"
+msgstr "Onwaarschijnlijk"
+
+#: mir/models.py:159
+msgid "Possible"
+msgstr "Mogelijk"
+
+#: mir/models.py:160
+msgid "Likely"
+msgstr "Waarschijnlijk"
+
+#: mir/models.py:161
+msgid "Almost Certain"
+msgstr "Bijna zeker"
+
+#: mir/models.py:167
+msgid "Enter a short and descriptive name for the risk."
+msgstr "Voer een korte en beschrijvende naam in voor het risico."
+
+#: mir/models.py:172
+msgid "Provide a detailed description of the risk."
+msgstr "Geef een gedetailleerde beschrijving van het risico."
+
+#: mir/models.py:175
+msgid "URL for this risk"
+msgstr "URL voor dit risico"
+
+#: mir/models.py:184
+msgid "Operational"
+msgstr "Operationeel"
+
+#: mir/models.py:185
+msgid "Financial"
+msgstr "Financieel"
+
+#: mir/models.py:186 templates/fragments/header.html:47
+msgid "Compliance"
+msgstr "Naleving"
+
+#: mir/models.py:187
+msgid "Strategic"
+msgstr "Strategisch"
+
+#: mir/models.py:188
+msgid "Reputational"
+msgstr "Reputatie"
+
+#: mir/models.py:194 survey/models.py:199
+msgid "Category"
+msgstr "Categorie"
+
+#: mir/models.py:195
+msgid "Select the category that best describes this risk."
+msgstr "Selecteer de categorie die dit risico het beste beschrijft."
+
+#: mir/models.py:202
+msgid "Inherent Impact"
+msgstr "Inherente impact"
+
+#: mir/models.py:203
+msgid "Assess the impact level of the risk before any mitigation actions."
+msgstr "Beoordeel het impactniveau van het risico vóór beperkende acties."
+
+#: mir/models.py:208
+msgid "Inherent Likelihood"
+msgstr "Inherente waarschijnlijkheid"
+
+#: mir/models.py:209
+msgid ""
+"Assess the likelihood of the risk occurring before any mitigation actions."
+msgstr ""
+"Beoordeel de waarschijnlijkheid dat het risico plaatsvindt vóór beperkende "
+"acties."
+
+#: mir/models.py:216
+msgid "Mitigation Plan"
+msgstr "Mitigatieplan"
+
+#: mir/models.py:217
+msgid "Describe the mitigation strategies or actions to reduce the risk."
+msgstr ""
+"Beschrijf de mitigatiestrategieën of acties om het risico te verminderen."
+
+#: mir/models.py:226
+msgid "Residual Impact"
+msgstr "Resterende impact"
+
+#: mir/models.py:227
+msgid "Assess the impact level of the risk after mitigation actions."
+msgstr "Beoordeel het impactniveau van het risico na mitigatie -acties."
+
+#: mir/models.py:234
+msgid "Residual Likelihood"
+msgstr "Resterende waarschijnlijkheid"
+
+#: mir/models.py:235
+msgid "Assess the likelihood of the risk occurring after mitigation actions."
+msgstr ""
+"Beoordeel de waarschijnlijkheid dat het risico optreden na mitigatie "
+"-acties."
+
+#: mir/models.py:240
+msgid "Name of responsible party"
+msgstr "Naam van verantwoordelijke partij"
+
+#: mir/models.py:241
+msgid ""
+"Specify the name of the individual or department responsible for managing "
+"this risk."
+msgstr ""
+"Geef de naam op van de persoon of afdeling die verantwoordelijk is voor het "
+"beheren van dit risico."
+
+#: mir/models.py:252
+msgid "Identified"
+msgstr "Geïdentificeerd"
+
+#: mir/models.py:253
+msgid "Assessed"
+msgstr "Beoordeeld"
+
+#: mir/models.py:254
+msgid "Mitigated"
+msgstr "Verzachtend"
+
+#: mir/models.py:255
+msgid "Resolved"
+msgstr "Opgelost"
+
+#: mir/models.py:256
+msgid "Accepted"
+msgstr "Geaccepteerd"
+
+#: mir/models.py:264
+msgid "Track the current status of the risk in its lifecycle."
+msgstr "Volg de huidige status van het risico in zijn levenscyclus."
+
+#: mir/models.py:341
+msgid "Unknown entity"
+msgstr "Onbekende entiteit"
+
+#: mir/templates/mir/document-list.html:38
+msgid "You have not defined any documents yet."
+msgstr "U hebt nog geen documenten gedefinieerd."
+
+#: mir/templates/mir/document-list.html:43
+msgid "Create a new document"
+msgstr "Maak een nieuw document"
+
+#: mir/templates/mir/employee-list.html:14
+msgid "You have not defined any employees yet."
+msgstr "U hebt nog geen werknemers gedefinieerd."
+
+#: mir/templates/mir/employee-list.html:18
+msgid "Create a new employee"
+msgstr "Maak een nieuwe medewerker"
+
+#: mir/templates/mir/fragments/mir-tabs.html:22
+#: workflows/templates/workflows/organization-unit-list.html:7
+msgid "Organizations"
+msgstr "Organisaties"
+
+#: mir/templates/mir/fragments/mir-tabs.html:25
+#: workflows/templates/workflows/customer-list.html:7
+#: workflows/templates/workflows/fragments/service-customers.html:2
+msgid "Customers"
+msgstr "Klanten"
+
+#: mir/templates/mir/modals/create-or-update.html:7
+#: projects/templates/projects/modals/create-or-update.html:7
+#: projects/templates/projects/modals/task-create-or-update.html:8
+#: xref/templates/xref/modals/create-or-update.html:7
+msgid "Update "
+msgstr "Update"
+
+#: mir/templates/mir/modals/delete.html:4
+#: xref/templates/xref/modals/delete.html:5
+msgid "Delete "
+msgstr "Verwijderen"
+
+#: mir/templates/mir/modals/delete.html:7
+#: mir/templates/mir/modals/employee-delete.html:7
+#: mir/templates/mir/modals/training-delete.html:7
+#: projects/templates/projects/modals/project-delete.html:7
+#: workflows/templates/workflows/modals/customer-delete.html:19
+#: workflows/templates/workflows/modals/organization-unit-delete.html:16
+#: workflows/templates/workflows/modals/profile-delete.html:7
+#: workflows/templates/workflows/modals/routine-delete.html:7
+#: workflows/templates/workflows/modals/service-delete.html:16
+#: workflows/templates/workflows/modals/task-delete.html:7
+msgid "Are you sure you want to delete it?"
+msgstr "Weet je zeker dat je het wilt verwijderen?"
+
+#: mir/templates/mir/modals/employee-create-or-update.html:7
+msgid "Update employee"
+msgstr "Update medewerker"
+
+#: mir/templates/mir/modals/employee-create-or-update.html:9
+msgid "Add a new employee"
+msgstr "Voeg een nieuwe werknemer toe"
+
+#: mir/templates/mir/modals/employee-delete.html:4
+msgid "Delete employee"
+msgstr "Verwijder werknemer"
+
+#: mir/templates/mir/modals/training-create-or-update.html:7
+msgid "Update training"
+msgstr "Update training"
+
+#: mir/templates/mir/modals/training-create-or-update.html:9
+msgid "Add a new training"
+msgstr "Voeg een nieuwe training toe"
+
+#: mir/templates/mir/modals/training-delete.html:4
+msgid "Delete training"
+msgstr "Verwijder training"
+
+#: mir/templates/mir/risk-list.html:29
+msgid "You have not defined any risks yet."
+msgstr "U hebt nog geen risico's gedefinieerd."
+
+#: mir/templates/mir/risk-list.html:34
+msgid "Create a new risk"
+msgstr "Maak een nieuw risico"
+
+#: mir/templates/mir/training-list.html:14
+msgid "You have not defined any trainings yet."
+msgstr "Je hebt nog geen trainingen gedefinieerd."
+
+#: mir/templates/mir/training-list.html:18
+msgid "Create a new training"
+msgstr "Creëer een nieuwe training"
+
+#: onboarding/forms.py:9
+msgid ""
+"Keep me updated on your upcoming workshops, product releases etc. relevant "
+"news"
+msgstr ""
+"Houd me op de hoogte van uw aankomende workshops, productreleases enz. "
+"Relevant nieuws"
+
+#: onboarding/forms.py:10
+msgid "We need to fix our service management ASAP! Lets get in touch!"
+msgstr ""
+"We moeten ons servicebeheer zo snel mogelijk repareren! Laten we contact "
+"opnemen!"
+
+#: onboarding/forms.py:23
+msgid "Email address is required if you want us to contact you."
+msgstr "E -mailadres is vereist als u wilt dat we contact met u opnemen."
+
+#: onboarding/models.py:23
+msgid "Let us know your industry"
+msgstr "Laat ons uw branche weten"
+
+#: onboarding/models.py:24 survey/models.py:103
+msgid "Agriculture, Forestry, Mining"
+msgstr "Landbouw, bosbouw, mijnbouw"
+
+#: onboarding/models.py:25 survey/models.py:104
+msgid "Industrials (Manufacturing, Construction, etc.)"
+msgstr "Industrie (productie, constructie, enz.)"
+
+#: onboarding/models.py:26 survey/models.py:105
+msgid "Energy, Utilities"
+msgstr "Energie, nutsbedrijven"
+
+#: onboarding/models.py:27 survey/models.py:106
+msgid "Transport, Logistics"
+msgstr "Transport, logistiek"
+
+#: onboarding/models.py:28 survey/models.py:107
+msgid "Media, Creative Industries"
+msgstr "Media, creatieve industrieën"
+
+#: onboarding/models.py:29 survey/models.py:108
+msgid "Information Technology, Data Infrastructure, Telecom"
+msgstr "Informatietechnologie, gegevensinfrastructuur, telecom"
+
+#: onboarding/models.py:30 survey/models.py:109
+msgid "Healthcare"
+msgstr "Gezondheidszorg"
+
+#: onboarding/models.py:31 survey/models.py:110
+msgid "Education"
+msgstr "Onderwijs"
+
+#: onboarding/models.py:32 survey/models.py:111
+msgid "Life Sciences"
+msgstr "Life Sciences"
+
+#: onboarding/models.py:33 survey/models.py:112
+msgid "Retail, E-Commerce"
+msgstr "Retail, e-commerce"
+
+#: onboarding/models.py:34 survey/models.py:113
+msgid "Hospitality, Food, Leisure Travel"
+msgstr "Gastvrijheid, eten, vrijetijdsreizen"
+
+#: onboarding/models.py:35 survey/models.py:114
+msgid "Public Service, Social Service"
+msgstr "Public Service, Social Service"
+
+#: onboarding/models.py:36 survey/models.py:115
+msgid "Financial Services"
+msgstr "Financiële diensten"
+
+#: onboarding/models.py:37 survey/models.py:116
+msgid "Professional Services (Law, Consulting, etc.)"
+msgstr "Professionele diensten (wet, advies, enz.)"
+
+#: onboarding/models.py:38 survey/models.py:117
+msgid "Other"
+msgstr "Ander"
+
+#: onboarding/models.py:44
+msgid "Industry"
+msgstr "Industrie"
+
+#: projects/models.py:27
+msgid ""
+"Accross all teams. Used to estimate the project cmpletion date, for example "
+"in the burndown chart."
+msgstr ""
+"Over alle teams. Gebruikt om de voltooiingsdatum van het project te "
+"schatten, bijvoorbeeld in de Burndown -grafiek."
+
+#: projects/models.py:102 projects/models.py:138 projects/models.py:227
+#: xref/models.py:42 xref/models.py:76 xref/models.py:105
+msgid "Ready"
+msgstr "Klaar"
+
+#: projects/models.py:104 projects/models.py:140 projects/models.py:229
+msgid "Closed"
+msgstr "Gesloten"
+
+#: projects/models.py:242
+msgid "Blocker"
+msgstr "Blocker"
+
+#: projects/models.py:243
+msgid "Very high"
+msgstr "Erg hoog"
+
+#: projects/models.py:247
+msgid "Very low"
+msgstr "Erg laag"
+
+#: projects/models.py:248
+msgid "Trivial"
+msgstr "Triviaal"
+
+#: projects/templates/projects/fragments/tabs.html:16
+msgid "Reports"
+msgstr "Rapporten"
+
+#: projects/templates/projects/modals/create-or-update.html:9
+#: projects/templates/projects/modals/task-create-or-update.html:10
+#: xref/templates/xref/modals/create-or-update.html:9
+msgid "Create a new "
+msgstr "Maak een nieuw"
+
+#: projects/templates/projects/modals/project-create-or-update.html:7
+msgid "Update project"
+msgstr "Update -project update"
+
+#: projects/templates/projects/modals/project-create-or-update.html:9
+msgid "Create a project"
+msgstr "Maak een project"
+
+#: projects/templates/projects/modals/project-delete.html:4
+msgid "Delete project"
+msgstr "Verwijder project"
+
+#: projects/templates/projects/project-list.html:8
+msgid "Projects"
+msgstr "Projecten"
+
+#: projects/templates/projects/project-list.html:31
+msgid "Create a new project"
+msgstr "Maak een nieuw project"
+
+#: projects/templates/projects/project-sprints.html:11
+msgid "current sprints"
+msgstr "Huidige sprints"
+
+#: public/templatetags/local_i18n.py:9 survey/models.py:74 usm/settings.py:169
+#: workflows/models.py:24
+msgid "Finnish"
+msgstr "Fins"
+
+#: public/templatetags/local_i18n.py:10 survey/models.py:73
+#: usm/settings.py:170 workflows/models.py:23
+msgid "English"
+msgstr "Engels"
+
+#: survey/forms.py:10
+msgid "Invitee name"
+msgstr "Innodigde naam"
+
+#: survey/forms.py:11
+msgid "Invitee email"
+msgstr "Innodigde -e -mail"
+
+#: survey/forms.py:12
+msgid "Invitee organization"
+msgstr "Innodigde organisatie"
+
+#: survey/forms.py:13
+msgid "Invitation group"
+msgstr "Uitnodigingsgroep"
+
+#: survey/forms.py:13
+msgid "Will be visible to the invitee"
+msgstr "Zal zichtbaar zijn voor de genodigde"
+
+#: survey/forms.py:19
+msgid "Generate link"
+msgstr "Genereer link"
+
+#: survey/forms.py:31 survey/forms.py:44 survey/forms.py:56
+msgid "Send"
+msgstr "Versturen"
+
+#: survey/models.py:17 survey/models.py:33
+#: workflows/templates/workflows/modals/service-share.html:39
+msgid "Never"
+msgstr "Nooit"
+
+#: survey/models.py:18 survey/models.py:32
+msgid "Rarely"
+msgstr "Zelden"
+
+#: survey/models.py:19 survey/models.py:31
+msgid "Sometimes"
+msgstr "Soms"
+
+#: survey/models.py:20 survey/models.py:30
+msgid "Neutral"
+msgstr "Neutrale"
+
+#: survey/models.py:21 survey/models.py:29
+msgid "Often"
+msgstr "Vaak"
+
+#: survey/models.py:22 survey/models.py:28
+msgid "Usually"
+msgstr "Gebruikelijk"
+
+#: survey/models.py:23 survey/models.py:27
+msgid "Always"
+msgstr "Altijd"
+
+#: survey/models.py:36
+msgid "We manage improvements in a proactive way"
+msgstr "We beheren verbeteringen op een proactieve manier"
+
+#: survey/models.py:38
+msgid "The ways we work (our daily routines) are adequately documented"
+msgstr ""
+"De manieren waarop we werken (onze dagelijkse routines) zijn voldoende "
+"gedocumenteerd"
+
+#: survey/models.py:40
+msgid ""
+"The ways we work (our daily routines) are automated with adequate tooling "
+"where possible"
+msgstr ""
+"De manieren waarop we werken (onze dagelijkse routines) zijn waar mogelijk "
+"geautomatiseerd met voldoende tooling"
+
+#: survey/models.py:42
+msgid "The reporting of service quality in my organization is good"
+msgstr "De rapportage van de servicekwaliteit in mijn organisatie is goed"
+
+#: survey/models.py:44
+msgid ""
+"We have issues arising from unclear roles and responsibilities, or ownership"
+msgstr ""
+"We hebben problemen die voortvloeien uit onduidelijke rollen en "
+"verantwoordelijkheden, of eigendom"
+
+#: survey/models.py:46
+msgid "We solve most of the customer requests as agreed"
+msgstr "We lossen de meeste klantverzoeken op zoals overeengekomen"
+
+#: survey/models.py:48
+msgid "Our service reporting fully supports the expectations of our customers"
+msgstr ""
+"Onze servicerapportage ondersteunt volledig de verwachtingen van onze "
+"klanten"
+
+#: survey/models.py:50
+msgid ""
+"We have difficulties to comply with one or more required industry standards "
+"(ISO 9k, ISO 27k, ISO 13k etc.)"
+msgstr ""
+"We hebben problemen om te voldoen aan een of meer vereiste industriële "
+"normen (ISO 9K, ISO 27K, ISO 13K enz.)"
+
+#: survey/models.py:52
+msgid "Our employees are satisfied with the way we organize our work"
+msgstr ""
+"Onze werknemers zijn tevreden met de manier waarop we ons werk organiseren"
+
+#: survey/models.py:54
+msgid ""
+"We encounter problems with our supplier relationships, impacting our "
+"product/service quality"
+msgstr ""
+"We ondervinden problemen met onze leveranciersrelaties, waardoor onze "
+"product-/servicekwaliteit wordt beïnvloed"
+
+#: survey/models.py:56
+msgid "Our services and related agreements are clearly specified"
+msgstr ""
+"Onze diensten en gerelateerde overeenkomsten zijn duidelijk gespecificeerd"
+
+#: survey/models.py:58
+msgid ""
+"We are in control of our planning and our resources for the delivery of our "
+"services"
+msgstr ""
+"We hebben de controle over onze planning en onze middelen voor de levering "
+"van onze diensten"
+
+#: survey/models.py:60
+msgid ""
+"We have a formalized and shared business glossary (definitions of terms) and"
+" it is actively used throughout the organization"
+msgstr ""
+"We hebben een geformaliseerde en gedeeld bedrijfs woordenlijst (definities "
+"van termen) en deze wordt actief gebruikt in de hele organisatie"
+
+#: survey/models.py:62
+msgid "The countries where your organization operates"
+msgstr "De landen waar uw organisatie actief is"
+
+#: survey/models.py:72
+msgid "Dutch"
+msgstr "Nederlands"
+
+#: survey/models.py:75
+msgid "French"
+msgstr "Frans"
+
+#: survey/models.py:76
+msgid "German"
+msgstr "Duits"
+
+#: survey/models.py:77
+msgid "Spanish"
+msgstr "Spaans"
+
+#: survey/models.py:83
+msgid "Your preferred language"
+msgstr "Uw favoriete taal"
+
+#: survey/models.py:123
+msgid "Industry of your organisation"
+msgstr "Industrie van uw organisatie"
+
+#: survey/models.py:151
+msgid "Size of your organisation"
+msgstr "Grootte van uw organisatie"
+
+#: survey/models.py:155
+msgid "Organisation name"
+msgstr "Organisatienaam"
+
+#: survey/models.py:170
+msgid "Question"
+msgstr "Vraag"
+
+#: survey/models.py:171
+msgid "Lowest option that matches"
+msgstr "Laagste optie die overeenkomt"
+
+#: survey/models.py:172
+msgid "Highest option that matches"
+msgstr "Hoogste optie die overeenkomt"
+
+#: survey/models.py:173
+msgid "Text (en)"
+msgstr "Tekst (één)"
+
+#: survey/models.py:180
+msgid "Orgnization name"
+msgstr "Organisatienaam"
+
+#: survey/models.py:181
+msgid "Your title"
+msgstr "Uw titel"
+
+#: survey/models.py:182
+msgid "Why do you wish to participate in the survey?"
+msgstr "Waarom wilt u deelnemen aan de enquête?"
+
+#: survey/templates/survey/fragments/sidenav.html:47
+#: survey/templates/survey/tenant-list.html:7
+#: templates/fragments/header.html:22
+#: workflows/templates/workflows/fragments/service-header.html:3
+msgid "Tenants"
+msgstr "Huurders"
+
+#: survey/templates/survey/fragments/sidenav.html:55
+msgid "Surveys"
+msgstr "Enquêtes"
+
+#: survey/templates/survey/fragments/sidenav.html:63
+msgid "Batches"
+msgstr "Batches"
+
+#: survey/templates/survey/modals/tenant-create-or-update.html:7
+#: workflows/templates/workflows/modals/tenant-create-or-update.html:7
+msgid "Update tenant"
+msgstr "Update huurder"
+
+#: survey/templates/survey/modals/tenant-create-or-update.html:9
+#: survey/templates/survey/tenant-list.html:19
+#: workflows/templates/workflows/modals/tenant-create-or-update.html:9
+#: workflows/templates/workflows/tenant-list.html:18
+msgid "Create a new tenant"
+msgstr "Maak een nieuwe huurder"
+
+#: survey/templates/survey/modals/tenant-delete.html:5
+#: workflows/templates/workflows/modals/tenant-delete.html:5
+msgid "Delete tenant"
+msgstr "Verwijder huurder"
+
+#: survey/templates/survey/modals/tenant-delete.html:8
+#: workflows/templates/workflows/modals/tenant-delete.html:8
+msgid ""
+"This will permanently delete the tenant and everything under it. Are you "
+"sure you want to delete it?"
+msgstr ""
+"Dit zal de huurder permanent verwijderen en alles eronder. Weet je zeker dat"
+" je het wilt verwijderen?"
+
+#: survey/templates/survey/modals/tenant-delete.html:12
+#: workflows/templates/workflows/modals/tenant-delete.html:12
+msgid ""
+"This will also delete all the services below, including all their workflows "
+"and other included data:"
+msgstr ""
+"Dit zal ook alle onderstaande services verwijderen, inclusief al hun "
+"workflows en andere opgenomen gegevens:"
+
+#: survey/templates/survey/modals/tenant-delete.html:22
+#: workflows/templates/workflows/modals/tenant-delete.html:22
+msgid "This will also delete all the customers below:"
+msgstr "Dit zal ook alle onderstaande klanten verwijderen:"
+
+#: survey/templates/survey/modals/tenant-delete.html:32
+#: workflows/templates/workflows/modals/tenant-delete.html:32
+msgid "This will also delete all the organization units below:"
+msgstr "Dit zal ook alle onderstaande organisatie -eenheden verwijderen:"
+
+#: survey/templates/survey/modals/tenant-delete.html:42
+#: workflows/templates/workflows/modals/tenant-delete.html:42
+msgid "This will also delete all the profiles below:"
+msgstr "Dit zal ook alle hieronder alle profielen verwijderen:"
+
+#: survey/templates/survey/tenant-list.html:12
+#: workflows/templates/workflows/tenant-list.html:11
+msgid "You have not created any tenants yet."
+msgstr "Je hebt nog geen huurders gemaakt."
+
+#: survey/templates/survey/tenant-list.html:15
+#: workflows/templates/workflows/tenant-list.html:14
+msgid ""
+"You should create a new tenant for each organization that may share "
+"customers, profiles, services, organization structure, and workflows."
+msgstr ""
+"U moet een nieuwe huurder maken voor elke organisatie die klanten, "
+"profielen, diensten, organisatiestructuur en workflows kan delen."
+
+#: survey/templates/survey/usm-qualify.html:6
+#: survey/templates/survey/usm-survey.html:6
+msgid "USM Survey"
+msgstr "USM -enquête"
+
+#: survey/templates/survey/usm-survey-background.html:6
+msgid "USM Survey Background"
+msgstr "USM -enquête -achtergrond"
+
+#: survey/templates/survey/usm-survey-generate-invitation-link.html:6
+msgid "USM Survey Generate Link"
+msgstr "USM -enquête genereer link"
+
+#: survey/templates/survey/usm-survey-qualify-thank-you.html:5
+#: survey/templates/survey/usm-survey-thank-you.html:5
+msgid "Thank you"
+msgstr "Bedankt"
+
+#: survey/templates/survey/usm-survey-report.html:7
+msgid "USM Survey Report: "
+msgstr "USM -onderzoeksrapport:"
+
+#: survey/templates/survey/usm-survey-show-invitation-link.html:6
+msgid "USM Survey Invitation Link"
+msgstr "USM Survey Invitation Link"
+
+#: survey/templates/survey/usm-survey-welcome.html:6
+msgid "Welcome to USM Survey (Page 1)"
+msgstr "Welkom bij USM Survey (pagina 1)"
+
+#: templates/base.html:73
+msgid "Phone"
+msgstr "Telefoon"
+
+#: templates/base.html:79
+msgid "It is universal"
+msgstr "Het is universeel"
+
+#: templates/base.html:80
+msgid "unified"
+msgstr "verenigd"
+
+#: templates/base.html:81
+msgid "learnable"
+msgstr "te leren"
+
+#: templates/base.html:82
+msgid "free"
+msgstr "vrij"
+
+#: templates/base.html:83
+msgid "simple"
+msgstr "eenvoudig"
+
+#: templates/base.html:84
+msgid "non-redundant"
+msgstr "niet-redundant"
+
+#: templates/base.html:85
+msgid "open"
+msgstr "open"
+
+#: templates/fragments/header.html:31
+#: workflows/templates/workflows/fragments/service-header.html:6
+msgid "Services"
+msgstr "Diensten"
+
+#: templates/fragments/header.html:39
+msgid "Data"
+msgstr "Gegevens"
+
+#: templates/fragments/header.html:55
+msgid "XREF tool"
+msgstr "Xref -tool"
+
+#: templates/fragments/header.html:94
+msgid "Log out"
+msgstr "Uitloggen"
+
+#: templates/fragments/header.html:101
+msgid "Site admin"
+msgstr "Site Admin"
+
+#: templates/fragments/header.html:108
+msgid "Log In"
+msgstr "Inloggen"
+
+#: templates/registration/logged_out.html:9
+msgid ""
+"You have been logged out. Use the login button on the top-right corner to "
+"log in again."
+msgstr ""
+"U bent uitgelogd. Gebruik de inlogknop in de rechteronderhoek om opnieuw in "
+"te loggen."
+
+#: templates/registration/password_change_done.html:9
+msgid "Your password was changed."
+msgstr "Uw wachtwoord is gewijzigd."
+
+#: templates/registration/password_change_form.html:7
+msgid "Password change"
+msgstr "Wachtwoordwijziging"
+
+#: templates/registration/password_reset_confirm.html:7
+msgid "Password reset confirmation"
+msgstr "Wachtwoord reset bevestiging"
+
+#: templates/registration/password_reset_confirm.html:11
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Voer uw nieuwe wachtwoord twee keer in, zodat we kunnen controleren of u het"
+" correct hebt getypt."
+
+#: templates/registration/password_reset_confirm.html:20
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+"De link -reset -link was ongeldig, mogelijk omdat deze al is gebruikt.  "
+"Vraag alstublieft een nieuwe reset van het wachtwoord aan."
+
+#: templates/registration/password_reset_done.html:9
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Uw wachtwoord is ingesteld.  U kunt nu doorgaan en nu inloggen."
+
+#: templates/registration/password_reset_email.html:2
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at USM Tools"
+msgstr ""
+"U ontvangt deze e -mail omdat u een wachtwoordreset voor uw "
+"gebruikersaccount heeft aangevraagd bij USM -tools"
+
+#: templates/registration/password_reset_email.html:6
+msgid "Please go to the following page and choose a new password:"
+msgstr "Ga naar de volgende pagina en kies een nieuw wachtwoord:"
+
+#: templates/registration/password_reset_email.html:10
+msgid "Your username, in case you’ve forgotten:"
+msgstr "Uw gebruikersnaam, voor het geval u het bent vergeten:"
+
+#: templates/registration/password_reset_email.html:12
+msgid "Thanks for using our site!"
+msgstr "Bedankt voor het gebruik van onze site!"
+
+#: templates/registration/password_reset_email.html:14
+msgid "The USM Tools team"
+msgstr "Het USM Tools -team"
+
+#: templates/registration/password_reset_form.html:9
+msgid ""
+"Forgotten your password? Enter your email address below, and we’ll email "
+"instructions for setting a new one."
+msgstr ""
+"Uw wachtwoord vergeten? Voer hieronder uw e -mailadres in en we e -mailen "
+"instructies voor het instellen van een nieuwe."
+
+#: templates/registration/password_reset_form.html:13
+msgid "Request password reset link"
+msgstr "Vraag een wachtwoord opnieuw instellen"
+
+#: workflows/forms.py:57 workflows/forms.py:144
+msgid "Parent"
+msgstr "Ouder"
+
+#: workflows/forms.py:57
+msgid "Select the parent service, if any. Maximum service tree depth is 10."
+msgstr ""
+"Selecteer de Parden Service, indien aanwezig. Maximale serviceboomdiepte is "
+"10."
+
+#: workflows/forms.py:100 workflows/models.py:117
+msgid "Customer type"
+msgstr "Klanttype"
+
+#: workflows/forms.py:115
+msgid ""
+"If you choose to select existing customer, you must clean new customer name"
+msgstr ""
+"Als u ervoor kiest om bestaande klant te selecteren, moet u de nieuwe "
+"klantnaam schoonmaken"
+
+#: workflows/forms.py:117
+msgid "If you choose to select existing customer, you must select one"
+msgstr ""
+"Als u ervoor kiest om bestaande klant te selecteren, moet u er een "
+"selecteren"
+
+#: workflows/forms.py:121
+msgid "If you choose to creata a new customer, you must provide the name"
+msgstr ""
+"Als u ervoor kiest om een ​​nieuwe klant te maken, moet u de naam geven"
+
+#: workflows/forms.py:125
+msgid ""
+"If you choose to creata a new customer, please first deselect existing "
+"customer"
+msgstr ""
+"Als u ervoor kiest om een ​​nieuwe klant te maken, selecteert u eerst "
+"bestaande klant"
+
+#: workflows/forms.py:144
+msgid ""
+"Select the parent organizational unit, if any. Maximum organization tree "
+"depth is 10."
+msgstr ""
+"Selecteer de indien van toepassing van de ouder -organisatie -eenheid. "
+"Maximale organisatiediepte is 10."
+
+#: workflows/forms.py:302
+#: workflows/templates/workflows/modals/service-share.html:16
+msgid "Scope"
+msgstr "Domein"
+
+#: workflows/forms.py:310 workflows/models.py:262
+msgid "Share"
+msgstr "Deel"
+
+#: workflows/models.py:29
+msgid "Language"
+msgstr "Taal"
+
+#: workflows/models.py:33
+msgid "You must choose the language"
+msgstr "U moet de taal kiezen"
+
+#: workflows/models.py:34
+msgid "Wrong language choice"
+msgstr "Verkeerde taalkeuze"
+
+#: workflows/models.py:65
+msgid "organization unit"
+msgstr "organisatie -eenheid"
+
+#: workflows/models.py:66
+msgid "organization units"
+msgstr "Organisatie -eenheden"
+
+#: workflows/models.py:93
+msgid "service"
+msgstr "dienst"
+
+#: workflows/models.py:94
+msgid "services"
+msgstr "diensten"
+
+#: workflows/models.py:114
+msgid "Internal"
+msgstr "Intern"
+
+#: workflows/models.py:115
+msgid "External"
+msgstr "Extern"
+
+#: workflows/models.py:129
+msgid "customer"
+msgstr "klant"
+
+#: workflows/models.py:130
+msgid "customers"
+msgstr "klanten"
+
+#: workflows/models.py:147
+msgid "service to customer relationship"
+msgstr "Service naar klantrelatie"
+
+#: workflows/models.py:148
+msgid "service to customer relationships"
+msgstr "Service aan klantrelaties"
+
+#: workflows/models.py:157
+msgid "Template"
+msgstr "Sjabloon"
+
+#: workflows/models.py:172 workflows/models.py:312
+msgid "Agree"
+msgstr "Mee eens zijn"
+
+#: workflows/models.py:173 workflows/models.py:313
+msgid "Change"
+msgstr "Wijziging"
+
+#: workflows/models.py:174 workflows/models.py:314
+msgid "Recover"
+msgstr "Herstellen"
+
+#: workflows/models.py:175
+msgid "Operation"
+msgstr "Werking"
+
+#: workflows/models.py:204
+#, python-format
+msgid "Responsibility R is not assigned for action %(action_title)s"
+msgstr ""
+"Verantwoordelijkheid R wordt niet toegewezen voor actie %(Action_Title) s"
+
+#: workflows/models.py:210
+#, python-format
+msgid ""
+"Routine %(routine_name)s must have at least two actions to draw a diagram"
+msgstr ""
+"Routine %(routine_name) S moet ten minste twee acties hebben om een "
+"​​diagram te trekken"
+
+#: workflows/models.py:263
+msgid "Shares"
+msgstr "Aandelen"
+
+#: workflows/models.py:302
+msgid ""
+"Only used in template routine to specify forks to sub-routine. In actualized"
+" routines, all the forks have been expanded into one single routine."
+msgstr ""
+"Alleen gebruikt in sjabloonroutine om vorks op te geven naar subroutine. In "
+"geautomatiseerde routines zijn alle vorken uitgebreid tot één enkele "
+"routine."
+
+#: workflows/models.py:303
+msgid ""
+"Used in actualized routines, to signal how many levels of sub-processes "
+"there are"
+msgstr ""
+"Gebruikt in geautomatiseerde routines, om aan te geven hoeveel niveaus van "
+"subprocessen er zijn"
+
+#: workflows/models.py:304
+msgid "This step is skipped"
+msgstr "Deze stap wordt overgeslagen"
+
+#: workflows/models.py:315
+msgid "Operate"
+msgstr "Werken"
+
+#: workflows/models.py:316
+msgid "Improve"
+msgstr "Verbeteren"
+
+#: workflows/models.py:331
+msgid "Steps"
+msgstr "Stappen"
+
+#: workflows/models.py:344
+msgid "This activity is skipped"
+msgstr "Deze activiteit wordt overgeslagen"
+
+#: workflows/models.py:358
+msgid "Activities"
+msgstr "Activiteiten"
+
+#: workflows/models.py:405
+msgid "Action"
+msgstr "Actie"
+
+#: workflows/models.py:406
+#: workflows/templates/workflows/routine-detail-printable.html:41
+msgid "Actions"
+msgstr "Acties"
+
+#: workflows/models.py:418
+msgid "Responsible"
+msgstr "Verantwoordelijk"
+
+#: workflows/models.py:419
+msgid "Accountable"
+msgstr "Verantwoordelijk"
+
+#: workflows/models.py:420
+msgid "Supporting"
+msgstr "Ondersteunend"
+
+#: workflows/models.py:421
+msgid "Consulted"
+msgstr "Geraadpleegd"
+
+#: workflows/models.py:422
+msgid "Informed"
+msgstr "Geïnformeerd"
+
+#: workflows/models.py:442
+msgid "No actions"
+msgstr "Geen acties"
+
+#: workflows/models.py:453
+msgid "Responsibility"
+msgstr "Verantwoordelijkheid"
+
+#: workflows/models.py:454
+#: workflows/templates/workflows/fragments/service-header.html:22
+#: workflows/templates/workflows/fragments/service-header.html:47
+#: workflows/templates/workflows/service-profile-list.html:35
+msgid "Responsibilities"
+msgstr "Verantwoordelijkheden"
+
+#: workflows/models.py:471
+msgid "Instruction"
+msgstr "Instructie"
+
+#: workflows/models.py:472
+msgid "Instructions"
+msgstr "Instructies"
+
+#: workflows/models.py:494
+msgid "Label required from action"
+msgstr "Label vereist vanuit actie"
+
+#: workflows/models.py:494
+msgid "Require that action has this label"
+msgstr "Vereisen die actie heeft dit label"
+
+#: workflows/templates/workflows/customer-list.html:36
+msgid "You have not defined any customers yet."
+msgstr "U hebt nog geen klanten gedefinieerd."
+
+#: workflows/templates/workflows/customer-list.html:40
+#: workflows/templates/workflows/modals/service-customer-add.html:38
+#: workflows/templates/workflows/service-customer-list.html:39
+msgid "Create a new customer"
+msgstr "Maak een nieuwe klant"
+
+#: workflows/templates/workflows/fragments/actions.html:11
+msgid "No actions added for this activity yet."
+msgstr "Nog geen acties toegevoegd voor deze activiteit."
+
+#: workflows/templates/workflows/fragments/service-customers.html:32
+msgid "You have not defined any customers yet for this service."
+msgstr "U hebt nog geen klanten gedefinieerd voor deze service."
+
+#: workflows/templates/workflows/fragments/service-customers.html:36
+msgid "Add a customer to this service"
+msgstr "Voeg een klant toe aan deze service"
+
+#: workflows/templates/workflows/fragments/service-profiles.html:30
+msgid "You have not defined any profiles yet."
+msgstr "U hebt nog geen profielen gedefinieerd."
+
+#: workflows/templates/workflows/fragments/service-profiles.html:35
+msgid "Add a new profile to this service"
+msgstr "Voeg een nieuw profiel toe aan deze service"
+
+#: workflows/templates/workflows/fragments/service-responsibilities.html:9
+msgid "No routines."
+msgstr "Geen routines."
+
+#: workflows/templates/workflows/fragments/service-routines.html:24
+#: workflows/templates/workflows/fragments/service-routines.html:31
+msgid "Export SVG"
+msgstr "Exporteer SVG"
+
+#: workflows/templates/workflows/fragments/service-routines.html:25
+#: workflows/templates/workflows/fragments/service-routines.html:36
+msgid "Export PNG"
+msgstr "Exporteer PNG"
+
+#: workflows/templates/workflows/fragments/service-routines.html:26
+#: workflows/templates/workflows/fragments/service-routines.html:41
+msgid "Export BPMN"
+msgstr "Exporteer bpmn"
+
+#: workflows/templates/workflows/fragments/service-routines.html:51
+msgid "This service does not have any routines yet."
+msgstr "Deze service heeft nog geen routines."
+
+#: workflows/templates/workflows/fragments/service-routines.html:55
+#: workflows/templates/workflows/modals/routine-create.html:10
+msgid "Create a new routine"
+msgstr "Maak een nieuwe routine"
+
+#: workflows/templates/workflows/fragments/tenant.html:6
+msgid "Tenant"
+msgstr "Huurder"
+
+#: workflows/templates/workflows/modals/action-create-or-update.html:7
+msgid "Update action "
+msgstr "Actie bijwerken"
+
+#: workflows/templates/workflows/modals/action-create-or-update.html:9
+msgid "Add an action"
+msgstr "Voeg een actie toe"
+
+#: workflows/templates/workflows/modals/action-create-or-update.html:32
+msgid "Title"
+msgstr "Titel"
+
+#: workflows/templates/workflows/modals/action-create-or-update.html:46
+msgid "Add action"
+msgstr "Actie toevoegen"
+
+#: workflows/templates/workflows/modals/action-delete.html:4
+msgid "Delete action"
+msgstr "Actie verwijderen"
+
+#: workflows/templates/workflows/modals/activity-create.html:7
+msgid "Update activity"
+msgstr "Update activiteit"
+
+#: workflows/templates/workflows/modals/activity-create.html:9
+msgid "Create an activity"
+msgstr "Maak een activiteit"
+
+#: workflows/templates/workflows/modals/activity-delete.html:4
+msgid "Delete activity"
+msgstr "Verwijder activiteit"
+
+#: workflows/templates/workflows/modals/activity-delete.html:7
+msgid "Are you sure you want to delete this activity?"
+msgstr "Weet u zeker dat u deze activiteit wilt verwijderen?"
+
+#: workflows/templates/workflows/modals/customer-create-or-update.html:7
+msgid "Update customer"
+msgstr "Update klant"
+
+#: workflows/templates/workflows/modals/customer-create-or-update.html:9
+msgid "Add a new customer"
+msgstr "Voeg een nieuwe klant toe"
+
+#: workflows/templates/workflows/modals/customer-delete.html:4
+msgid "Delete customer "
+msgstr "Verwijder de klant"
+
+#: workflows/templates/workflows/modals/customer-delete.html:8
+msgid ""
+"Deleting the customer will also remove them from the following services:"
+msgstr ""
+"Het verwijderen van de klant zal ze ook uit de volgende services "
+"verwijderen:"
+
+#: workflows/templates/workflows/modals/instruction-create-or-update.html:7
+msgid "Update instruction"
+msgstr "Update instructie"
+
+#: workflows/templates/workflows/modals/instruction-create-or-update.html:9
+msgid "Create an instruction"
+msgstr "Maak een instructie"
+
+#: workflows/templates/workflows/modals/instruction-delete.html:4
+msgid "Delete instruction"
+msgstr "Verwijder instructie"
+
+#: workflows/templates/workflows/modals/instruction-delete.html:7
+msgid "Are you sure you want to delete this instruction?"
+msgstr "Weet u zeker dat u deze instructie wilt verwijderen?"
+
+#: workflows/templates/workflows/modals/organization-unit-create-or-update.html:7
+msgid "Update organization unit"
+msgstr "Update organisatie -eenheid"
+
+#: workflows/templates/workflows/modals/organization-unit-create-or-update.html:10
+msgid "Create a child organization for "
+msgstr "Maak een kindorganisatie voor"
+
+#: workflows/templates/workflows/modals/organization-unit-create-or-update.html:12
+msgid "Create a new organization"
+msgstr "Maak een nieuwe organisatie"
+
+#: workflows/templates/workflows/modals/organization-unit-delete.html:4
+msgid "Delete organization unit "
+msgstr "Verwijder organisatie -eenheid"
+
+#: workflows/templates/workflows/modals/organization-unit-delete.html:9
+#, python-format
+msgid ""
+"Deleting this organization unit will delete %(count)s child organization "
+"units as well."
+msgstr ""
+"Het verwijderen van deze organisatie -eenheid verwijdert ook %(Count) S "
+"Child Organisation Units."
+
+#: workflows/templates/workflows/modals/profile-create.html:7
+msgid "Update profile"
+msgstr "Update profiel bijwerken"
+
+#: workflows/templates/workflows/modals/profile-create.html:9
+msgid "Create a profile"
+msgstr "Maak een profiel"
+
+#: workflows/templates/workflows/modals/profile-delete.html:4
+msgid "Delete profile "
+msgstr "Verwijder profiel"
+
+#: workflows/templates/workflows/modals/profile-delete.html:10
+msgid ""
+"This will also delete all tasks assigned to this person. The actions "
+"belonging to tasks are not affected."
+msgstr ""
+"Dit verwijdert ook alle taken die aan deze persoon zijn toegewezen. De "
+"acties die bij taken horen, worden niet beïnvloed."
+
+#: workflows/templates/workflows/modals/routine-create.html:8
+msgid "Update routine"
+msgstr "Update routine"
+
+#: workflows/templates/workflows/modals/routine-delete.html:4
+msgid "Delete routine"
+msgstr "Verwijder routine"
+
+#: workflows/templates/workflows/modals/routine-delete.html:10
+msgid ""
+"This will also delete all the steps, activities, and actions inside the "
+"routine."
+msgstr ""
+"Dit zal ook alle stappen, activiteiten en acties binnen de routine "
+"verwijderen."
+
+#: workflows/templates/workflows/modals/routine-share.html:7
+msgid "Routine shares"
+msgstr "Routinematige aandelen"
+
+#: workflows/templates/workflows/modals/routine-share.html:13
+#: workflows/templates/workflows/modals/service-share.html:13
+msgid "Share name"
+msgstr "Deel naam"
+
+#: workflows/templates/workflows/modals/routine-share.html:16
+#: workflows/templates/workflows/modals/service-share.html:19
+msgid "Created"
+msgstr "Gecreëerd"
+
+#: workflows/templates/workflows/modals/routine-share.html:19
+#: workflows/templates/workflows/modals/service-share.html:22
+msgid "Last accessed"
+msgstr "Laatst bezocht"
+
+#: workflows/templates/workflows/modals/service-create.html:7
+msgid "Update service"
+msgstr "Updateservice"
+
+#: workflows/templates/workflows/modals/service-create.html:9
+msgid "Create new service"
+msgstr "Maak een nieuwe service"
+
+#: workflows/templates/workflows/modals/service-customer-add.html:5
+msgid "Add a customer to service"
+msgstr "Voeg een klant toe aan de service"
+
+#: workflows/templates/workflows/modals/service-customer-add.html:30
+msgid "Select existing customer"
+msgstr "Selecteer bestaande klant"
+
+#: workflows/templates/workflows/modals/service-customer-add.html:45
+msgid "Add the customer"
+msgstr "Voeg de klant toe"
+
+#: workflows/templates/workflows/modals/service-customer-remove.html:4
+msgid "Remove customer"
+msgstr "Verwijder de klant"
+
+#: workflows/templates/workflows/modals/service-customer-remove.html:4
+msgid "from service"
+msgstr "van dienst"
+
+#: workflows/templates/workflows/modals/service-customer-remove.html:7
+msgid "Are you sure you want to remove the customer from this service?"
+msgstr "Weet u zeker dat u de klant uit deze service wilt verwijderen?"
+
+#: workflows/templates/workflows/modals/service-customer-remove.html:10
+msgid ""
+"This will not delete the information related to the customer. The customer "
+"information can still be accessed through the customer list view."
+msgstr ""
+"Dit zal de informatie met betrekking tot de klant niet verwijderen. De "
+"klantinformatie is nog steeds toegankelijk via de klantlijstweergave."
+
+#: workflows/templates/workflows/modals/service-delete.html:4
+msgid "Delete service"
+msgstr "Service verwijderen"
+
+#: workflows/templates/workflows/modals/service-delete.html:9
+#, python-format
+msgid "Deleting this service will delete %(count)s child services as well."
+msgstr ""
+"Het verwijderen van deze service verwijdert ook %(Count) S Child Services."
+
+#: workflows/templates/workflows/modals/service-delete.html:20
+msgid ""
+"Additionally, this will also delete all the workflows below, including their"
+" steps, activities, and actions:"
+msgstr ""
+"Bovendien zal dit ook alle onderstaande workflows verwijderen, inclusief hun"
+" stappen, activiteiten en acties:"
+
+#: workflows/templates/workflows/modals/service-share.html:7
+msgid "Manage shares for the service"
+msgstr "Beheer aandelen voor de service"
+
+#: workflows/templates/workflows/modals/service-share.html:44
+msgid "Expire"
+msgstr "Verlopen"
+
+#: workflows/templates/workflows/modals/service-share.html:46
+msgid "Show"
+msgstr "Show"
+
+#: workflows/templates/workflows/modals/service-share.html:47
+msgid "Copy"
+msgstr "Kopiëren"
+
+#: workflows/templates/workflows/modals/service-share.html:54
+msgid ""
+"Shares are links that be be used to access resources, such as workflows."
+msgstr ""
+"Aandelen zijn links die worden gebruikt om toegang te krijgen tot bronnen, "
+"zoals workflows."
+
+#: workflows/templates/workflows/modals/service-share.html:60
+msgid ""
+"As anybody with the link can access the resources without further "
+"authentication, you need to be careful when sharing the link."
+msgstr ""
+"Aangezien iedereen met de link toegang heeft tot de bronnen zonder verdere "
+"authenticatie, moet u voorzichtig zijn bij het delen van de link."
+
+#: workflows/templates/workflows/modals/task-delete.html:4
+msgid "Delete task"
+msgstr "Taak verwijderen"
+
+#: workflows/templates/workflows/organization-unit-detail.html:6
+msgid "Organization"
+msgstr "Organisatie"
+
+#: workflows/templates/workflows/organization-unit-list.html:33
+msgid "You have not defined any organizations yet."
+msgstr "U hebt nog geen organisaties gedefinieerd."
+
+#: workflows/templates/workflows/organization-unit-list.html:38
+msgid "Add a new top-level organization"
+msgstr "Voeg een nieuwe organisatie op topniveau toe"
+
+#: workflows/templates/workflows/profile-detail.html:20
+#: workflows/templates/workflows/service-profile-detail.html:20
+msgid "You have not defined any tasks yet for this profile."
+msgstr "U hebt nog geen taken gedefinieerd voor dit profiel."
+
+#: workflows/templates/workflows/profile-detail.html:25
+#: workflows/templates/workflows/service-profile-detail.html:25
+#: workflows/templates/workflows/service-task-list.html:20
+msgid "Create a new task"
+msgstr "Maak een nieuwe taak"
+
+#: workflows/templates/workflows/routine-detail-printable.html:60
+msgid "No work instruction."
+msgstr "Geen werkinstructie."
+
+#: workflows/templates/workflows/routine-detail-printable.html:65
+msgid "No actions in this activity."
+msgstr "Geen acties in deze activiteit."
+
+#: workflows/templates/workflows/routine-detail-printable.html:70
+msgid "No activities in this step."
+msgstr "Geen activiteiten in deze stap."
+
+#: workflows/templates/workflows/service-customer-list.html:35
+msgid "You have not added any customers to this service yet."
+msgstr "U hebt nog geen klanten aan deze service toegevoegd."
+
+#: workflows/templates/workflows/service-list.html:14
+#: workflows/templatetags/breadcrumbs.py:76
+#: workflows/templatetags/breadcrumbs.py:88
+msgid "Service"
+msgstr "Dienst"
+
+#: workflows/templates/workflows/service-list.html:38
+msgid "You have not defined any services yet."
+msgstr "U hebt nog geen services gedefinieerd."
+
+#: workflows/templates/workflows/service-list.html:42
+msgid ""
+"Examples where to look for services: functions, organization units, virtual "
+"teams etc. You can later organize the services into a service map."
+msgstr ""
+"Voorbeelden waar u naar diensten kunt zoeken: functies, organisatie "
+"-eenheden, virtuele teams enz. U kunt de services later organiseren in een "
+"servicekaart."
+
+#: workflows/templates/workflows/service-list.html:46
+msgid "Create a new service"
+msgstr "Maak een nieuwe service"
+
+#: workflows/templates/workflows/service-profile-list.html:62
+msgid "You have not added any profiles to this service yet."
+msgstr "U hebt nog geen profielen aan deze service toegevoegd."
+
+#: workflows/templates/workflows/service-profile-list.html:67
+msgid "Create a new profile"
+msgstr "Maak een nieuw profiel"
+
+#: workflows/templates/workflows/service-task-detail.html:13
+#, python-format
+msgid ""
+"\n"
+"    Actions in routine \"%(routine_name)s\" labeled as \"%(action_require_tag)s\"\n"
+"    for profile \"%(profile_name)s\" \n"
+"  "
+msgstr ""
+"Acties in routine \"%(routine_name) S\" gelabeld als \"%(Action_Require_Tag) S\"\n"
+"    voor profiel \"%(profile_name) s\" "
+
+#: workflows/templates/workflows/service-task-detail.html:25
+msgid "Action responsibilities"
+msgstr "Actieverantwoordelijkheden"
+
+#: workflows/templates/workflows/service-task-detail.html:36
+msgid "Instructions for"
+msgstr "Instructies voor"
+
+#: workflows/templates/workflows/service-task-detail.html:44
+msgid "Task does not include any actions."
+msgstr "Taak bevat geen acties."
+
+#: workflows/templates/workflows/service-task-list.html:15
+msgid "You have not added any tasks to this service yet."
+msgstr "U hebt nog geen taken aan deze service toegevoegd."
+
+#: workflows/templates/workflows/step-detail.html:91
+msgid "Add a new action"
+msgstr "Voeg een nieuwe actie toe"
+
+#: workflows/templates/workflows/step-detail.html:97
+msgid "No activities. You should probably create one."
+msgstr "Geen activiteiten. Je zou er waarschijnlijk een moeten maken."
+
+#: workflows/templates/workflows/step-detail.html:100
+msgid "Create a new activity"
+msgstr "Maak een nieuwe activiteit"
+
+#: workflows/templates/workflows/user-service-list.html:6
+msgid "Services you have access to:"
+msgstr "Diensten waartoe u toegang hebt:"
+
+#: workflows/templates/workflows/user-service-list.html:11
+msgid "You do not have access to any services."
+msgstr "U hebt geen toegang tot services."
+
+#: workflows/tenant_models.py:27
+msgid "tenant"
+msgstr "huurder"
+
+#: workflows/tenant_models.py:28
+msgid "tenants"
+msgstr "huurders"
+
+#: workflows/views.py:521
+msgid "Share was removed"
+msgstr "Het aandeel werd verwijderd"
+
+#: workflows/views.py:1047 xref/views.py:318 xref/views.py:342
+#: xref/views.py:360
+msgid "task"
+msgstr "taak"
+
+#: xref/models.py:41 xref/models.py:75 xref/models.py:104
+msgid "Draft"
+msgstr "Voorlopige versie"
+
+#: xref/models.py:43 xref/models.py:77 xref/models.py:106
+msgid "Approved"
+msgstr "Goedgekeurd"
+
+#: xref/templates/xref/fragments/control-requirements.html:4
+msgid "Requirements"
+msgstr "Vereisten"
+
+#: xref/templates/xref/fragments/control-requirements.html:13
+msgid "The control has no requirements."
+msgstr "De controle heeft geen vereisten."
+
+#: xref/templates/xref/fragments/control-requirements.html:17
+msgid "Add a new requirement"
+msgstr "Voeg een nieuwe vereiste toe"
+
+#: xref/templates/xref/fragments/control-statements.html:4
+msgid "Statements"
+msgstr "Uitspraken"
+
+#: xref/templates/xref/fragments/control-statements.html:13
+msgid "The selected requirement has no statements."
+msgstr "De geselecteerde vereiste heeft geen verklaringen."
+
+#: xref/templates/xref/fragments/control-statements.html:17
+msgid "Add a new statement"
+msgstr "Voeg een nieuwe verklaring toe"
+
+#: xref/templates/xref/fragments/control-tasks.html:3
+msgid "Substatements"
+msgstr "Vervanging"
+
+#: xref/templates/xref/fragments/control-tasks.html:12
+msgid "The selected statement has no substatements."
+msgstr "De geselecteerde instructie heeft geen vervangingen."
+
+#: xref/templates/xref/fragments/control-tasks.html:16
+msgid "Add a new substatement"
+msgstr "Voeg een nieuwe substatement toe"
+
+#: xref/templates/xref/fragments/standard-controls.html:2
+msgid "Controls"
+msgstr "Controles"
+
+#: xref/templates/xref/fragments/standard-controls.html:11
+msgid "This service has no controls."
+msgstr "Deze service heeft geen controles."
+
+#: xref/templates/xref/fragments/standard-controls.html:15
+msgid "Add a new control to this standard"
+msgstr "Voeg een nieuwe controle toe aan deze standaard"
+
+#: xref/templates/xref/modals/control-create-or-update.html:7
+msgid "Update control"
+msgstr "Update controle"
+
+#: xref/templates/xref/modals/control-create-or-update.html:9
+msgid "Create a new control"
+msgstr "Maak een nieuwe controle"
+
+#: xref/templates/xref/modals/control-delete.html:5
+msgid "Delete control"
+msgstr "Verwijder controle"
+
+#: xref/templates/xref/modals/control-delete.html:8
+msgid ""
+"This will permanently delete the control and everything under it. Are you "
+"sure you want to delete it?"
+msgstr ""
+"Dit zal de controle permanent verwijderen en alles eronder. Weet je zeker "
+"dat je het wilt verwijderen?"
+
+#: xref/templates/xref/modals/delete.html:8
+msgid "This will permanently delete the "
+msgstr "Dit zal de"
+
+#: xref/templates/xref/modals/delete.html:8
+msgid "and everything under it. Are you sure you want to delete it?"
+msgstr "en alles eronder. Weet je zeker dat je het wilt verwijderen?"
+
+#: xref/templates/xref/modals/standard-create-or-update.html:7
+msgid "Update standard"
+msgstr "Update Standard"
+
+#: xref/templates/xref/modals/standard-create-or-update.html:9
+#: xref/templates/xref/standard-list.html:19
+msgid "Create a new standard"
+msgstr "Maak een nieuwe standaard"
+
+#: xref/templates/xref/modals/standard-delete.html:5
+msgid "Delete standard"
+msgstr "Standaard verwijderen"
+
+#: xref/templates/xref/modals/standard-delete.html:8
+msgid ""
+"This will permanently delete the standard and everything under it. Are you "
+"sure you want to delete it?"
+msgstr ""
+"Dit zal de standaard en alles eronder permanent verwijderen. Weet je zeker "
+"dat je het wilt verwijderen?"
+
+#: xref/templates/xref/standard-detail.html:8
+msgid "Standard"
+msgstr "Standaard"
+
+#: xref/templates/xref/standard-list.html:7
+msgid "Standards"
+msgstr "Normen"
+
+#: xref/templates/xref/standard-list.html:12
+msgid "There are no standards."
+msgstr "Er zijn geen normen."
+
+#: xref/templates/xref/standard-list.html:15
+msgid ""
+"You should create a new standard for each cross-referencing project you want"
+" to create."
+msgstr ""
+"U moet een nieuwe standaard maken voor elk kruisverwijzingsproject dat u "
+"wilt maken."
+
+#: xref/views.py:46 xref/views.py:67 xref/views.py:82
+msgid "standard"
+msgstr "standaard"
+
+#: xref/views.py:47 xref/views.py:68
+msgid ""
+"You should create a new standard for each standard or framework you want to "
+"map to USM."
+msgstr ""
+"U moet een nieuwe standaard maken voor elke standaard of framework die u "
+"wilt toewijzen aan USM."
+
+#: xref/views.py:97 xref/views.py:120 xref/views.py:135
+msgid "control"
+msgstr "controle"
+
+#: xref/views.py:98 xref/views.py:121
+msgid "You should create a new control for each part of your standard."
+msgstr "U moet een nieuwe controle maken voor elk deel van uw standaard."
+
+#: xref/views.py:210 xref/views.py:235 xref/views.py:250
+msgid "requirement"
+msgstr "vereiste"
+
+#: xref/views.py:211 xref/views.py:236
+msgid "You should decompose the control into requirements."
+msgstr "U moet de controle ontbinden tot vereisten."
+
+#: xref/views.py:265 xref/views.py:288 xref/views.py:303
+msgid "statement"
+msgstr "stelling"
+
+#: xref/views.py:266 xref/views.py:289
+msgid "You should create one or more USM statements to cover the requirement."
+msgstr "U moet een of meer USM -uitspraken maken om de vereiste te dekken."
+
+#: xref/views.py:319 xref/views.py:343
+msgid "You should create one or more formal tasks to cover the USM statement."
+msgstr ""
+"U moet een of meer formele taken maken om de USM -instructie te behandelen."

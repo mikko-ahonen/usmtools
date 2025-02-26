@@ -8,5 +8,6 @@ def language_name(language_code):
     LANGUAGE_NAMES = {
         "fi": _('Finnish'),
         "en": _('English'),
+        "nl": _('Dutch'),
     }
     return LANGUAGE_NAMES[language_code]
