@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-16 13:16+0000\n"
+"POT-Creation-Date: 2025-02-25 09:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,1724 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounts/forms.py:46
+msgid "An account already exists with this email."
+msgstr "Tällä sähköpostiosoitteella löytyy jo tunnus."
+
+#: accounts/forms.py:48
+msgid "This email address is already in the waiting list."
+msgstr "Tämä sähköpostiosoite on jo jonotuslistalla."
+
+#: accounts/forms.py:62
+msgid "Email addresses to invite, separated by comma"
+msgstr "Kutsuttavat sähköpostiosoitteet pilkulla eroteltuna"
+
+#: accounts/forms.py:76
+#: accounts/templates/accounts/join_waiting_list_form.html:5
+#: accounts/templates/accounts/join_waiting_list_form.html:8
+msgid "Join waiting list"
+msgstr "Liity jonotuslistalle"
+
+#: accounts/forms.py:84
+msgid "I have read and agree to the Terms of Service"
+msgstr "Olen lukenut ja hyväksyn Käyttösäännöt"
+
+#: accounts/forms.py:85
+msgid "You must agree to the Terms of Service to register"
+msgstr "Käyttösäännöt on hyväksyttävä ennen rekisteröitymistä"
+
+#: accounts/forms.py:92
+msgid "Register"
+msgstr "Rekisteröidy"
+
+#: accounts/forms.py:102 onboarding/models.py:50 survey/models.py:162
+#: survey/models.py:179 templates/base.html:71
+msgid "Email"
+msgstr "Sähköposti"
+
+#: accounts/forms.py:109 accounts/forms.py:119
+#: accounts/templates/accounts/password_reset_form.html:5
+#: accounts/templates/accounts/password_reset_form.html:8
+msgid "Reset password"
+msgstr "Nollaa sähköposti"
+
+#: accounts/forms.py:125
+#: accounts/templates/accounts/password_change_form.html:5
+#: templates/fragments/header.html:78
+#: templates/registration/password_change_form.html:11
+#: templates/registration/password_reset_confirm.html:15
+msgid "Change password"
+msgstr "Muuta salasanaa"
+
+#: accounts/forms.py:137 templates/registration/login.html:7
+#: templates/registration/login.html:27
+#: templates/registration/password_reset_form.html:7
+msgid "Login"
+msgstr "Kirjaudu sisään"
+
+#: accounts/models.py:32 accounts/models.py:47
+msgid "Email address"
+msgstr "Sähköpostiosoite"
+
+#: accounts/models.py:33
+msgid "Why do you want to use this service?"
+msgstr "Miksi haluat käyttää tätä palvelua?"
+
+#: accounts/models.py:34
+msgid "Where did you hear about this service?"
+msgstr "Mistä kuulit tästä palvelusta?"
+
+#: accounts/models.py:35
+msgid ""
+"Are you member of a groups that might have people interested in "
+"participating in USM.Tools?"
+msgstr "Oletko jäsen ryhmissä joissa voisi olla ihmisiä jotka voisivat olla kiinnostuneita palvelun käytöstä?"
+
+#: accounts/templates/accounts/activate.html:4
+msgid "Activation Failure"
+msgstr "Aktivointi epäonnistui"
+
+#: accounts/templates/accounts/activate.html:7
+msgid "Account activation failed."
+msgstr "Tilin aktivointi epäonnistui."
+
+#: accounts/templates/accounts/activation_complete.html:4
+msgid "Account Activated"
+msgstr "Tili aktivoitu"
+
+#: accounts/templates/accounts/activation_complete.html:7
+msgid "Account"
+msgstr "Käyttäjätili"
+
+#: accounts/templates/accounts/activation_complete.html:7
+msgid "activated"
+msgstr "aktivoitu"
+
+#: accounts/templates/accounts/activation_complete.html:10
+msgid "Your account is now activated."
+msgstr "Käyttäjätilisi on nyt aktivoitu."
+
+#: accounts/templates/accounts/activation_complete.html:15
+#: compliances/templates/compliances/domain-project-data-management.html:83
+#: compliances/templates/compliances/domain-project-scope.html:19
+#: compliances/templates/compliances/domain-project-teams.html:17
+msgid "Continue"
+msgstr "Jatka"
+
+#: accounts/templates/accounts/activation_complete.html:15
+msgid "by setting up a new tenant."
+msgstr "luomalla uusi asiakasympäristö"
+
+#: accounts/templates/accounts/activation_complete.html:17
+msgid "You can "
+msgstr "Voit "
+
+#: accounts/templates/accounts/activation_complete.html:17
+#: accounts/templates/accounts/password_reset_complete.html:11
+#: accounts/templates/accounts/registration_form.html:13
+msgid "log in"
+msgstr "kirjautua sisään"
+
+#: accounts/templates/accounts/activation_email.html:6
+msgid "registration"
+msgstr "rekisteröityminen"
+
+#: accounts/templates/accounts/activation_email.html:11
+#: accounts/templates/accounts/activation_email.txt:2
+msgid ""
+"\n"
+"You (or someone pretending to be you) have asked to register an account at "
+"USM Coach. If this wasn't you, please ignore this email and your address "
+"will be removed from our records.\n"
+msgstr ""
+"\n"
+"Sinä (tai joku joka teeskentelee sinua) on luonut tunnukset USM Toolsiin. "
+"Jos et ole luonut tunnuksia, voit unohtaa tämän sähköpostin ja sähköpostiosoitteesi "
+"poistetaan järjestelmistämme automaattisesti.\n"
+
+#: accounts/templates/accounts/activation_email.html:17
+#: accounts/templates/accounts/activation_email.txt:6
+#, python-format
+msgid ""
+"\n"
+"To activate this account, please click the following link within the next "
+"%(expiration_days)s days:\n"
+msgstr ""
+"\n"
+"Aktivoidaksesi tunnuksen, klikkaa oheista linkkiä seuraavan %(expiration_days)s sisällä:\n"
+
+#: accounts/templates/accounts/activation_email.html:29
+#: accounts/templates/accounts/activation_email.txt:12
+#: accounts/templates/accounts/invitation_email.html:37
+#: accounts/templates/accounts/invitation_email.txt:20
+#: accounts/templates/accounts/password_reset_email.html:26
+msgid "Sincerely,"
+msgstr "Ystävällisesti,"
+
+#: accounts/templates/accounts/activation_email.html:33
+#: accounts/templates/accounts/activation_email.txt:14
+#: accounts/templates/accounts/invitation_email.html:41
+#: accounts/templates/accounts/invitation_email.txt:22
+#: accounts/templates/accounts/password_reset_email.html:30
+msgid "Management"
+msgstr "Ylläpito"
+
+#: accounts/templates/accounts/activation_email_subject.txt:1
+msgid "Account activation on USM Coach"
+msgstr "Tunnuksen aktivointi palvelussa USM Tools"
+
+#: accounts/templates/accounts/delete.html:4
+msgid "Delete account"
+msgstr "Poista käyttäjätili"
+
+#: accounts/templates/accounts/delete.html:10
+msgid ""
+"Are you sure that you want to delete your account? Account cannot be "
+"restored after it is deleted."
+msgstr ""
+"Oletko varma, että haluat poistaa käyttäjätilin? Tiliä ei voi enää palauttaa sen jälkeen kun se on poistettu."
+
+#: accounts/templates/accounts/delete.html:11
+msgid "I do not want to delete my account"
+msgstr "En halua poistaa käyttäjätiliäni"
+
+#: accounts/templates/accounts/delete.html:12
+msgid "I want to delete my account"
+msgstr "Haluan poistaa käyttäjätilini"
+
+#: accounts/templates/accounts/invitation_email.html:3
+#, python-format
+msgid ""
+"%(sender_email)s invited you to join the waiting list for USM Coach site."
+msgstr ""
+"%(sender_email)s kutsui sinut jonotuslistalle USM Coach -palvleuun."
+
+#: accounts/templates/accounts/invitation_email.html:9
+#: accounts/templates/accounts/invitation_email.txt:7
+msgid ""
+"USM Coach is a new kind of Business Process Modeling tool. Some differences "
+"to existing tools:"
+msgstr ""
+"USM Coach on uudenlainen työkalu liiketoimintaprosessien mallintamiseen. Muutamia eroja olemassaoleviin "
+"työkaluihin:"
+
+#: accounts/templates/accounts/invitation_email.html:15
+#: accounts/templates/accounts/invitation_email.txt:10
+#: accounts/templates/accounts/login.html:29
+msgid ""
+"It uses USM, which is based on methodical and systematic approach to "
+"Enterprise Service Management"
+msgstr ""
+"Se käyttää USM:ää, joka perustuu systemaattiseen ja metodiseen lähestymistapaan, jolla toteutetaan Enterprise Service Managementia (ESM)."
+
+#: accounts/templates/accounts/invitation_email.html:18
+#: accounts/templates/accounts/invitation_email.txt:11
+#: accounts/templates/accounts/login.html:32
+msgid ""
+"As compared to word processor (such as Word) templates, your data is "
+"structured and you can access it through APIs"
+msgstr ""
+"Verrattuna tekstinkäsittelyohjelman (kuten Word) sivupohjiin, data on strukturoitu ja sitä voi käsitellä rajapintojen läpi."
+
+#: accounts/templates/accounts/invitation_email.html:21
+#: accounts/templates/accounts/invitation_email.txt:12
+#: accounts/templates/accounts/login.html:35
+msgid ""
+"It will become much cheaper to standards and frameworks, such as ITIL or ISO "
+"standards."
+msgstr ""
+"Erilaisten frameworkien ja standardien, ITIL tai ISO-standardit, toteuttaminen on kustannustehokkaampaa."
+
+#: accounts/templates/accounts/invitation_email.html:26
+#: accounts/templates/accounts/invitation_email.txt:14
+msgid "To join the waiting list, please click the following link:"
+msgstr "Liittyäksesi jonotuslistalle, klikkaa oheista linkkiä:"
+
+#: accounts/templates/accounts/invitation_email.txt:2
+#, python-format
+msgid ""
+"%(sender_email)s invited you to join the waiting list for USM Coach site. "
+"Your position on the waiting list will increase, if you use this link to "
+"join."
+msgstr ""
+"%(sender_email)s kutsui sinut USM Coach -palvelun jonotuslistalle. "
+"Asemasi jonotuslistalla paranee sen mukaan, monelleko vastaanottajalle "
+"jaat tämän linkin."
+
+#: accounts/templates/accounts/invitation_email_subject.txt:1
+msgid "Invitation to join"
+msgstr "Liittymiskutsu"
+
+#: accounts/templates/accounts/join_waiting_list_complete.html:4
+#: accounts/templates/accounts/join_waiting_list_complete.html:7
+msgid "Waiting list joined"
+msgstr "Liittyminen jonotuslistalle"
+
+#: accounts/templates/accounts/join_waiting_list_complete.html:8
+msgid ""
+"We have added you to the waiting list, and will be sending any invites "
+"promptly. Thank you!"
+msgstr ""
+"Olemme lisänneet sinut jonotuslistalle. Lähetämme kutsut pian. Kiitos!"
+
+#: accounts/templates/accounts/join_waiting_list_form.html:11
+msgid "You have been invited by"
+msgstr "Sinut on kutsuttu"
+
+#: accounts/templates/accounts/join_waiting_list_form.html:11
+msgid "to join the waiting list for this service."
+msgstr "liittymään palvelun jonotuslistalle."
+
+#: accounts/templates/accounts/join_waiting_list_form.html:16
+msgid "This service is not yet open to the public."
+msgstr "Tämä palvelu ei ole vielä julkinen."
+
+#: accounts/templates/accounts/join_waiting_list_form.html:22
+msgid ""
+"You can join our waiting list by filling your email address below and "
+"answering a few questions below."
+msgstr ""
+"Voit liittyä jonotuslistalle täyttämällä sähköpostiosoitteen alla ja "
+"vastaamalla muutamaan kysymykseen."
+
+#: accounts/templates/accounts/join_waiting_list_form.html:29
+msgid ""
+"Optionally, you can also send an invite to your friends, and if they also "
+"join, you will increase the position for all of you in the waiting list."
+msgstr ""
+"Halutessasi voit lähettää kutsua myös eteenpäin, ja jos kutsumasi ihmiset liittyvät "
+"jonotuslistalle, se parantaa omaa paikkaasi jonotuslistalla."
+
+#: accounts/templates/accounts/login.html:5
+#: templates/registration/password_reset_done.html:13
+msgid "Log in"
+msgstr "Kirjaudu sisään"
+
+#: accounts/templates/accounts/login.html:16
+msgid "Forgot your password?"
+msgstr "Unohditko salasanan?"
+
+#: accounts/templates/accounts/login.html:16
+msgid "Reset it"
+msgstr "Nollaa se"
+
+#: accounts/templates/accounts/login.html:21
+msgid "What is USM BPM Tool?"
+msgstr "Mikä on USM BPM -työkalu?"
+
+#: accounts/templates/accounts/login.html:23
+msgid ""
+"It is a new kind of Business Process Modeling tool. Some differences to "
+"existing tools:"
+msgstr ""
+"Se on uudenlainen tapa mallintaa liiketoimintaprosesseja. Joitakin eroja olemassaoleviin työkaluihin:"
+
+#: accounts/templates/accounts/login.html:40
+msgid ""
+"The site is currently not open to public.  We are in beta, experimenting the "
+"site with certain interest groups. If you are a member of one of those "
+"interest groups, please use your invitation link to join."
+msgstr ""
+"Tämä palvelu ei ole tällä hetkellä avoin. Palvelua kehitetään ja beta-testataan valikoitujen sidosryhmien kanssa. "
+"Jos kuulut noihin sidosryhmiin, voit käyttää saaamaasi kutsulinkkiä liittyäksei palveluun."
+
+#: accounts/templates/accounts/login.html:47
+msgid ""
+"If you are not a member of any of those groups, you can join our waiting "
+"list."
+msgstr ""
+"Jos et kuulu näihin sidosryhmiin, voit liittyä jonotuslistalle."
+
+#: accounts/templates/accounts/logout.html:4
+#: templates/registration/logged_out.html:7
+#: templates/registration/password_reset_done.html:7
+msgid "Logged out"
+msgstr "Kirjautunut ulos"
+
+#: accounts/templates/accounts/logout.html:9
+msgid "Your account was succesfully deleted."
+msgstr "Käyttäjätilisi on poistettu onnistuneesti."
+
+#: accounts/templates/accounts/logout.html:11
+msgid "Successfully logged out"
+msgstr "Olet kirjautunut onnistuneesti ulos"
+
+#: accounts/templates/accounts/password_change_done.html:4
+#: templates/registration/password_change_done.html:7
+msgid "Password changed"
+msgstr "Salasana vaihdettu"
+
+#: accounts/templates/accounts/password_change_done.html:7
+msgid "Password successfully changed!"
+msgstr "Salasana on onnisuneesti vaihdettu!"
+
+#: accounts/templates/accounts/password_reset_complete.html:4
+msgid "Password reset complete"
+msgstr "Salasanan nollaus on valmis"
+
+#: accounts/templates/accounts/password_reset_complete.html:8
+msgid "Your password has been reset!"
+msgstr "Salasanasi on nollattu!"
+
+#: accounts/templates/accounts/password_reset_complete.html:11
+msgid "You may now"
+msgstr "Voit nyt"
+
+#: accounts/templates/accounts/password_reset_confirm.html:11
+msgid "Confirm password reset"
+msgstr "Vahvistaa salasanan nollauksen"
+
+#: accounts/templates/accounts/password_reset_confirm.html:15
+msgid "Enter your new password below to reset your password:"
+msgstr "Syötä alle uusi salasana sen nollaamiseksi:"
+
+#: accounts/templates/accounts/password_reset_confirm.html:18
+msgid "Password reset unsuccessful. Please"
+msgstr "Salasanan nollaus epäonnistui. Ole hyvä"
+
+#: accounts/templates/accounts/password_reset_confirm.html:18
+msgid "try again"
+msgstr "yritä uudestaan"
+
+#: accounts/templates/accounts/password_reset_done.html:4
+msgid "Password reset"
+msgstr "Salasanan nollaus"
+
+#: accounts/templates/accounts/password_reset_done.html:8
+msgid ""
+"We have sent you an email with a link to reset your password. Please check "
+"your email and click the link to continue."
+msgstr ""
+"Olemme lähettäneet sinulle sähköpostin jossa on linkki salasanan nollaamiseksi. "
+"Tarkista sähköpostisi ja klikkaa linkkiä jatkaaksesi."
+
+#: accounts/templates/accounts/password_reset_email.html:4
+msgid "Greetings"
+msgstr "Hei"
+
+#: accounts/templates/accounts/password_reset_email.html:8
+msgid ""
+"You are receiving this email because you (or someone pretending to be you) "
+"requested that your password be reset on the USM Coach site. If you do not "
+"wish to reset your password, please ignore this message."
+msgstr ""
+"Olet saanut tämän viestin, koska sinä (tai joku joka on lähettänyt viestin yrittäen tekeytyä sinuksi) "
+"on pyytänyt että salasanasi nollattaisiin USM Coach -palvelussa. Jos et halua nollata salasanaasi, voit "
+"sivuuttaa tämän viestin."
+
+#: accounts/templates/accounts/password_reset_email.html:12
+msgid ""
+"To reset your password, please click the following link, or copy and paste "
+"it into your web browser:"
+msgstr ""
+"Nollataksesi salasanan, klikkaa alla olevaa linkkiä tai kopioi se selaimeesi:"
+
+#: accounts/templates/accounts/password_reset_email.html:22
+msgid "Your username, in case you've forgotten:"
+msgstr "Käyttäjätunnuksesi, mikäli olet unohtanut sen:"
+
+#: accounts/templates/accounts/password_reset_form.html:10
+msgid ""
+"Forgot your password? Enter your email in the form below and we'll send you "
+"instructions for creating a new one."
+msgstr ""
+"Oletko unohtanut salasanasi? Syötä sähköpostiosoitteesi alla olevalle lomakkeelle "
+"niin lähetämme sinulle ohjeet sen nollaamiseksi."
+
+#: accounts/templates/accounts/registration_closed.html:4
+msgid "Registration failed"
+msgstr "Rekisteröityminen epäonnistui"
+
+#: accounts/templates/accounts/registration_closed.html:7
+msgid ""
+"Registration has been closed. Please contact the person you get the "
+"invitation from if you think this is an error"
+msgstr ""
+"Rekisteröityminen on suljettu. Ota yhteyttä henkilöön jolta sait kutsulinkin jos uskot että "
+"tässä on tapahtunut virhe"
+
+#: accounts/templates/accounts/registration_complete.html:4
+msgid "Activation email sent"
+msgstr "Aktivointisähköposti lähetetty"
+
+#: accounts/templates/accounts/registration_complete.html:7
+msgid "Activation email was sent"
+msgstr "Aktivointisähköposti on lähetetty"
+
+#: accounts/templates/accounts/registration_complete.html:8
+msgid ""
+"Please click the link in your email to complete the registration process."
+msgstr ""
+"Klikkaa alla olevaa linkkiä jatkaaksesi rekisteröitymisprosessia."
+
+#: accounts/templates/accounts/registration_form.html:5
+msgid "Register for an account"
+msgstr "Rekisteröi tunnus"
+
+#: accounts/templates/accounts/registration_form.html:10
+msgid "You have been invited to participate in beta testing the USM site"
+msgstr "Sinut on kutsuttu osallistumaan USM Tools-palvelun beta-testaukseen"
+
+#: accounts/templates/accounts/registration_form.html:13
+msgid "Already have an account? Please "
+msgstr "Onko sinulla jo tunnus? Ole hyvä ja "
+
+#: accounts/templates/accounts/registration_form.html:13
+msgid "Otherwise, register below."
+msgstr "Muussa tapauksessa voit rekisteröityä alla."
+
+#: accounts/templates/accounts/resend_activation_complete.html:4
+msgid "Account activation resent"
+msgstr "Käyttäjätilin aktivointi lähetettiin uudestaan"
+
+#: accounts/templates/accounts/resend_activation_complete.html:8
+#, python-format
+msgid "We have sent an email to %(email)s with further instructions."
+msgstr "Olemme lähettäneet uudestaan sähköpostia osoitteeseen %(email)s jatko-ohjeilla."
+
+#: accounts/templates/accounts/resend_activation_form.html:4
+msgid "Resend activation email"
+msgstr "Lähetä aktivointisähköposti uudestaan"
+
+#: accounts/validators.py:10
+msgid ""
+"Enter a valid username. This value may contain only English letters, "
+"numbers, and underscore characters. It must be at three characters at the "
+"minimum."
+msgstr ""
+"Täytä hyväksytty käyttäjänimi. Nimi voi sisältää vain aakkosia (ä, ö ja å kieletty), "
+"numeroita ja alaviivoja. Sen täytyy olla ainakin kolme merkkiä pitkä."
+
+#: boards/models.py:13 boards/templates/boards/_board.html:20
+#: compliances/templates/compliances/_data_management.html:62
+#: compliances/templates/compliances/_targets.html:40
+#: compliances/templates/compliances/_teams.html:40
+#: components/board/board.html:22 mir/models.py:165 survey/models.py:178
+#: workflows/forms.py:99 workflows/forms.py:301
+msgid "Name"
+msgstr "Nimi"
+
+#: boards/models.py:27
+msgid "Text"
+msgstr "Teksti"
+
+#: boards/models.py:34
+msgid "Board"
+msgstr "Taulu"
+
+#: boards/models.py:35
+#: compliances/templates/compliances/fragments/compliances-tabs.html:8
+#: compliances/templates/compliances/fragments/compliances-tabs.html:10
+#: projects/templates/projects/fragments/tabs.html:7
+#: projects/templates/projects/project-detail.html:11
+#: projects/templates/projects/project-list.html:18
+msgid "Roadmap"
+msgstr "Roadmap"
+
+#: boards/models.py:36
+#: compliances/templates/compliances/fragments/compliances-tabs.html:15
+#: compliances/templates/compliances/fragments/compliances-tabs.html:17
+#: projects/templates/projects/fragments/tabs.html:10
+#: projects/templates/projects/project-detail.html:14
+#: projects/templates/projects/project-list.html:21
+msgid "Backlog"
+msgstr "Backlog"
+
+#: boards/models.py:37 boards/models.py:65
+#: projects/templates/projects/fragments/tabs.html:13
+msgid "Sprint"
+msgstr "Sprintti"
+
+#: boards/models.py:64
+msgid "Release"
+msgstr "Julkaisu"
+
+#: boards/models.py:66 compliances/templatetags/compliances.py:77
+#: compliances/templatetags/compliances.py:80 mir/models.py:262
+#: survey/models.py:217
+msgid "Status"
+msgstr "Tila"
+
+#: boards/models.py:84 mir/models.py:170
+#: workflows/templates/workflows/modals/action-create-or-update.html:39
+msgid "Description"
+msgstr "Kuvaus"
+
+#: boards/models.py:89
+msgid "Epic"
+msgstr "Epiikki"
+
+#: boards/models.py:90
+msgid "Story"
+msgstr "Käyttäjätarina"
+
+#: boards/templates/boards/_board.html:15 components/board/board.html:17
+msgid "Add list"
+msgstr "Lisää lista"
+
+#: boards/templates/boards/_board.html:23
+#: boards/templates/boards/board_form.html:10
+#: compliances/templates/compliances/_data_management.html:64
+#: compliances/templates/compliances/_targets.html:42
+#: compliances/templates/compliances/_teams.html:42
+#: compliances/templates/compliances/modals/create-or-update.html:18
+#: compliances/templates/compliances/target_form.html:8
+#: components/board/board.html:25 mir/forms.py:32 mir/forms.py:48
+#: mir/forms.py:60 mir/forms.py:72
+#: projects/templates/projects/modals/create-or-update.html:33
+#: projects/templates/projects/modals/task-create-or-update.html:37
+#: workflows/templates/workflows/modals/action-delete.html:11
+#: workflows/templates/workflows/modals/activity-create.html:15
+#: workflows/templates/workflows/modals/create-or-update.html:19
+#: workflows/templates/workflows/modals/customer-create-or-update.html:15
+#: workflows/templates/workflows/modals/instruction-create-or-update.html:15
+#: workflows/templates/workflows/modals/organization-unit-create-or-update.html:19
+#: workflows/templates/workflows/modals/profile-create.html:14
+#: workflows/templates/workflows/modals/routine-create.html:16
+#: workflows/templates/workflows/modals/service-create.html:23
+#: workflows/templates/workflows/modals/service-share.html:69
+#: workflows/templates/workflows/modals/tenant-create-or-update.html:20
+#: xref/forms.py:19 xref/forms.py:31 xref/forms.py:43 xref/forms.py:55
+#: xref/forms.py:67
+msgid "Save"
+msgstr "Tallenna"
+
+#: boards/templates/boards/_list.html:26 components/board/board_list.html:36
+msgid "Task name"
+msgstr "Tehtävän nimi"
+
+#: boards/templates/boards/boards.html:6
+msgid "Boards"
+msgstr "Taulut"
+
+#: compliances/entity_types.py:13 compliances/models.py:454 mir/models.py:294
+#: mir/models.py:310
+msgid "Not defined"
+msgstr "Ei määritelty"
+
+#: compliances/entity_types.py:14 mir/models.py:35
+msgid "Document"
+msgstr "Dokumentti"
+
+#: compliances/entity_types.py:15 components/task/task_card.html:5
+#: workflows/templates/workflows/service-task-detail.html:9
+msgid "Task"
+msgstr "Tehtävä"
+
+#: compliances/entity_types.py:16 workflows/models.py:176
+msgid "Risk"
+msgstr "Riski"
+
+#: compliances/entity_types.py:17 workflows/forms.py:303
+#: workflows/models.py:242
+#: workflows/templates/workflows/fragments/service-routines.html:9
+#: workflows/templates/workflows/modals/service-share.html:16
+#: workflows/templatetags/breadcrumbs.py:89
+msgid "Routine"
+msgstr "Rutiini"
+
+#: compliances/entity_types.py:18
+#: components/entity_selector/definition_reference_selector.py:14
+#: components/entity_selector/responsibility_profile_selector.py:15
+#: workflows/templates/workflows/profile-detail.html:9
+#: workflows/templates/workflows/service-profile-detail.html:9
+#: workflows/templates/workflows/service-profile-list.html:13
+msgid "Profile"
+msgstr "Profiili"
+
+#: compliances/imports.py:159
+msgid "This is not Excel file supported by usm.tools"
+msgstr "Tämä ei ole usm.toolsin tukema Excel-tiedosto"
+
+#: compliances/models.py:184
+msgid "Term (singular)"
+msgstr "Termi (yksikkö)"
+
+#: compliances/models.py:185
+msgid "Term (plural)"
+msgstr "Termi (monikko)"
+
+#: compliances/models.py:186
+msgid "Definition for the term"
+msgstr "Termin määritelmä"
+
+#: compliances/models.py:188
+msgid "If checked, this is a plural definition"
+msgstr "Jos valittu, tämä määritelmä on monikossa"
+
+#: compliances/models.py:189
+msgid "The label used by plural definitions"
+msgstr "Monikkomuotoisten määritelmien käyttämä nimike"
+
+#: compliances/models.py:190
+msgid "Entity type used by definition"
+msgstr "Entiteetin tyyppi jota käytetään määritelmässä"
+
+#: compliances/models.py:313 projects/models.py:101 projects/models.py:137
+#: projects/models.py:226
+msgid "New"
+msgstr "Uusi"
+
+#: compliances/models.py:314 projects/models.py:103 projects/models.py:139
+#: projects/models.py:228
+msgid "Ongoing"
+msgstr "Käynnissä"
+
+#: compliances/models.py:315
+msgid "Implemented"
+msgstr "Toteutettu"
+
+#: compliances/models.py:316
+msgid "Failed"
+msgstr "Epäonnistunut"
+
+#: compliances/models.py:317
+msgid "Non-compliant"
+msgstr "Ei vaatimusten mukainen"
+
+#: compliances/models.py:318
+msgid "Compliant"
+msgstr "Vaatimustenmukainen"
+
+#: compliances/models.py:319
+msgid "Audited"
+msgstr "Auditoitu"
+
+#: compliances/models.py:455
+msgid "Keep the existing status"
+msgstr "Säilytä nykyinen tila"
+
+#: compliances/models.py:456
+#: compliances/templates/compliances/_data_management.html:25
+msgid "Implement in this project"
+msgstr "Toteuta tässä projektissa"
+
+#: compliances/models.py:457
+msgid "Implemented in another project"
+msgstr "Toteutettu toisessa projektissa"
+
+#: compliances/models.py:458
+msgid "Postpone integration"
+msgstr "Toteutusta lykätty"
+
+#: compliances/templates/compliances/_data_management.html:10
+#: mir/templates/mir/dashboard.html:12
+msgid "built-in"
+msgstr "sisäänrakennettu"
+
+#: compliances/templates/compliances/_data_management.html:14
+#: mir/templates/mir/dashboard.html:16
+msgid "Select data management policy"
+msgstr "Valitse datanhallintapolitiikka"
+
+#: compliances/templates/compliances/_data_management.html:15
+#: compliances/templates/compliances/domain-project-data-management.html:26
+#: mir/models.py:295 mir/templates/mir/dashboard.html:17
+msgid "Manual"
+msgstr "Manuaalinen"
+
+#: compliances/templates/compliances/_data_management.html:16
+#: mir/templates/mir/dashboard.html:18
+msgid "Linked"
+msgstr "Linkitetty"
+
+#: compliances/templates/compliances/_data_management.html:17 mir/models.py:297
+#: mir/templates/mir/dashboard.html:19
+msgid "Replicated"
+msgstr "Replikoitu"
+
+#: compliances/templates/compliances/_data_management.html:18 mir/models.py:298
+#: mir/templates/mir/dashboard.html:20
+msgid "Managed"
+msgstr "Hallittu"
+
+#: compliances/templates/compliances/_data_management.html:23
+msgid "Select plan"
+msgstr "Valitse suunnitelma"
+
+#: compliances/templates/compliances/_data_management.html:24
+msgid "No changes"
+msgstr "Ei muutoksia"
+
+#: compliances/templates/compliances/_data_management.html:26
+msgid "Implememented in another project"
+msgstr "Toteutettu toisessa projektissa"
+
+#: compliances/templates/compliances/_data_management.html:27
+msgid "Postpone"
+msgstr "Lykkää"
+
+#: compliances/templates/compliances/_data_management.html:32
+#: mir/templates/mir/dashboard.html:25
+msgid "Select status"
+msgstr "Valitse tila"
+
+#: compliances/templates/compliances/_data_management.html:33 mir/models.py:311
+#: mir/templates/mir/dashboard.html:26
+msgid "Prototyping"
+msgstr "Kokeilu"
+
+#: compliances/templates/compliances/_data_management.html:34 mir/models.py:312
+#: mir/templates/mir/dashboard.html:27
+msgid "Development"
+msgstr "Kehitys"
+
+#: compliances/templates/compliances/_data_management.html:35 mir/models.py:313
+#: mir/templates/mir/dashboard.html:28
+msgid "Testing"
+msgstr "Testaus"
+
+#: compliances/templates/compliances/_data_management.html:36 mir/models.py:314
+#: mir/templates/mir/dashboard.html:29
+msgid "Production"
+msgstr "Tuotanto"
+
+#: compliances/templates/compliances/_data_management.html:67
+#: compliances/templates/compliances/_targets.html:45
+#: compliances/templates/compliances/_teams.html:45
+#: projects/templates/projects/modals/create-or-update.html:34
+#: projects/templates/projects/modals/task-create-or-update.html:38
+#: workflows/templates/workflows/modals/action-delete.html:10
+#: workflows/templates/workflows/modals/profile-delete.html:13
+#: workflows/templates/workflows/modals/task-delete.html:10
+msgid "Cancel"
+msgstr "Peru"
+
+#: compliances/templates/compliances/_targets.html:17
+#: compliances/templates/compliances/_teams.html:17
+msgid "Are you sure"
+msgstr "Oletko varma"
+
+#: compliances/templates/compliances/definition-list.html:10
+#: compliances/templates/compliances/fragments/compliances-tabs.html:29
+#: compliances/templates/compliances/fragments/compliances-tabs.html:31
+msgid "References"
+msgstr "Referenssit"
+
+#: compliances/templates/compliances/definition-list.html:18
+msgid "Reference"
+msgstr "Referenssi"
+
+#: compliances/templates/compliances/definition-list.html:21
+msgid "Plural"
+msgstr "Monikko"
+
+#: compliances/templates/compliances/definition-list.html:34
+msgid "matching label"
+msgstr "joka nimikoitu"
+
+#: compliances/templates/compliances/definition-list.html:39
+msgid "No matches"
+msgstr "Ei osumia"
+
+#: compliances/templates/compliances/definition-list.html:47
+msgid "Entity type missing"
+msgstr "Entiteetin tyyppi puuttuu"
+
+#: compliances/templates/compliances/definition-list.html:50
+#: components/task/task_card.html:27 mir/templates/mir/document-list.html:30
+#: mir/templates/mir/risk-list.html:21
+#: workflows/templates/workflows/customer-list.html:28
+#: workflows/templates/workflows/fragments/service-customers.html:24
+#: workflows/templates/workflows/fragments/service-profiles.html:22
+#: workflows/templates/workflows/fragments/service-routines.html:20
+#: workflows/templates/workflows/fragments/tenant.html:22
+#: workflows/templates/workflows/organization-unit-list.html:27
+#: workflows/templates/workflows/service-customer-list.html:27
+#: workflows/templates/workflows/service-list.html:30
+#: workflows/templates/workflows/service-profile-list.html:50
+#: workflows/templatetags/breadcrumbs.py:11
+msgid "Edit"
+msgstr "Muokkaa"
+
+#: compliances/templates/compliances/definition-list.html:51
+#: mir/templates/mir/document-list.html:31 mir/templates/mir/risk-list.html:22
+#: workflows/templates/workflows/customer-list.html:29
+#: workflows/templates/workflows/fragments/service-customers.html:25
+#: workflows/templates/workflows/fragments/service-profiles.html:23
+#: workflows/templates/workflows/fragments/service-routines.html:21
+#: workflows/templates/workflows/fragments/tenant.html:23
+#: workflows/templates/workflows/organization-unit-list.html:28
+#: workflows/templates/workflows/service-customer-list.html:28
+#: workflows/templates/workflows/service-list.html:31
+#: workflows/templates/workflows/service-profile-list.html:51
+msgid "Delete"
+msgstr "Poista"
+
+#: compliances/templates/compliances/definition-list.html:58
+msgid "You have not defined any references yet."
+msgstr "Et ole vielä määritellyt yhtään viitettä."
+
+#: compliances/templates/compliances/definition-list.html:63
+msgid "Define a new reference"
+msgstr "Määrittele uusi viite"
+
+#: compliances/templates/compliances/domain-audit.html:8
+#: compliances/templates/compliances/fragments/compliances-tabs.html:36
+#: compliances/templates/compliances/fragments/compliances-tabs.html:38
+msgid "Audit"
+msgstr "Auditointi"
+
+#: compliances/templates/compliances/domain-list.html:7
+msgid "Compliance domains"
+msgstr "Määräystenmukaisuuden luokat"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:11
+msgid "Backlog preview for"
+msgstr "Backlogin esikatselu"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:15
+msgid ""
+"\n"
+"    On this page, you can create an initial project backlog based on the "
+"project roadmap. One backlog\n"
+"    will be created for all the teams participating in the project. The "
+"backlog will contain sprints and \n"
+"    stories based on the project parameters (such as the categories for each "
+"team) and the epics on the roadmap. \n"
+"    "
+msgstr ""
+"\n"
+"    Tällä sivulla voit toteuttaa alustavan projektin backlogin pohjautuen "
+"projektin roadmapiin. Kullekin projektiin osallistuvalle tiimille luodaan yksi backlog\n"
+"    Backlogille lisätään sprintit ja käyttäjätarinat projekin parametrien (esim. kategoriat) "
+"    perusteella.\n"
+"    "
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:25
+msgid ""
+"\n"
+"    While the backlog is shared by the teams, each team will have their own "
+"sprints. If you filter the\n"
+"    backlog by the team, you will get the team backlog, with the stories "
+"either assigned to that team\n"
+"    or unassigned.\n"
+"    "
+msgstr ""
+"\n"
+"    Backlog on jaettu tiimien kesken, mutta kullakin tiimillä on omat sprinttinsä. \n"
+"    Filtteröimällä backlogia tiimin perusteella saat tiimikohtaisen backlogin, jossa on tiimille \n" 
+"    merkityt käyttäjätarinat -- sekä ne joilta puuttuu tiimi."
+"    "
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:35
+msgid ""
+"\n"
+"    The stories will be automatically placed in the the sprints according to "
+"the ordering of the epics on the roadmap.\n"
+"    Each story will have a size estimation in story points. According to the "
+"agile estimation methodology,\n"
+"    story point is only relative to other stories, not an absolute number. "
+"Each sprint will be filled with \n"
+"    stories so that the maximum story points is not exceeded. You can refine "
+"the backlog after it has been created.\n"
+"    "
+msgstr ""
+"\n"
+"    Käyttäjätarinat jaoitellaan sprintteihin automaattisesti roadmapilla olevien epiikkien "
+"järjestyksen perusteella.\n"
+"    Kullekin käyttäjätarinalle on arvio kokoluokasta, käyttäen tarinapisteitä. Ketterien "
+"arviointimenetelmien metodologian mukaan,\n"
+"    tarinapiste on vain suhteelinen muihin tarinapisteisiin nähden, se ei ole absoluuttinen numero. "
+"Kukin sprintti täytetään \n"
+"    tarinoilla siten että sprinttikohtainen tarinapisteiden maksimimäärä ei ylity. Voit käsitellä "
+"backlogia sen jälkeen kun se on luotu.\n"
+"    "
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:48
+#: compliances/templates/compliances/domain-project-create-roadmap.html:29
+msgid "Project prefix"
+msgstr "Projektin prefiksi"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:56
+#: compliances/templates/compliances/domain-project-create-roadmap.html:37
+msgid "Start date"
+msgstr "Aloitutspäivä"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:64
+msgid "Sprint length (in days)"
+msgstr "Sprintin pituus (päivissä)"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:72
+msgid "Story points in sprint"
+msgstr "Tarinapisteitä yhdessä sprintissä"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:79
+#: compliances/templates/compliances/domain-project-create-roadmap.html:61
+#: compliances/templates/compliances/domain-project-create-roadmap.html:67
+msgid "Preview"
+msgstr "Esikatselu"
+
+#: compliances/templates/compliances/domain-project-create-backlog.html:80
+#: compliances/templates/compliances/domain-project-create-roadmap.html:62
+#: compliances/templates/compliances/fragments/deployment-status.html:23
+#: compliances/templates/compliances/fragments/deployment-status.html:144
+#: compliances/templates/compliances/fragments/deployment-status.html:168
+msgid "Create"
+msgstr "Luo"
+
+#: compliances/templates/compliances/domain-project-create-roadmap.html:11
+msgid "Create a roadmap for"
+msgstr "Luo uusi roadmap kohteelle "
+
+#: compliances/templates/compliances/domain-project-create-roadmap.html:17
+msgid ""
+"\n"
+"    On this page, you can create an initial roadmap for the project. Initial "
+"roadmap will contain\n"
+"    releases and epics based on the project parameters and your audit "
+"targets. Epics will be automatically placed \n"
+"    to the releases. You can refine the roadmap on the roadmap board, "
+"including moving epics between releases,\n"
+"    after the initial roadmap has been created. \n"
+"    "
+msgstr ""
+"\n"
+"    Tällä sivulla voit luoda alustavan roadmapin projektille. "
+"Alustava roadmap pitää sisällään\n"
+"    projektin parametrien ja auditoinnin kohteiden perusteella luodut julkaisut ja epiikit. "
+"Epiikit sijoitetaan automaattisesti julkaisuihin.\n"
+"    Kun alustava roadmap on luotu, voit muokata sitä roadmap-taululla, "
+"mm. siirtää epiikkejä julkaisujen välillä."
+"    "
+
+#: compliances/templates/compliances/domain-project-create-roadmap.html:45
+msgid "Release length (in days)"
+msgstr "Julkaisun pituus (päivissä)"
+
+#: compliances/templates/compliances/domain-project-create-roadmap.html:53
+msgid "Epics in release"
+msgstr "Epiikkejä julkaisusssa"
+
+#: compliances/templates/compliances/domain-project-data-management.html:9
+msgid "Setup data management for the project"
+msgstr "Määrittele tiedonhallinta projektille"
+
+#: compliances/templates/compliances/domain-project-data-management.html:11
+msgid ""
+"\n"
+"Define how each type of data needed by this domain is managed. The user "
+"interface adapts dynamically to the data \n"
+"management policy for each entity type. For example, if you choose \"managed"
+"\", you can modify the data in this tool, \n"
+"but if you choose \"replicated\", you can only view the data in this tool.\n"
+msgstr ""
+"\n"
+"Määrittele miten kukin tämän domainin tarvitsema tietotyyppi hallinnoidaan. Käyttöliittymä "
+"apaptoituu dynaamiseesti määrittelemiisi tiedonhallintapolitiikkoihin \n"
+"kullekin tietotyypille. Jos esimerkiksi valitset politiikan \"hallittu\", voit muokata\n"
+"tietotyypin alkioita tällä työkalulla, mutta jos valitset politiikan \"replikoitu\", voit vain katsella tietoja.\n"
+
+#: compliances/templates/compliances/domain-project-data-management.html:18
+msgid ""
+"\n"
+"Note: The policy is shared between domains.\n"
+msgstr ""
+"\n"
+"Huom! Data ja politiikat ovat yhteisiä domainien yli.\n"
+
+#: compliances/templates/compliances/domain-project-data-management.html:30
+msgid ""
+"\n"
+"        The requirements are verified manually and a text field explaining "
+"how to verify the data is stored in this system. Choose this when \n"
+"        the data is in a system that does not support deep linking.\n"
+"        "
+msgstr ""
+
+#: compliances/templates/compliances/domain-project-data-management.html:40
+#: mir/models.py:296
+msgid "Link"
+msgstr "Linkki"
+
+#: compliances/templates/compliances/domain-project-data-management.html:44
+msgid ""
+"\n"
+"        The requirements are verified manually and a deep link to the entity "
+"is stored in this system. Choose this when the data is \n"
+"        in a system that supports deep linking, but you do not want to "
+"integrate the system.\n"
+"        "
+msgstr ""
+"\n"
+"        Vaatimukset tarkastetaan käsin ja tietoelementtiin tallennetaan suora syvälinkki "
+"tähän järjestelmään. Valitse tämä kun tieto on \n"
+"        erillisessä järjestelmässä joka sallii suorat linkit tietoelementteihin, mutta et halua "
+"integroida tuota järjestelmää.\n"
+"        "
+
+#: compliances/templates/compliances/domain-project-data-management.html:54
+msgid "Replicate"
+msgstr "Replikoi"
+
+#: compliances/templates/compliances/domain-project-data-management.html:58
+msgid ""
+"\n"
+"        The entities are replicated into this system. The requirements link "
+"to the local copy of entity. You must implement integration from the source "
+"system to this system.\n"
+"        "
+msgstr ""
+"\n"
+"        Tietoelementit replikoidaan tähän järjestelmään. Vaatimukset linkitetään "
+"tässä järjestelmässä olevaan kopioon tiedosta. Lähdejärjestelmä on integroitavat tähän "
+"järjestelmään.\n"
+"        "
+
+#: compliances/templates/compliances/domain-project-data-management.html:67
+msgid "Manage"
+msgstr "Hallinnoi"
+
+#: compliances/templates/compliances/domain-project-data-management.html:71
+msgid ""
+"\n"
+"        The entities are mastered in this system or they are synchronized by "
+"manually editing this system. Choose this \n"
+"        when the data does not exist in any other system. Be advised that "
+"you need to make sure that \n"
+"        data is synchronized.\n"
+"        "
+msgstr ""
+"\n"
+"        Tietoelementtejä hallinnoidaan tämän järjestelmän käyttöliittymän kautta tai ne "
+"synkronoidaan tähän järjestelmään manuaalisesti. Valitse tämä \n"
+"        vaihtoehto kun ei ole olemassa perustietojärjestelmää jossa näitä tietoelementtejä hallinnoidaan. Jos "
+"tietoja on kuitenkin muissa järjestelmissä, on järjestettävä tiedon \n"
+"        ajantasaisuuden hallinta yli eri järjsetelmien.\n"
+"        "
+
+#: compliances/templates/compliances/domain-project-scope.html:10
+#: compliances/templates/compliances/fragments/deployment-status.html:68
+#: compliances/templates/compliances/fragments/deployment-status.html:92
+#: compliances/templates/compliances/fragments/deployment-status.html:121
+msgid "Setup"
+msgstr "Asetukset"
+
+#: compliances/templates/compliances/domain-project-scope.html:10
+msgid "scope for domain"
+msgstr "vaatimustenmukaisuusalueen soveltamisala"
+
+#: compliances/templates/compliances/domain-project-scope.html:12
+msgid ""
+"\n"
+"Define the project scope by listing the targets for you wish to verify for "
+"the compliance. The targets are used when \n"
+"automatically creating high-level work packages (Epics). Some examples of "
+"possible targets include IT systems, \n"
+"processes, organizations.\n"
+msgstr ""
+"\n"
+"Määrittele projektin soveltamisala listaamalla kohteet joiden vaatimustenmukaisuutta "
+"ollaan tarkastelemassa. Kohteita käytetään luotaessa \n"
+"korkean tason työpakettaja (epiikit). Joitakin esimerkkejä kohteista ovat "
+"tietojärjestelmät, prosessit ja organisaatioyksiköt.\n"
+"processes, organizations.\n"
+
+#: compliances/templates/compliances/domain-project-teams.html:9
+msgid "Setup teams for project"
+msgstr "Määrittele projektin tiimit"
+
+#: compliances/templates/compliances/domain-project-teams.html:11
+msgid ""
+"\n"
+"Define the teams participating in this project. You need to define which "
+"team is responsible for \n"
+"each deployment category. Exactly one team must be responsible for a single "
+"category.\n"
+msgstr ""
+"\n"
+"Määrittele tiimit, jotka osallistuvat tähän projektiin. Määrittele myös, mitkä tiimit vastaavat "
+"mistäkin käyttöönoton tehtäväluokasta. Täsmälleen yksi tiimi on vastuullinen yhdestä\n"
+"luokata.\n"
+
+#: compliances/templates/compliances/fragments/compliances-tabs.html:4
+#: mir/templates/mir/fragments/mir-tabs.html:4
+#: projects/templates/projects/fragments/tabs.html:4
+msgid "Dashboard"
+msgstr "Työpöytä"
+
+#: compliances/templates/compliances/fragments/compliances-tabs.html:22
+#: compliances/templates/compliances/fragments/compliances-tabs.html:24
+msgid "Sprints"
+msgstr "Sprintit"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:14
+#: compliances/templates/compliances/fragments/deployment-status.html:38
+#: projects/templates/projects/project-detail.html:8
+#: projects/templates/projects/project-sprints.html:11
+#: workflows/templatetags/breadcrumbs.py:79
+msgid "Project"
+msgstr "Projekti"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:14
+msgid "created"
+msgstr "luotu"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:16
+msgid "Create a project for the domain"
+msgstr "Luo projekti domainille"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:21
+#: compliances/templates/compliances/fragments/deployment-status.html:142
+#: compliances/templates/compliances/fragments/deployment-status.html:166
+#: compliances/templates/compliances/fragments/deployment-status.html:190
+#: compliances/templates/compliances/fragments/deployment-status.html:212
+#: workflows/templatetags/breadcrumbs.py:12
+msgid "View"
+msgstr "Näkymät"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:38
+msgid "configured"
+msgstr "konfiguroitu"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:40
+msgid "Configure the project"
+msgstr "Konfiguroi projekti"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:44
+msgid "Configure"
+msgstr "Konfiguroi"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:58
+msgid "Project scope defined"
+msgstr "Projektin soveltamisala"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:60
+msgid "Targets"
+msgstr "Kohteet"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:64
+msgid "Define project scope"
+msgstr "Määrittele projektin soveltamisala"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:82
+msgid "Project teams defined"
+msgstr "Projektin tiimit määritelty"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:84
+msgid "Teams"
+msgstr "Tiimit"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:88
+msgid "Define project teams"
+msgstr "Määrittele projektitiimit"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:106
+msgid "Project data management defined"
+msgstr "Projektin tiedonhallinta määritelty"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:117
+msgid "Define data management"
+msgstr "Määrittele projektin tiedonhallinta"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:135
+msgid "Project has roadmap"
+msgstr "Projektilla on roadmap"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:137
+msgid "Create a project roadmap"
+msgstr "Luo projektille roadmap"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:159
+msgid "Project has backlog"
+msgstr "Projektilla on backlog"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:161
+msgid "Create backlog for the project"
+msgstr "Luo projektille backlog"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:183
+msgid "Deployment has been completed"
+msgstr "Käyttöönotto on valmis"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:185
+msgid "Deployment project"
+msgstr "Käyttöönottoprojekti"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:205
+msgid "Audit has been completed"
+msgstr "Auditointi on valmis"
+
+#: compliances/templates/compliances/fragments/deployment-status.html:207
+msgid "Complete audit"
+msgstr "Merkitse auditointi valniiksi"
+
+#: compliances/templates/compliances/modals/create-or-update.html:10
+#: workflows/templates/workflows/modals/create-or-update.html:11
+msgid "Update the "
+msgstr "Päivitä "
+
+#: compliances/templates/compliances/modals/create-or-update.html:12
+#: mir/templates/mir/modals/create-or-update.html:9
+#: workflows/templates/workflows/modals/create-or-update.html:13
+msgid "Add a new "
+msgstr "Lisää uusi "
+
+#: compliances/templates/compliances/modals/delete.html:8
+#: workflows/templates/workflows/modals/delete.html:8
+msgid "Delete the"
+msgstr "Poista "
+
+#: compliances/templates/compliances/modals/delete.html:12
+#: workflows/templates/workflows/modals/delete.html:12
+msgid ""
+"The entity will be deleted permanently, including all the referred entities."
+msgstr ""
+"Kohde poistetaan pysyvästi, mukaanlukien kaikki viitatut kohteet."
+
+#: compliances/templates/compliances/modals/delete.html:17
+#: workflows/templates/workflows/modals/delete.html:17
+msgid "This operation cannot be undone."
+msgstr "Toimintoa ei voi perua."
+
+#: compliances/templates/compliances/modals/delete.html:22
+#: workflows/templates/workflows/modals/action-delete.html:7
+#: workflows/templates/workflows/modals/delete.html:22
+msgid "Are you sure you want to delete?"
+msgstr "Oletko varma että haluat poistaa?"
+
+#: compliances/templates/compliances/modals/delete.html:31
+#: workflows/templates/workflows/modals/delete.html:31
+msgid "The following referred entities will also be permanently deleted:"
+msgstr "Seuraavat viitatut kohteet poistetaan samalla pysyvästi:"
+
+#: compliances/templates/compliances/modals/delete.html:42
+#: workflows/templates/workflows/modals/delete.html:42
+msgid "The following"
+msgstr "Seuraavat"
+
+#: compliances/templates/compliances/modals/delete.html:42
+#: workflows/templates/workflows/modals/delete.html:42
+msgid "will be permanently deleted:"
+msgstr "poistetaan pysyvästi."
+
+#: compliances/templatetags/compliances.py:182
+msgid "No name"
+msgstr "Nimetön"
+
+#: compliances/views.py:87
+msgid "project"
+msgstr "projekti"
+
+#: compliances/views.py:91
+msgid "Team "
+msgstr "Tiimi"
+
+#: compliances/views.py:272
+msgid "Misc "
+msgstr "Yleinen "
+
+#: compliances/views.py:298
+msgid "Project finalization"
+msgstr "Projektin valmistuminen"
+
+#: compliances/views.py:334
+msgid "roadmap"
+msgstr "roadmap"
+
+#: compliances/views.py:523 compliances/views.py:544
+msgid "definition"
+msgstr "määritelmä"
+
+#: components/action/action_editor.html:28
+msgid "In tasks"
+msgstr "tehtävissä"
+
+#: components/action/action_editor.html:46
+msgid "Add a responsibility"
+msgstr "Lisää vastuu"
+
+#: components/board/board_list.html:11
+msgid "Only empty lists can be deleted"
+msgstr "Vain tyhjän listan voi poistaa"
+
+#: components/board/board_list.html:14
+msgid "Start sprint"
+msgstr "Käynnistä sprintti"
+
+#: components/board/board_list.html:16
+msgid "End sprint"
+msgstr "Lopeta sprintti"
+
+#: components/board/board_list.html:32
+msgid "Add task"
+msgstr "Lisää työ"
+
+#: components/constraint/constraint_editor.html:9
+msgid "Constraint"
+msgstr "Sääntö"
+
+#: components/entity_selector/definition_reference_selector.py:25
+msgid "Search "
+msgstr "Hae "
+
+#: components/tags/tags.html:34
+msgid "Add a tag ..."
+msgstr "Lisää nimike ..."
+
+#: components/task/task_card.html:9
+#, python-format
+msgid ""
+"\n"
+"      Actions in routine \"%(routine_name)s\" labeled as "
+"\"%(action_require_tag)s\"\n"
+"      and assigned to profile \"%(profile_name)s\" \n"
+"      "
+msgstr ""
+"\n"
+"      Rutiinissa \"%(routine_name)s\" olevat tehtävät jotka on nimikoitu "
+"\"%(action_require_tag)s\"\n"
+"      ja määrätty profiilille \"%(profile_name)s\" \n"
+"      "
+
+#: components/task/task_card.html:23
+msgid "No matches."
+msgstr "Ei tehtäviä."
+
+#: components/task/task_card.html:28
+msgid "Remove"
+msgstr "Poista"
+
+#: components/templatetags/boards.py:71
+msgid "Priority"
+msgstr "Prioriteetti"
+
+#: components/templatetags/boards.py:82
+msgid "Story points"
+msgstr "Tarinapisteet"
+
+#: components/typeahead/typeahead.py:39
+msgid "tags"
+msgstr "nimikkeet"
+
+#: components/typeahead/typeahead.py:41 workflows/models.py:292
+msgid "profiles"
+msgstr "profiilit"
+
+#: components/typeahead/typeahead.py:43 workflows/models.py:66
+msgid "organization units"
+msgstr "organisaatioyksiköt"
+
+#: components/typeahead/typeahead.py:45
+msgid "document"
+msgstr "dokumentti"
+
+#: components/typeahead/typeahead.py:47 workflows/models.py:515
+#: workflows/views.py:1047 xref/views.py:318 xref/views.py:342
+#: xref/views.py:360
+msgid "task"
+msgstr "tehtävä"
+
+#: components/typeahead/typeahead.py:49
+msgid "risk"
+msgstr "riski"
+
+#: components/typeahead/typeahead.py:52
+msgid "Search"
+msgstr "Haku"
+
+#: mir/models.py:15 workflows/models.py:102
+msgid "Tag"
+msgstr "Nimike"
+
+#: mir/models.py:16 workflows/models.py:103
+msgid "Tags"
+msgstr "Nimikkeet"
+
+#: mir/models.py:36 mir/templates/mir/document-list.html:7
+#: mir/templates/mir/fragments/mir-tabs.html:7
+msgid "Documents"
+msgstr "Dokumentit"
+
+#: mir/models.py:56
+msgid "Training"
+msgstr "Koulutus"
+
+#: mir/models.py:57 mir/templates/mir/training-list.html:7
+msgid "Trainings"
+msgstr "Koulutukset"
+
+#: mir/models.py:83
+msgid "Employee"
+msgstr "Työntekijä"
+
+#: mir/models.py:84 mir/templates/mir/employee-list.html:7
+msgid "Employees"
+msgstr "Työntekijät"
+
+#: mir/models.py:104
+msgid "Training attended"
+msgstr "Koulutukseen osallistuminen"
+
+#: mir/models.py:105
+msgid "Trainings attended"
+msgstr "Koulutukseen osallistumiset"
+
+#: mir/models.py:125
+msgid "Training organized"
+msgstr "Järjestetty koulutus"
+
+#: mir/models.py:126
+msgid "Trainings organized"
+msgstr "Järjestetyt koulutukset"
+
+#: mir/models.py:142 projects/models.py:246
+msgid "Low"
+msgstr "Matala"
+
+#: mir/models.py:143 projects/models.py:245
+msgid "Medium"
+msgstr "Keskiverto"
+
+#: mir/models.py:144 projects/models.py:244
+msgid "High"
+msgstr "Korkea"
+
+#: mir/models.py:145
+msgid "Critical"
+msgstr "Kriittinen"
+
+#: mir/models.py:156
+msgid "Rare"
+msgstr "Harvinainen"
+
+#: mir/models.py:157
+msgid "Unlikely"
+msgstr "Epätodennäköinen"
+
+#: mir/models.py:158
+msgid "Possible"
+msgstr "Mahdollinen"
+
+#: mir/models.py:159
+msgid "Likely"
+msgstr "Todennäköinen"
+
+#: mir/models.py:160
+msgid "Almost Certain"
+msgstr "Melkein varma"
+
+#: mir/models.py:166
+msgid "Enter a short and descriptive name for the risk."
+msgstr "Anna lyhyt ja kuvaava nimi riskille"
+
+#: mir/models.py:171
+msgid "Provide a detailed description of the risk."
+msgstr "Anna tarkempi kuvaus riskille"
+
+#: mir/models.py:174
+msgid "URL"
+msgstr "URL"
+
+#: mir/models.py:174
+msgid "URL for this risk"
+msgstr "Riskin URL"
+
+#: mir/models.py:183
+msgid "Operational"
+msgstr "Operointi"
+
+#: mir/models.py:184
+msgid "Financial"
+msgstr "Rahoitus"
+
+#: mir/models.py:185 templates/fragments/header.html:46
+msgid "Compliance"
+msgstr "Vaatimustenmukaisuus"
+
+#: mir/models.py:186
+msgid "Strategic"
+msgstr "Strateginen"
+
+#: mir/models.py:187
+msgid "Reputational"
+msgstr "Mainehaitta"
+
+#: mir/models.py:193 survey/models.py:199
+msgid "Category"
+msgstr "Kategoria"
+
+#: mir/models.py:194
+msgid "Select the category that best describes this risk."
+msgstr "Valitse kategoria joka parhaiten kuvaa riskiä"
+
+#: mir/models.py:201
+msgid "Inherent Impact"
+msgstr "Luontainen vaikutus"
+
+#: mir/models.py:202
+msgid "Assess the impact level of the risk before any mitigation actions."
+msgstr "Arvioi riskin vaikutuksen määrää ennen mitigointitoimia"
+
+#: mir/models.py:207
+msgid "Inherent Likelihood"
+msgstr "Luontainen todennököisyys"
+
+#: mir/models.py:208
+msgid ""
+"Assess the likelihood of the risk occurring before any mitigation actions."
+msgstr "Arvioi riskin todennäköisyyttä ennen lieventämistoimia"
+
+#: mir/models.py:215
+msgid "Mitigation Plan"
+msgstr "Lieventämissuunnitelma"
+
+#: mir/models.py:216
+msgid "Describe the mitigation strategies or actions to reduce the risk."
+msgstr "Kuvaa strategia ja toimet riskin lieventämiseksi"
+
+#: mir/models.py:225
+msgid "Residual Impact"
+msgstr "Jäännösriskin vaikutus"
+
+#: mir/models.py:226
+msgid "Assess the impact level of the risk after mitigation actions."
+msgstr "Arvioi riskin vaikutusta lieventämistoimien jälkeen"
+
+#: mir/models.py:233
+msgid "Residual Likelihood"
+msgstr "Jäännösriskin todennäköisyys"
+
+#: mir/models.py:234
+msgid "Assess the likelihood of the risk occurring after mitigation actions."
+msgstr "Arvioi todennäköisyyttä riskin toteutumiselle lieventämistoimien jälkeen"
+
+#: mir/models.py:239
+msgid "Name of responsible party"
+msgstr "Riskistä vastaavan osapuolen nimi"
+
+#: mir/models.py:240
+msgid ""
+"Specify the name of the individual or department responsible for managing "
+"this risk."
+msgstr ""
+"Anna sen henkilön tai yksikön nimi, joka vastaa tämän riskin hallinnoimisesta."
+
+#: mir/models.py:251
+msgid "Identified"
+msgstr "Tunnistettu"
+
+#: mir/models.py:252
+msgid "Assessed"
+msgstr "Arviointu"
+
+#: mir/models.py:253
+msgid "Mitigated"
+msgstr "Liennytetty"
+
+#: mir/models.py:254
+msgid "Resolved"
+msgstr "Ratkaistu"
+
+#: mir/models.py:255
+msgid "Accepted"
+msgstr "Hyväksytty"
+
+#: mir/models.py:263
+msgid "Track the current status of the risk in its lifecycle."
+msgstr "Seuraa riskin elinkaaren tilaa"
+
+#: mir/models.py:340
+msgid "Unknown entity"
+msgstr "Tuntematon kohde"
+
+#: mir/templates/mir/document-list.html:38
+msgid "You have not defined any documents yet."
+msgstr "Et ole vielä määritellyt dokumentteja."
+
+#: mir/templates/mir/document-list.html:43
+msgid "Create a new document"
+msgstr "Luo uusi dokumentti"
+
+#: mir/templates/mir/employee-list.html:14
+msgid "You have not defined any employees yet."
+msgstr "Et ole vielä määritellyt työntekijöitä."
+
+#: mir/templates/mir/employee-list.html:18
+msgid "Create a new employee"
+msgstr "Luo uusi työntekijä"
+
+#: mir/templates/mir/fragments/mir-tabs.html:10
+#: mir/templates/mir/risk-list.html:7
+msgid "Risks"
+msgstr "Riskit"
+
+#: mir/templates/mir/fragments/mir-tabs.html:22
+#: workflows/templates/workflows/organization-unit-list.html:7
+msgid "Organizations"
+msgstr "Organisaatiot"
+
+#: mir/templates/mir/fragments/mir-tabs.html:25
+#: workflows/templates/workflows/customer-list.html:7
+#: workflows/templates/workflows/fragments/service-customers.html:2
+msgid "Customers"
+msgstr "Asiakkaat"
+
+#: mir/templates/mir/modals/create-or-update.html:7
+#: projects/templates/projects/modals/create-or-update.html:7
+#: projects/templates/projects/modals/task-create-or-update.html:8
+#: xref/templates/xref/modals/create-or-update.html:7
+msgid "Update "
+msgstr "Päivitä "
+
+#: mir/templates/mir/modals/delete.html:4
+#: xref/templates/xref/modals/delete.html:5
+msgid "Delete "
+msgstr "Poista "
+
+#: mir/templates/mir/modals/delete.html:7
+#: mir/templates/mir/modals/employee-delete.html:7
+#: mir/templates/mir/modals/training-delete.html:7
+#: projects/templates/projects/modals/project-delete.html:7
+#: workflows/templates/workflows/modals/customer-delete.html:19
+#: workflows/templates/workflows/modals/organization-unit-delete.html:16
+#: workflows/templates/workflows/modals/profile-delete.html:7
+#: workflows/templates/workflows/modals/routine-delete.html:7
+#: workflows/templates/workflows/modals/service-delete.html:16
+#: workflows/templates/workflows/modals/task-delete.html:7
+msgid "Are you sure you want to delete it?"
+msgstr "Oletko varma että haluat poistaa?"
+
+#: mir/templates/mir/modals/employee-create-or-update.html:7
+msgid "Update employee"
+msgstr "Päivitä työntekijää"
+
+#: mir/templates/mir/modals/employee-create-or-update.html:9
+msgid "Add a new employee"
+msgstr "Lisää uusi työntekijä"
+
+#: mir/templates/mir/modals/employee-delete.html:4
+msgid "Delete employee"
+msgstr "Poista työntekijä"
+
+#: mir/templates/mir/modals/training-create-or-update.html:7
+msgid "Update training"
+msgstr "Päivitä koulutusta"
+
+#: mir/templates/mir/modals/training-create-or-update.html:9
+msgid "Add a new training"
+msgstr "Lisää koulutus"
+
+#: mir/templates/mir/modals/training-delete.html:4
+msgid "Delete training"
+msgstr "Poista koulutus"
+
+#: mir/templates/mir/risk-list.html:29
+msgid "You have not defined any risks yet."
+msgstr "ET ole vielä määritellyt riskejä"
+
+#: mir/templates/mir/risk-list.html:34
+msgid "Create a new risk"
+msgstr "Luo uusi riski"
+
+#: mir/templates/mir/training-list.html:14
+msgid "You have not defined any trainings yet."
+msgstr "Et ole määritellyt koultuuksia."
+
+#: mir/templates/mir/training-list.html:18
+msgid "Create a new training"
+msgstr "Luo uusi koulutus"
 
 #: onboarding/forms.py:9
 msgid ""
@@ -38,63 +1756,63 @@ msgstr "Sähköpostiosoite tarvitaan, jos haluat että olemme yhteydessä"
 msgid "Let us know your industry"
 msgstr "Kerro meille toimialasi"
 
-#: onboarding/models.py:24
+#: onboarding/models.py:24 survey/models.py:103
 msgid "Agriculture, Forestry, Mining"
 msgstr "Maa-, metsätalous, kaivosteollisuus"
 
-#: onboarding/models.py:25
+#: onboarding/models.py:25 survey/models.py:104
 msgid "Industrials (Manufacturing, Construction, etc.)"
 msgstr "Teollisuus (tuotanto, rakennus jne.)"
 
-#: onboarding/models.py:26
+#: onboarding/models.py:26 survey/models.py:105
 msgid "Energy, Utilities"
 msgstr "Energia, julkiset palvelut"
 
-#: onboarding/models.py:27
+#: onboarding/models.py:27 survey/models.py:106
 msgid "Transport, Logistics"
 msgstr "Kuljetus, logistiikka"
 
-#: onboarding/models.py:28
+#: onboarding/models.py:28 survey/models.py:107
 msgid "Media, Creative Industries"
 msgstr "Media, luovat alat"
 
-#: onboarding/models.py:29
+#: onboarding/models.py:29 survey/models.py:108
 msgid "Information Technology, Data Infrastructure, Telecom"
 msgstr "IT, data-infrastruktuuri, telekommunikaatio"
 
-#: onboarding/models.py:30
+#: onboarding/models.py:30 survey/models.py:109
 msgid "Healthcare"
 msgstr "Terveydenhoito"
 
-#: onboarding/models.py:31
+#: onboarding/models.py:31 survey/models.py:110
 msgid "Education"
 msgstr "Koulutus"
 
-#: onboarding/models.py:32
+#: onboarding/models.py:32 survey/models.py:111
 msgid "Life Sciences"
 msgstr "Biotieteet"
 
-#: onboarding/models.py:33
+#: onboarding/models.py:33 survey/models.py:112
 msgid "Retail, E-Commerce"
 msgstr "Kauppa, verkkokauppa"
 
-#: onboarding/models.py:34
+#: onboarding/models.py:34 survey/models.py:113
 msgid "Hospitality, Food, Leisure Travel"
 msgstr "Hotelli- ja ravintola-ala, matkailu"
 
-#: onboarding/models.py:35
+#: onboarding/models.py:35 survey/models.py:114
 msgid "Public Service, Social Service"
 msgstr "Julkishallinto, sosiaalipalvelut"
 
-#: onboarding/models.py:36
+#: onboarding/models.py:36 survey/models.py:115
 msgid "Financial Services"
 msgstr "Rahoituspalvelut"
 
-#: onboarding/models.py:37
+#: onboarding/models.py:37 survey/models.py:116
 msgid "Professional Services (Law, Consulting, etc.)"
 msgstr "Ammatilliset palvelut (lakiasiat, konsultointi, jne.)"
 
-#: onboarding/models.py:38
+#: onboarding/models.py:38 survey/models.py:117
 msgid "Other"
 msgstr "Muu"
 
@@ -102,845 +1820,2060 @@ msgstr "Muu"
 msgid "Industry"
 msgstr "Toimiala"
 
-#: onboarding/models.py:50 public/templates/public/contact.html:26
-#: templates/base.html:97
-msgid "Email"
-msgstr "Sähköposti"
-
-#: public/templates/public/about.html:6
-msgid "What is USM?"
-msgstr "Mikä USM?"
-
-#: public/templates/public/about.html:7 templates/base.html:13
-msgid "Why USM?"
-msgstr "Miksi USM?"
-
-#: public/templates/public/about.html:8 templates/base.html:14
-msgid "Company"
-msgstr "Yritys"
-
-#: public/templates/public/about.html:9
-msgid "People"
-msgstr "Ihmiset"
-
-#: public/templates/public/about.html:18
+#: projects/models.py:27
 msgid ""
-"You can really learn to manage services yourself. A sustainable service "
-"organization is simpler than you may think."
+"Accross all teams. Used to estimate the project cmpletion date, for example "
+"in the burndown chart."
 msgstr ""
-"Voit oppia itse hallinnoimaan omia palveluitasi. Kestävä palveluorganisaatio "
-"on yksinkertaisempi saavuttaa kuin kuvittelet."
+"Kaikkien tiimien yli. Käytetään projektin valmistumisen ajankohtaa, esimerkiksi "
+"edistymiskäyrällä."
 
-#: public/templates/public/about.html:38
+#: projects/models.py:102 projects/models.py:138 projects/models.py:227
+#: xref/models.py:42 xref/models.py:76 xref/models.py:105
+msgid "Ready"
+msgstr "Valmis"
+
+#: projects/models.py:104 projects/models.py:140 projects/models.py:229
+msgid "Closed"
+msgstr "Suljettu"
+
+#: projects/models.py:242
+msgid "Blocker"
+msgstr "Estynyt"
+
+#: projects/models.py:243
+msgid "Very high"
+msgstr "Erittäin korkea"
+
+#: projects/models.py:247
+msgid "Very low"
+msgstr "Erittäin matala"
+
+#: projects/models.py:248
+msgid "Trivial"
+msgstr "Triviaali"
+
+#: projects/templates/projects/fragments/tabs.html:16
+msgid "Reports"
+msgstr "Raportit"
+
+#: projects/templates/projects/modals/create-or-update.html:9
+#: projects/templates/projects/modals/task-create-or-update.html:10
+#: xref/templates/xref/modals/create-or-update.html:9
+msgid "Create a new "
+msgstr "Luo uusi "
+
+#: projects/templates/projects/modals/project-create-or-update.html:7
+msgid "Update project"
+msgstr "Päivitä projektia"
+
+#: projects/templates/projects/modals/project-create-or-update.html:9
+msgid "Create a project"
+msgstr "Luo projekti"
+
+#: projects/templates/projects/modals/project-delete.html:4
+msgid "Delete project"
+msgstr "Poista projekti"
+
+#: projects/templates/projects/project-list.html:8
+msgid "Projects"
+msgstr "Projektit"
+
+#: projects/templates/projects/project-list.html:31
+msgid "Create a new project"
+msgstr "Luo uusi projekti"
+
+#: survey/forms.py:10
+msgid "Invitee name"
+msgstr "Kutsutun nimi"
+
+#: survey/forms.py:11
+msgid "Invitee email"
+msgstr "Kutsutun sähköposti"
+
+#: survey/forms.py:12
+msgid "Invitee organization"
+msgstr "Kutsutun organisaatio"
+
+#: survey/forms.py:13
+msgid "Invitation group"
+msgstr "Kutsuryhmä"
+
+#: survey/forms.py:13
+msgid "Will be visible to the invitee"
+msgstr "Ei näy kutsutulle"
+
+#: survey/forms.py:19
+msgid "Generate link"
+msgstr "Luo linkki"
+
+#: survey/forms.py:31 survey/forms.py:44 survey/forms.py:56
+msgid "Send"
+msgstr "Lähetä"
+
+#: survey/models.py:17 survey/models.py:33
+#: workflows/templates/workflows/modals/service-share.html:39
+msgid "Never"
+msgstr "Ei koskaan"
+
+#: survey/models.py:18 survey/models.py:32
+msgid "Rarely"
+msgstr "Harvoin"
+
+#: survey/models.py:19 survey/models.py:31
+msgid "Sometimes"
+msgstr "Joskus"
+
+#: survey/models.py:20 survey/models.py:30
+msgid "Neutral"
+msgstr "Neutraali"
+
+#: survey/models.py:21 survey/models.py:29
+msgid "Often"
+msgstr "Usein"
+
+#: survey/models.py:22 survey/models.py:28
+msgid "Usually"
+msgstr "Useimmiten"
+
+#: survey/models.py:23 survey/models.py:27
+msgid "Always"
+msgstr "Aina"
+
+#: survey/models.py:36
+msgid "We manage improvements in a proactive way"
+msgstr "Hallinoimme parannuksia proaktiivisesti"
+
+#: survey/models.py:38
+msgid "The ways we work (our daily routines) are adequately documented"
+msgstr ""
+
+#: survey/models.py:40
 msgid ""
-"USM Coach is a company dedicated to helping customers to become self-"
-"sufficient in solving their service management needs."
+"The ways we work (our daily routines) are automated with adequate tooling "
+"where possible"
 msgstr ""
-"USM Coach auttaa asiakkaitaan saavuttamaan omavaraisuuden palveluiden "
-"hallinnassa."
+"Kaikki mahdolliset tavat jolla teemme töitä (päivittäiset rutiinimme) on automatisoitu riittävillä "
+"työkaluilla"
 
-#: public/templates/public/about.html:44
-msgid "Our approach is based on Unified Service Management (USM) method."
-msgstr ""
-"Lähestymistapamme pohjautuu Unified Service Management (USM) -menetelmään."
+#: survey/models.py:42
+msgid "The reporting of service quality in my organization is good"
+msgstr "Palvelun laadun raportointi organisaatiossa on hyvä"
 
-#: public/templates/public/about.html:50
-msgid "We contribute actively to the development of the USM method."
-msgstr "Osallistumme aktiivisesti USM-menetelmän kehittämiseen."
-
-#: public/templates/public/about.html:67
+#: survey/models.py:44
 msgid ""
-"Mikko is a certified USM Coach. He has over 30 years of experience in "
-"various Software Development roles, such as Full Stack Developer, Architect, "
-"Scrum Master, Chief Product Owner, and CTO."
+"We have issues arising from unclear roles and responsibilities, or ownership"
 msgstr ""
-"Mikko on sertifioitu USM-valmentaja. Hänellä on yli 30 vuoden kokemus "
-"erilaisista ohjelmistoalan rooleista, kuten Full Stack -kehittäjä, "
-"arkkitehti, Scrum Master, Chief Product Owner, sekä CTO."
+"Meillä on haasteita liittyen epäselviin vastuisiin, tehtävänkuviin, tai omistajuuteen"
 
-#: public/templates/public/about.html:75
+#: survey/models.py:46
+msgid "We solve most of the customer requests as agreed"
+msgstr "Ratkaisemme suurimman osan asiakaspyynnöistä sovitusti"
+
+#: survey/models.py:48
+msgid "Our service reporting fully supports the expectations of our customers"
+msgstr "Palveluraportointiin kuuluu asiakkaan odotusten kuvaaminen"
+
+#: survey/models.py:50
 msgid ""
-"For the last 11 years, he has worked as an Independent Software "
-"Professional. He holds one M.Sc. in Computer Science and another one in "
-"Economics."
+"We have difficulties to comply with one or more required industry standards "
+"(ISO 9k, ISO 27k, ISO 13k etc.)"
 msgstr ""
-"Viimeiset 11 vuotta hän on toiminut itsenäisenä IT-alan ammattilaisena. Hän "
-"on sekä filosofian että kauppatieteiden maisteri."
+"Meillä on haasteita toteuttaa yksi tai useampi alalla käytetty standardi "
+"(ISO 9k, ISO 27k, ISO 13k jne.)"
 
-#: public/templates/public/about.html:82
+#: survey/models.py:52
+msgid "Our employees are satisfied with the way we organize our work"
+msgstr "Työntekijämme ovat tyytyväisiä siihen miten olemme organisoineet työmme"
+
+#: survey/models.py:54
 msgid ""
-"He spends his free time with his four year old daughter and dances argentine "
-"tango."
+"We encounter problems with our supplier relationships, impacting our product/"
+"service quality"
 msgstr ""
-"Vapaa-aikaansa Mikko viettää nelivuotiaan tyttärensä kanssa sekä tanssii "
-"argentiinalaista tangoa."
+"Meillä on haasteita toimittajasuhteiden kanssa, jotka vaikuttavat tuotteiden tai palveluiden "
+"laatuun"
 
-#: public/templates/public/about.html:96
+#: survey/models.py:56
+msgid "Our services and related agreements are clearly specified"
+msgstr "Palvelumme ja niihin liittyvät sopimukset ovat selkeästi määritelty"
+
+#: survey/models.py:58
 msgid ""
-"Today all business are service businesses. Even if you are just selling "
-"potatoes, you will legally need to provide a support for returning the bad "
-"ones."
+"We are in control of our planning and our resources for the delivery of our "
+"services"
 msgstr ""
-"Nykyään jokainen yritys on palveluyritys. Vaikka myisit vain perunoita, laki "
-"velvoittaa sinua tarjoamaan palvelun huonojen perunoiden palauttamiselle."
+"Palveluiden toimittamiseen liittyvä suunnittelu ja sen resursointi on hallinnassa"
 
-#: public/templates/public/about.html:104
+#: survey/models.py:60
 msgid ""
-"For many companies it is not enough to just provide services. They see the "
-"need to become customer-driven in order to survive in a competitive market. "
-"To become customer-driven, you need to focus on the long-term relationship "
-"with the customer, instead of only looking at individual transactions. This "
-"means that how you manage your services needs some new thinking as well."
+"We have a formalized and shared business glossary (definitions of terms) and "
+"it is actively used throughout the organization"
 msgstr ""
-"Moni yritys ei kuitenkaan tyydy pelkkään palveluiden tarjoamiseen. "
-"Pärjääminen kilpailluilla markkinoilla vaatii asiakaslähtöisyyttä. "
-"Asiakaslähtöisyys vaatii fokusoitumista pitkäaikaiseen asiakassuhteeseen "
-"yksittäisten transaktioiden sijaan. Tästä seuraa, että palveluiden "
-"hallinnointi vaatii myös uudenlaista ajattelua."
+"Meillä on määrämuotoinen ja jaettu liiketoimintasanasto (sanojen määritelmät) ja "
+"sitä käytetään aktiivisesti organisaationlaajuisesti"
 
-#: public/templates/public/about.html:114
-msgid ""
-"The USM method provides a standardized management method for a service "
-"organization to manage its people, its processes, its technology, and its "
-"services."
-msgstr ""
-"USM-menetelmä tarjoaa palveluorganisaatiolle standardoidun hallintomallin "
-"henkilöiden, prosessien, teknologioiden sekä palveluiden hallintaan."
+#: survey/models.py:62
+msgid "The countries where your organization operates"
+msgstr "Maat joissa organisaatiosi toimii"
 
-#: public/templates/public/about.html:128
-msgid ""
-"USM is different from frameworks and standards, such as ISO 20000-1, COBIT "
-"or ITIL, which are collections of best practices.  USM is built on "
-"principles inspired by those practices. Thus USM is complementary to them."
-msgstr ""
-"USM poikkeaa muista kehikoista ja standardeista, kuten ISO 20000-1, COBIT "
-"tai ITIL, jotka ovat käytännössä parhaiden käytäntöjen kokoelmia. USM on "
-"rakennettu periaatteille, jotka ovat saaneet inspiraationsa noista "
-"käytännöistä. USM täydentää niitä."
+#: survey/models.py:72
+msgid "Dutch"
+msgstr "Hollanti"
 
-#: public/templates/public/about.html:136
-msgid ""
-"In fact, if you need certifications for your business, USM is probably the "
-"fastest, least expensive, least risky, and probably even the most useful way "
-"to do it. After you deploy USM, the auditors can cross-reference "
-"certification requirements to the activities in workflows, profiles and "
-"other specifications of the USM, to demonstrate compliancy."
-msgstr ""
-"Jos yrityksesti tarvitsee sertifikaatiota, USM on luultavasti jopa nopein, "
-"edullisin, vähäriskisin ja ehkä jopa hyödyllisin tapa hankkia se. Kun USM on "
-"otettu käyttöön, auditoijat voivat varmistaa sertifikaatien vaatimusten "
-"noudattamista hyödyntämällä ristiinviittauksia vaatimusten sekä USM:n "
-"työnkuluissa olevien aktiviteettien, profiilien sekä muiden USM:n "
-"määrittelyjen välillä."
+#: survey/models.py:73 usm/settings.py:168 workflows/models.py:23
+msgid "English"
+msgstr "Englanti"
 
-#: public/templates/public/about.html:152
-msgid ""
-"The USM Method was authored by USM Chief Architect Jan van Bon. Jan has "
-"extensive exprience in Service Management, including being a member of the "
-"ITIL v3 guidance team between 2006-2007. Jan became increasingly frustrated "
-"with the complexity of common standards and frameworks, including ITIL and "
-"various ISO standards, and started developing a more simplified method for "
-"service management, based on principles. USM is the result of that work."
-msgstr ""
-"USM-menetelmän on on laatinut USM:n pääarkkitehti Jan van Bon. Janilla on "
-"laaja kokemus palveluiden hallinnasta. Hän on ollut mm. jäsen ITIL v3 "
-"ohjaustiimissä vuosina 2006-2007. Jan tuskastui ITIL:in ja ISO-standardien "
-"kaltaisten standardien ja kehikkojen monimutkaisuuteen ja alkoi kehittää "
-"yksinkertaisempaa, periaatteille perustuvaa menetelmää palveluiden "
-"hallintaan. USM on sen työn tulos."
-
-#: public/templates/public/about.html:163
-msgid ""
-"The USM Method was developed and is owned and managed by the SURVUZ "
-"Foundation in Netherlands."
-msgstr ""
-"USM-menetelmän on kehittänyt, sen omistaa ja sitä hallinnoi hollantilainen "
-"SURVUZ Foundation."
-
-#: public/templates/public/about.html:178
-msgid "The USM method has the following features and benefits:"
-msgstr "USM-menetelmällä on seuraavat ominaisuudet ja hyödyt:"
-
-#: public/templates/public/about.html:186
-msgid "It is universal, so you can use it to manage any service."
-msgstr ""
-"Se on universaali, joten voit käyttää sitä minkä tahansa palvelun "
-"hallinnointiin"
-
-#: public/templates/public/about.html:191
-msgid ""
-"It unified, and allows workflows to co-operate more harmoniously even in "
-"complex networks of service providers."
-msgstr ""
-"Se on yhtenäinen ja mahdollistaa työnkulkujen harmonisen yhteistoiminnan "
-"jopa monimutkaisissa palveluntarjoajien verkostoissa."
-
-#: public/templates/public/about.html:196
-msgid "It is learnable, because it is based on principles instead of practices"
-msgstr "Se on opittavissa, koska se perustuu periaatteisiin eikä käytäntöihin"
-
-#: public/templates/public/about.html:201
-msgid "It is free, so you don't need to pay royalties for using it"
-msgstr ""
-"Se on vapaa, joten sinun ei tarvitse maksaa rojalteja sen käyttämisestä"
-
-#: public/templates/public/about.html:206
-msgid "It is simple, so you can learn it and become self-sufficient"
-msgstr ""
-"Se on yksinkertainen, joten voit oppia sen helposti itse ja tulla "
-"riippumattomaksi ulkopuolisista konsulteista"
-
-#: public/templates/public/about.html:211
-msgid "It is non-redundant, so you can avoid duplication of work"
-msgstr "Se ei sisällä toistoa, joten ylimääräistä työtä vältetään"
-
-#: public/templates/public/about.html:216
-msgid "It is open, so it fosters a culture of sharing ideas and practices"
-msgstr "Se on avoin, joka ruokkii ideoiden ja käytäntöjen jakamisen kulttuuria"
-
-#: public/templates/public/contact.html:14
-msgid "We are based in Helsinki, Finland."
-msgstr "Sijaitsemme Helsingissä."
-
-#: public/templates/public/contact.html:20
-msgid "We coach remotely as well."
-msgstr "Teemme myös etävalmennusta."
-
-#: public/templates/public/contact.html:29 templates/base.html:99
-msgid "Phone"
-msgstr "Puhelin"
-
-#: public/templates/public/privacy-policy.html:6
-msgid "USM Coach Privacy Policy"
-msgstr "USM Coachin Tietosuojaseloste"
-
-#: public/templates/public/privacy-policy.html:7
-msgid "As a visitor to the usm.coach website"
-msgstr "Vierailijana usm.coachin sivustolla"
-
-#: public/templates/public/privacy-policy.html:8
-msgid "As a customer and subscriber of USM Coach"
-msgstr "Asiakkaana ja USM Coachin palveluiden tilaajana"
-
-#: public/templates/public/privacy-policy.html:9
-msgid "Retention of data"
-msgstr "Tiedon säilytys"
-
-#: public/templates/public/privacy-policy.html:10
-msgid "Changes and questions"
-msgstr "Muutokset ja kysymykset"
-
-#: public/templates/public/privacy-policy.html:18
-msgid ""
-"For usm.coach visitors, we do not use cookies for tracking you and we do not "
-"collect any personal data without your consent."
-msgstr ""
-"Emme käytä keksejä usm.coachin vierailijoiden seuraamiseen emmekä kerää "
-"henkilökohtaista tietoa sinusta ilman lupaa."
-
-#: public/templates/public/privacy-policy.html:24
-msgid ""
-"If you request to hear about our news or us to contact you, or decide to "
-"create an account, we ask for your email address. We use it only for the "
-"purposes you have explicitly warranted. We will not contact you unless you "
-"explicitly give us a permission to do so."
-msgstr ""
-"Jos tilaat uutiskirjeen, pyydät että otamme yhteyttä, tai päätät perustaa "
-"käyttäjätilin, pyydämme sähköpostiosoitettasi. Käytämme sitä vain niihin "
-"tarkoituksiin, johon olet antanut luvan. Otamme sinuun yhteyttä vain jos olet "
-"antanut siihen luvan tai muista erittäin pakottavista syistä."
-
-#: public/templates/public/privacy-policy.html:31
-msgid ""
-"At USM Coach, we are committed to complying with GDPR, CCPA, PECR and other "
-"privacy regulations on our website and on our services."
-msgstr ""
-"Me USM Coachissa olemme sitoutuneet noudattamaan GDPR-, CCPA-, PECR- ja muita "
-"tietosuojaa koskevia säädöksiä verkko- ja muissa palveluissamme."
-
-#: public/templates/public/privacy-policy.html:41
-msgid ""
-"The privacy of our website visitors is important to us so we do not track "
-"any individual people. As a visitor to the usm.coach website:"
-msgstr ""
-"Verkkosivujen kävijöiden yksityisyys on meille tärkeää, joten emme jäljitä "
-"yksittäisiä käyttäjiä. Sivuston usm.coach vierailijana:"
-
-#: public/templates/public/privacy-policy.html:46
-msgid "No personal information other than you explicitly provide is collected"
-msgstr ""
-"Emme kerää muuta henkilökohtaista tietoa kuin sen mitä olet erikseen antanut"
-
-#: public/templates/public/privacy-policy.html:51
-msgid ""
-"No information such as cookies is stored in the browser to track you. "
-"Cookies are only used to persist your language choice and for other similar "
-"user interface features."
-msgstr ""
-"Emme tallenna tietoja, kuten keksejä, selaimesi muistiin "
-"seuraamistarkoituksessa. Keksejä käytetään vain kielivalintasi "
-"tallentamiseen ja muihin vastaaviin sivuston ominaisuuksien toteuttamiseen."
-
-#: public/templates/public/privacy-policy.html:56
-msgid "No information is shared with, sent to or sold to third-parties"
-msgstr ""
-"Kerättyä informaatiota ei jaeta, lähetetä tai myydä kolmansille osapuolille"
-
-#: public/templates/public/privacy-policy.html:61
-msgid "No information is shared with advertising companies"
-msgstr "Kerättyä informaatiota ei jaeta mainoksia myyville yrityksille"
-
-#: public/templates/public/privacy-policy.html:66
-msgid ""
-"No information is mined and harvested for personal and behavioral trends"
-msgstr ""
-"Kerättyä informaatiota ei louhita tai muuten hyödynnetä yksilöiden tai "
-"käyttäytymistrendien seuraamiseksi"
-
-#: public/templates/public/privacy-policy.html:71
-msgid "No information is monetized"
-msgstr "Kerättyä informaatiota ei kaupallisteta"
-
-#: public/templates/public/privacy-policy.html:79
-msgid ""
-"We run privacy-centered analysis script from Plausible to collect some "
-"anonymous usage data for statistical purposes. The goal is to track overall "
-"trends in our website traffic and success of our marketing campaigns, it is "
-"not to track individual visitors. All the data is in aggregate only. No "
-"personal data is collected."
-msgstr ""
-"Ajamme yksityisyydensuojaan keskittyvää Plausiblen analytiikkakirjastoa "
-"kerätäksemme anonyymiä käyttötietoa tilastollisiin tarkoituksiin. Keräämisen tarkoitus "
-"on seurata yleisiä verkkosivujen käyttötrendejä sekä "
-"markkinointikampanjoiden onnistumista. Tarkoitus ei ole seurata yksittäisiä "
-"kävijöitä. Kaikki tieto kerätään vain aggregaattimuodossa, eikä henkilökohtaista "
-"tietoa kerätä."
-
-#: public/templates/public/privacy-policy.html:85
-msgid ""
-"Data collected includes websites that send us traffic, pages on our site "
-"that are visited, duration of the visits, information from the devices "
-"(device type, operating system, country and browser) used during the visit "
-"and more. You can check Plausible website for full details the data policy."
-msgstr ""
-"Kerätty tieto sisältää mm. tiedon siitä, mistä sivulle on tultu, vieraillut "
-"sivut, vierailun kesto sekä tieto laitteista (laitteen tyyppi, "
-"käyttöjärjestelmä, maa, selain) jolla vierailu on tehty. Voit "
-"tarkistaa tarkemmat tiedot Plausiblen sivustolta."
-
-#: public/templates/public/privacy-policy.html:95
-msgid ""
-"Our guiding principle is to collect only what we need and that we will "
-"solely process this information to provide you with the service you signed "
-"up for."
-msgstr ""
-"Meitä ohjaava periaate on, että keräämme vain sen tiedon minkä tarvitsemme "
-"ja prosessoimme sen tiedon vain voidaksemme tarjota sinulle tilaamasi "
-"palvelun."
-
-#: public/templates/public/privacy-policy.html:101
-msgid ""
-"We use a select number of trusted external service providers for certain "
-"service offerings. These service providers are carefully selected and meet "
-"high data protection, data privacy and security standards."
-msgstr ""
-"Käytämme muutamia luotettuja kolmansien osapuolten tarjoamia palveluita "
-"joidenkin palvelujen toteuttamiseen. Nämä palvelut on tarkoin valittu ja "
-"noudattavat korkeita tiedonsuojauksen, tiedon yksityisyyden ja tietoturvan "
-"standardeja."
-
-#: public/templates/public/privacy-policy.html:107
-msgid ""
-"We only share information with them that is required for the services "
-"offered and we contractually bind them to keep any information we share with "
-"them as confidential and to process personal data only according to our "
-"instructions."
-msgstr ""
-"Jaamme heidän kanssaan vain sen tiedon minkä he tarvitsevat omien "
-"palveluidensa toteuttamiseen, velvoitamme heitä sopimuksella pitämään "
-"kyseisen tiedon luottamuksellisena ja prosessoimaan henkilöihin liittyvää "
-"tietoa vain meidän antamiemme ohjeiden mukaisesti."
-
-#: public/templates/public/privacy-policy.html:113
-msgid "Here’s what that means in practice:"
-msgstr "Tätä se tarkoittaa käytännössä:"
-
-#: public/templates/public/privacy-policy.html:119
-msgid "What we collect and what we use it for"
-msgstr "Mitä keräämme ja mihin sitä käytetään"
-
-#: public/templates/public/privacy-policy.html:124
-msgid ""
-"An email address is required if you request us to send you information or "
-"contact you, or if you create an account. For the account, this is just so "
-"you can log in and personalize your new account, and we can send you "
-"invoices, updates or other essential information."
-msgstr ""
-"Sähköpostiosoite tarvitaan jos pyydät että otamme sinuun yhteyttä, pyydät "
-"että lähetämme sinulle tietoa tai jos haluat luoda tunnuksen. Tunnuksessa "
-"tarvitsemme sitä siksi, että voit kirjautua sisään ja personoida tunnustasi, "
-"ja että voimme lähettää sinulle laskuja, päivityksiä ja muuta oleellista "
-"tietoa."
-
-#: public/templates/public/privacy-policy.html:129
-msgid ""
-"A persistent first-party cookie is stored to remember you’re logged in. If "
-"you log in to your USM Coach account, you give us permission to use cookies "
-"so you don’t have to log in on each returning session. This makes it easier "
-"for you to use our product. A cookie is a piece of text stored by your "
-"browser. You can adjust cookie retention settings in your own browser. "
-"Cookies that are already stored may be deleted at any time."
-msgstr ""
-"Pysyvä ensimmäisen osapuolen keksi tallennetaan jotta sisäänkirjautumisesi "
-"muistetaan. Jos kirjaudut sisään USM Coach -tunnuksellasi, annat meille "
-"oikeuden käyttää keksejä ettei sinun tarvitse kirjautua sisään jokaisella "
-"seuraavalla istunnolla. Tämä tekee palvelumme käyttämisestä helpompaa. Keksi "
-"on tekstinpätkä joka tallennetaan selaimeesi. Voit muuttaa keksien "
-"säilömisaikaa selaimesi asetuksista. Voit tuhota tallennetut piparit "
-"milloin tahansa."
-
-#: public/templates/public/privacy-policy.html:134
-msgid ""
-"The payment process is handled by a third-party payment provider. If you "
-"choose to upgrade to a USM Coach paid plan, the billing information and the "
-"payment process is handled by Paddle. See the Paddle Privacy Policy for full "
-"details."
-msgstr ""
-"Maksut käsitellään kolmannen osapuolen maksunvälittäjän toimesta. Jos "
-"valitset USM Coachin maksullisen palvelun, laskutustiedot sekä "
-"laskutusprosessi hoidetaan Paddlen toimesta. Voit tarkistaa tarkemmat tiedot "
-"Paddlen tietosuojaselosteesta."
-
-#: public/templates/public/privacy-policy.html:139
-msgid ""
-"All emails are sent using a third-party email provider. Transactional emails "
-"and email reports (should you choose to subscribe to them) are sent using "
-"Postmark. We have disabled both open tracking and link tracking on all "
-"emails sent. See the Postmark Privacy Policy for full details."
-msgstr ""
-"Kaikki sähköpostit lähetetään kolmannen osapuolen sähköpostipalvelinten "
-"kautta. Transaktionaaliset sähköpostit sekä sähköpostiraportit (jos tilaat "
-"sellaisen) lähetään Postmark-palvelulla. Olemme poistaneet käytöstä "
-"sähköpostin avaamisen ja linkkien seuraamisen kaikissa lähtevissä "
-"sähköposteissa. Voit tarkistaa tarkemmat tiedot Postmarkin "
-"tietosuojaselosteesta."
-
-#: public/templates/public/privacy-policy.html:144
-msgid ""
-"When you write to us with a question or to ask for help. We keep that "
-"correspondence, which includes the email address, so that we have a history "
-"of past correspondences to reference if you reach out in the future. We use "
-"this data solely in connection with answering the queries we receive."
-msgstr ""
-"Jos kirjoitat meille kysyäksesi kysymyksen tai pyytääksesi apua. Tallennamme "
-"käydyt keskustelut, jotka pitävät sisällään sähköpostiosoitteet, jotta "
-"meillä on tallessa käytyjen viestinvaihtojen historia siinä tapauksessa että "
-"otat meihin yhteyttä myös jatkossa. Tätä tietoa käytetään vain kysyttyihin "
-"kysymyksiin vastaamiseen."
-
-#: public/templates/public/privacy-policy.html:149
-msgid ""
-"We use CAPTCHA service as a means of spam protection on our account "
-"registration form. hCaptcha is a GDPR-compliant and privacy-friendly "
-"captcha. See the hCaptcha Privacy Policy for full details."
-msgstr ""
-"Käytämme CAPTCHA-palvelua roskapostien estoon rekisteröitymislomakkeella. "
-"hCaptcha on GDPR-yhteensopiva ja tietoturvalähtöinen captcha. Voit tarkistaa "
-"tarkemmat tiedot hCaptchan tietosuojaselosteesta."
-
-#: public/templates/public/privacy-policy.html:154
-msgid ""
-"When you choose to subscribe to our blog posts via email. We use Mailchimp "
-"to send those newsletters. We have disabled both open tracking and link "
-"tracking on all emails sent. See the Mailchimp Privacy Policy for full "
-"details."
-msgstr ""
-"Kun tilaat blogikirjoituksemme sähköpostitse. Käytämme Mailchimp-palvelua "
-"uutiskirjeiden lähettämiseen. Olemme poistaneet käytöstä uutiskirjeen "
-"avaamisen ja linkkien seuraamisen kaikissa lähtevissä sähköposteissa. Voit "
-"tarkistaa tarkemmat tiedot Mailchimpin tietosuojaselosteesta."
-
-#: public/templates/public/privacy-policy.html:163
-msgid ""
-"We will retain your information as long as your account is active, as "
-"necessary to provide you with the services or as otherwise set forth in this "
-"policy."
-msgstr ""
-"Säilytämme informaation niin kauan kuin tunnuksesi on aktiivinen, "
-"voidaksemme tarjota sinulle palveluita tai muista tässä selosteessa "
-"mainituista syistä."
-
-#: public/templates/public/privacy-policy.html:169
-msgid ""
-"We will also retain and use this information as necessary for the purposes "
-"set out in this policy and to the extent necessary to comply with our legal "
-"obligations, resolve disputes, enforce our agreements and protect USM "
-"Coach’s legal rights."
-msgstr ""
-"Säilytämme ja käytämme näitä tietoja tarpeen mukaan tässä selosteessa "
-"kuvatussa tarkoituksessa ja siinä määrin kuin se on tarpeellista "
-"lakisääteisten velvoitteiden hoitamiseksi, riitojen ratkaisemiseksi, "
-"sopimusten täytäntöönpanemiseksi sekä USM Coachin oikeuksien suojelemiseksi."
-
-#: public/templates/public/privacy-policy.html:175
-msgid ""
-"You can choose to delete your USM Coach account at any time. All your data "
-"will be permanently deleted immediately when you delete your account."
-msgstr ""
-"Voit tuhota USM Coach -tilisi milloin tahansa. Kaikki data tuhotaan "
-"välittömästi ja peruuttamattomasti kun poistat tilisi."
-
-#: public/templates/public/privacy-policy.html:183
-msgid ""
-"We may update this policy as needed to comply with relevant regulations and "
-"reflect any new practices. Whenever we make a significant change to our "
-"policies, we will also announce them on our company blog or social media "
-"profiles."
-msgstr ""
-"Voimme päivittää tätä selostetta tarpeen mukaan erilaisten säännösten "
-"toteuttamiseksi ja mukauttamiseksi sopivaksi uusiin käytäntöihin. Jos teemme "
-"merkittäviä muutoksia selosteeseen, julkaisemme tiedon siitä yrityksen "
-"blogissa tai sosiaalisen median tileilä."
-
-#: public/templates/public/privacy-policy.html:189
-msgid ""
-"<a href=\"/public/contact/\">Contact</a> us if you have any questions, "
-"comments, or concerns about this privacy policy, your data, or your rights "
-"with respect to your information."
-msgstr ""
-"<a href=\"/public/contact/\">Ota yhteyttä</a> meihin jos sinulla on "
-"kysyttävää, kommentteja tai huolia liittyen tähän tietosuojaselosteeseen, "
-"dataasi, tai oikeuksisi omaan tietoosi liittyen."
-
-#: public/templates/public/resources.html:9
-msgid "Simple USM"
-msgstr "Simple USM"
-
-#: public/templates/public/resources.html:10
-msgid "Training"
-msgstr "Koulutus"
-
-#: public/templates/public/resources.html:11
-msgid "Books"
-msgstr "Kirjat"
-
-#: public/templates/public/resources.html:12
-msgid "USM Portal"
-msgstr "Portaali"
-
-#: public/templates/public/resources.html:23
-msgid "Start download"
-msgstr "Aloita lataus"
-
-#: public/templates/public/resources.html:28
-msgid "Submit for the download link"
-msgstr "Lähetä, saat latauslinkin"
-
-#: public/templates/public/resources.html:35
-msgid ""
-"<i>Simple USM</i> is an introductory e-book about USM. It is targeted for "
-"people that want to understand the basics of USM, for example for deploying "
-"USM with the help of a coach."
-msgstr ""
-"E-kirja <i>Simple USM</i> on johdanto USM:ään. Kirja on suunnattu ihmisille "
-"jotka haluavat ymmärtää USM:n perusteet, esimerkiksi voidakseen osallistua "
-"USM:n käyttöönottoon valmentajan avulla."
-
-#: public/templates/public/resources.html:42
-msgid ""
-"It explains the core ideas of USM method in simple, condensed format. It is "
-"a good starting point for learning more about USM."
-msgstr ""
-"Se esittelee USM-menetelmän ydinajatukset yksinkertaisessa ja tiivistetyssä "
-"muodossa. E-kirja on hyvä lähtökohta USM:ään tutustumiseen."
-
-#: public/templates/public/resources.html:49
-msgid "The book is in English and contains 14 pages."
-msgstr "Kirja on englanninkielinen ja sisältää 14 sivua."
-
-#: public/templates/public/resources.html:55
-msgid ""
-"The book is free to download in PDF format. Fill your industry on the form "
-"on the left, and submit the form. After you submit the form, a download "
-"button will appear."
-msgstr ""
-"Voit ladata PDF-muotoisen kirjan ilmaiseksi. Täytä toimiala vasemman palstan "
-"lomakkeelle ja lähetä lomake. Lomakkeen lähettämisen jälkeen lomakkeen "
-"tilalle tulee latauspainike."
-
-#: public/templates/public/resources.html:62
-msgid ""
-"We have free webinars, product releases and other interesting things coming "
-"up soon. To stay informed, check the corresponding boxes and fill in your "
-"email address. We will not spam you, and use your email address only for the "
-"purposes you have explicitly warranted. See our <a href=\"/public/privacy-"
-"policy\">Privacy Policy</a> for details."
-msgstr ""
-"Julkaisemme pian webinaareja, uusia tuotteita ja muutakin mielenkiintoista. "
-"Valitse sopivat laatikot sekä täytä sähköpostiosoitteesi saadaksesi niistä "
-"lisätietoja. Emme lähetä viestejä turhaan. Käytämme osoitettasi vain siihen "
-"tarkoitukseen johon olet antanut luvan. Lisätietoja <a href=\"/public/"
-"privacy-policy\">tietosuojaselosteesta</a>."
-
-#: public/templates/public/resources.html:77
-msgid ""
-"Training is integral part of the USM Deployment, allowing you to become more "
-"self-sufficient. Training can be more informal knowledge transfer, or more "
-"formal training by a certified USM Training Partner."
-msgstr ""
-"Koulutus on tärkeä osa USM:n käyttöönottoa. Me voimme auttaa sinua tulemaan "
-"omavaraisemmaksi. Koulutus voi olla joko vapaamuotoisempaa osaamisen siirtoa "
-"tai muodollisempaa sertifioidun USM-kouluttajan pitämää koulutusta."
-
-#: public/templates/public/resources.html:84
-msgid ""
-"For more information on training, see <a href=\"https://usm-portal.com/"
-"training/?lang=en\">Training</a> at USM portal."
-msgstr ""
-"Lisätietoja koulutuksista saat USM-portaalin koulutussivulta &mdash; <a href="
-"\"https://usm-portal.com/training/?lang=en\">Training</a>."
-
-#: public/templates/public/resources.html:104
-msgid ""
-"The online webbook <i>How to make a success of ITIL&#169; 4 with USM</i> "
-"describes the structure and practices of ITIL 4 from the perspective of the "
-"USM management system."
-msgstr ""
-"Verkkokirja <i>How to make a success of ITIL&#169; 4 with USM</i> kuvaa ITIL "
-"4:n rakenteen ja periaatteet USM-menetelmän näkökulmasta. Kirja on "
-"englanninkielinen."
-
-#: public/templates/public/resources.html:117
-msgid ""
-"The webbook <i>The USM Method</i> describes in detail the principles, "
-"structure, and application of the USM method, in 105 web pages and 100+ "
-"illustrations. To apply USM, you read the USM web-book and then apply it in "
-"your own organization. Rest assured – you can really do this yourself. A "
-"sustainable service organization is simpler than you may think."
-msgstr ""
-"Verkkokirja <i>The USM Method</i> kuvaa tarkasti periaatteet, rakenteen sekä "
-"USM-menetelmän soveltamisen. Kirjassa on 105 sivua ja yli sata kuvaa. Kirja "
-"antaa valmiudet soveltaa USM:ää omaan organisaatioosi. Usko pois - pystyt "
-"ihan oikeasti tekemään sen itse. Kestävä palveluorganisaatio on "
-"yksinkertaisempaa kuin uskotkaan. Kirja on englanninkielinen."
-
-#: public/templates/public/resources.html:138
-msgid ""
-"The <a href=\"https://usm-portal.com/?lang=en\">USM Portal</a> contains lots "
-"of resources about the USM."
-msgstr ""
-"<a href=\"https://usm-portal.com/?lang=en\">USM-portaali</a> sisältää paljon "
-"lisätietoa USM:stä."
-
-#: public/templates/public/resources.html:144
-msgid ""
-"A good starting point is the <a href=\"https://usm-portal.com/usm-library/?"
-"lang=en\">USM Library</a>."
-msgstr ""
-"Hyvä aloituspiste on USM-kirjasto &mdash; <a href=\"https://usm-portal.com/"
-"usm-library/?lang=en\">USM Library</a>."
-
-#: public/templates/public/services.html:7
-msgid "Scans"
-msgstr "Kartoitukset"
-
-#: public/templates/public/services.html:8
-msgid "Coaching"
-msgstr "Valmennus"
-
-#: public/templates/public/services.html:9
-msgid "Tooling"
-msgstr "Työkalut"
-
-#: public/templates/public/services.html:10
-msgid "Audit Support"
-msgstr "Tuki auditoinneissa"
-
-#: public/templates/public/services.html:18
-msgid ""
-"Any process can be described with one of 8 workflows going through 5 "
-"processes."
-msgstr ""
-"Mikä tahansa prosessi voidaan kuvata yhdellä kahdeksasta työnkulusta, jotka "
-"kulkevat viiden prosessin läpi."
-
-#: public/templates/public/services.html:34
-msgid "Before you begin your USM journey, you should know where you are."
-msgstr ""
-"Ennen kuin aloittaa matkan USM:n parissa, on hyvä tietää missä tällä "
-"hetkellä on."
-
-#: public/templates/public/services.html:40
-msgid ""
-"We can analyze your current situation using USM scans. If we scan your "
-"current situation before the project, you can use the results to demonstrate "
-"the business value the project may provide to your organization. We can also "
-"do the scan later, in the initial phase of the deployment project."
-msgstr ""
-"Voimme analysoida nykytilannettasi USM-kartoitusten avulla. Jos kartoitus "
-"tehdään ennen projektin aloitusta, sen tuloksia voidaan käyttää osoittamaan "
-"USM:n tuomia liiketoimintahyötyjä. Kartoitus voidaan tehdä myös myöhemmin, "
-"osana käyttöönottoprojektin aloitusvaihetta."
-
-#: public/templates/public/services.html:48
-msgid ""
-"There are multiple types of scans, with varying depths and scopes, depending "
-"on the needs of the organization. USM scans use a mix of surveys, interviews "
-"and reviews of existing documentation and tools. The result is typically "
-"presented in a form of a report."
-msgstr ""
-"Kartoituksia voidaan laatia tarpeen mukaan vaihtelevalla laajuudella ja "
-"syvyydellä. USM-kartoituksissa käytetään hyödyksi kyselyitä, haastatteluja, "
-"sekä olemassaolevaan dokumentaatioon ja työkaluihin perehtymistä. Tulokset "
-"esitetään yleensä raportin muodossa."
-
-#: public/templates/public/services.html:55
-msgid ""
-"Quick scan can also be done as a self-assessment, using an Excel template or "
-"an online form."
-msgstr ""
-"Pikakartoitus voidaan tehdä myös itsearviointina, käyttäen Excel-pohjaa tai "
-"verkkolomaketta."
-
-#: public/templates/public/services.html:61
-msgid ""
-"<span class=\"foobar\">Coming soon</span> Online self-assessment form! "
-"Register on the resources page for our newsletter to get notified."
-msgstr ""
-"<span class=\"foobar\">Tulossa</span> Itsearvioinnin verkkotyökalu tulossa "
-"pian! Rekisteröidy uutiskirjeemme tilaajaksi niin pidämme sinut ajan tasalla."
-
-#: public/templates/public/services.html:71
-msgid ""
-"Your organization should become self-sufficient in providing the USM. Our "
-"coaches can help you in your path towards self-sufficiency, with various "
-"forms of knowledge transfer, such as informal training and coaching. We can "
-"also set you up with more formal USM training if needed."
-msgstr ""
-"Organisaatiosi pitäisi tulla omavaraiseksi USM:n tarjoamisessa. "
-"Valmentajamme voivat auttaa sinua matkalla omavaraisuuteen "
-"esimerkiksierilaisten osaamisen siirtojen kuten vapaamuotoisen koulutuksen "
-"tai valmennuksen muodossa. Voimme myös järjestää tarvittaessa "
-"muodollisempaaUSM-koulututa."
-
-#: public/templates/public/services.html:78
-msgid ""
-"We are flexible, but typically avoid consulting, deployment work and project "
-"management, because they do not help you to become self-sufficient."
-msgstr ""
-"Olemme joustavia, mutta yleisesti välttelemme konsultointia, käyttöönottotyö "
-"tai projektinhallintaa, koska se vaikeuttaa omavaraisuuttasi."
-
-#: public/templates/public/services.html:90
-msgid ""
-"Tooling is an integral part of the USM deployment project and will play a "
-"major part in its success."
-msgstr ""
-"Työkalut ovat olennainen osa USM:n käyttöönottoa ja vaikuttaa keskeisesti "
-"sen onnistumiseen."
-
-#: public/templates/public/services.html:96
-msgid ""
-"Existing systems may need to be integrated, or you may need to build or "
-"purchase new ones."
-msgstr ""
-"Olemassaolevat järjestelmät voivat tarvita integraatioita, tai uusia "
-"järjestelmiä täytyy rakentaa tai ostaa."
-
-#: public/templates/public/services.html:102
-msgid ""
-"We can help you in evaluating suitability of your current systems in terms "
-"of USM features, evaluating alternatives, or implementing the necessary "
-"custom tools, integrations and glue between systems."
-msgstr ""
-"Voimme auttaa sinua arvioimaan nykyisten järjestelmiesi toimivuuden USM:n "
-"vaatimien ominaisuuksien kannalta, vertailla työkaluja tai toteuttaa uusia "
-"työkaluja, integraatioita tai liimaa järjestelmien välillä."
-
-#: public/templates/public/services.html:113
-msgid ""
-"We have the tools to assist you in various kinds of service management "
-"audits that target frameworks and certifications, such as ITIL v4, ISO 27k, "
-"ISO 20k, COBIT. We can provide your auditors with cross-references between "
-"USM and the target framework or certification."
-msgstr ""
-"Meillä on työkalut joilla voimme auttaa sinua erilaisissa palvelunhallinnan "
-"auditoinneissa jotka kohdistuvat ITIL v4, ISO 27k, ISO 20k, COBIT "
-"kaltaisiinkehikoihin. Voimme tarjota auditoijillesi ristiviittaukset USM:n "
-"ja kohteena olevan kehikon tai sertifikaatin välillä."
-
-#: public/templates/public/services.html:120
-msgid "We do not do audits or provide you with certifications."
-msgstr "Emme tee auditointeja tai tarjoa serifikaatteja."
-
-#: public/views.py:25
-msgid "Form sending was successful."
-msgstr "Lomakkeen lähetys onnistui."
-
-#: public/views.py:38
-msgid "Only fi and en are supported. Vain fi ja en tuettu."
-msgstr "Only fi and en are supported. Vain fi ja en tuettu."
-
-#: public/views.py:57
-msgid "Download was not successful, did you remember to fill the form?"
-msgstr "Vastaanotto epäonnistui, muistitko täyttää lomakkeen?"
-
-#: templates/base.html:8
-msgid "About"
-msgstr "Yleistä"
-
-#: templates/base.html:9
-msgid "Services"
-msgstr "Palvelut"
-
-#: templates/base.html:10
-msgid "Resources"
-msgstr "Resurssit"
-
-#: templates/base.html:11
-msgid "Contact"
-msgstr "Yhteystiedot"
-
-#: templates/base.html:12
-msgid "Privacy Policy"
-msgstr "Tietosuojaseloste"
-
-#: templates/base.html:59
-msgid "E-Book: Simple USM"
-msgstr "E-kirja: Simple USM"
-
-#: templates/base.html:105
-msgid "It is universal"
-msgstr "Se on universaali"
-
-#: templates/base.html:106
-msgid "unified"
-msgstr "yhtenäinen"
-
-#: templates/base.html:107
-msgid "learnable"
-msgstr "opittavissa"
-
-#: templates/base.html:108
-msgid "free"
-msgstr "vapaa"
-
-#: templates/base.html:109
-msgid "simple"
-msgstr "yksinkertainen"
-
-#: templates/base.html:110
-msgid "non-redundant"
-msgstr "ei sisällä toistoa"
-
-#: templates/base.html:111
-msgid "open"
-msgstr "avoin"
-
-#: usm/settings.py:135
+#: survey/models.py:74 usm/settings.py:167 workflows/models.py:24
 msgid "Finnish"
 msgstr "Suomi"
 
-#: usm/settings.py:136
-msgid "English"
-msgstr "Englanti"
+#: survey/models.py:75
+msgid "French"
+msgstr "Ranska"
+
+#: survey/models.py:76
+msgid "German"
+msgstr "Saksa"
+
+#: survey/models.py:77
+msgid "Spanish"
+msgstr "Espanja"
+
+#: survey/models.py:83
+msgid "Your preferred language"
+msgstr "Ensisijainen kieli"
+
+#: survey/models.py:123
+msgid "Industry of your organisation"
+msgstr "Organisaatiosi toimiala"
+
+#: survey/models.py:151
+msgid "Size of your organisation"
+msgstr "Organisaatiosi koko"
+
+#: survey/models.py:155
+msgid "Organisation name"
+msgstr "Organisaation nimi"
+
+#: survey/models.py:170
+msgid "Question"
+msgstr "Kysymys"
+
+#: survey/models.py:171
+msgid "Lowest option that matches"
+msgstr "Alin vaihtoehto joka pätee"
+
+#: survey/models.py:172
+msgid "Highest option that matches"
+msgstr "Korkein vaihtoehto joka pätee"
+
+#: survey/models.py:173
+msgid "Text (en)"
+msgstr "Teksti (en)"
+
+#: survey/models.py:180
+msgid "Orgnization name"
+msgstr "Organisaation nimi"
+
+#: survey/models.py:181
+msgid "Your title"
+msgstr "Työnimikkeesi"
+
+#: survey/models.py:182
+msgid "Why do you wish to participate in the survey?"
+msgstr "Miksi haluat osallistua kyselyyn?"
+
+#: survey/templates/survey/fragments/sidenav.html:47
+#: survey/templates/survey/tenant-list.html:7
+#: templates/fragments/header.html:21
+#: workflows/templates/workflows/fragments/service-header.html:3
+msgid "Tenants"
+msgstr "Asiakasympäristöt"
+
+#: survey/templates/survey/fragments/sidenav.html:55
+msgid "Surveys"
+msgstr "Kyselyt"
+
+#: survey/templates/survey/fragments/sidenav.html:63
+msgid "Batches"
+msgstr "Erät"
+
+#: survey/templates/survey/modals/tenant-create-or-update.html:7
+#: workflows/templates/workflows/modals/tenant-create-or-update.html:7
+msgid "Update tenant"
+msgstr "Päivitä asiakasympäristöä"
+
+#: survey/templates/survey/modals/tenant-create-or-update.html:9
+#: survey/templates/survey/tenant-list.html:19
+#: workflows/templates/workflows/modals/tenant-create-or-update.html:9
+#: workflows/templates/workflows/tenant-list.html:18
+msgid "Create a new tenant"
+msgstr "Luo uusi asiakasympäristö"
+
+#: survey/templates/survey/modals/tenant-delete.html:5
+#: workflows/templates/workflows/modals/tenant-delete.html:5
+msgid "Delete tenant"
+msgstr "Poista asiakasympäristö"
+
+#: survey/templates/survey/modals/tenant-delete.html:8
+#: workflows/templates/workflows/modals/tenant-delete.html:8
+msgid ""
+"This will permanently delete the tenant and everything under it. Are you "
+"sure you want to delete it?"
+msgstr ""
+"Tämä poistaa pysyvästi asiakasympäristön ja kaiken sen sisällä määritellyn, kuten 
+datan, palvelut ja niiden sisällä olevat tiedot. Oletko varma että haluat poistaa sen?"
+
+#: survey/templates/survey/modals/tenant-delete.html:12
+#: workflows/templates/workflows/modals/tenant-delete.html:12
+msgid ""
+"This will also delete all the services below, including all their workflows "
+"and other included data:"
+msgstr ""
+"Tämä poistaa myös kaikki alla olevat palvelut, mukaanlukien kaikki niiden rutiinit "
+"ja muun niihin sisällytetyn datan:"
+
+#: survey/templates/survey/modals/tenant-delete.html:22
+#: workflows/templates/workflows/modals/tenant-delete.html:22
+msgid "This will also delete all the customers below:"
+msgstr "Tämä poistaa myös kaikki alla olevat asiakkaat:"
+
+#: survey/templates/survey/modals/tenant-delete.html:32
+#: workflows/templates/workflows/modals/tenant-delete.html:32
+msgid "This will also delete all the organization units below:"
+msgstr "Tämä poistaa myös kaikki alla olevat organisaatioyksiköt:"
+
+#: survey/templates/survey/modals/tenant-delete.html:42
+#: workflows/templates/workflows/modals/tenant-delete.html:42
+msgid "This will also delete all the profiles below:"
+msgstr "Tämä poistaa myös kaikki alla olevat profiilit:"
+
+#: survey/templates/survey/tenant-list.html:12
+#: workflows/templates/workflows/tenant-list.html:11
+msgid "You have not created any tenants yet."
+msgstr "Et ole vielä luonut yhtään asiakasympäristöä."
+
+#: survey/templates/survey/tenant-list.html:15
+#: workflows/templates/workflows/tenant-list.html:14
+msgid ""
+"You should create a new tenant for each organization that may share "
+"customers, profiles, services, organization structure, and workflows."
+msgstr ""
+"Luo oma asiakasympäristö sellaiselle organisaatioille, joille voi olla yhteisiä "
+" assiakkaita, profiieja, palveluita, organisaatiorakennetta tai rutiineja."
+
+#: survey/templates/survey/usm-qualify.html:6
+#: survey/templates/survey/usm-survey.html:6
+msgid "USM Survey"
+msgstr "USM-kysely"
+
+#: survey/templates/survey/usm-survey-background.html:6
+msgid "USM Survey Background"
+msgstr "USM-kyselyn taustatiedot"
+
+#: survey/templates/survey/usm-survey-generate-invitation-link.html:6
+msgid "USM Survey Generate Link"
+msgstr "USM-kyselyn linkin luonti"
+
+#: survey/templates/survey/usm-survey-qualify-thank-you.html:5
+#: survey/templates/survey/usm-survey-thank-you.html:5
+msgid "Thank you"
+msgstr "Kiitos"
+
+#: survey/templates/survey/usm-survey-report.html:7
+msgid "USM Survey Report: "
+msgstr "USM-kyselyn raportti"
+
+#: survey/templates/survey/usm-survey-show-invitation-link.html:6
+msgid "USM Survey Invitation Link"
+msgstr "USM-kyselyn kutsulinkki"
+
+#: survey/templates/survey/usm-survey-welcome.html:6
+msgid "Welcome to USM Survey (Page 1)"
+msgstr "Tervetuloa USM-kyselyyn (Sivu 1)"
+
+#: templates/base.html:73
+msgid "Phone"
+msgstr "Puhelin"
+
+#: templates/base.html:79
+msgid "It is universal"
+msgstr "Se on universaali"
+
+#: templates/base.html:80
+msgid "unified"
+msgstr "yhtenäinen"
+
+#: templates/base.html:81
+msgid "learnable"
+msgstr "opittavissa"
+
+#: templates/base.html:82
+msgid "free"
+msgstr "vapaa"
+
+#: templates/base.html:83
+msgid "simple"
+msgstr "yksinkertainen"
+
+#: templates/base.html:84
+msgid "non-redundant"
+msgstr "ei sisällä toistoa"
+
+#: templates/base.html:85
+msgid "open"
+msgstr "avoin"
+
+#: templates/fragments/header.html:30
+#: workflows/templates/workflows/fragments/service-header.html:6
+msgid "Services"
+msgstr "Palvelut"
+
+#: templates/fragments/header.html:38
+msgid "Data"
+msgstr "Data"
+
+#: templates/fragments/header.html:54
+msgid "XREF tool"
+msgstr "XREF-työkalu"
+
+#: templates/fragments/header.html:73
+msgid "Log out"
+msgstr "kirjaudu ulos"
+
+#: templates/fragments/header.html:80
+msgid "Site admin"
+msgstr "Palvelun ylläpito"
+
+#: templates/fragments/header.html:86
+msgid "Log In"
+msgstr "Kirjaudu sisään"
+
+#: templates/registration/logged_out.html:9
+msgid ""
+"You have been logged out. Use the login button on the top-right corner to "
+"log in again."
+msgstr ""
+"Olet kirjautunut ulos. Käytä oikean yläkulman login-näppäintä kirjautuaksesi "
+"uudelleen sisään."
+
+#: templates/registration/password_change_done.html:9
+msgid "Your password was changed."
+msgstr "Salasanasi muutettiin."
+
+#: templates/registration/password_change_form.html:7
+msgid "Password change"
+msgstr "Salasanan muuttaminen"
+
+#: templates/registration/password_reset_confirm.html:7
+msgid "Password reset confirmation"
+msgstr "Salasanan muutoksen vahvistus"
+
+#: templates/registration/password_reset_confirm.html:11
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Syötä uusi salasana kahdesti, jotta voimme varmistaa että se on syötetty oikein."
+
+#: templates/registration/password_reset_confirm.html:20
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+"Salasanan nollauslinkki oli virheellinen, mahdollisesti koska sitä on käytetty jo aiemmin. "
+"Nollaa salasana uudestaan."
+
+#: templates/registration/password_reset_done.html:9
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Salasanasi on asetettu. Voit nyt kirjautua sisään."
+
+#: templates/registration/password_reset_email.html:2
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at htt://usm.coach"
+msgstr ""
+"Olet saanut tämän sähköpostin koska olet pyytänyt tunnuksesi salasanan nollausta palvelussa "
+"palvelussa http://usm.tools"
+
+#: templates/registration/password_reset_email.html:6
+msgid "Please go to the following page and choose a new password:"
+msgstr "Mene seuraavalle sivulle ja valitse uusi salasana:"
+
+#: templates/registration/password_reset_email.html:10
+msgid "Your username, in case you’ve forgotten:"
+msgstr "Käyttäjätunnuksesi, mikäli olet unohtanut sen:"
+
+#: templates/registration/password_reset_email.html:12
+msgid "Thanks for using our site!"
+msgstr "Kiitos palvelun käytöstä!"
+
+#: templates/registration/password_reset_email.html:14
+msgid "The USM Coach team"
+msgstr "USM Toolsin ylläpito"
+
+#: templates/registration/password_reset_form.html:9
+msgid ""
+"Forgotten your password? Enter your email address below, and we’ll email "
+"instructions for setting a new one."
+msgstr ""
+"Oletko unohtanut salasanasi? Syötä sähköpostiosoitteesi alle, niin lähetämme sinulle "
+"sähköpostilla ohjeet sen nollaamiseen."
+
+#: templates/registration/password_reset_form.html:13
+msgid "Request password reset link"
+msgstr "Pyydä salasanan nollauslinkkiä"
+
+#: workflows/forms.py:57
+msgid "Select the parent service, if any. Maximum service tree depth is 10."
+msgstr "Valitse palvelu, jonka alipalvelu tämä on. Maksimi sallittu palveluhierarkian syvyys on 10."
+
+#: workflows/forms.py:100
+msgid "Customer type"
+msgstr "Asiakkaan tyyppi"
+
+#: workflows/forms.py:115
+msgid ""
+"If you choose to select existing customer, you must clean new customer name"
+msgstr ""
+"Jos valitset olemassaolevan asiakkaan, sinun on poistettava uuden asiakkaan nimi"
+
+#: workflows/forms.py:117
+msgid "If you choose to select existing customer, you must select one"
+msgstr "Jos valitset olemassaolevan asiakkaan, sinun täytyy valita asiakas"
+
+#: workflows/forms.py:121
+msgid "If you choose to creata a new customer, you must provide the name"
+msgstr "Jos valitset uuden asiakkaan luomisen, sinun täytyy antaa sille nimi"
+
+#: workflows/forms.py:125
+msgid ""
+"If you choose to creata a new customer, please first deselect existing "
+"customer"
+msgstr ""
+"Jos valitset uuden asiakkaan luomisen, sinun on ensin poistettava asiakasvalinta"
+
+#: workflows/forms.py:144
+msgid ""
+"Select the parent organizational unit, if any. Maximum organization tree "
+"depth is 10."
+msgstr ""
+"Valitse organisaatioyksikkö, jonka alle uusi yksikkö liitetään. Jos kyseessä on juuriorganisaatio, jätä "
+"kenttä tyhjäksi. Suurin sallittu organisaatiopuun syvyys on 10."
+
+#: workflows/forms.py:302
+#: workflows/templates/workflows/modals/service-share.html:16
+msgid "Scope"
+msgstr "Laajuus"
+
+#: workflows/forms.py:310
+msgid "Share"
+msgstr "Jaa"
+
+#: workflows/models.py:29
+msgid "Language"
+msgstr "Kieli"
+
+#: workflows/models.py:33
+msgid "You must choose the language"
+msgstr "Sinun täytyy valita kieli"
+
+#: workflows/models.py:34
+msgid "Wrong language choice"
+msgstr "Väärä kielivalinta"
+
+#: workflows/models.py:65
+msgid "organization unit"
+msgstr "organisaatioyksikkö"
+
+#: workflows/models.py:93
+msgid "service"
+msgstr "palvelu"
+
+#: workflows/models.py:94
+msgid "services"
+msgstr "palvelut"
+
+#: workflows/models.py:114
+msgid "Internal"
+msgstr "Sisäinen"
+
+#: workflows/models.py:115
+msgid "External"
+msgstr "Ulkoinen"
+
+#: workflows/models.py:129
+msgid "customer"
+msgstr "asiakas"
+
+#: workflows/models.py:130
+msgid "customers"
+msgstr "asiakkaat"
+
+#: workflows/models.py:147
+msgid "service to customer relationship"
+msgstr "palvelun ja asiakkaan yhteys"
+
+#: workflows/models.py:148
+msgid "service to customer relationships"
+msgstr "palvelun ja asiakkaan yhteydet"
+
+#: workflows/models.py:172 workflows/models.py:312
+msgid "Agree"
+msgstr "Sopiminen"
+
+#: workflows/models.py:173 workflows/models.py:313
+msgid "Change"
+msgstr "Muutos"
+
+#: workflows/models.py:174 workflows/models.py:314
+msgid "Recover"
+msgstr "Toipuminen"
+
+#: workflows/models.py:175
+msgid "Operation"
+msgstr "Operointi"
+
+#: workflows/models.py:204
+#, python-format
+msgid "Responsibility R is not assigned for action %(action_title)s"
+msgstr "Vastuullinen (R) ei ole valittuna tehtävälle %(action_title)s"
+
+#: workflows/models.py:210
+#, python-format
+msgid ""
+"Routine %(routine_name)s must have at least two actions to draw a diagram"
+msgstr ""
+"Rutiinissa %(routine_name)s täytyy olla ainakin kaksi tehtävää jotta kaavio voidaan piirtää"
+
+#: workflows/models.py:231
+msgid "routine"
+msgstr "rutiini"
+
+#: workflows/models.py:232
+msgid "routines"
+msgstr "rutiinit"
+
+#: workflows/models.py:262
+msgid "share"
+msgstr "jako"
+
+#: workflows/models.py:263
+msgid "shares"
+msgstr "jaot"
+
+#: workflows/models.py:291
+msgid "profile"
+msgstr "profiili"
+
+#: workflows/models.py:302
+msgid ""
+"Only used in template routine to specify forks to sub-routine. In actualized "
+"routines, all the forks have been expanded into one single routine."
+msgstr ""
+"Käytetään vain rutiinien mallipohjissa prosessien haarautumisessa. Toteutuneissa rutiineissa "
+"polku on määrätty."
+
+#: workflows/models.py:303
+msgid ""
+"Used in actualized routines, to signal how many levels of sub-processes "
+"there are"
+msgstr ""
+"Käytetään toteutuneissa rutiineissa sen kuvaamiseen, kuinka monta tasoa aliprosesseja "
+"on olemassa"
+
+#: workflows/models.py:304
+msgid "This step is skipped"
+msgstr "Tämä askel on sivuutettu"
+
+#: workflows/models.py:315
+msgid "Operate"
+msgstr "Operointi"
+
+#: workflows/models.py:316
+msgid "Improve"
+msgstr "Kehitys"
+
+#: workflows/models.py:331
+msgid "steps"
+msgstr "askeleet"
+
+#: workflows/models.py:344
+msgid "This activity is skipped"
+msgstr "Tämä toiminto on sivuutettu"
+
+#: workflows/models.py:358
+msgid "activities"
+msgstr "toiminnot"
+
+#: workflows/models.py:405
+msgid "action"
+msgstr "tehtävä"
+
+#: workflows/models.py:406
+msgid "actions"
+msgstr "tehtävät"
+
+#: workflows/models.py:418
+msgid "Responsible"
+msgstr "Vastuullinen"
+
+#: workflows/models.py:419
+msgid "Accountable"
+msgstr "Tilivelvollinen"
+
+#: workflows/models.py:420
+msgid "Supporting"
+msgstr "Tukeva"
+
+#: workflows/models.py:421
+msgid "Consulted"
+msgstr "Neuvova"
+
+#: workflows/models.py:422
+msgid "Informed"
+msgstr "Tiedotettava"
+
+#: workflows/models.py:442
+msgid "No actions"
+msgstr "Ei tehtäviä"
+
+#: workflows/models.py:453 workflows/models.py:454
+msgid "responsibilities"
+msgstr "vastuut"
+
+#: workflows/models.py:471
+msgid "instruction"
+msgstr "ohje"
+
+#: workflows/models.py:472
+msgid "instructions"
+msgstr "ohjeet"
+
+#: workflows/models.py:516
+msgid "tasks"
+msgstr "tehtävät"
+
+#: workflows/templates/workflows/customer-list.html:36
+msgid "You have not defined any customers yet."
+msgstr "Et ole vielä määritellyt yhtään asiakasta."
+
+#: workflows/templates/workflows/customer-list.html:40
+#: workflows/templates/workflows/modals/service-customer-add.html:38
+#: workflows/templates/workflows/service-customer-list.html:39
+msgid "Create a new customer"
+msgstr "Luo uusi asiakas"
+
+#: workflows/templates/workflows/fragments/actions.html:11
+msgid "No actions added for this activity yet."
+msgstr "Toiminnolle ei ole vielä lisätty yhtään tehtävää.""
+
+#: workflows/templates/workflows/fragments/service-customers.html:32
+msgid "You have not defined any customers yet for this service."
+msgstr "Et ole vielä lisännyt yhtään asiakasta tähän palveluun."
+
+#: workflows/templates/workflows/fragments/service-customers.html:36
+msgid "Add a customer to this service"
+msgstr "Lisää asiakas tähän palveluun"
+
+#: workflows/templates/workflows/fragments/service-header.html:9
+#: workflows/templates/workflows/fragments/service-header.html:13
+#: workflows/templates/workflows/fragments/service-header.html:32
+msgid "Routines"
+msgstr "Rutiinit"
+
+#: workflows/templates/workflows/fragments/service-header.html:15
+#: workflows/templates/workflows/fragments/service-header.html:41
+#: workflows/templates/workflows/fragments/service-profiles.html:2
+msgid "Profiles"
+msgstr "Profiilit"
+
+#: workflows/templates/workflows/fragments/service-header.html:17
+#: workflows/templates/workflows/fragments/service-header.html:19
+#: workflows/templates/workflows/fragments/service-header.html:44
+#: workflows/templates/workflows/service-profile-list.html:24
+#: workflows/templates/workflows/service-task-list.html:6
+msgid "Tasks"
+msgstr "Tehtävät"
+
+#: workflows/templates/workflows/fragments/service-header.html:22
+#: workflows/templates/workflows/fragments/service-header.html:47
+#: workflows/templates/workflows/service-profile-list.html:35
+msgid "Responsibilities"
+msgstr "Vastuut"
+
+#: workflows/templates/workflows/fragments/service-profiles.html:30
+msgid "You have not defined any profiles yet."
+msgstr "Et ole määritellyt vielä yhtään prfiilia."
+
+#: workflows/templates/workflows/fragments/service-profiles.html:35
+msgid "Add a new profile to this service"
+msgstr "Lisää profiili tähän palveluun"
+
+#: workflows/templates/workflows/fragments/service-responsibilities.html:9
+msgid "No routines."
+msgstr "Ei rutiineja."
+
+#: workflows/templates/workflows/fragments/service-routines.html:24
+#: workflows/templates/workflows/fragments/service-routines.html:31
+msgid "Export SVG"
+msgstr "Luo SVG-kuva"
+
+#: workflows/templates/workflows/fragments/service-routines.html:25
+#: workflows/templates/workflows/fragments/service-routines.html:36
+msgid "Export PNG"
+msgstr "Luo PNG-kuva"
+
+#: workflows/templates/workflows/fragments/service-routines.html:26
+#: workflows/templates/workflows/fragments/service-routines.html:41
+msgid "Export BPMN"
+msgstr "Luo BPNM-tiedosto"
+
+#: workflows/templates/workflows/fragments/service-routines.html:51
+msgid "This service does not have any routines yet."
+msgstr "Tähän palveluun ei ole vielä liitetty yhtään rutiinia."
+
+#: workflows/templates/workflows/fragments/service-routines.html:55
+#: workflows/templates/workflows/modals/routine-create.html:10
+msgid "Create a new routine"
+msgstr "Luo uusi rutiini"
+
+#: workflows/templates/workflows/fragments/tenant.html:6
+msgid "Tenant"
+msgstr "Asiakasympäristö"
+
+#: workflows/templates/workflows/modals/action-create-or-update.html:7
+msgid "Update action "
+msgstr "Päivitä tehtävää "
+
+#: workflows/templates/workflows/modals/action-create-or-update.html:9
+msgid "Add an action"
+msgstr "Luo tehtävä"
+
+#: workflows/templates/workflows/modals/action-create-or-update.html:32
+msgid "Title"
+msgstr "Otsikko"
+
+#: workflows/templates/workflows/modals/action-create-or-update.html:46
+msgid "Add action"
+msgstr "Lisää tehtävä"
+
+#: workflows/templates/workflows/modals/action-delete.html:4
+msgid "Delete action"
+msgstr "Poista tehtävä"
+
+#: workflows/templates/workflows/modals/activity-create.html:7
+msgid "Update activity"
+msgstr "Päivitä toimintoa"
+
+#: workflows/templates/workflows/modals/activity-create.html:9
+msgid "Create an activity"
+msgstr "Luo toiminto"
+
+#: workflows/templates/workflows/modals/activity-delete.html:4
+msgid "Delete activity"
+msgstr "Poista toiminto"
+
+#: workflows/templates/workflows/modals/activity-delete.html:7
+msgid "Are you sure you want to delete this activity?"
+msgstr "Oletko varma että haluat poistaa tämän toiminnon"
+
+#: workflows/templates/workflows/modals/customer-create-or-update.html:7
+msgid "Update customer"
+msgstr "Päivitä asiakasta"
+
+#: workflows/templates/workflows/modals/customer-create-or-update.html:9
+msgid "Add a new customer"
+msgstr "Lisää asiakas"
+
+#: workflows/templates/workflows/modals/customer-delete.html:4
+msgid "Delete customer "
+msgstr "Poista asiakas "
+
+#: workflows/templates/workflows/modals/customer-delete.html:8
+msgid ""
+"Deleting the customer will also remove them from the following services:"
+msgstr ""
+"Asiakkaan poistaminen poistaa hänet myös seuraavista palveluista:"
+
+#: workflows/templates/workflows/modals/instruction-create-or-update.html:7
+msgid "Update instruction"
+msgstr "Päivitä ohjetta"
+
+#: workflows/templates/workflows/modals/instruction-create-or-update.html:9
+msgid "Create an instruction"
+msgstr "Luo ohje"
+
+#: workflows/templates/workflows/modals/instruction-delete.html:4
+msgid "Delete instruction"
+msgstr "Poista ohje"
+
+#: workflows/templates/workflows/modals/instruction-delete.html:7
+msgid "Are you sure you want to delete this instruction?"
+msgstr "Oletko varma että haluat poistaa tämän ohjeen?"
+
+#: workflows/templates/workflows/modals/organization-unit-create-or-update.html:7
+msgid "Update organization unit"
+msgstr "Päivitä organisaatioyksikköä"
+
+#: workflows/templates/workflows/modals/organization-unit-create-or-update.html:10
+msgid "Create a child organization for "
+msgstr "Luo aliorganisaatio organisaatioyksikölle "
+
+#: workflows/templates/workflows/modals/organization-unit-create-or-update.html:12
+msgid "Create a new organization"
+msgstr "Luo uusi organisaatio"
+
+#: workflows/templates/workflows/modals/organization-unit-delete.html:4
+msgid "Delete organization unit "
+msgstr "Poista organisaatioyksikkö"
+
+#: workflows/templates/workflows/modals/organization-unit-delete.html:9
+#, python-format
+msgid ""
+"Deleting this organization unit will delete %(count)s child organization "
+"units as well."
+msgstr ""
+"Organisaatioyksikön poisto poistaa myös %(count)s sen alla olevaa organisaatioyksikköä."
+
+#: workflows/templates/workflows/modals/profile-create.html:7
+msgid "Update profile"
+msgstr "Päivitä profiilia"
+
+#: workflows/templates/workflows/modals/profile-create.html:9
+msgid "Create a profile"
+msgstr "Luo profiili"
+
+#: workflows/templates/workflows/modals/profile-delete.html:4
+msgid "Delete profile "
+msgstr "Poista profiili "
+
+#: workflows/templates/workflows/modals/profile-delete.html:10
+msgid ""
+"This will also delete all tasks assigned to this person. The actions "
+"belonging to tasks are not affected."
+msgstr ""
+"Tämä poistaa myös kaikki profiilille luodut tehtävät. Tällä ei ole vaikutusta tehtäviin liittyville "
+"toiminnoille."
+
+#: workflows/templates/workflows/modals/profile-delete.html:14
+#: workflows/templates/workflows/modals/task-delete.html:11
+msgid "OK"
+msgstr "OK"
+
+#: workflows/templates/workflows/modals/routine-create.html:8
+msgid "Update routine"
+msgstr "Päivit rutiinia"
+
+#: workflows/templates/workflows/modals/routine-delete.html:4
+msgid "Delete routine"
+msgstr "Poista rutiini"
+
+#: workflows/templates/workflows/modals/routine-delete.html:10
+msgid ""
+"This will also delete all the steps, activities, and actions inside the "
+"routine."
+msgstr ""
+"Tämä poistaa myös kaikki rutiiniin kuuluvat askeleet, toiminnot sekä tehtävät."
+
+#: workflows/templates/workflows/modals/routine-share.html:7
+msgid "Routine shares"
+msgstr "Rutiinin jakaminen"
+
+#: workflows/templates/workflows/modals/routine-share.html:13
+#: workflows/templates/workflows/modals/service-share.html:13
+msgid "Share name"
+msgstr "Jaon nimi"
+
+#: workflows/templates/workflows/modals/routine-share.html:16
+#: workflows/templates/workflows/modals/service-share.html:19
+msgid "Created"
+msgstr "Luotu"
+
+#: workflows/templates/workflows/modals/routine-share.html:19
+#: workflows/templates/workflows/modals/service-share.html:22
+msgid "Last accessed"
+msgstr "Viimeksi käytetty"
+
+#: workflows/templates/workflows/modals/service-create.html:7
+msgid "Update service"
+msgstr "Päivitä palvelua"
+
+#: workflows/templates/workflows/modals/service-create.html:9
+msgid "Create new service"
+msgstr "Luo uusi palvelu"
+
+#: workflows/templates/workflows/modals/service-customer-add.html:5
+msgid "Add a customer to service"
+msgstr "Lisää asiakas palveluun"
+
+#: workflows/templates/workflows/modals/service-customer-add.html:30
+msgid "Select existing customer"
+msgstr "Valitse olemassaoleva asiakas"
+
+#: workflows/templates/workflows/modals/service-customer-add.html:45
+msgid "Add the customer"
+msgstr "Luo uusi asiakas"
+
+#: workflows/templates/workflows/modals/service-customer-remove.html:4
+msgid "Remove customer"
+msgstr "Poista asiakas"
+
+#: workflows/templates/workflows/modals/service-customer-remove.html:4
+msgid "from service"
+msgstr "palveluista"
+
+#: workflows/templates/workflows/modals/service-customer-remove.html:7
+msgid "Are you sure you want to remove the customer from this service?"
+msgstr "Oletko varma että haluat poistaa asiakkaan tästä palvelusta?"
+
+#: workflows/templates/workflows/modals/service-customer-remove.html:10
+msgid ""
+"This will not delete the information related to the customer. The customer "
+"information can still be accessed through the customer list view."
+msgstr ""
+"Tämä ei poista asiakkaaseen liittyviä tietoja. Asiakkaan tietoihin pääsee yhä "
+"asiakaslistauksen kautta."
+
+#: workflows/templates/workflows/modals/service-delete.html:4
+msgid "Delete service"
+msgstr "Poista palvelu"
+
+#: workflows/templates/workflows/modals/service-delete.html:9
+#, python-format
+msgid "Deleting this service will delete %(count)s child services as well."
+msgstr "Palvelun poistaminen poistaa myös %(count)s alipalvelua."
+
+#: workflows/templates/workflows/modals/service-delete.html:20
+msgid ""
+"Additionally, this will also delete all the workflows below, including their "
+"steps, activities, and actions:"
+msgstr ""
+"Sen lisäksi myös palveluun sisältyvät rutiinit, niiden askeleet, toiminnot ja "
+"tehtävät poistetaan:"
+
+#: workflows/templates/workflows/modals/service-share.html:7
+msgid "Manage shares for the service"
+msgstr "Ylläpidä palveluun liittyviä jakoja"
+
+#: workflows/templates/workflows/modals/service-share.html:44
+msgid "Expire"
+msgstr "Vanheneminen"
+
+#: workflows/templates/workflows/modals/service-share.html:46
+msgid "Show"
+msgstr "Näytä"
+
+#: workflows/templates/workflows/modals/service-share.html:47
+msgid "Copy"
+msgstr "Kopioi"
+
+#: workflows/templates/workflows/modals/service-share.html:54
+msgid ""
+"Shares are links that be be used to access resources, such as workflows."
+msgstr ""
+"Jako on linkki jolla voit antaa muile mahdollisuuden katsella rutiinia ja siihen liittyviä resursseja."
+
+#: workflows/templates/workflows/modals/service-share.html:60
+msgid ""
+"As anybody with the link can access the resources without further "
+"authentication, you need to be careful when sharing the link."
+msgstr ""
+"Jokainen jolla on linkki pääsee muokkaamaan resursseja ilman erillistä "
+"sisäänkirjautumista, joten ole varovainen jakaessasi linkkiä."
+
+#: workflows/templates/workflows/modals/task-delete.html:4
+msgid "Delete task"
+msgstr "Poista tehtäväkokonaisuus"
+
+#: workflows/templates/workflows/organization-unit-detail.html:6
+msgid "Organization"
+msgstr "Organisaatio"
+
+#: workflows/templates/workflows/organization-unit-list.html:33
+msgid "You have not defined any organizations yet."
+msgstr "Et ole vielä määritellyt yhtään organisaatiota."
+
+#: workflows/templates/workflows/organization-unit-list.html:38
+msgid "Add a new top-level organization"
+msgstr "Lisää uusi ylimmän tason organisaatio"
+
+#: workflows/templates/workflows/profile-detail.html:20
+#: workflows/templates/workflows/service-profile-detail.html:20
+msgid "You have not defined any tasks yet for this profile."
+msgstr "Et ole vielä määritellyt yhtään tehtäväkokonaisuutta tälle profiilille."
+
+#: workflows/templates/workflows/profile-detail.html:25
+#: workflows/templates/workflows/service-profile-detail.html:25
+#: workflows/templates/workflows/service-task-list.html:20
+msgid "Create a new task"
+msgstr "Luo uusi tehtäväkokonaisuus"
+
+#: workflows/templates/workflows/routine-detail-printable.html:41
+msgid "Actions"
+msgstr "Toiminnot"
+
+#: workflows/templates/workflows/routine-detail-printable.html:60
+msgid "No work instruction."
+msgstr "Ei työohjeita."
+
+#: workflows/templates/workflows/routine-detail-printable.html:65
+msgid "No actions in this activity."
+msgstr "Ei tehtäviä tässä toiminnossa."
+
+#: workflows/templates/workflows/routine-detail-printable.html:70
+msgid "No activities in this step."
+msgstr "Ei toimintoja tässä askeleessa."
+
+#: workflows/templates/workflows/service-customer-list.html:35
+msgid "You have not added any customers to this service yet."
+msgstr "Et ole vielä lisännyt asiakkaita tähän palveluun."
+
+#: workflows/templates/workflows/service-list.html:14
+#: workflows/templatetags/breadcrumbs.py:76
+#: workflows/templatetags/breadcrumbs.py:88
+msgid "Service"
+msgstr "Palvelu"
+
+#: workflows/templates/workflows/service-list.html:38
+msgid "You have not defined any services yet."
+msgstr "Et ole vielä määritellyt yhtään palvelua."
+
+#: workflows/templates/workflows/service-list.html:42
+msgid ""
+"Examples where to look for services: functions, organization units, virtual "
+"teams etc. You can later organize the services into a service map."
+msgstr ""
+"Esimerkkejä palveluille: yrityksen toiminnot, organisaatioyksiköt, virtuaalitiimit "
+"jne. Voit järjestää palvelut myöhemmin palvelukartaksi."
+
+#: workflows/templates/workflows/service-list.html:46
+msgid "Create a new service"
+msgstr "Luo uusi palvelu"
+
+#: workflows/templates/workflows/service-profile-list.html:62
+msgid "You have not added any profiles to this service yet."
+msgstr "Et ole vielä lisännyt yhtään profiilia tähän palveluun."
+
+#: workflows/templates/workflows/service-profile-list.html:67
+msgid "Create a new profile"
+msgstr "Luo uusi profiili"
+
+#: workflows/templates/workflows/service-task-detail.html:13
+#, python-format
+msgid ""
+"\n"
+"    Actions in routine \"%(routine_name)s\" labeled as "
+"\"%(action_require_tag)s\"\n"
+"    for profile \"%(profile_name)s\" \n"
+"  "
+msgstr ""
+"\n"
+"    Toiminnot rutiinissa \"%(routine_name)s\" ni labeled as "
+"\"%(action_require_tag)s\"\n"
+"    for profile \"%(profile_name)s\" \n"
+"  "
+
+#: workflows/templates/workflows/service-task-detail.html:25
+msgid "Action responsibilities"
+msgstr ""
+
+#: workflows/templates/workflows/service-task-detail.html:36
+msgid "Instructions for"
+msgstr "Työohjeet kohteelle"
+
+#: workflows/templates/workflows/service-task-detail.html:44
+msgid "Task does not include any actions."
+msgstr "Tehtäväkokonaisuuteen ei kuulu tehtäviä."
+
+#: workflows/templates/workflows/service-task-list.html:15
+msgid "You have not added any tasks to this service yet."
+msgstr "Et ole vielä lisäänyt yhtään tehtäväkokonaisuutta tähän palveluun."
+
+#: workflows/templates/workflows/step-detail.html:91
+msgid "Add a new action"
+msgstr "Lisää uusi tehtävä"
+
+#: workflows/templates/workflows/step-detail.html:97
+msgid "No activities. You should probably create one."
+msgstr "Ei toimintoja. Sinun kannattaisi todennäköisesti luoda uusi."
+
+#: workflows/templates/workflows/step-detail.html:100
+msgid "Create a new activity"
+msgstr "Luo uusi toiminto"
+
+#: workflows/templates/workflows/user-service-list.html:6
+msgid "Services you have access to:"
+msgstr "Palvelut, joihin sinulla on pääsy:"
+
+#: workflows/templates/workflows/user-service-list.html:11
+msgid "You do not have access to any services."
+msgstr "Sinulla ei ole pääsyä yhteenkään palveluun."
+
+#: workflows/tenant_models.py:27
+msgid "tenant"
+msgstr "asiakasympäristö"
+
+#: workflows/tenant_models.py:28
+msgid "tenants"
+msgstr "asiakasympäristöt"
+
+#: workflows/views.py:521
+msgid "Share was removed"
+msgstr "Jako on poistettu"
+
+#: xref/models.py:41 xref/models.py:75 xref/models.py:104
+msgid "Draft"
+msgstr "Luonnos"
+
+#: xref/models.py:43 xref/models.py:77 xref/models.py:106
+msgid "Approved"
+msgstr "Hyväksytty"
+
+#: xref/templates/xref/fragments/control-requirements.html:4
+msgid "Requirements"
+msgstr "Vaatimukset"
+
+#: xref/templates/xref/fragments/control-requirements.html:13
+msgid "The control has no requirements."
+msgstr "Kontrollilla ei ole vaatimuksia"
+
+#: xref/templates/xref/fragments/control-requirements.html:17
+msgid "Add a new requirement"
+msgstr "Lisää uusi vaatimus"
+
+#: xref/templates/xref/fragments/control-statements.html:4
+msgid "Statements"
+msgstr ""
+
+#: xref/templates/xref/fragments/control-statements.html:13
+msgid "The selected requirement has no statements."
+msgstr ""
+
+#: xref/templates/xref/fragments/control-statements.html:17
+msgid "Add a new statement"
+msgstr ""
+
+#: xref/templates/xref/fragments/control-tasks.html:3
+msgid "Substatements"
+msgstr ""
+
+#: xref/templates/xref/fragments/control-tasks.html:12
+msgid "The selected statement has no substatements."
+msgstr ""
+
+#: xref/templates/xref/fragments/control-tasks.html:16
+msgid "Add a new substatement"
+msgstr ""
+
+#: xref/templates/xref/fragments/standard-controls.html:2
+msgid "Controls"
+msgstr ""
+
+#: xref/templates/xref/fragments/standard-controls.html:11
+msgid "This service has no controls."
+msgstr ""
+
+#: xref/templates/xref/fragments/standard-controls.html:15
+msgid "Add a new control to this standard"
+msgstr ""
+
+#: xref/templates/xref/modals/control-create-or-update.html:7
+msgid "Update control"
+msgstr ""
+
+#: xref/templates/xref/modals/control-create-or-update.html:9
+msgid "Create a new control"
+msgstr ""
+
+#: xref/templates/xref/modals/control-delete.html:5
+msgid "Delete control"
+msgstr ""
+
+#: xref/templates/xref/modals/control-delete.html:8
+msgid ""
+"This will permanently delete the control and everything under it. Are you "
+"sure you want to delete it?"
+msgstr ""
+
+#: xref/templates/xref/modals/delete.html:8
+msgid "This will permanently delete the "
+msgstr ""
+
+#: xref/templates/xref/modals/delete.html:8
+msgid "and everything under it. Are you sure you want to delete it?"
+msgstr ""
+
+#: xref/templates/xref/modals/standard-create-or-update.html:7
+msgid "Update standard"
+msgstr ""
+
+#: xref/templates/xref/modals/standard-create-or-update.html:9
+#: xref/templates/xref/standard-list.html:19
+msgid "Create a new standard"
+msgstr ""
+
+#: xref/templates/xref/modals/standard-delete.html:5
+msgid "Delete standard"
+msgstr ""
+
+#: xref/templates/xref/modals/standard-delete.html:8
+msgid ""
+"This will permanently delete the standard and everything under it. Are you "
+"sure you want to delete it?"
+msgstr ""
+
+#: xref/templates/xref/standard-detail.html:8
+msgid "Standard"
+msgstr ""
+
+#: xref/templates/xref/standard-list.html:7
+msgid "Standards"
+msgstr ""
+
+#: xref/templates/xref/standard-list.html:12
+msgid "There are no standards."
+msgstr ""
+
+#: xref/templates/xref/standard-list.html:15
+msgid ""
+"You should create a new standard for each cross-referencing project you want "
+"to create."
+msgstr ""
+
+#: xref/views.py:46 xref/views.py:67 xref/views.py:82
+msgid "standard"
+msgstr ""
+
+#: xref/views.py:47 xref/views.py:68
+msgid ""
+"You should create a new standard for each standard or framework you want to "
+"map to USM."
+msgstr ""
+
+#: xref/views.py:97 xref/views.py:120 xref/views.py:135
+msgid "control"
+msgstr ""
+
+#: xref/views.py:98 xref/views.py:121
+msgid "You should create a new control for each part of your standard."
+msgstr ""
+
+#: xref/views.py:210 xref/views.py:235 xref/views.py:250
+msgid "requirement"
+msgstr ""
+
+#: xref/views.py:211 xref/views.py:236
+msgid "You should decompose the control into requirements."
+msgstr ""
+
+#: xref/views.py:265 xref/views.py:288 xref/views.py:303
+msgid "statement"
+msgstr ""
+
+#: xref/views.py:266 xref/views.py:289
+msgid "You should create one or more USM statements to cover the requirement."
+msgstr ""
+
+#: xref/views.py:319 xref/views.py:343
+msgid "You should create one or more formal tasks to cover the USM statement."
+msgstr ""
+
+#~ msgid "Why USM?"
+#~ msgstr "Miksi USM?"
+
+#~ msgid "People"
+#~ msgstr "Ihmiset"
+
+#~ msgid ""
+#~ "You can really learn to manage services yourself. A sustainable service "
+#~ "organization is simpler than you may think."
+#~ msgstr ""
+#~ "Voit oppia itse hallinnoimaan omia palveluitasi. Kestävä "
+#~ "palveluorganisaatio on yksinkertaisempi saavuttaa kuin kuvittelet."
+
+#~ msgid ""
+#~ "USM Coach is a company dedicated to helping customers to become self-"
+#~ "sufficient in solving their service management needs."
+#~ msgstr ""
+#~ "USM Coach auttaa asiakkaitaan saavuttamaan omavaraisuuden palveluiden "
+#~ "hallinnassa."
+
+#~ msgid "Our approach is based on Unified Service Management (USM) method."
+#~ msgstr ""
+#~ "Lähestymistapamme pohjautuu Unified Service Management (USM) -menetelmään."
+
+#~ msgid "We contribute actively to the development of the USM method."
+#~ msgstr "Osallistumme aktiivisesti USM-menetelmän kehittämiseen."
+
+#~ msgid ""
+#~ "Mikko is a certified USM Coach. He has over 30 years of experience in "
+#~ "various Software Development roles, such as Full Stack Developer, "
+#~ "Architect, Scrum Master, Chief Product Owner, and CTO."
+#~ msgstr ""
+#~ "Mikko on sertifioitu USM-valmentaja. Hänellä on yli 30 vuoden kokemus "
+#~ "erilaisista ohjelmistoalan rooleista, kuten Full Stack -kehittäjä, "
+#~ "arkkitehti, Scrum Master, Chief Product Owner, sekä CTO."
+
+#~ msgid ""
+#~ "For the last 11 years, he has worked as an Independent Software "
+#~ "Professional. He holds one M.Sc. in Computer Science and another one in "
+#~ "Economics."
+#~ msgstr ""
+#~ "Viimeiset 11 vuotta hän on toiminut itsenäisenä IT-alan ammattilaisena. "
+#~ "Hän on sekä filosofian että kauppatieteiden maisteri."
+
+#~ msgid ""
+#~ "He spends his free time with his four year old daughter and dances "
+#~ "argentine tango."
+#~ msgstr ""
+#~ "Vapaa-aikaansa Mikko viettää nelivuotiaan tyttärensä kanssa sekä tanssii "
+#~ "argentiinalaista tangoa."
+
+#~ msgid ""
+#~ "Today all business are service businesses. Even if you are just selling "
+#~ "potatoes, you will legally need to provide a support for returning the "
+#~ "bad ones."
+#~ msgstr ""
+#~ "Nykyään jokainen yritys on palveluyritys. Vaikka myisit vain perunoita, "
+#~ "laki velvoittaa sinua tarjoamaan palvelun huonojen perunoiden "
+#~ "palauttamiselle."
+
+#~ msgid ""
+#~ "For many companies it is not enough to just provide services. They see "
+#~ "the need to become customer-driven in order to survive in a competitive "
+#~ "market. To become customer-driven, you need to focus on the long-term "
+#~ "relationship with the customer, instead of only looking at individual "
+#~ "transactions. This means that how you manage your services needs some new "
+#~ "thinking as well."
+#~ msgstr ""
+#~ "Moni yritys ei kuitenkaan tyydy pelkkään palveluiden tarjoamiseen. "
+#~ "Pärjääminen kilpailluilla markkinoilla vaatii asiakaslähtöisyyttä. "
+#~ "Asiakaslähtöisyys vaatii fokusoitumista pitkäaikaiseen asiakassuhteeseen "
+#~ "yksittäisten transaktioiden sijaan. Tästä seuraa, että palveluiden "
+#~ "hallinnointi vaatii myös uudenlaista ajattelua."
+
+#~ msgid ""
+#~ "The USM method provides a standardized management method for a service "
+#~ "organization to manage its people, its processes, its technology, and its "
+#~ "services."
+#~ msgstr ""
+#~ "USM-menetelmä tarjoaa palveluorganisaatiolle standardoidun hallintomallin "
+#~ "henkilöiden, prosessien, teknologioiden sekä palveluiden hallintaan."
+
+#~ msgid ""
+#~ "USM is different from frameworks and standards, such as ISO 20000-1, "
+#~ "COBIT or ITIL, which are collections of best practices.  USM is built on "
+#~ "principles inspired by those practices. Thus USM is complementary to them."
+#~ msgstr ""
+#~ "USM poikkeaa muista kehikoista ja standardeista, kuten ISO 20000-1, COBIT "
+#~ "tai ITIL, jotka ovat käytännössä parhaiden käytäntöjen kokoelmia. USM on "
+#~ "rakennettu periaatteille, jotka ovat saaneet inspiraationsa noista "
+#~ "käytännöistä. USM täydentää niitä."
+
+#~ msgid ""
+#~ "In fact, if you need certifications for your business, USM is probably "
+#~ "the fastest, least expensive, least risky, and probably even the most "
+#~ "useful way to do it. After you deploy USM, the auditors can cross-"
+#~ "reference certification requirements to the activities in workflows, "
+#~ "profiles and other specifications of the USM, to demonstrate compliancy."
+#~ msgstr ""
+#~ "Jos yrityksesti tarvitsee sertifikaatiota, USM on luultavasti jopa "
+#~ "nopein, edullisin, vähäriskisin ja ehkä jopa hyödyllisin tapa hankkia se. "
+#~ "Kun USM on otettu käyttöön, auditoijat voivat varmistaa sertifikaatien "
+#~ "vaatimusten noudattamista hyödyntämällä ristiinviittauksia vaatimusten "
+#~ "sekä USM:n työnkuluissa olevien aktiviteettien, profiilien sekä muiden "
+#~ "USM:n määrittelyjen välillä."
+
+#~ msgid ""
+#~ "The USM Method was authored by USM Chief Architect Jan van Bon. Jan has "
+#~ "extensive exprience in Service Management, including being a member of "
+#~ "the ITIL v3 guidance team between 2006-2007. Jan became increasingly "
+#~ "frustrated with the complexity of common standards and frameworks, "
+#~ "including ITIL and various ISO standards, and started developing a more "
+#~ "simplified method for service management, based on principles. USM is the "
+#~ "result of that work."
+#~ msgstr ""
+#~ "USM-menetelmän on on laatinut USM:n pääarkkitehti Jan van Bon. Janilla on "
+#~ "laaja kokemus palveluiden hallinnasta. Hän on ollut mm. jäsen ITIL v3 "
+#~ "ohjaustiimissä vuosina 2006-2007. Jan tuskastui ITIL:in ja ISO-"
+#~ "standardien kaltaisten standardien ja kehikkojen monimutkaisuuteen ja "
+#~ "alkoi kehittää yksinkertaisempaa, periaatteille perustuvaa menetelmää "
+#~ "palveluiden hallintaan. USM on sen työn tulos."
+
+#~ msgid ""
+#~ "The USM Method was developed and is owned and managed by the SURVUZ "
+#~ "Foundation in Netherlands."
+#~ msgstr ""
+#~ "USM-menetelmän on kehittänyt, sen omistaa ja sitä hallinnoi "
+#~ "hollantilainen SURVUZ Foundation."
+
+#~ msgid "The USM method has the following features and benefits:"
+#~ msgstr "USM-menetelmällä on seuraavat ominaisuudet ja hyödyt:"
+
+#~ msgid "It is universal, so you can use it to manage any service."
+#~ msgstr ""
+#~ "Se on universaali, joten voit käyttää sitä minkä tahansa palvelun "
+#~ "hallinnointiin"
+
+#~ msgid ""
+#~ "It unified, and allows workflows to co-operate more harmoniously even in "
+#~ "complex networks of service providers."
+#~ msgstr ""
+#~ "Se on yhtenäinen ja mahdollistaa työnkulkujen harmonisen yhteistoiminnan "
+#~ "jopa monimutkaisissa palveluntarjoajien verkostoissa."
+
+#~ msgid ""
+#~ "It is learnable, because it is based on principles instead of practices"
+#~ msgstr ""
+#~ "Se on opittavissa, koska se perustuu periaatteisiin eikä käytäntöihin"
+
+#~ msgid "It is free, so you don't need to pay royalties for using it"
+#~ msgstr ""
+#~ "Se on vapaa, joten sinun ei tarvitse maksaa rojalteja sen käyttämisestä"
+
+#~ msgid "It is simple, so you can learn it and become self-sufficient"
+#~ msgstr ""
+#~ "Se on yksinkertainen, joten voit oppia sen helposti itse ja tulla "
+#~ "riippumattomaksi ulkopuolisista konsulteista"
+
+#~ msgid "It is non-redundant, so you can avoid duplication of work"
+#~ msgstr "Se ei sisällä toistoa, joten ylimääräistä työtä vältetään"
+
+#~ msgid "It is open, so it fosters a culture of sharing ideas and practices"
+#~ msgstr ""
+#~ "Se on avoin, joka ruokkii ideoiden ja käytäntöjen jakamisen kulttuuria"
+
+#~ msgid "We are based in Helsinki, Finland."
+#~ msgstr "Sijaitsemme Helsingissä."
+
+#~ msgid "We coach remotely as well."
+#~ msgstr "Teemme myös etävalmennusta."
+
+#~ msgid "USM Coach Privacy Policy"
+#~ msgstr "USM Coachin Tietosuojaseloste"
+
+#~ msgid "As a visitor to the usm.coach website"
+#~ msgstr "Vierailijana usm.coachin sivustolla"
+
+#~ msgid "As a customer and subscriber of USM Coach"
+#~ msgstr "Asiakkaana ja USM Coachin palveluiden tilaajana"
+
+#~ msgid "Retention of data"
+#~ msgstr "Tiedon säilytys"
+
+#~ msgid "Changes and questions"
+#~ msgstr "Muutokset ja kysymykset"
+
+#~ msgid ""
+#~ "For usm.coach visitors, we do not use cookies for tracking you and we do "
+#~ "not collect any personal data without your consent."
+#~ msgstr ""
+#~ "Emme käytä keksejä usm.coachin vierailijoiden seuraamiseen emmekä kerää "
+#~ "henkilökohtaista tietoa sinusta ilman lupaa."
+
+#~ msgid ""
+#~ "If you request to hear about our news or us to contact you, or decide to "
+#~ "create an account, we ask for your email address. We use it only for the "
+#~ "purposes you have explicitly warranted. We will not contact you unless "
+#~ "you explicitly give us a permission to do so."
+#~ msgstr ""
+#~ "Jos tilaat uutiskirjeen, pyydät että otamme yhteyttä, tai päätät perustaa "
+#~ "käyttäjätilin, pyydämme sähköpostiosoitettasi. Käytämme sitä vain niihin "
+#~ "tarkoituksiin, johon olet antanut luvan. Otamme sinuun yhteyttä vain jos "
+#~ "olet antanut siihen luvan tai muista erittäin pakottavista syistä."
+
+#~ msgid ""
+#~ "At USM Coach, we are committed to complying with GDPR, CCPA, PECR and "
+#~ "other privacy regulations on our website and on our services."
+#~ msgstr ""
+#~ "Me USM Coachissa olemme sitoutuneet noudattamaan GDPR-, CCPA-, PECR- ja "
+#~ "muita tietosuojaa koskevia säädöksiä verkko- ja muissa palveluissamme."
+
+#~ msgid ""
+#~ "The privacy of our website visitors is important to us so we do not track "
+#~ "any individual people. As a visitor to the usm.coach website:"
+#~ msgstr ""
+#~ "Verkkosivujen kävijöiden yksityisyys on meille tärkeää, joten emme "
+#~ "jäljitä yksittäisiä käyttäjiä. Sivuston usm.coach vierailijana:"
+
+#~ msgid ""
+#~ "No personal information other than you explicitly provide is collected"
+#~ msgstr ""
+#~ "Emme kerää muuta henkilökohtaista tietoa kuin sen mitä olet erikseen "
+#~ "antanut"
+
+#~ msgid ""
+#~ "No information such as cookies is stored in the browser to track you. "
+#~ "Cookies are only used to persist your language choice and for other "
+#~ "similar user interface features."
+#~ msgstr ""
+#~ "Emme tallenna tietoja, kuten keksejä, selaimesi muistiin "
+#~ "seuraamistarkoituksessa. Keksejä käytetään vain kielivalintasi "
+#~ "tallentamiseen ja muihin vastaaviin sivuston ominaisuuksien "
+#~ "toteuttamiseen."
+
+#~ msgid "No information is shared with, sent to or sold to third-parties"
+#~ msgstr ""
+#~ "Kerättyä informaatiota ei jaeta, lähetetä tai myydä kolmansille "
+#~ "osapuolille"
+
+#~ msgid "No information is shared with advertising companies"
+#~ msgstr "Kerättyä informaatiota ei jaeta mainoksia myyville yrityksille"
+
+#~ msgid ""
+#~ "No information is mined and harvested for personal and behavioral trends"
+#~ msgstr ""
+#~ "Kerättyä informaatiota ei louhita tai muuten hyödynnetä yksilöiden tai "
+#~ "käyttäytymistrendien seuraamiseksi"
+
+#~ msgid "No information is monetized"
+#~ msgstr "Kerättyä informaatiota ei kaupallisteta"
+
+#~ msgid ""
+#~ "We run privacy-centered analysis script from Plausible to collect some "
+#~ "anonymous usage data for statistical purposes. The goal is to track "
+#~ "overall trends in our website traffic and success of our marketing "
+#~ "campaigns, it is not to track individual visitors. All the data is in "
+#~ "aggregate only. No personal data is collected."
+#~ msgstr ""
+#~ "Ajamme yksityisyydensuojaan keskittyvää Plausiblen analytiikkakirjastoa "
+#~ "kerätäksemme anonyymiä käyttötietoa tilastollisiin tarkoituksiin. "
+#~ "Keräämisen tarkoitus on seurata yleisiä verkkosivujen käyttötrendejä sekä "
+#~ "markkinointikampanjoiden onnistumista. Tarkoitus ei ole seurata "
+#~ "yksittäisiä kävijöitä. Kaikki tieto kerätään vain aggregaattimuodossa, "
+#~ "eikä henkilökohtaista tietoa kerätä."
+
+#~ msgid ""
+#~ "Data collected includes websites that send us traffic, pages on our site "
+#~ "that are visited, duration of the visits, information from the devices "
+#~ "(device type, operating system, country and browser) used during the "
+#~ "visit and more. You can check Plausible website for full details the data "
+#~ "policy."
+#~ msgstr ""
+#~ "Kerätty tieto sisältää mm. tiedon siitä, mistä sivulle on tultu, "
+#~ "vieraillut sivut, vierailun kesto sekä tieto laitteista (laitteen tyyppi, "
+#~ "käyttöjärjestelmä, maa, selain) jolla vierailu on tehty. Voit tarkistaa "
+#~ "tarkemmat tiedot Plausiblen sivustolta."
+
+#~ msgid ""
+#~ "Our guiding principle is to collect only what we need and that we will "
+#~ "solely process this information to provide you with the service you "
+#~ "signed up for."
+#~ msgstr ""
+#~ "Meitä ohjaava periaate on, että keräämme vain sen tiedon minkä "
+#~ "tarvitsemme ja prosessoimme sen tiedon vain voidaksemme tarjota sinulle "
+#~ "tilaamasi palvelun."
+
+#~ msgid ""
+#~ "We use a select number of trusted external service providers for certain "
+#~ "service offerings. These service providers are carefully selected and "
+#~ "meet high data protection, data privacy and security standards."
+#~ msgstr ""
+#~ "Käytämme muutamia luotettuja kolmansien osapuolten tarjoamia palveluita "
+#~ "joidenkin palvelujen toteuttamiseen. Nämä palvelut on tarkoin valittu ja "
+#~ "noudattavat korkeita tiedonsuojauksen, tiedon yksityisyyden ja "
+#~ "tietoturvan standardeja."
+
+#~ msgid ""
+#~ "We only share information with them that is required for the services "
+#~ "offered and we contractually bind them to keep any information we share "
+#~ "with them as confidential and to process personal data only according to "
+#~ "our instructions."
+#~ msgstr ""
+#~ "Jaamme heidän kanssaan vain sen tiedon minkä he tarvitsevat omien "
+#~ "palveluidensa toteuttamiseen, velvoitamme heitä sopimuksella pitämään "
+#~ "kyseisen tiedon luottamuksellisena ja prosessoimaan henkilöihin liittyvää "
+#~ "tietoa vain meidän antamiemme ohjeiden mukaisesti."
+
+#~ msgid "Here’s what that means in practice:"
+#~ msgstr "Tätä se tarkoittaa käytännössä:"
+
+#~ msgid "What we collect and what we use it for"
+#~ msgstr "Mitä keräämme ja mihin sitä käytetään"
+
+#~ msgid ""
+#~ "An email address is required if you request us to send you information or "
+#~ "contact you, or if you create an account. For the account, this is just "
+#~ "so you can log in and personalize your new account, and we can send you "
+#~ "invoices, updates or other essential information."
+#~ msgstr ""
+#~ "Sähköpostiosoite tarvitaan jos pyydät että otamme sinuun yhteyttä, pyydät "
+#~ "että lähetämme sinulle tietoa tai jos haluat luoda tunnuksen. Tunnuksessa "
+#~ "tarvitsemme sitä siksi, että voit kirjautua sisään ja personoida "
+#~ "tunnustasi, ja että voimme lähettää sinulle laskuja, päivityksiä ja muuta "
+#~ "oleellista tietoa."
+
+#~ msgid ""
+#~ "A persistent first-party cookie is stored to remember you’re logged in. "
+#~ "If you log in to your USM Coach account, you give us permission to use "
+#~ "cookies so you don’t have to log in on each returning session. This makes "
+#~ "it easier for you to use our product. A cookie is a piece of text stored "
+#~ "by your browser. You can adjust cookie retention settings in your own "
+#~ "browser. Cookies that are already stored may be deleted at any time."
+#~ msgstr ""
+#~ "Pysyvä ensimmäisen osapuolen keksi tallennetaan jotta "
+#~ "sisäänkirjautumisesi muistetaan. Jos kirjaudut sisään USM Coach -"
+#~ "tunnuksellasi, annat meille oikeuden käyttää keksejä ettei sinun tarvitse "
+#~ "kirjautua sisään jokaisella seuraavalla istunnolla. Tämä tekee palvelumme "
+#~ "käyttämisestä helpompaa. Keksi on tekstinpätkä joka tallennetaan "
+#~ "selaimeesi. Voit muuttaa keksien säilömisaikaa selaimesi asetuksista. "
+#~ "Voit tuhota tallennetut piparit milloin tahansa."
+
+#~ msgid ""
+#~ "The payment process is handled by a third-party payment provider. If you "
+#~ "choose to upgrade to a USM Coach paid plan, the billing information and "
+#~ "the payment process is handled by Paddle. See the Paddle Privacy Policy "
+#~ "for full details."
+#~ msgstr ""
+#~ "Maksut käsitellään kolmannen osapuolen maksunvälittäjän toimesta. Jos "
+#~ "valitset USM Coachin maksullisen palvelun, laskutustiedot sekä "
+#~ "laskutusprosessi hoidetaan Paddlen toimesta. Voit tarkistaa tarkemmat "
+#~ "tiedot Paddlen tietosuojaselosteesta."
+
+#~ msgid ""
+#~ "All emails are sent using a third-party email provider. Transactional "
+#~ "emails and email reports (should you choose to subscribe to them) are "
+#~ "sent using Postmark. We have disabled both open tracking and link "
+#~ "tracking on all emails sent. See the Postmark Privacy Policy for full "
+#~ "details."
+#~ msgstr ""
+#~ "Kaikki sähköpostit lähetetään kolmannen osapuolen sähköpostipalvelinten "
+#~ "kautta. Transaktionaaliset sähköpostit sekä sähköpostiraportit (jos "
+#~ "tilaat sellaisen) lähetään Postmark-palvelulla. Olemme poistaneet "
+#~ "käytöstä sähköpostin avaamisen ja linkkien seuraamisen kaikissa "
+#~ "lähtevissä sähköposteissa. Voit tarkistaa tarkemmat tiedot Postmarkin "
+#~ "tietosuojaselosteesta."
+
+#~ msgid ""
+#~ "When you write to us with a question or to ask for help. We keep that "
+#~ "correspondence, which includes the email address, so that we have a "
+#~ "history of past correspondences to reference if you reach out in the "
+#~ "future. We use this data solely in connection with answering the queries "
+#~ "we receive."
+#~ msgstr ""
+#~ "Jos kirjoitat meille kysyäksesi kysymyksen tai pyytääksesi apua. "
+#~ "Tallennamme käydyt keskustelut, jotka pitävät sisällään "
+#~ "sähköpostiosoitteet, jotta meillä on tallessa käytyjen viestinvaihtojen "
+#~ "historia siinä tapauksessa että otat meihin yhteyttä myös jatkossa. Tätä "
+#~ "tietoa käytetään vain kysyttyihin kysymyksiin vastaamiseen."
+
+#~ msgid ""
+#~ "We use CAPTCHA service as a means of spam protection on our account "
+#~ "registration form. hCaptcha is a GDPR-compliant and privacy-friendly "
+#~ "captcha. See the hCaptcha Privacy Policy for full details."
+#~ msgstr ""
+#~ "Käytämme CAPTCHA-palvelua roskapostien estoon rekisteröitymislomakkeella. "
+#~ "hCaptcha on GDPR-yhteensopiva ja tietoturvalähtöinen captcha. Voit "
+#~ "tarkistaa tarkemmat tiedot hCaptchan tietosuojaselosteesta."
+
+#~ msgid ""
+#~ "When you choose to subscribe to our blog posts via email. We use "
+#~ "Mailchimp to send those newsletters. We have disabled both open tracking "
+#~ "and link tracking on all emails sent. See the Mailchimp Privacy Policy "
+#~ "for full details."
+#~ msgstr ""
+#~ "Kun tilaat blogikirjoituksemme sähköpostitse. Käytämme Mailchimp-palvelua "
+#~ "uutiskirjeiden lähettämiseen. Olemme poistaneet käytöstä uutiskirjeen "
+#~ "avaamisen ja linkkien seuraamisen kaikissa lähtevissä sähköposteissa. "
+#~ "Voit tarkistaa tarkemmat tiedot Mailchimpin tietosuojaselosteesta."
+
+#~ msgid ""
+#~ "We will retain your information as long as your account is active, as "
+#~ "necessary to provide you with the services or as otherwise set forth in "
+#~ "this policy."
+#~ msgstr ""
+#~ "Säilytämme informaation niin kauan kuin tunnuksesi on aktiivinen, "
+#~ "voidaksemme tarjota sinulle palveluita tai muista tässä selosteessa "
+#~ "mainituista syistä."
+
+#~ msgid ""
+#~ "We will also retain and use this information as necessary for the "
+#~ "purposes set out in this policy and to the extent necessary to comply "
+#~ "with our legal obligations, resolve disputes, enforce our agreements and "
+#~ "protect USM Coach’s legal rights."
+#~ msgstr ""
+#~ "Säilytämme ja käytämme näitä tietoja tarpeen mukaan tässä selosteessa "
+#~ "kuvatussa tarkoituksessa ja siinä määrin kuin se on tarpeellista "
+#~ "lakisääteisten velvoitteiden hoitamiseksi, riitojen ratkaisemiseksi, "
+#~ "sopimusten täytäntöönpanemiseksi sekä USM Coachin oikeuksien "
+#~ "suojelemiseksi."
+
+#~ msgid ""
+#~ "You can choose to delete your USM Coach account at any time. All your "
+#~ "data will be permanently deleted immediately when you delete your account."
+#~ msgstr ""
+#~ "Voit tuhota USM Coach -tilisi milloin tahansa. Kaikki data tuhotaan "
+#~ "välittömästi ja peruuttamattomasti kun poistat tilisi."
+
+#~ msgid ""
+#~ "We may update this policy as needed to comply with relevant regulations "
+#~ "and reflect any new practices. Whenever we make a significant change to "
+#~ "our policies, we will also announce them on our company blog or social "
+#~ "media profiles."
+#~ msgstr ""
+#~ "Voimme päivittää tätä selostetta tarpeen mukaan erilaisten säännösten "
+#~ "toteuttamiseksi ja mukauttamiseksi sopivaksi uusiin käytäntöihin. Jos "
+#~ "teemme merkittäviä muutoksia selosteeseen, julkaisemme tiedon siitä "
+#~ "yrityksen blogissa tai sosiaalisen median tileilä."
+
+#~ msgid ""
+#~ "<a href=\"/public/contact/\">Contact</a> us if you have any questions, "
+#~ "comments, or concerns about this privacy policy, your data, or your "
+#~ "rights with respect to your information."
+#~ msgstr ""
+#~ "<a href=\"/public/contact/\">Ota yhteyttä</a> meihin jos sinulla on "
+#~ "kysyttävää, kommentteja tai huolia liittyen tähän tietosuojaselosteeseen, "
+#~ "dataasi, tai oikeuksisi omaan tietoosi liittyen."
+
+#~ msgid "Simple USM"
+#~ msgstr "Simple USM"
+
+#~ msgid "Books"
+#~ msgstr "Kirjat"
+
+#~ msgid "USM Portal"
+#~ msgstr "Portaali"
+
+#~ msgid "Submit for the download link"
+#~ msgstr "Lähetä, saat latauslinkin"
+
+#~ msgid ""
+#~ "<i>Simple USM</i> is an introductory e-book about USM. It is targeted for "
+#~ "people that want to understand the basics of USM, for example for "
+#~ "deploying USM with the help of a coach."
+#~ msgstr ""
+#~ "E-kirja <i>Simple USM</i> on johdanto USM:ään. Kirja on suunnattu "
+#~ "ihmisille jotka haluavat ymmärtää USM:n perusteet, esimerkiksi voidakseen "
+#~ "osallistua USM:n käyttöönottoon valmentajan avulla."
+
+#~ msgid ""
+#~ "It explains the core ideas of USM method in simple, condensed format. It "
+#~ "is a good starting point for learning more about USM."
+#~ msgstr ""
+#~ "Se esittelee USM-menetelmän ydinajatukset yksinkertaisessa ja "
+#~ "tiivistetyssä muodossa. E-kirja on hyvä lähtökohta USM:ään tutustumiseen."
+
+#~ msgid "The book is in English and contains 14 pages."
+#~ msgstr "Kirja on englanninkielinen ja sisältää 14 sivua."
+
+#~ msgid ""
+#~ "The book is free to download in PDF format. Fill your industry on the "
+#~ "form on the left, and submit the form. After you submit the form, a "
+#~ "download button will appear."
+#~ msgstr ""
+#~ "Voit ladata PDF-muotoisen kirjan ilmaiseksi. Täytä toimiala vasemman "
+#~ "palstan lomakkeelle ja lähetä lomake. Lomakkeen lähettämisen jälkeen "
+#~ "lomakkeen tilalle tulee latauspainike."
+
+#~ msgid ""
+#~ "We have free webinars, product releases and other interesting things "
+#~ "coming up soon. To stay informed, check the corresponding boxes and fill "
+#~ "in your email address. We will not spam you, and use your email address "
+#~ "only for the purposes you have explicitly warranted. See our <a href=\"/"
+#~ "public/privacy-policy\">Privacy Policy</a> for details."
+#~ msgstr ""
+#~ "Julkaisemme pian webinaareja, uusia tuotteita ja muutakin "
+#~ "mielenkiintoista. Valitse sopivat laatikot sekä täytä "
+#~ "sähköpostiosoitteesi saadaksesi niistä lisätietoja. Emme lähetä viestejä "
+#~ "turhaan. Käytämme osoitettasi vain siihen tarkoitukseen johon olet "
+#~ "antanut luvan. Lisätietoja <a href=\"/public/privacy-policy"
+#~ "\">tietosuojaselosteesta</a>."
+
+#~ msgid ""
+#~ "Training is integral part of the USM Deployment, allowing you to become "
+#~ "more self-sufficient. Training can be more informal knowledge transfer, "
+#~ "or more formal training by a certified USM Training Partner."
+#~ msgstr ""
+#~ "Koulutus on tärkeä osa USM:n käyttöönottoa. Me voimme auttaa sinua "
+#~ "tulemaan omavaraisemmaksi. Koulutus voi olla joko vapaamuotoisempaa "
+#~ "osaamisen siirtoa tai muodollisempaa sertifioidun USM-kouluttajan pitämää "
+#~ "koulutusta."
+
+#~ msgid ""
+#~ "For more information on training, see <a href=\"https://usm-portal.com/"
+#~ "training/?lang=en\">Training</a> at USM portal."
+#~ msgstr ""
+#~ "Lisätietoja koulutuksista saat USM-portaalin koulutussivulta &mdash; <a "
+#~ "href=\"https://usm-portal.com/training/?lang=en\">Training</a>."
+
+#~ msgid ""
+#~ "The online webbook <i>How to make a success of ITIL&#169; 4 with USM</i> "
+#~ "describes the structure and practices of ITIL 4 from the perspective of "
+#~ "the USM management system."
+#~ msgstr ""
+#~ "Verkkokirja <i>How to make a success of ITIL&#169; 4 with USM</i> kuvaa "
+#~ "ITIL 4:n rakenteen ja periaatteet USM-menetelmän näkökulmasta. Kirja on "
+#~ "englanninkielinen."
+
+#~ msgid ""
+#~ "The webbook <i>The USM Method</i> describes in detail the principles, "
+#~ "structure, and application of the USM method, in 105 web pages and 100+ "
+#~ "illustrations. To apply USM, you read the USM web-book and then apply it "
+#~ "in your own organization. Rest assured – you can really do this yourself. "
+#~ "A sustainable service organization is simpler than you may think."
+#~ msgstr ""
+#~ "Verkkokirja <i>The USM Method</i> kuvaa tarkasti periaatteet, rakenteen "
+#~ "sekä USM-menetelmän soveltamisen. Kirjassa on 105 sivua ja yli sata "
+#~ "kuvaa. Kirja antaa valmiudet soveltaa USM:ää omaan organisaatioosi. Usko "
+#~ "pois - pystyt ihan oikeasti tekemään sen itse. Kestävä "
+#~ "palveluorganisaatio on yksinkertaisempaa kuin uskotkaan. Kirja on "
+#~ "englanninkielinen."
+
+#~ msgid ""
+#~ "The <a href=\"https://usm-portal.com/?lang=en\">USM Portal</a> contains "
+#~ "lots of resources about the USM."
+#~ msgstr ""
+#~ "<a href=\"https://usm-portal.com/?lang=en\">USM-portaali</a> sisältää "
+#~ "paljon lisätietoa USM:stä."
+
+#~ msgid ""
+#~ "A good starting point is the <a href=\"https://usm-portal.com/usm-"
+#~ "library/?lang=en\">USM Library</a>."
+#~ msgstr ""
+#~ "Hyvä aloituspiste on USM-kirjasto &mdash; <a href=\"https://usm-portal."
+#~ "com/usm-library/?lang=en\">USM Library</a>."
+
+#~ msgid "Scans"
+#~ msgstr "Kartoitukset"
+
+#~ msgid "Coaching"
+#~ msgstr "Valmennus"
+
+#~ msgid "Tooling"
+#~ msgstr "Työkalut"
+
+#~ msgid ""
+#~ "Any process can be described with one of 8 workflows going through 5 "
+#~ "processes."
+#~ msgstr ""
+#~ "Mikä tahansa prosessi voidaan kuvata yhdellä kahdeksasta työnkulusta, "
+#~ "jotka kulkevat viiden prosessin läpi."
+
+#~ msgid "Before you begin your USM journey, you should know where you are."
+#~ msgstr ""
+#~ "Ennen kuin aloittaa matkan USM:n parissa, on hyvä tietää missä tällä "
+#~ "hetkellä on."
+
+#~ msgid ""
+#~ "We can analyze your current situation using USM scans. If we scan your "
+#~ "current situation before the project, you can use the results to "
+#~ "demonstrate the business value the project may provide to your "
+#~ "organization. We can also do the scan later, in the initial phase of the "
+#~ "deployment project."
+#~ msgstr ""
+#~ "Voimme analysoida nykytilannettasi USM-kartoitusten avulla. Jos kartoitus "
+#~ "tehdään ennen projektin aloitusta, sen tuloksia voidaan käyttää "
+#~ "osoittamaan USM:n tuomia liiketoimintahyötyjä. Kartoitus voidaan tehdä "
+#~ "myös myöhemmin, osana käyttöönottoprojektin aloitusvaihetta."
+
+#~ msgid ""
+#~ "There are multiple types of scans, with varying depths and scopes, "
+#~ "depending on the needs of the organization. USM scans use a mix of "
+#~ "surveys, interviews and reviews of existing documentation and tools. The "
+#~ "result is typically presented in a form of a report."
+#~ msgstr ""
+#~ "Kartoituksia voidaan laatia tarpeen mukaan vaihtelevalla laajuudella ja "
+#~ "syvyydellä. USM-kartoituksissa käytetään hyödyksi kyselyitä, "
+#~ "haastatteluja, sekä olemassaolevaan dokumentaatioon ja työkaluihin "
+#~ "perehtymistä. Tulokset esitetään yleensä raportin muodossa."
+
+#~ msgid ""
+#~ "Quick scan can also be done as a self-assessment, using an Excel template "
+#~ "or an online form."
+#~ msgstr ""
+#~ "Pikakartoitus voidaan tehdä myös itsearviointina, käyttäen Excel-pohjaa "
+#~ "tai verkkolomaketta."
+
+#~ msgid ""
+#~ "<span class=\"foobar\">Coming soon</span> Online self-assessment form! "
+#~ "Register on the resources page for our newsletter to get notified."
+#~ msgstr ""
+#~ "<span class=\"foobar\">Tulossa</span> Itsearvioinnin verkkotyökalu "
+#~ "tulossa pian! Rekisteröidy uutiskirjeemme tilaajaksi niin pidämme sinut "
+#~ "ajan tasalla."
+
+#~ msgid ""
+#~ "Your organization should become self-sufficient in providing the USM. Our "
+#~ "coaches can help you in your path towards self-sufficiency, with various "
+#~ "forms of knowledge transfer, such as informal training and coaching. We "
+#~ "can also set you up with more formal USM training if needed."
+#~ msgstr ""
+#~ "Organisaatiosi pitäisi tulla omavaraiseksi USM:n tarjoamisessa. "
+#~ "Valmentajamme voivat auttaa sinua matkalla omavaraisuuteen "
+#~ "esimerkiksierilaisten osaamisen siirtojen kuten vapaamuotoisen "
+#~ "koulutuksen tai valmennuksen muodossa. Voimme myös järjestää tarvittaessa "
+#~ "muodollisempaaUSM-koulututa."
+
+#~ msgid ""
+#~ "We are flexible, but typically avoid consulting, deployment work and "
+#~ "project management, because they do not help you to become self-"
+#~ "sufficient."
+#~ msgstr ""
+#~ "Olemme joustavia, mutta yleisesti välttelemme konsultointia, "
+#~ "käyttöönottotyö tai projektinhallintaa, koska se vaikeuttaa "
+#~ "omavaraisuuttasi."
+
+#~ msgid ""
+#~ "Tooling is an integral part of the USM deployment project and will play a "
+#~ "major part in its success."
+#~ msgstr ""
+#~ "Työkalut ovat olennainen osa USM:n käyttöönottoa ja vaikuttaa keskeisesti "
+#~ "sen onnistumiseen."
+
+#~ msgid ""
+#~ "Existing systems may need to be integrated, or you may need to build or "
+#~ "purchase new ones."
+#~ msgstr ""
+#~ "Olemassaolevat järjestelmät voivat tarvita integraatioita, tai uusia "
+#~ "järjestelmiä täytyy rakentaa tai ostaa."
+
+#~ msgid ""
+#~ "We can help you in evaluating suitability of your current systems in "
+#~ "terms of USM features, evaluating alternatives, or implementing the "
+#~ "necessary custom tools, integrations and glue between systems."
+#~ msgstr ""
+#~ "Voimme auttaa sinua arvioimaan nykyisten järjestelmiesi toimivuuden USM:n "
+#~ "vaatimien ominaisuuksien kannalta, vertailla työkaluja tai toteuttaa "
+#~ "uusia työkaluja, integraatioita tai liimaa järjestelmien välillä."
+
+#~ msgid ""
+#~ "We have the tools to assist you in various kinds of service management "
+#~ "audits that target frameworks and certifications, such as ITIL v4, ISO "
+#~ "27k, ISO 20k, COBIT. We can provide your auditors with cross-references "
+#~ "between USM and the target framework or certification."
+#~ msgstr ""
+#~ "Meillä on työkalut joilla voimme auttaa sinua erilaisissa "
+#~ "palvelunhallinnan auditoinneissa jotka kohdistuvat ITIL v4, ISO 27k, ISO "
+#~ "20k, COBIT kaltaisiinkehikoihin. Voimme tarjota auditoijillesi "
+#~ "ristiviittaukset USM:n ja kohteena olevan kehikon tai sertifikaatin "
+#~ "välillä."
+
+#~ msgid "We do not do audits or provide you with certifications."
+#~ msgstr "Emme tee auditointeja tai tarjoa serifikaatteja."
+
+#~ msgid "Form sending was successful."
+#~ msgstr "Lomakkeen lähetys onnistui."
+
+#~ msgid "Only fi and en are supported. Vain fi ja en tuettu."
+#~ msgstr "Only fi and en are supported. Vain fi ja en tuettu."
+
+#~ msgid "Download was not successful, did you remember to fill the form?"
+#~ msgstr "Vastaanotto epäonnistui, muistitko täyttää lomakkeen?"
+
+#~ msgid "About"
+#~ msgstr "Yleistä"
+
+#~ msgid "Resources"
+#~ msgstr "Resurssit"
+
+#~ msgid "Contact"
+#~ msgstr "Yhteystiedot"
+
+#~ msgid "Privacy Policy"
+#~ msgstr "Tietosuojaseloste"
+
+#~ msgid "E-Book: Simple USM"
+#~ msgstr "E-kirja: Simple USM"
