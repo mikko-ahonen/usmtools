@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-26 02:35+0000\n"
+"POT-Creation-Date: 2025-02-26 05:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,7 @@ msgstr "Nollaa sähköposti"
 
 #: accounts/forms.py:125
 #: accounts/templates/accounts/password_change_form.html:5
-#: templates/fragments/header.html:78
+#: templates/fragments/header.html:95
 #: templates/registration/password_change_form.html:11
 #: templates/registration/password_reset_confirm.html:15
 msgid "Change password"
@@ -207,6 +207,7 @@ msgid "I want to delete my account"
 msgstr "Haluan poistaa käyttäjätilini"
 
 #: accounts/templates/accounts/invitation_email.html:3
+#, python-format
 msgid ""
 "%(sender_email)s invited you to join the waiting list for USM Tools site."
 msgstr "%(sender_email)s kutsui sinut jonotuslistalle USM Tools -palvleuun."
@@ -256,6 +257,7 @@ msgid "To join the waiting list, please click the following link:"
 msgstr "Liittyäksesi jonotuslistalle, klikkaa oheista linkkiä:"
 
 #: accounts/templates/accounts/invitation_email.txt:2
+#, python-format
 msgid ""
 "%(sender_email)s invited you to join the waiting list for USM Tools site. "
 "Your position on the waiting list will increase, if you use this link to "
@@ -516,8 +518,11 @@ msgstr ""
 #: compliances/templates/compliances/_data_management.html:62
 #: compliances/templates/compliances/_targets.html:40
 #: compliances/templates/compliances/_teams.html:40
-#: components/board/board.html:22 mir/models.py:165 survey/models.py:178
-#: workflows/forms.py:99 workflows/forms.py:301
+#: components/board/board.html:22 mir/models.py:20 mir/models.py:42
+#: mir/models.py:166 survey/models.py:178 workflows/forms.py:99
+#: workflows/forms.py:301 workflows/models.py:72 workflows/models.py:155
+#: workflows/models.py:269 workflows/models.py:490
+#: workflows/tenant_models.py:17
 msgid "Name"
 msgstr "Nimi"
 
@@ -557,12 +562,14 @@ msgid "Release"
 msgstr "Julkaisu"
 
 #: boards/models.py:66 compliances/templatetags/compliances.py:77
-#: compliances/templatetags/compliances.py:80 mir/models.py:262
+#: compliances/templatetags/compliances.py:80 mir/models.py:263
 #: survey/models.py:217
 msgid "Status"
 msgstr "Tila"
 
-#: boards/models.py:84 mir/models.py:170
+#: boards/models.py:84 mir/models.py:21 mir/models.py:43 mir/models.py:171
+#: workflows/models.py:73 workflows/models.py:156 workflows/models.py:270
+#: workflows/models.py:491
 #: workflows/templates/workflows/modals/action-create-or-update.html:39
 msgid "Description"
 msgstr "Kuvaus"
@@ -579,15 +586,16 @@ msgstr "Käyttäjätarina"
 msgid "Add list"
 msgstr "Lisää lista"
 
-#: boards/templates/boards/_board.html:23
+#: boards/templates/boards/_board.html:23 boards/templates/boards/_list.html:30
 #: boards/templates/boards/board_form.html:10
+#: boards/templates/boards/task_modal.html:26
 #: compliances/templates/compliances/_data_management.html:64
 #: compliances/templates/compliances/_targets.html:42
 #: compliances/templates/compliances/_teams.html:42
 #: compliances/templates/compliances/modals/create-or-update.html:18
 #: compliances/templates/compliances/target_form.html:8
-#: components/board/board.html:25 mir/forms.py:32 mir/forms.py:48
-#: mir/forms.py:60 mir/forms.py:72
+#: components/board/board.html:25 components/board/board_list.html:40
+#: mir/forms.py:32 mir/forms.py:48 mir/forms.py:60 mir/forms.py:72
 #: projects/templates/projects/modals/create-or-update.html:33
 #: projects/templates/projects/modals/task-create-or-update.html:37
 #: workflows/templates/workflows/modals/action-delete.html:11
@@ -608,14 +616,46 @@ msgstr "Tallenna"
 
 #: boards/templates/boards/_list.html:26 components/board/board_list.html:36
 msgid "Task name"
-msgstr "Tehtävän nimi"
+msgstr "Työn nimi"
+
+#: boards/templates/boards/_list.html:32
+#: compliances/templates/compliances/_data_management.html:66
+#: compliances/templates/compliances/_data_management.html:67
+#: compliances/templates/compliances/_targets.html:44
+#: compliances/templates/compliances/_targets.html:45
+#: compliances/templates/compliances/_teams.html:44
+#: compliances/templates/compliances/_teams.html:45
+#: compliances/templates/compliances/modals/delete.html:61
+#: components/board/board_list.html:42 mir/templates/mir/modals/delete.html:10
+#: mir/templates/mir/modals/employee-delete.html:10
+#: mir/templates/mir/modals/training-delete.html:10
+#: projects/templates/projects/modals/create-or-update.html:34
+#: projects/templates/projects/modals/project-delete.html:10
+#: projects/templates/projects/modals/task-create-or-update.html:38
+#: workflows/templates/workflows/modals/action-delete.html:10
+#: workflows/templates/workflows/modals/activity-delete.html:11
+#: workflows/templates/workflows/modals/customer-delete.html:22
+#: workflows/templates/workflows/modals/delete.html:61
+#: workflows/templates/workflows/modals/instruction-delete.html:11
+#: workflows/templates/workflows/modals/organization-unit-delete.html:19
+#: workflows/templates/workflows/modals/profile-delete.html:13
+#: workflows/templates/workflows/modals/routine-delete.html:13
+#: workflows/templates/workflows/modals/service-customer-remove.html:13
+#: workflows/templates/workflows/modals/service-delete.html:32
+#: workflows/templates/workflows/modals/task-delete.html:10
+#: workflows/templates/workflows/modals/tenant-delete.html:53
+#: xref/templates/xref/modals/control-delete.html:11
+#: xref/templates/xref/modals/delete.html:11
+#: xref/templates/xref/modals/standard-delete.html:11
+msgid "Cancel"
+msgstr "Peru"
 
 #: boards/templates/boards/boards.html:6
 msgid "Boards"
 msgstr "Taulut"
 
-#: compliances/entity_types.py:13 compliances/models.py:454 mir/models.py:294
-#: mir/models.py:310
+#: compliances/entity_types.py:13 compliances/models.py:454 mir/models.py:295
+#: mir/models.py:311
 msgid "Not defined"
 msgstr "Ei määritelty"
 
@@ -626,14 +666,14 @@ msgstr "Dokumentti"
 #: compliances/entity_types.py:15 components/task/task_card.html:5
 #: workflows/templates/workflows/service-task-detail.html:9
 msgid "Task"
-msgstr "Tehtävä"
+msgstr "Tehtäväkokonaisuus"
 
 #: compliances/entity_types.py:16 workflows/models.py:176
 msgid "Risk"
 msgstr "Riski"
 
 #: compliances/entity_types.py:17 workflows/forms.py:303
-#: workflows/models.py:242
+#: workflows/models.py:242 workflows/models.py:493
 #: workflows/templates/workflows/fragments/service-routines.html:9
 #: workflows/templates/workflows/modals/service-share.html:16
 #: workflows/templatetags/breadcrumbs.py:89
@@ -643,7 +683,7 @@ msgstr "Rutiini"
 #: compliances/entity_types.py:18
 #: components/entity_selector/definition_reference_selector.py:14
 #: components/entity_selector/responsibility_profile_selector.py:15
-#: workflows/templates/workflows/profile-detail.html:9
+#: workflows/models.py:489 workflows/templates/workflows/profile-detail.html:9
 #: workflows/templates/workflows/service-profile-detail.html:9
 #: workflows/templates/workflows/service-profile-list.html:13
 msgid "Profile"
@@ -736,7 +776,7 @@ msgstr "Valitse datanhallintapolitiikka"
 
 #: compliances/templates/compliances/_data_management.html:15
 #: compliances/templates/compliances/domain-project-data-management.html:26
-#: mir/models.py:295 mir/templates/mir/dashboard.html:17
+#: mir/models.py:296 mir/templates/mir/dashboard.html:17
 msgid "Manual"
 msgstr "Manuaalinen"
 
@@ -745,12 +785,12 @@ msgstr "Manuaalinen"
 msgid "Linked"
 msgstr "Linkitetty"
 
-#: compliances/templates/compliances/_data_management.html:17 mir/models.py:297
+#: compliances/templates/compliances/_data_management.html:17 mir/models.py:298
 #: mir/templates/mir/dashboard.html:19
 msgid "Replicated"
 msgstr "Replikoitu"
 
-#: compliances/templates/compliances/_data_management.html:18 mir/models.py:298
+#: compliances/templates/compliances/_data_management.html:18 mir/models.py:299
 #: mir/templates/mir/dashboard.html:20
 msgid "Managed"
 msgstr "Hallittu"
@@ -776,36 +816,25 @@ msgstr "Lykkää"
 msgid "Select status"
 msgstr "Valitse tila"
 
-#: compliances/templates/compliances/_data_management.html:33 mir/models.py:311
+#: compliances/templates/compliances/_data_management.html:33 mir/models.py:312
 #: mir/templates/mir/dashboard.html:26
 msgid "Prototyping"
 msgstr "Kokeilu"
 
-#: compliances/templates/compliances/_data_management.html:34 mir/models.py:312
+#: compliances/templates/compliances/_data_management.html:34 mir/models.py:313
 #: mir/templates/mir/dashboard.html:27
 msgid "Development"
 msgstr "Kehitys"
 
-#: compliances/templates/compliances/_data_management.html:35 mir/models.py:313
+#: compliances/templates/compliances/_data_management.html:35 mir/models.py:314
 #: mir/templates/mir/dashboard.html:28
 msgid "Testing"
 msgstr "Testaus"
 
-#: compliances/templates/compliances/_data_management.html:36 mir/models.py:314
+#: compliances/templates/compliances/_data_management.html:36 mir/models.py:315
 #: mir/templates/mir/dashboard.html:29
 msgid "Production"
 msgstr "Tuotanto"
-
-#: compliances/templates/compliances/_data_management.html:67
-#: compliances/templates/compliances/_targets.html:45
-#: compliances/templates/compliances/_teams.html:45
-#: projects/templates/projects/modals/create-or-update.html:34
-#: projects/templates/projects/modals/task-create-or-update.html:38
-#: workflows/templates/workflows/modals/action-delete.html:10
-#: workflows/templates/workflows/modals/profile-delete.html:13
-#: workflows/templates/workflows/modals/task-delete.html:10
-msgid "Cancel"
-msgstr "Peru"
 
 #: compliances/templates/compliances/_targets.html:17
 #: compliances/templates/compliances/_teams.html:17
@@ -816,11 +845,11 @@ msgstr "Oletko varma"
 #: compliances/templates/compliances/fragments/compliances-tabs.html:29
 #: compliances/templates/compliances/fragments/compliances-tabs.html:31
 msgid "References"
-msgstr "Referenssit"
+msgstr "Viittaukset"
 
 #: compliances/templates/compliances/definition-list.html:18
 msgid "Reference"
-msgstr "Referenssi"
+msgstr "Viittaus"
 
 #: compliances/templates/compliances/definition-list.html:21
 msgid "Plural"
@@ -828,7 +857,7 @@ msgstr "Monikko"
 
 #: compliances/templates/compliances/definition-list.html:34
 msgid "matching label"
-msgstr "joka nimikoitu"
+msgstr "jotka nimikoitu"
 
 #: compliances/templates/compliances/definition-list.html:39
 msgid "No matches"
@@ -884,7 +913,7 @@ msgstr "Auditointi"
 
 #: compliances/templates/compliances/domain-list.html:7
 msgid "Compliance domains"
-msgstr "Määräystenmukaisuuden luokat"
+msgstr "Vaatimustenmukaisuudet"
 
 #: compliances/templates/compliances/domain-project-create-backlog.html:11
 msgid "Backlog preview for"
@@ -1054,7 +1083,7 @@ msgid ""
 msgstr ""
 
 #: compliances/templates/compliances/domain-project-data-management.html:40
-#: mir/models.py:296
+#: mir/models.py:297
 msgid "Link"
 msgstr "Linkki"
 
@@ -1322,6 +1351,27 @@ msgstr "Seuraavat"
 msgid "will be permanently deleted:"
 msgstr "poistetaan pysyvästi."
 
+#: compliances/templates/compliances/modals/delete.html:62
+#: mir/templates/mir/modals/employee-delete.html:11
+#: mir/templates/mir/modals/training-delete.html:11
+#: projects/templates/projects/modals/project-delete.html:11
+#: survey/templates/survey/modals/tenant-delete.html:54
+#: workflows/templates/workflows/modals/activity-delete.html:10
+#: workflows/templates/workflows/modals/customer-delete.html:23
+#: workflows/templates/workflows/modals/delete.html:62
+#: workflows/templates/workflows/modals/instruction-delete.html:10
+#: workflows/templates/workflows/modals/profile-delete.html:14
+#: workflows/templates/workflows/modals/routine-delete.html:14
+#: workflows/templates/workflows/modals/service-customer-remove.html:14
+#: workflows/templates/workflows/modals/service-delete.html:33
+#: workflows/templates/workflows/modals/task-delete.html:11
+#: workflows/templates/workflows/modals/tenant-delete.html:54
+#: xref/templates/xref/modals/control-delete.html:12
+#: xref/templates/xref/modals/delete.html:12
+#: xref/templates/xref/modals/standard-delete.html:12
+msgid "OK"
+msgstr "OK"
+
 #: compliances/templatetags/compliances.py:182
 msgid "No name"
 msgstr "Nimetön"
@@ -1418,34 +1468,28 @@ msgid "Story points"
 msgstr "Tarinapisteet"
 
 #: components/typeahead/typeahead.py:39
-msgid "tags"
-msgstr "nimikkeet"
+msgid "Search from tags"
+msgstr "Hae nimikettä"
 
-#: components/typeahead/typeahead.py:41 workflows/models.py:292
-msgid "profiles"
-msgstr "profiilit"
+#: components/typeahead/typeahead.py:41
+msgid "Search from profiles"
+msgstr "Hae profiilia"
 
-#: components/typeahead/typeahead.py:43 workflows/models.py:66
-msgid "organization units"
-msgstr "organisaatioyksiköt"
+#: components/typeahead/typeahead.py:43
+msgid "Search from organization units"
+msgstr "Hae organisaatioyksiköistä"
 
 #: components/typeahead/typeahead.py:45
-msgid "document"
-msgstr "dokumentti"
+msgid "Search from documents"
+msgstr "Hae dokumenttia"
 
-#: components/typeahead/typeahead.py:47 workflows/models.py:515
-#: workflows/views.py:1047 xref/views.py:318 xref/views.py:342
-#: xref/views.py:360
-msgid "task"
-msgstr "tehtävä"
+#: components/typeahead/typeahead.py:47
+msgid "Search from tasks"
+msgstr "Hae tehtäväkokonaisuutta"
 
 #: components/typeahead/typeahead.py:49
-msgid "risk"
-msgstr "riski"
-
-#: components/typeahead/typeahead.py:52
-msgid "Search"
-msgstr "Haku"
+msgid "Search from risks"
+msgstr "Hae riskiä"
 
 #: mir/models.py:15 workflows/models.py:102
 msgid "Tag"
@@ -1455,170 +1499,170 @@ msgstr "Nimike"
 msgid "Tags"
 msgstr "Nimikkeet"
 
+#: mir/models.py:22 mir/models.py:44 mir/models.py:175
+msgid "URL"
+msgstr "URL"
+
 #: mir/models.py:36 mir/templates/mir/document-list.html:7
 #: mir/templates/mir/fragments/mir-tabs.html:7
 msgid "Documents"
 msgstr "Dokumentit"
 
-#: mir/models.py:56
+#: mir/models.py:57
 msgid "Training"
 msgstr "Koulutus"
 
-#: mir/models.py:57 mir/templates/mir/training-list.html:7
+#: mir/models.py:58 mir/templates/mir/training-list.html:7
 msgid "Trainings"
 msgstr "Koulutukset"
 
-#: mir/models.py:83
+#: mir/models.py:84
 msgid "Employee"
 msgstr "Työntekijä"
 
-#: mir/models.py:84 mir/templates/mir/employee-list.html:7
+#: mir/models.py:85 mir/templates/mir/employee-list.html:7
 msgid "Employees"
 msgstr "Työntekijät"
 
-#: mir/models.py:104
+#: mir/models.py:105
 msgid "Training attended"
 msgstr "Koulutukseen osallistuminen"
 
-#: mir/models.py:105
+#: mir/models.py:106
 msgid "Trainings attended"
 msgstr "Koulutukseen osallistumiset"
 
-#: mir/models.py:125
+#: mir/models.py:126
 msgid "Training organized"
 msgstr "Järjestetty koulutus"
 
-#: mir/models.py:126
+#: mir/models.py:127
 msgid "Trainings organized"
 msgstr "Järjestetyt koulutukset"
 
-#: mir/models.py:142 projects/models.py:246
+#: mir/models.py:143 projects/models.py:246
 msgid "Low"
 msgstr "Matala"
 
-#: mir/models.py:143 projects/models.py:245
+#: mir/models.py:144 projects/models.py:245
 msgid "Medium"
 msgstr "Keskiverto"
 
-#: mir/models.py:144 projects/models.py:244
+#: mir/models.py:145 projects/models.py:244
 msgid "High"
 msgstr "Korkea"
 
-#: mir/models.py:145
+#: mir/models.py:146
 msgid "Critical"
 msgstr "Kriittinen"
 
-#: mir/models.py:156
+#: mir/models.py:157
 msgid "Rare"
 msgstr "Harvinainen"
 
-#: mir/models.py:157
+#: mir/models.py:158
 msgid "Unlikely"
 msgstr "Epätodennäköinen"
 
-#: mir/models.py:158
+#: mir/models.py:159
 msgid "Possible"
 msgstr "Mahdollinen"
 
-#: mir/models.py:159
+#: mir/models.py:160
 msgid "Likely"
 msgstr "Todennäköinen"
 
-#: mir/models.py:160
+#: mir/models.py:161
 msgid "Almost Certain"
 msgstr "Melkein varma"
 
-#: mir/models.py:166
+#: mir/models.py:167
 msgid "Enter a short and descriptive name for the risk."
 msgstr "Anna lyhyt ja kuvaava nimi riskille"
 
-#: mir/models.py:171
+#: mir/models.py:172
 msgid "Provide a detailed description of the risk."
 msgstr "Anna tarkempi kuvaus riskille"
 
-#: mir/models.py:174
-msgid "URL"
-msgstr "URL"
-
-#: mir/models.py:174
+#: mir/models.py:175
 msgid "URL for this risk"
 msgstr "Riskin URL"
 
-#: mir/models.py:183
+#: mir/models.py:184
 msgid "Operational"
 msgstr "Operointi"
 
-#: mir/models.py:184
+#: mir/models.py:185
 msgid "Financial"
 msgstr "Rahoitus"
 
-#: mir/models.py:185 templates/fragments/header.html:46
+#: mir/models.py:186 templates/fragments/header.html:46
 msgid "Compliance"
 msgstr "Vaatimustenmukaisuus"
 
-#: mir/models.py:186
+#: mir/models.py:187
 msgid "Strategic"
 msgstr "Strateginen"
 
-#: mir/models.py:187
+#: mir/models.py:188
 msgid "Reputational"
 msgstr "Mainehaitta"
 
-#: mir/models.py:193 survey/models.py:199
+#: mir/models.py:194 survey/models.py:199
 msgid "Category"
 msgstr "Kategoria"
 
-#: mir/models.py:194
+#: mir/models.py:195
 msgid "Select the category that best describes this risk."
 msgstr "Valitse kategoria joka parhaiten kuvaa riskiä"
 
-#: mir/models.py:201
+#: mir/models.py:202
 msgid "Inherent Impact"
 msgstr "Luontainen vaikutus"
 
-#: mir/models.py:202
+#: mir/models.py:203
 msgid "Assess the impact level of the risk before any mitigation actions."
 msgstr "Arvioi riskin vaikutuksen määrää ennen mitigointitoimia"
 
-#: mir/models.py:207
-msgid "Inherent Likelihood"
-msgstr "Luontainen todennököisyys"
-
 #: mir/models.py:208
+msgid "Inherent Likelihood"
+msgstr "Luontainen todennäköisyys"
+
+#: mir/models.py:209
 msgid ""
 "Assess the likelihood of the risk occurring before any mitigation actions."
 msgstr "Arvioi riskin todennäköisyyttä ennen lieventämistoimia"
 
-#: mir/models.py:215
+#: mir/models.py:216
 msgid "Mitigation Plan"
 msgstr "Lieventämissuunnitelma"
 
-#: mir/models.py:216
+#: mir/models.py:217
 msgid "Describe the mitigation strategies or actions to reduce the risk."
 msgstr "Kuvaa strategia ja toimet riskin lieventämiseksi"
 
-#: mir/models.py:225
+#: mir/models.py:226
 msgid "Residual Impact"
 msgstr "Jäännösriskin vaikutus"
 
-#: mir/models.py:226
+#: mir/models.py:227
 msgid "Assess the impact level of the risk after mitigation actions."
 msgstr "Arvioi riskin vaikutusta lieventämistoimien jälkeen"
 
-#: mir/models.py:233
+#: mir/models.py:234
 msgid "Residual Likelihood"
 msgstr "Jäännösriskin todennäköisyys"
 
-#: mir/models.py:234
+#: mir/models.py:235
 msgid "Assess the likelihood of the risk occurring after mitigation actions."
 msgstr ""
 "Arvioi todennäköisyyttä riskin toteutumiselle lieventämistoimien jälkeen"
 
-#: mir/models.py:239
+#: mir/models.py:240
 msgid "Name of responsible party"
 msgstr "Riskistä vastaavan osapuolen nimi"
 
-#: mir/models.py:240
+#: mir/models.py:241
 msgid ""
 "Specify the name of the individual or department responsible for managing "
 "this risk."
@@ -1626,31 +1670,31 @@ msgstr ""
 "Anna sen henkilön tai yksikön nimi, joka vastaa tämän riskin "
 "hallinnoimisesta."
 
-#: mir/models.py:251
+#: mir/models.py:252
 msgid "Identified"
 msgstr "Tunnistettu"
 
-#: mir/models.py:252
+#: mir/models.py:253
 msgid "Assessed"
 msgstr "Arviointu"
 
-#: mir/models.py:253
+#: mir/models.py:254
 msgid "Mitigated"
 msgstr "Liennytetty"
 
-#: mir/models.py:254
+#: mir/models.py:255
 msgid "Resolved"
 msgstr "Ratkaistu"
 
-#: mir/models.py:255
+#: mir/models.py:256
 msgid "Accepted"
 msgstr "Hyväksytty"
 
-#: mir/models.py:263
+#: mir/models.py:264
 msgid "Track the current status of the risk in its lifecycle."
 msgstr "Seuraa riskin elinkaaren tilaa"
 
-#: mir/models.py:340
+#: mir/models.py:341
 msgid "Unknown entity"
 msgstr "Tuntematon kohde"
 
@@ -1737,7 +1781,7 @@ msgstr "Poista koulutus"
 
 #: mir/templates/mir/risk-list.html:29
 msgid "You have not defined any risks yet."
-msgstr "ET ole vielä määritellyt riskejä"
+msgstr "Et ole vielä määritellyt riskejä"
 
 #: mir/templates/mir/risk-list.html:34
 msgid "Create a new risk"
@@ -2040,11 +2084,11 @@ msgstr "Maat joissa organisaatiosi toimii"
 msgid "Dutch"
 msgstr "Hollanti"
 
-#: survey/models.py:73 usm/settings.py:168 workflows/models.py:23
+#: survey/models.py:73 usm/settings.py:169 workflows/models.py:23
 msgid "English"
 msgstr "Englanti"
 
-#: survey/models.py:74 usm/settings.py:167 workflows/models.py:24
+#: survey/models.py:74 usm/settings.py:168 workflows/models.py:24
 msgid "Finnish"
 msgstr "Suomi"
 
@@ -2260,15 +2304,15 @@ msgstr "Data"
 msgid "XREF tool"
 msgstr "XREF-työkalu"
 
-#: templates/fragments/header.html:73
+#: templates/fragments/header.html:90
 msgid "Log out"
 msgstr "kirjaudu ulos"
 
-#: templates/fragments/header.html:80
+#: templates/fragments/header.html:97
 msgid "Site admin"
 msgstr "Palvelun ylläpito"
 
-#: templates/fragments/header.html:86
+#: templates/fragments/header.html:103
 msgid "Log In"
 msgstr "Kirjaudu sisään"
 
@@ -2348,6 +2392,10 @@ msgstr ""
 msgid "Request password reset link"
 msgstr "Pyydä salasanan nollauslinkkiä"
 
+#: workflows/forms.py:57 workflows/forms.py:144
+msgid "Parent"
+msgstr "Paikak hierarkiassa"
+
 #: workflows/forms.py:57
 msgid "Select the parent service, if any. Maximum service tree depth is 10."
 msgstr ""
@@ -2386,7 +2434,7 @@ msgid ""
 "Select the parent organizational unit, if any. Maximum organization tree "
 "depth is 10."
 msgstr ""
-"Valitse organisaatioyksikkö, jonka alle uusi yksikkö liitetään. Jos kyseessä "
+"Valitse organisaatioyksikkö, jonka alla tämä on hierarkiassa. Jos kyseessä "
 "on juuriorganisaatio, jätä kenttä tyhjäksi. Suurin sallittu organisaatiopuun "
 "syvyys on 10."
 
@@ -2414,6 +2462,10 @@ msgstr "Väärä kielivalinta"
 #: workflows/models.py:65
 msgid "organization unit"
 msgstr "organisaatioyksikkö"
+
+#: workflows/models.py:66
+msgid "organization units"
+msgstr "organisaatioyksiköt"
 
 #: workflows/models.py:93
 msgid "service"
@@ -2446,6 +2498,10 @@ msgstr "palvelun ja asiakkaan yhteys"
 #: workflows/models.py:148
 msgid "service to customer relationships"
 msgstr "palvelun ja asiakkaan yhteydet"
+
+#: workflows/models.py:157
+msgid "Template"
+msgstr ""
 
 #: workflows/models.py:172 workflows/models.py:312
 msgid "Agree"
@@ -2495,6 +2551,10 @@ msgstr "jaot"
 #: workflows/models.py:291
 msgid "profile"
 msgstr "profiili"
+
+#: workflows/models.py:292
+msgid "profiles"
+msgstr "profiilit"
 
 #: workflows/models.py:302
 msgid ""
@@ -2580,9 +2640,22 @@ msgstr "ohje"
 msgid "instructions"
 msgstr "ohjeet"
 
+#: workflows/models.py:494
+msgid "Label required from action"
+msgstr ""
+
+#: workflows/models.py:494
+msgid "Require that action has this label"
+msgstr ""
+
+#: workflows/models.py:515 workflows/views.py:1047 xref/views.py:318
+#: xref/views.py:342 xref/views.py:360
+msgid "task"
+msgstr "tehtäväkokonaisuus"
+
 #: workflows/models.py:516
 msgid "tasks"
-msgstr "tehtävät"
+msgstr "tehtäväkokonaisuudet"
 
 #: workflows/templates/workflows/customer-list.html:36
 msgid "You have not defined any customers yet."
@@ -2624,7 +2697,7 @@ msgstr "Profiilit"
 #: workflows/templates/workflows/service-profile-list.html:24
 #: workflows/templates/workflows/service-task-list.html:6
 msgid "Tasks"
-msgstr "Tehtävät"
+msgstr "Tehtäväkokonaisuudet"
 
 #: workflows/templates/workflows/fragments/service-header.html:22
 #: workflows/templates/workflows/fragments/service-header.html:47
@@ -2785,11 +2858,6 @@ msgid ""
 msgstr ""
 "Tämä poistaa myös kaikki profiilille luodut tehtävät. Tällä ei ole "
 "vaikutusta tehtäviin liittyville toiminnoille."
-
-#: workflows/templates/workflows/modals/profile-delete.html:14
-#: workflows/templates/workflows/modals/task-delete.html:11
-msgid "OK"
-msgstr "OK"
 
 #: workflows/templates/workflows/modals/routine-create.html:8
 msgid "Update routine"
@@ -3211,3 +3279,15 @@ msgstr ""
 #: xref/views.py:319 xref/views.py:343
 msgid "You should create one or more formal tasks to cover the USM statement."
 msgstr ""
+
+#~ msgid "tags"
+#~ msgstr "nimikkeet"
+
+#~ msgid "document"
+#~ msgstr "dokumentti"
+
+#~ msgid "risk"
+#~ msgstr "riski"
+
+#~ msgid "Search"
+#~ msgstr "Haku"

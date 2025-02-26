@@ -54,7 +54,7 @@ class TaskCreateOrUpdate(ModelForm):
 
 class ServiceCreateOrUpdate(ModelForm):
 
-    parent = TreeNodeChoiceField(queryset=None, required=False, help_text=_('Select the parent service, if any. Maximum service tree depth is 10.'))
+    parent = TreeNodeChoiceField(queryset=None, required=False, label=_('Parent'), help_text=_('Select the parent service, if any. Maximum service tree depth is 10.'))
 
     class Meta:
         model = Service
@@ -141,11 +141,11 @@ class ServiceCustomerAdd(ModelForm):
 
 class OrganizationUnitCreateOrUpdate(ModelForm):
 
-    parent = TreeNodeChoiceField(queryset=None, required=False, help_text=_('Select the parent organizational unit, if any. Maximum organization tree depth is 10.'))
+    parent = TreeNodeChoiceField(queryset=None, required=False, label=_('Parent'), help_text=_('Select the parent organizational unit, if any. Maximum organization tree depth is 10.'))
 
     class Meta:
         model = OrganizationUnit
-        fields = ['name', 'parent', 'description']
+        fields = ['name', 'description', 'parent']
 
     # TODO: Maximum level
     #def clean_parent(self):

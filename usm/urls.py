@@ -26,6 +26,7 @@ urlpatterns = [
     path('boards/', include('boards.urls')),
     path('projects/', include('projects.urls')),
     path('components/', include('components.urls')),
+    path('public/', include('public.urls')),
     path("", include("django_components.urls")),
 ]
 

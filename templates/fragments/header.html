@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load local_i18n %}
 {% load static %}
 
     {% block header %}
@@ -16,10 +17,10 @@
               {% if user.is_authenticated %}
               {% if not tenant %}
               <li class="nav-item px-2">
-               <h5>
-                 <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
-                   <i class="bi bi-house"></i>&nbsp;&nbsp;{% trans 'Tenants' %}
-                 </a>
+                <h5>
+                  <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
+                    <i class="bi bi-house"></i>&nbsp;&nbsp;{% trans 'Tenants' %}
+                  </a>
                 </h5>
               </li>
               {% endif %}
@@ -60,10 +61,30 @@
           </div>
           <div class="collapse navbar-collapse justify-content-end me-3" id="navbarSupportedContent2">
             <ul class="list-unstyled navbar-nav">
+
+              {% get_current_language as current_language %}
+              {% get_available_languages as LANGUAGES %}
+              {% get_language_info_list for LANGUAGES as languages %}
+              <li class="nav-item px-2 dropdown">
+                <h5>
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img height="20" src="/static/img/lang_{{ current_language }}.png" alt="{{ current_anguage }}"/>
+                </a>
+                <ul class="dropdown-menu">
+                {% for language in languages %}
+                  {% if current_language != language.code %}
+                    <li><a class="dropdown-item" href="{% url 'public:set-lang' language.code %}?next={{ request.path | urlencode }}"><img height="20" src="/static/img/lang_{{ language.code }}.png" alt="{{ language.code }}"/> {{ language.code | language_name }}</a></li>
+                {% endif %}
+                {% endfor %}
+                </ul>
+                </h5>
+              </li>
+
               {% if user.is_authenticated %}
                 <li class="nav-item px-2 dropdown">
   
-                  <a class="dropdown-toggle text-white" role="button" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                  <h5>
+                  <a class="nav-link dropdown-toggle text-white" role="button" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ user }}
                   </a>
 
@@ -80,6 +101,7 @@
                       <li><a class="dropdown-item" href="/admin">{% trans "Site admin" %}</a></li>
                     {% endif %}
                   </ul>
+                  </h5>
                 </li>
               {% else %}
                 <li class="nav-item px-2">

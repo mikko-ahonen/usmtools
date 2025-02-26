@@ -7,7 +7,7 @@
       {% trans 'Are you sure you want to delete it?' %}
     </p>
     <p> 
-      <a class="button btn btn-secondary" href="{% url 'mir:training-list' tenant.id %}">Cancel</a>
+      <a class="button btn btn-secondary" href="{% url 'mir:training-list' tenant.id %}">{% trans 'Cancel' %}</a>
       <input class="button btn btn-primary" type="submit" value="OK">
     </p>
 </form>

@@ -8,7 +8,7 @@
             {% if board.show_list_count %}
               <span class="badge rounded-pill bg-primary">{{ list.tasks.count }}</span>
             {% endif %}
-            <button type="button" class="btn btn-outline-primary" {% if list.tasks.count > 0 %}disabled data-bs-toggle="tooltip" title="{% trans 'Only empty lists can be deleted' %}" {% endif %} hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.pk list.pk %}" hx-confirm="Are you sure?"><i class="bi bi-trash3"></i></button>
+            <button type="button" class="btn btn-outline-primary" {% if list.tasks.count > 0 %}disabled data-bs-toggle="tooltip" title="{% trans 'Only empty lists can be deleted' %}" {% endif %} hx-post="{% url 'boards:delete_list' tenant_id board.board_type board.pk list.pk %}" hx-confirm="{& trans 'Are you sure?' %}"><i class="bi bi-trash3"></i></button>
             {% if list.list_type == 'sprint' %}
               {% if list.is_first_inactive_sprint_for_team %}
                 <button type="button" class="btn btn-outline-primary" hx-swap="outerHTML" hx-target="closest .board_list" hx-post="{% url 'components:board-list' tenant_id 'start-sprint' %}" hx-vals='{"board_id": "{{ board.pk | escapejs }}", "list_id": "{{ list.pk | escapejs }}"}'>{% trans 'Start sprint' %}</button>
@@ -37,9 +37,9 @@
                 class="form-control"></textarea>
                 <div class="tw-mt-4 tw-flex tw-items-center tw-space-x-1">
                     <button class="btn btn-outline-primary" type="submit">
-                        Save
+                        {% trans 'Save' %}
                     </button>
-                    <button type="button" @click="open=false" class="btn btn-outline-secondary">Cancel</button>
+                    <button type="button" @click="open=false" class="btn btn-outline-primary">{% trans 'Cancel' %}</button>
               </div>
           </div>
       </form>

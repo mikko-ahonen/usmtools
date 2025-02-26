@@ -9,7 +9,7 @@
     {% for dm in data_managements %}
     <tr>
       <td>
-        {{ dm.get_entity_name|title }}{% if not dm.allow_policy_change %} ({% trans 'built-in' %}){% endif %}
+        {{ dm.get_entity_name }}{% if not dm.allow_policy_change %} ({% trans 'built-in' %}){% endif %}
       </td>
       <td>
         <select name="policy" {% if not dm.allow_policy_change %}disabled{% endif %} class="form-select border-dark" aria-label="Policy" hx-post="{% url 'mir:data-management-policy' tenant.id dm.id %}" hx-swap="none">

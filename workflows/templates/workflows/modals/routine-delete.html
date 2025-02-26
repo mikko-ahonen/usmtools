@@ -10,8 +10,8 @@
       {% trans 'This will also delete all the steps, activities, and actions inside the routine.' %}
     </p>
     <p> 
-      <a class="btn btn-outline-primary" href="{% url 'workflows:service-routine-list' tenant.id routine.service_id %}">Cancel</a>
-      <input class="btn btn-outline-primary" type="submit" value="OK">
+      <a class="btn btn-outline-primary" href="{% url 'workflows:service-routine-list' tenant.id routine.service_id %}">{% trans 'Cancel' %}</a>
+      <input class="btn btn-outline-primary" type="submit" value="{% trans 'OK' %}">
     </p>
 </form>
 {% endblock content %}

@@ -51,8 +51,8 @@ class Account(AbstractUser):
 
 class OrganizationUnit(TenantAwareTreeModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='organizations_created')
     modified_at = models.DateTimeField(auto_now=True)
@@ -69,8 +69,8 @@ class OrganizationUnit(TenantAwareTreeModelBase):
 
 class Service(TenantAwareTreeModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='services')
     is_meta = models.BooleanField(default=False) # Meta service, used for example for templates
     is_global_template = models.BooleanField(default=False)
@@ -105,8 +105,8 @@ class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
 class Customer(TenantAwareModelBase):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
 
     CUSTOMER_TYPE_INTERNAL = "internal"
     CUSTOMER_TYPE_EXTERNAL = "external"
@@ -114,7 +114,7 @@ class Customer(TenantAwareModelBase):
         (CUSTOMER_TYPE_INTERNAL, _("Internal")),
         (CUSTOMER_TYPE_EXTERNAL, _("External")),
     ]
-    customer_type = models.CharField(max_length=10, choices=CUSTOMER_TYPE_CHOICES, default=CUSTOMER_TYPE_INTERNAL)
+    customer_type = models.CharField(max_length=10, choices=CUSTOMER_TYPE_CHOICES, default=CUSTOMER_TYPE_INTERNAL, verbose_name=_('Customer type'))
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='customers_created')
     modified_at = models.DateTimeField(auto_now=True)
@@ -152,9 +152,9 @@ class ServiceCustomer(TenantAwareModelBase):
 class Routine(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    is_template = models.BooleanField(default=False)
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
+    is_template = models.BooleanField(default=False, verbose_name=_('Template'))
     is_public = models.BooleanField(default=False)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -228,8 +228,8 @@ class Routine(TenantAwareOrderedModelBase):
         return error
 
     class Meta:
-        verbose_name = _('routine')
-        verbose_name_plural = _('routines')
+        verbose_name = _('Routine')
+        verbose_name_plural = _('Routines')
         ordering = ('index',)
         default_related_name = 'routines'
 
@@ -259,15 +259,15 @@ class Share(TenantAwareModelBase):
         return reverse('workflows:shared-routine-detail', kwargs={'pk': self.id, 'token1': self.token1, 'token2': self.token2})
 
     class Meta:
-        verbose_name = _('share')
-        verbose_name_plural = _('shares')
+        verbose_name = _('Share')
+        verbose_name_plural = _('Shares')
         default_related_name = 'shares'
 
 
 class Profile(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     organization_unit = models.ForeignKey(OrganizationUnit, on_delete=models.CASCADE, related_name='+', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -288,8 +288,8 @@ class Profile(TenantAwareOrderedModelBase):
 
     class Meta:
         ordering = ('index',)
-        verbose_name = _('profile')
-        verbose_name_plural = _('profiles')
+        verbose_name = _('Profile')
+        verbose_name_plural = _('Profiles')
         default_related_name = 'profiles'
 
 
@@ -328,7 +328,7 @@ class Step(TenantAwareOrderedModelBase):
         unique_together = ('routine', 'index')
         default_related_name = 'steps'
         ordering = ('index',)
-        verbose_name_plural = _('steps')
+        verbose_name_plural = _('Steps')
 
 
     def __str__(self):
@@ -355,7 +355,7 @@ class Activity(TenantAwareOrderedModelBase):
         return f"{self.step.routine.name}/{self.step.name}/{self.name}"
 
     class Meta:
-        verbose_name_plural = _('activities')
+        verbose_name_plural = _('Activities')
         ordering = ('index',)
         default_related_name = 'activities'
 
@@ -402,8 +402,8 @@ class Action(TenantAwareOrderedModelBase):
         return f"{self.title}"
 
     class Meta:
-        verbose_name = _('action')
-        verbose_name_plural = _('actions')
+        verbose_name = _('Action')
+        verbose_name_plural = _('Actions')
         ordering = ['index',]
         default_related_name = 'actions'
 
@@ -450,8 +450,8 @@ class Responsibility(TenantAwareOrderedModelBase):
         return self.get_types_display() + ': ' + name 
 
     class Meta:
-        verbose_name = _('responsibilities')
-        verbose_name_plural = _('responsibilities')
+        verbose_name = _('Responsibility')
+        verbose_name_plural = _('Responsibilities')
         ordering = ['index',]
         default_related_name = 'responsibilities'
 
@@ -468,8 +468,8 @@ class Instruction(TenantAwareModelBase):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
 
     class Meta:
-        verbose_name = _('instruction')
-        verbose_name_plural = _('instructions')
+        verbose_name = _('Instruction')
+        verbose_name_plural = _('Instructions')
         ordering = ['modified_at',]
         default_related_name = 'instructions'
 
@@ -486,12 +486,12 @@ class Instruction(TenantAwareModelBase):
 
 class Task(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, verbose_name=_('Profile'))
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+    description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
-    routine = models.ForeignKey(Routine, on_delete=models.CASCADE, related_name='+', null=True)
-    action_require_tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, related_name='+', null=True)
+    routine = models.ForeignKey(Routine, on_delete=models.CASCADE, related_name='+', null=True, verbose_name=_('Routine'))
+    action_require_tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, related_name='+', null=True, verbose_name=_('Label required from action'), help_text=_('Require that action has this label'))
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     modified_at = models.DateTimeField(auto_now=True)
@@ -512,8 +512,8 @@ class Task(TenantAwareOrderedModelBase):
         return reverse('workflows:service-task-detail', kwargs={'pk': self.id, 'service_id': self.routine.service_id, 'tenant_id': self.tenant_id})
 
     class Meta:
-        verbose_name = _('task')
-        verbose_name_plural = _('tasks')
+        verbose_name = _('Task')
+        verbose_name_plural = _('Tasks')
         ordering = ('index',)
         default_related_name = 'tasks'
 

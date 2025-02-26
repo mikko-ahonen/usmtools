@@ -36,20 +36,20 @@ class Typeahead(component.Component):
 
     def get_placeholder(self, target):
         if target in ['t', 'tags']:
-            placeholder = _('tags')
+            placeholder = _('Search from tags')
         elif target in ["p", "profile"]:
-            placeholder = _('profiles')
+            placeholder = _('Search from profiles')
         elif target in ["o", "organization_unit"]:
-            placeholder = _('organization units')
+            placeholder = _('Search from organization units')
         elif target in ["d", "document"]:
-            placeholder = _('document')
+            placeholder = _('Search from documents')
         elif target in ["task"]:
-            placeholder = _('task')
+            placeholder = _('Search from tasks')
         elif target in ["risk"]:
-            placeholder = _('risk')
+            placeholder = _('Search from risks')
         else:
             raise ValueError(f"Invalid typeahead type: {target}")
-        return _('Search') + ' ' + pluralize(placeholder) + '...'
+        return placeholder + '...'
 
     def post(self, request, *args, **kwargs):
 

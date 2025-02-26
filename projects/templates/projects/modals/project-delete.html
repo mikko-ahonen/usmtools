@@ -7,8 +7,8 @@
       {% trans 'Are you sure you want to delete it?' %}
     </p>
     <p> 
-      <a class="button btn btn-outline-secondary" href="{% url 'projects:project-list' tenant.id %}">Cancel</a>
-      <input class="button btn btn-outline-primary" type="submit" value="OK">
+      <a class="button btn btn-outline-secondary" href="{% url 'projects:project-list' tenant.id %}">{% trans 'Cancel' %}</a>
+      <input class="button btn btn-outline-primary" type="submit" value="{% trans 'OK' %}">
     </p>
 </form>
 {% endblock content %}

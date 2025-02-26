@@ -34,12 +34,18 @@ class EntityType:
                 return name
         return None
         
+    PLURAL_NAMES = {
+        NOT_DEFINED: _('Not defineds'),
+        DOCUMENT: _('Documents'),
+        TASK: _('Tasks'),
+        RISK: _('Risks'),
+        ROUTINE: _('Routines'),
+        PROFILE: _('Profiles'),
+    }
+
     @classmethod
     def get_name_plural(cls, s):
-        name = cls.get_name(s)
-        if not name:
-            return None
-        return name + 's'
+        return cls.PLURAL_NAMES[s]
 
 
 def get_class_by_entity_type(entity_type):

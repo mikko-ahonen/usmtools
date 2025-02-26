@@ -8,8 +8,8 @@
         {% trans 'This will permanently delete the standard and everything under it. Are you sure you want to delete it?' %}
     {% enddanger %}
     <p> 
-      <a class="button btn btn-secondary" href="{% url 'xref:standard-list' %}">Cancel</a>
-      <input class="button btn btn-primary" type="submit" value="OK">
+      <a class="button btn btn-secondary" href="{% url 'xref:standard-list' %}">{% trans 'Cancel' %}</a>
+      <input class="button btn btn-primary" type="submit" value="{% trans 'OK' %}">
     </p>
 </form>
 {% endblock content %}

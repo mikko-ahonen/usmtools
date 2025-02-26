@@ -50,8 +50,8 @@
       {% endif %}
     </p>
     <p> 
-      <a class="button btn btn-secondary" href="{% url 'workflows:tenant-list' %}">Cancel</a>
-      <input class="button btn btn-primary" type="submit" value="OK">
+      <a class="button btn btn-secondary" href="{% url 'workflows:tenant-list' %}">(% trans 'Cancel' %}</a>
+      <input class="button btn btn-primary" type="submit" value="{% trans 'OK' %}">
     </p>
 </form>
 {% endblock content %}

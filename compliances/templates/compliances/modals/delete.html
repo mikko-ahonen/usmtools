@@ -58,8 +58,8 @@
     {% endif %}
     {% endwith %}
     <p> 
-      <a class="button btn btn-secondary" href="{{ cancel_url }}">Cancel</a>
-      <input class="button btn btn-primary" type="submit" value="OK">
+      <a class="button btn btn-secondary" href="{{ cancel_url }}">{% trans 'Cancel' %}</a>
+      <input class="button btn btn-primary" type="submit" value="{% trans 'OK' %}">
     </p>
 </form>
 {% endwith %}

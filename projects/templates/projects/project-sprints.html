@@ -8,7 +8,7 @@
 {% include 'compliances/fragments/compliances-tabs.html' %}
 
 {% breadcrumbs tenant True 'compliances' %}
-<h1>{% trans 'Project' %} {{ project.name }} current sprints</h1>
+<h1>{% trans 'Project' %} {{ project.name }} {% trans 'current sprints' %}</h1>
 
 {% for team in project.teams.all %}
   {% if team.current_sprint %}
