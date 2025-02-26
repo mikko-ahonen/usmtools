@@ -15,7 +15,7 @@ console_command = '/code/manage.py shell'
 [env]
   PORT = '8000'
   EMAIL_HOST='smtp.eu.mailgun.org'
-  EMAIL_HOST_USER='postmaster@mg.lovezone.io'
+  EMAIL_HOST_USER='postmaster@mg.usm.coach'
   ALLOWED_HOSTS = ['usm.fly.dev', 'usm.tools']
   CSRF_TRUSTED_ORIGINS = ['usm.fly.dev', 'usm.tools']
 

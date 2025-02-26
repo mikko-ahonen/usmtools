@@ -6,19 +6,19 @@
   "scripts": {
     "build:css": "npx tailwindcss -i ./static/styles/base.css -o ./static/styles/styles.css",
     "compile-styles": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 styles/styles.scss static/css/styles.css",
-    "css-minify": "cleancss --level 1 --format breaksWith=lf --source-map --source-map-inline-sources --output static/css/lovezone.min.css static/css/lovezone.css",
+    "css-minify": "cleancss --level 1 --format breaksWith=lf --source-map --source-map-inline-sources --output static/css/usmtools.min.css static/css/usmtools.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mikko-ahonen/lovezone.git"
+    "url": "git+https://github.com/mikko-ahonen/usmtools.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mikko-ahonen/lovezone/issues"
+    "url": "https://github.com/mikko-ahonen/usmtools/issues"
   },
-  "homepage": "https://github.com/mikko-ahonen/lovezone#readme",
+  "homepage": "https://github.com/mikko-ahonen/usmtools#readme",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",

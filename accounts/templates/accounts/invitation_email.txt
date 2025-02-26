@@ -1,11 +1,11 @@
 {% load i18n %}
 {% blocktrans trimmed %}
-{{ sender_email }} invited you to join the waiting list for USM Coach site. Your 
+{{ sender_email }} invited you to join the waiting list for USM Tools site. Your 
 position on the waiting list will increase, if you use this link to join.
 {% endblocktrans %}
 
 {% blocktrans trimmed %}
-USM Coach is a new kind of Business Process Modeling tool. Some differences to existing tools:
+USM Tools is a new kind of Business Process Modeling tool. Some differences to existing tools:
 {% endblocktrans %}
 * {% trans 'It uses USM, which is based on methodical and systematic approach to Enterprise Service Management' %}
 * {% trans 'As compared to word processor (such as Word) templates, your data is structured and you can access it through APIs' %}
@@ -19,4 +19,4 @@ To join the waiting list, please click the following link:
 
 {% trans "Sincerely," %}
 
-{% trans "Management" %} / USM Coach
+{% trans "Management" %} / USM Tools

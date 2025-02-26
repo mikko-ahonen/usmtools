@@ -28,7 +28,7 @@ Password: {password}
 
 You can log in from:
 
-http://usm.coach/accounts/login/
+http://usm.tools/accounts/login/
 
 Please do not hesitate to contact me if there is an issue or if you have some ideas how to develop the tool to be more useful.
 

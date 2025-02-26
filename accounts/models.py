@@ -32,7 +32,7 @@ class WaitingListEntry(models.Model):
     email = models.EmailField(verbose_name=_('Email address'))
     why = models.TextField(verbose_name=_('Why do you want to use this service?'))
     source = models.TextField(verbose_name=_('Where did you hear about this service?'))
-    interested_groups = models.TextField(verbose_name=_('Are you member of a groups that might have people interested in participating in Lovezone?'))
+    interested_groups = models.TextField(verbose_name=_('Are you member of a groups that might have people interested in participating in USM Tools?'))
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

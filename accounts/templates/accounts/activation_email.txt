@@ -1,6 +1,6 @@
 {% load i18n %}
 {% blocktrans %}
-You (or someone pretending to be you) have asked to register an account at USM Coach. If this wasn't you, please ignore this email and your address will be removed from our records.
+You (or someone pretending to be you) have asked to register an account at USM Tools. If this wasn't you, please ignore this email and your address will be removed from our records.
 {% endblocktrans %}
 
 {% blocktrans %}
@@ -11,7 +11,7 @@ To activate this account, please click the following link within the next {{ exp
 
 {% trans "Sincerely," %}
 
-{% trans "Management" %} / USM Coach
+{% trans "Management" %} / USM Tools
 {% comment %}
 **registration/activation_email.txt**
 

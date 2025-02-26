@@ -8,7 +8,7 @@ def export_as_usm_dif(tenant):
     return {
         'usm_dif_version': '2.0.0',
         'source_system': {
-            'vendor': 'USM Coach',
+            'vendor': 'USM tools',
             'name': 'usm.tools',
             'version': '0.2.0',
             'instance': '6a831346-fc7d-45cc-9b66-2ea0040f7278',
