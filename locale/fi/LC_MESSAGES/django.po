@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-26 05:55+0000\n"
+"POT-Creation-Date: 2025-02-26 08:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,7 @@ msgstr "Nollaa sähköposti"
 
 #: accounts/forms.py:125
 #: accounts/templates/accounts/password_change_form.html:5
-#: templates/fragments/header.html:95
+#: templates/fragments/header.html:99
 #: templates/registration/password_change_form.html:11
 #: templates/registration/password_reset_confirm.html:15
 msgid "Change password"
@@ -85,10 +85,6 @@ msgid "Where did you hear about this service?"
 msgstr "Mistä kuulit tästä palvelusta?"
 
 #: accounts/models.py:35
-#, fuzzy
-#| msgid ""
-#| "Are you member of a groups that might have people interested in "
-#| "participating in USM.Tools?"
 msgid ""
 "Are you member of a groups that might have people interested in "
 "participating in USM Tools?"
@@ -520,9 +516,9 @@ msgstr ""
 #: compliances/templates/compliances/_teams.html:40
 #: components/board/board.html:22 mir/models.py:20 mir/models.py:42
 #: mir/models.py:166 survey/models.py:178 workflows/forms.py:99
-#: workflows/forms.py:301 workflows/models.py:72 workflows/models.py:155
-#: workflows/models.py:269 workflows/models.py:490
-#: workflows/tenant_models.py:17
+#: workflows/forms.py:301 workflows/models.py:54 workflows/models.py:72
+#: workflows/models.py:108 workflows/models.py:155 workflows/models.py:269
+#: workflows/models.py:490 workflows/tenant_models.py:17
 msgid "Name"
 msgstr "Nimi"
 
@@ -568,8 +564,8 @@ msgid "Status"
 msgstr "Tila"
 
 #: boards/models.py:84 mir/models.py:21 mir/models.py:43 mir/models.py:171
-#: workflows/models.py:73 workflows/models.py:156 workflows/models.py:270
-#: workflows/models.py:491
+#: workflows/models.py:55 workflows/models.py:73 workflows/models.py:109
+#: workflows/models.py:156 workflows/models.py:270 workflows/models.py:491
 #: workflows/templates/workflows/modals/action-create-or-update.html:39
 msgid "Description"
 msgstr "Kuvaus"
@@ -664,6 +660,7 @@ msgid "Document"
 msgstr "Dokumentti"
 
 #: compliances/entity_types.py:15 components/task/task_card.html:5
+#: workflows/models.py:515
 #: workflows/templates/workflows/service-task-detail.html:9
 msgid "Task"
 msgstr "Tehtäväkokonaisuus"
@@ -673,7 +670,7 @@ msgid "Risk"
 msgstr "Riski"
 
 #: compliances/entity_types.py:17 workflows/forms.py:303
-#: workflows/models.py:242 workflows/models.py:493
+#: workflows/models.py:231 workflows/models.py:242 workflows/models.py:493
 #: workflows/templates/workflows/fragments/service-routines.html:9
 #: workflows/templates/workflows/modals/service-share.html:16
 #: workflows/templatetags/breadcrumbs.py:89
@@ -683,11 +680,50 @@ msgstr "Rutiini"
 #: compliances/entity_types.py:18
 #: components/entity_selector/definition_reference_selector.py:14
 #: components/entity_selector/responsibility_profile_selector.py:15
-#: workflows/models.py:489 workflows/templates/workflows/profile-detail.html:9
+#: workflows/models.py:291 workflows/models.py:489
+#: workflows/templates/workflows/profile-detail.html:9
 #: workflows/templates/workflows/service-profile-detail.html:9
 #: workflows/templates/workflows/service-profile-list.html:13
 msgid "Profile"
 msgstr "Profiili"
+
+#: compliances/entity_types.py:38
+msgid "Not defineds"
+msgstr "Ei määritellyt"
+
+#: compliances/entity_types.py:39 mir/models.py:36
+#: mir/templates/mir/document-list.html:7
+#: mir/templates/mir/fragments/mir-tabs.html:7
+msgid "Documents"
+msgstr "Dokumentit"
+
+#: compliances/entity_types.py:40 workflows/models.py:516
+#: workflows/templates/workflows/fragments/service-header.html:17
+#: workflows/templates/workflows/fragments/service-header.html:19
+#: workflows/templates/workflows/fragments/service-header.html:44
+#: workflows/templates/workflows/service-profile-list.html:24
+#: workflows/templates/workflows/service-task-list.html:6
+msgid "Tasks"
+msgstr "Tehtäväkokonaisuudet"
+
+#: compliances/entity_types.py:41 mir/templates/mir/fragments/mir-tabs.html:10
+#: mir/templates/mir/risk-list.html:7
+msgid "Risks"
+msgstr "Riskit"
+
+#: compliances/entity_types.py:42 workflows/models.py:232
+#: workflows/templates/workflows/fragments/service-header.html:9
+#: workflows/templates/workflows/fragments/service-header.html:13
+#: workflows/templates/workflows/fragments/service-header.html:32
+msgid "Routines"
+msgstr "Rutiinit"
+
+#: compliances/entity_types.py:43 workflows/models.py:292
+#: workflows/templates/workflows/fragments/service-header.html:15
+#: workflows/templates/workflows/fragments/service-header.html:41
+#: workflows/templates/workflows/fragments/service-profiles.html:2
+msgid "Profiles"
+msgstr "Profiilit"
 
 #: compliances/imports.py:159
 msgid "This is not Excel file supported by usm.tools"
@@ -1360,6 +1396,7 @@ msgstr "poistetaan pysyvästi."
 #: workflows/templates/workflows/modals/customer-delete.html:23
 #: workflows/templates/workflows/modals/delete.html:62
 #: workflows/templates/workflows/modals/instruction-delete.html:10
+#: workflows/templates/workflows/modals/organization-unit-delete.html:20
 #: workflows/templates/workflows/modals/profile-delete.html:14
 #: workflows/templates/workflows/modals/routine-delete.html:14
 #: workflows/templates/workflows/modals/service-customer-remove.html:14
@@ -1503,11 +1540,6 @@ msgstr "Nimikkeet"
 msgid "URL"
 msgstr "URL"
 
-#: mir/models.py:36 mir/templates/mir/document-list.html:7
-#: mir/templates/mir/fragments/mir-tabs.html:7
-msgid "Documents"
-msgstr "Dokumentit"
-
 #: mir/models.py:57
 msgid "Training"
 msgstr "Koulutus"
@@ -1596,7 +1628,7 @@ msgstr "Operointi"
 msgid "Financial"
 msgstr "Rahoitus"
 
-#: mir/models.py:186 templates/fragments/header.html:46
+#: mir/models.py:186 templates/fragments/header.html:47
 msgid "Compliance"
 msgstr "Vaatimustenmukaisuus"
 
@@ -1713,11 +1745,6 @@ msgstr "Et ole vielä määritellyt työntekijöitä."
 #: mir/templates/mir/employee-list.html:18
 msgid "Create a new employee"
 msgstr "Luo uusi työntekijä"
-
-#: mir/templates/mir/fragments/mir-tabs.html:10
-#: mir/templates/mir/risk-list.html:7
-msgid "Risks"
-msgstr "Riskit"
 
 #: mir/templates/mir/fragments/mir-tabs.html:22
 #: workflows/templates/workflows/organization-unit-list.html:7
@@ -1943,6 +1970,20 @@ msgstr "Projektit"
 msgid "Create a new project"
 msgstr "Luo uusi projekti"
 
+#: projects/templates/projects/project-sprints.html:11
+msgid "current sprints"
+msgstr "nykyinen sprintti"
+
+#: public/templatetags/local_i18n.py:9 survey/models.py:74 usm/settings.py:169
+#: workflows/models.py:24
+msgid "Finnish"
+msgstr "Suomi"
+
+#: public/templatetags/local_i18n.py:10 survey/models.py:73 usm/settings.py:170
+#: workflows/models.py:23
+msgid "English"
+msgstr "Englanti"
+
 #: survey/forms.py:10
 msgid "Invitee name"
 msgstr "Kutsutun nimi"
@@ -2084,14 +2125,6 @@ msgstr "Maat joissa organisaatiosi toimii"
 msgid "Dutch"
 msgstr "Hollanti"
 
-#: survey/models.py:73 usm/settings.py:169 workflows/models.py:23
-msgid "English"
-msgstr "Englanti"
-
-#: survey/models.py:74 usm/settings.py:168 workflows/models.py:24
-msgid "Finnish"
-msgstr "Suomi"
-
 #: survey/models.py:75
 msgid "French"
 msgstr "Ranska"
@@ -2150,7 +2183,7 @@ msgstr "Miksi haluat osallistua kyselyyn?"
 
 #: survey/templates/survey/fragments/sidenav.html:47
 #: survey/templates/survey/tenant-list.html:7
-#: templates/fragments/header.html:21
+#: templates/fragments/header.html:22
 #: workflows/templates/workflows/fragments/service-header.html:3
 msgid "Tenants"
 msgstr "Asiakasympäristöt"
@@ -2291,28 +2324,28 @@ msgstr "ei sisällä toistoa"
 msgid "open"
 msgstr "avoin"
 
-#: templates/fragments/header.html:30
+#: templates/fragments/header.html:31
 #: workflows/templates/workflows/fragments/service-header.html:6
 msgid "Services"
 msgstr "Palvelut"
 
-#: templates/fragments/header.html:38
+#: templates/fragments/header.html:39
 msgid "Data"
 msgstr "Data"
 
-#: templates/fragments/header.html:54
+#: templates/fragments/header.html:55
 msgid "XREF tool"
 msgstr "XREF-työkalu"
 
-#: templates/fragments/header.html:90
+#: templates/fragments/header.html:94
 msgid "Log out"
 msgstr "kirjaudu ulos"
 
-#: templates/fragments/header.html:97
+#: templates/fragments/header.html:101
 msgid "Site admin"
 msgstr "Palvelun ylläpito"
 
-#: templates/fragments/header.html:103
+#: templates/fragments/header.html:108
 msgid "Log In"
 msgstr "Kirjaudu sisään"
 
@@ -2402,7 +2435,7 @@ msgstr ""
 "Valitse palvelu, jonka alipalvelu tämä on. Maksimi sallittu "
 "palveluhierarkian syvyys on 10."
 
-#: workflows/forms.py:100
+#: workflows/forms.py:100 workflows/models.py:117
 msgid "Customer type"
 msgstr "Asiakkaan tyyppi"
 
@@ -2443,7 +2476,7 @@ msgstr ""
 msgid "Scope"
 msgstr "Laajuus"
 
-#: workflows/forms.py:310
+#: workflows/forms.py:310 workflows/models.py:262
 msgid "Share"
 msgstr "Jaa"
 
@@ -2532,29 +2565,9 @@ msgstr ""
 "Rutiinissa %(routine_name)s täytyy olla ainakin kaksi tehtävää jotta kaavio "
 "voidaan piirtää"
 
-#: workflows/models.py:231
-msgid "routine"
-msgstr "rutiini"
-
-#: workflows/models.py:232
-msgid "routines"
-msgstr "rutiinit"
-
-#: workflows/models.py:262
-msgid "share"
-msgstr "jako"
-
 #: workflows/models.py:263
-msgid "shares"
-msgstr "jaot"
-
-#: workflows/models.py:291
-msgid "profile"
-msgstr "profiili"
-
-#: workflows/models.py:292
-msgid "profiles"
-msgstr "profiilit"
+msgid "Shares"
+msgstr "Jaot"
 
 #: workflows/models.py:302
 msgid ""
@@ -2585,24 +2598,25 @@ msgid "Improve"
 msgstr "Kehitys"
 
 #: workflows/models.py:331
-msgid "steps"
-msgstr "askeleet"
+msgid "Steps"
+msgstr "Askeleet"
 
 #: workflows/models.py:344
 msgid "This activity is skipped"
 msgstr "Tämä toiminto on sivuutettu"
 
 #: workflows/models.py:358
-msgid "activities"
-msgstr "toiminnot"
+msgid "Activities"
+msgstr "Toiminnot"
 
 #: workflows/models.py:405
-msgid "action"
-msgstr "tehtävä"
+msgid "Action"
+msgstr "Tehtävä"
 
 #: workflows/models.py:406
-msgid "actions"
-msgstr "tehtävät"
+#: workflows/templates/workflows/routine-detail-printable.html:41
+msgid "Actions"
+msgstr "Tehtävät"
 
 #: workflows/models.py:418
 msgid "Responsible"
@@ -2628,34 +2642,32 @@ msgstr "Tiedotettava"
 msgid "No actions"
 msgstr "Ei tehtäviä"
 
-#: workflows/models.py:453 workflows/models.py:454
-msgid "responsibilities"
-msgstr "vastuut"
+#: workflows/models.py:453
+msgid "Responsibility"
+msgstr "Vastuu"
+
+#: workflows/models.py:454
+#: workflows/templates/workflows/fragments/service-header.html:22
+#: workflows/templates/workflows/fragments/service-header.html:47
+#: workflows/templates/workflows/service-profile-list.html:35
+msgid "Responsibilities"
+msgstr "Vastuut"
 
 #: workflows/models.py:471
-msgid "instruction"
-msgstr "ohje"
+msgid "Instruction"
+msgstr "Ohje"
 
 #: workflows/models.py:472
-msgid "instructions"
-msgstr "ohjeet"
+msgid "Instructions"
+msgstr "Ohjeet"
 
 #: workflows/models.py:494
 msgid "Label required from action"
-msgstr ""
+msgstr "Nimike joka etsitään tehtävältä"
 
 #: workflows/models.py:494
 msgid "Require that action has this label"
-msgstr ""
-
-#: workflows/models.py:515 workflows/views.py:1047 xref/views.py:318
-#: xref/views.py:342 xref/views.py:360
-msgid "task"
-msgstr "tehtäväkokonaisuus"
-
-#: workflows/models.py:516
-msgid "tasks"
-msgstr "tehtäväkokonaisuudet"
+msgstr "Tehtävillä on oltava tämä nimike"
 
 #: workflows/templates/workflows/customer-list.html:36
 msgid "You have not defined any customers yet."
@@ -2678,32 +2690,6 @@ msgstr "Et ole vielä lisännyt yhtään asiakasta tähän palveluun."
 #: workflows/templates/workflows/fragments/service-customers.html:36
 msgid "Add a customer to this service"
 msgstr "Lisää asiakas tähän palveluun"
-
-#: workflows/templates/workflows/fragments/service-header.html:9
-#: workflows/templates/workflows/fragments/service-header.html:13
-#: workflows/templates/workflows/fragments/service-header.html:32
-msgid "Routines"
-msgstr "Rutiinit"
-
-#: workflows/templates/workflows/fragments/service-header.html:15
-#: workflows/templates/workflows/fragments/service-header.html:41
-#: workflows/templates/workflows/fragments/service-profiles.html:2
-msgid "Profiles"
-msgstr "Profiilit"
-
-#: workflows/templates/workflows/fragments/service-header.html:17
-#: workflows/templates/workflows/fragments/service-header.html:19
-#: workflows/templates/workflows/fragments/service-header.html:44
-#: workflows/templates/workflows/service-profile-list.html:24
-#: workflows/templates/workflows/service-task-list.html:6
-msgid "Tasks"
-msgstr "Tehtäväkokonaisuudet"
-
-#: workflows/templates/workflows/fragments/service-header.html:22
-#: workflows/templates/workflows/fragments/service-header.html:47
-#: workflows/templates/workflows/service-profile-list.html:35
-msgid "Responsibilities"
-msgstr "Vastuut"
 
 #: workflows/templates/workflows/fragments/service-profiles.html:30
 msgid "You have not defined any profiles yet."
@@ -3010,10 +2996,6 @@ msgstr ""
 msgid "Create a new task"
 msgstr "Luo uusi tehtäväkokonaisuus"
 
-#: workflows/templates/workflows/routine-detail-printable.html:41
-msgid "Actions"
-msgstr "Toiminnot"
-
 #: workflows/templates/workflows/routine-detail-printable.html:60
 msgid "No work instruction."
 msgstr "Ei työohjeita."
@@ -3077,7 +3059,7 @@ msgstr ""
 
 #: workflows/templates/workflows/service-task-detail.html:25
 msgid "Action responsibilities"
-msgstr ""
+msgstr "Tehtävän vastuut"
 
 #: workflows/templates/workflows/service-task-detail.html:36
 msgid "Instructions for"
@@ -3123,6 +3105,11 @@ msgstr "asiakasympäristöt"
 msgid "Share was removed"
 msgstr "Jako on poistettu"
 
+#: workflows/views.py:1047 xref/views.py:318 xref/views.py:342
+#: xref/views.py:360
+msgid "task"
+msgstr "tehtäväkokonaisuus"
+
 #: xref/models.py:41 xref/models.py:75 xref/models.py:104
 msgid "Draft"
 msgstr "Luonnos"
@@ -3145,11 +3132,11 @@ msgstr "Lisää uusi vaatimus"
 
 #: xref/templates/xref/fragments/control-statements.html:4
 msgid "Statements"
-msgstr ""
+msgstr "Lausekkeet"
 
 #: xref/templates/xref/fragments/control-statements.html:13
 msgid "The selected requirement has no statements."
-msgstr ""
+msgstr "Valitulla vaatimuksella ei ole lausekkeita"
 
 #: xref/templates/xref/fragments/control-statements.html:17
 msgid "Add a new statement"
@@ -3279,6 +3266,36 @@ msgstr ""
 #: xref/views.py:319 xref/views.py:343
 msgid "You should create one or more formal tasks to cover the USM statement."
 msgstr ""
+
+#~ msgid "routine"
+#~ msgstr "rutiini"
+
+#~ msgid "routines"
+#~ msgstr "rutiinit"
+
+#~ msgid "share"
+#~ msgstr "jako"
+
+#~ msgid "shares"
+#~ msgstr "jaot"
+
+#~ msgid "profile"
+#~ msgstr "profiili"
+
+#~ msgid "profiles"
+#~ msgstr "profiilit"
+
+#~ msgid "action"
+#~ msgstr "tehtävä"
+
+#~ msgid "actions"
+#~ msgstr "tehtävät"
+
+#~ msgid "responsibilities"
+#~ msgstr "vastuut"
+
+#~ msgid "tasks"
+#~ msgstr "tehtäväkokonaisuudet"
 
 #~ msgid "tags"
 #~ msgstr "nimikkeet"
