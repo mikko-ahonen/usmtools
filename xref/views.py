@@ -7,8 +7,9 @@ from django.utils.translation import gettext_lazy as _
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
-from .models import Standard, Control, Requirement, Statement, Task
-from .forms import StandardCreateOrUpdate, ControlCreateOrUpdate, RequirementCreateOrUpdate, StatementCreateOrUpdate, TaskCreateOrUpdate
+from .models import CrossReference
+from compliances.models import Section, Requirement, Statement, Constraint, Definition, Domain
+from .forms import CrossReferenceCreateOrUpdate, SectionCreateOrUpdate, RequirementCreateOrUpdate, StatementCreateOrUpdate, ConstraintCreateOrUpdate 
 
 class UpdateModifiedByMixin():
     def form_valid(self, form):
@@ -18,33 +19,49 @@ class UpdateModifiedByMixin():
        return super().form_valid(form)
 
 
-class StandardList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    model = Standard
-    template_name = 'xref/standard-list.html'
-    context_object_name = 'standards'
-    permission_required = 'xref.view_standard'
+class GetCrossReferenceMixin():
+    _xref = None
 
-    permission_required = 'xref.view_standard'
-
-
-class StandardDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    permission_required = 'xref.view_standard'
-
-    model = Standard
-    template_name = 'xref/standard-detail.html'
-    context_object_name = 'standard'
+    def get_cross_reference(self, xref_id):
+        if self._xref is None:
+            self._xref = CrossReference.objects.get(pk=xref_id)
+        return self._xref
 
 
-class StandardCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = Standard
+class GetSectionMixin():
+    _section = None
+
+    def get_section(self, section_id):
+        if self._section is None:
+            self._section = Section.objects.get(pk=section_id)
+        return self._section
+
+
+class CrossReferenceList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = CrossReference
+    template_name = 'xref/cross-reference-list.html'
+    context_object_name = 'cross_references'
+    permission_required = 'xref.view_cross_reference'
+
+
+class CrossReferenceDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    permission_required = 'xref.view_cross-reference'
+
+    model = CrossReference
+    template_name = 'xref/cross-reference-detail.html'
+    context_object_name = 'xref'
+
+
+class CrossReferenceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = CrossReference
     template_name = 'xref/modals/create-or-update.html'
-    form_class = StandardCreateOrUpdate
-    permission_required = 'xref.add_standard'
+    form_class = CrossReferenceCreateOrUpdate
+    permission_required = 'xref.add_cross_reference'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('standard')
-        context['help_text'] = _('You should create a new standard for each standard or framework you want to map to USM.')
+        context['object_type'] = _('cross-reference')
+        context['help_text'] = _('Create a new cross-reference for the standard or framework you want to cross-reference to the USM method. Cross-references are templates and shered between all tenants, and can be accessed by anybody with the cross-references permisisons.')
         return context
 
     def form_valid(self, form):
@@ -52,98 +69,113 @@ class StandardCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
         #self.object.owner = self.request.user
+        self.object.domain = Domain.objects.create(tenant_id=None, name=self.object.name, description=self.object.description)
         self.object.save()
-        return HttpResponseRedirect(reverse_lazy('xref:standard-detail', kwargs={'pk': self.object.id }))
+        return HttpResponseRedirect(reverse_lazy('xref:cross-reference-detail', kwargs={'pk': self.object.id }))
 
 
-class StandardUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
-    model = Standard
+class CrossReferenceUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
+    model = CrossReference
     template_name = 'xref/modals/create-or-update.html'
-    form_class = StandardCreateOrUpdate
-    permission_required = 'xref.change_standard'
+    form_class = CrossReferenceCreateOrUpdate
+    permission_required = 'xref.change_cross-reference'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('standard')
-        context['help_text'] = _('You should create a new standard for each standard or framework you want to map to USM.')
+        context['object_type'] = _('cross-reference')
+        context['help_text'] = _('Create a new cross-reference for the standard or framework you want to cross-reference to the USM method. Cross-references are templates and shered between all tenants, and can be accessed by anybody with the cross-references permisisons.')
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:standard-list')
+        return reverse_lazy('xref:cross-reference-list')
 
 
-class StandardDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    model = Standard
+class CrossReferenceDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = CrossReference
     template_name = 'xref/modals/delete.html'
-    permission_required = 'xref.delete_standard'
+    permission_required = 'xref.delete_cross-reference'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('standard')
+        context['object_type'] = _('cross-reference')
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:standard-list')
+        return reverse_lazy('xref:cross-reference-list')
 
 
-class ControlCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = Standard
-    form_class = ControlCreateOrUpdate
+class SectionCreate(LoginRequiredMixin, PermissionRequiredMixin, GetSectionMixin, GetCrossReferenceMixin, CreateView):
+    model = Section
+    form_class = SectionCreateOrUpdate
     template_name = 'xref/modals/create-or-update.html'
-    permission_required = 'xref.add_control'
+    permission_required = 'xref.add_section'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('control')
-        context['help_text'] = _('You should create a new control for each part of your standard.')
+        context['object_type'] = _('section')
+        context['help_text'] = _('You should create a new section for each section and subsection of the specification you are cross-referencing.')
         return context
 
     def form_valid(self, form):
+        if not form.cleaned_data['index']:
+            form.cleaned_data['docid'].split('.')[-1]
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
-        #self.object.owner = self.request.user
-        standard_id = self.kwargs['pk']
-        self.object.standard_id = standard_id
+        xref_id = self.kwargs.get('cross_reference_id', None)
+        if xref_id:
+            xref = self.get_cross_reference(xref_id)
+            self.object.domain_id = xref.domain_id
+        else:
+            parent_section_id = self.kwargs.get('pk', None)
+            if parent_section_id:
+                self.object.parent = self.get_section(parent_section_id)
+                self.object.domain_id = self.object.parent.domain_id
+                xref_id = self.object.parent.domain.xref.id
+
+        if not xref_id:
+            raise ValueError("No parent section or cross-reference")
+
         self.object.save()
-        return HttpResponseRedirect(reverse_lazy('xref:standard-detail', kwargs={'pk': standard_id}))
+
+        return HttpResponseRedirect(reverse_lazy('xref:cross-reference-detail', kwargs={'pk': xref_id}))
 
 
-class ControlUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
-    model = Control
+class SectionUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
+    model = Section
     template_name = 'xref/modals/create-or-update.html'
-    form_class = ControlCreateOrUpdate
-    permission_required = 'xref.change_control'
+    form_class = SectionCreateOrUpdate
+    permission_required = 'xref.change_section'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('control')
-        context['help_text'] = _('You should create a new control for each part of your standard.')
+        context['object_type'] = _('section')
+        context['help_text'] = _('You should create a new section for each section and subsection of the specification you are cross-referencing.')
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:standard-detail', kwargs={'pk': self.object.standard_id})
+        return reverse_lazy('xref:cross-reference-detail', kwargs={'pk': self.object.cross-reference_id})
 
 
-class ControlDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    model = Control
+class SectionDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Section
     template_name = 'xref/modals/delete.html'
-    permission_required = 'xref.delete_control'
+    permission_required = 'xref.delete_section'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('control')
+        context['object_type'] = _('section')
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:standard-detail', kwargs={'pk': self.object.standard_id})
+        return reverse_lazy('xref:cross-reference-detail', kwargs={'pk': self.object.cross_reference_id})
 
 
-class ControlDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    model = Control
-    template_name = 'xref/control-detail.html'
-    context_object_name = 'control'
-    permission_required = 'xref.view_standard'
+class SectionDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    model = Section
+    template_name = 'xref/section-detail.html'
+    context_object_name = 'section'
+    permission_required = 'xref.view_cross_reference'
 
     def get(self, request, pk=None):
         o = self.get_object()
@@ -158,10 +190,10 @@ class ControlDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
         return context
 
 class RequirementDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    model = Control
-    template_name = 'xref/control-detail.html'
-    context_object_name = 'control'
-    permission_required = 'xref.view_standard'
+    model = Requirement
+    template_name = 'xref/section-detail.html'
+    context_object_name = 'section'
+    permission_required = 'xref.view_cross_reference'
 
     def get(self, request, pk=None, requirement_id=None):
         o = self.get_object()
@@ -181,10 +213,10 @@ class RequirementDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView)
         return context
 
 class StatementDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    model = Control
-    template_name = 'xref/control-detail.html'
-    context_object_name = 'control'
-    permission_required = 'xref.view_standard'
+    model = Section
+    template_name = 'xref/section-detail.html'
+    context_object_name = 'section'
+    permission_required = 'xref.view_cross-reference'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -208,7 +240,7 @@ class RequirementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['object_type'] = _('requirement')
-        context['help_text'] = _('You should decompose the control into requirements.')
+        context['help_text'] = _('You should decompose the section into requirements.')
         return context
 
     def form_valid(self, form):
@@ -218,10 +250,10 @@ class RequirementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         #self.object.owner = self.request.user
         self.object.start_pos = 1
         self.object.end_pos = 1
-        control_id = self.kwargs['pk']
-        self.object.control_id = control_id
+        section_id = self.kwargs['pk']
+        self.object.section_id = section_id
         self.object.save()
-        return HttpResponseRedirect(reverse_lazy('xref:requirement-detail', kwargs={'pk': control_id, 'requirement_id': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy('xref:requirement-detail', kwargs={'pk': section_id, 'requirement_id': self.object.id}))
 
 
 class RequirementUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
@@ -233,11 +265,11 @@ class RequirementUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['object_type'] = _('requirement')
-        context['help_text'] = _('You should decompose the control into requirements.')
+        context['help_text'] = _('You should decompose the section into requirements.')
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:control-detail', kwargs={'pk': self.object.control_id})
+        return reverse_lazy('xref:section-detail', kwargs={'pk': self.object.section_id})
 
 
 class RequirementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -251,7 +283,7 @@ class RequirementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:control-detail', kwargs={'pk': self.object.control_id})
+        return reverse_lazy('xref:section-detail', kwargs={'pk': self.object.section_id})
 
 
 class StatementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -274,7 +306,7 @@ class StatementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         requirement_id = self.kwargs['pk']
         self.object.requirement_id = requirement_id
         self.object.save()
-        return HttpResponseRedirect(reverse_lazy('xref:statement-detail', kwargs={'pk': self.object.requirement.control_id, 'requirement_id': self.object.requirement_id, 'statement_id': self.object.id}))
+        return HttpResponseRedirect(reverse_lazy('xref:statement-detail', kwargs={'pk': self.object.requirement.section_id, 'requirement_id': self.object.requirement_id, 'statement_id': self.object.id}))
 
 
 class StatementUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
@@ -290,7 +322,7 @@ class StatementUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, U
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:control-detail', kwargs={'pk': self.object.requirement.control_id})
+        return reverse_lazy('xref:secrion-detail', kwargs={'pk': self.object.requirement.section_id})
 
 
 class StatementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -304,19 +336,19 @@ class StatementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:control-detail', kwargs={'pk': self.object.requirement.control_id})
+        return reverse_lazy('xref:section-detail', kwargs={'pk': self.object.requirement.section_id})
 
 
-class TaskCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = Task
+class ConstraintCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Constraint
     template_name = 'xref/modals/create-or-update.html'
-    form_class = TaskCreateOrUpdate
-    permission_required = 'xref.add_task'
+    form_class = ConstraintCreateOrUpdate
+    permission_required = 'xref.add_constraint'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('task')
-        context['help_text'] = _('You should create one or more formal tasks to cover the USM statement.')
+        context['object_type'] = _('constraint')
+        context['help_text'] = _('You often need to create formal constraints that cover the USM statement.')
         return context
 
     def form_valid(self, form):
@@ -328,40 +360,40 @@ class TaskCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         statement = get_object_or_404(Statement, pk=statement_id)
         self.object.save()
         self.object.statements.add(statement)
-        return HttpResponseRedirect(reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.control_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id}))
+        return HttpResponseRedirect(reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.section_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id}))
 
 
-class TaskUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
-    model = Task
+class ConstraintUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
+    model = Constraint
     template_name = 'xref/modals/create-or-update.html'
-    form_class = TaskCreateOrUpdate
-    permission_required = 'xref.change_task'
+    form_class = ConstraintCreateOrUpdate
+    permission_required = 'xref.change_constraint'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('task')
-        context['help_text'] = _('You should create one or more formal tasks to cover the USM statement.')
+        context['object_type'] = _('constraint')
+        context['help_text'] = _('You should create one or more formal constraints that cover the USM statement.')
         return context
 
     def get_success_url(self):
-        task_id = self.kwargs['pk']
+        #constraint_id = self.kwargs['pk']
         statement_id = self.kwargs['statement_id']
         statement = get_object_or_404(Statement, pk=statement_id)
-        return reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.control_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id})
+        return reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.section_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id})
 
 
-class TaskDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    model = Task
+class ConstraintDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Constraint
     template_name = 'xref/modals/delete.html'
-    permission_required = 'xref.delete_task'
+    permission_required = 'xref.delete_constraint'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_type'] = _('task')
+        context['object_type'] = _('constraint')
         return context
 
     def get_success_url(self):
-        task_id = self.kwargs['pk']
+        #constraint_id = self.kwargs['pk']
         statement_id = self.kwargs['statement_id']
         statement = get_object_or_404(Statement, pk=statement_id)
-        return reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.control_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id})
+        return reverse_lazy('xref:statement-detail', kwargs={'pk': statement.requirement.section_id, 'requirement_id': statement.requirement_id, 'statement_id': statement_id})

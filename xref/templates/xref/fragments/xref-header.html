@@ -1,0 +1,6 @@
+{% load i18n %}
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link {% if request.resolver_match.view_name == 'xref:cross-reference-list' %}active{% endif %}" href="{% url 'xref:cross-reference-list' %}">{% trans 'Cross references' %}</a>
+  </li>
+</ul>

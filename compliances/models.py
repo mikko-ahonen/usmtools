@@ -48,7 +48,6 @@ class Domain(TenantAwareOrderedModelBase):
             if targets := project.targets:
                 if len(project.targets.all()) > 0:
                     return True
-                return False
         return False
 
     def is_project_data_management_setup_complete(self):
@@ -124,7 +123,7 @@ class Section(TenantAwareTreeModelBase):
     docid = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     text = models.TextField(blank=True, null=True)
-    index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+    index = models.PositiveSmallIntegerField(db_index=True)
     _status = None
 
     @property

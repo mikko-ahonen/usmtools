@@ -1,0 +1,16 @@
+{% load i18n %}
+<h3>{% trans 'Controls' %}</h3>
+{% for section in object.domain.root_sections.all %}
+  <p>
+    <a href="{% url 'xref:section-detail' section.id %}">{{ section.title }}</a>
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:section-update' section.id %}" href="{% url 'xref:section-update' section.id %}"><i class="bi bi-pencil"></i></a>
+    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:section-delete' section.id %}" href="{% url 'xref:section-delete' section.id %}"><i class="bi bi-trash3"></i></a>
+  </p>
+{% empty %}
+  <p>
+    {% trans 'This cross-reference has no root sections.' %}
+  </p>
+{% endfor %}
+<p>
+  <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:section-create' object.id %}" href="{% url 'xref:section-create' object.id %}">{% trans 'Add a new section to this cross-reference' %}</a>
+</p>

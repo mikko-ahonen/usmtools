@@ -1,0 +1,21 @@
+{% extends "xref/base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container-fluid p-3 overflow-auto">
+
+<h1>{% trans 'Cross-reference' %} {{ object.name }} <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:cross-reference-update' object.id %}" href="{% url 'xref:cross-reference-update' object.id %}"><i class="bi bi-pencil"></i></a>
+<p class="text-small">
+{{ object.description|linebreaks }}
+</p>
+{% include 'xref/fragments/cross-reference-sections.html' with object=object only %}
+</div>
+{% include 'xref/fragments/modal.html' with modal_size='xl' %}
+{% endblock %}
+
+{% block footer-scripts %}
+<script>
+  $('#popup').on('show.bs.modal', function () {
+    console.log("modal shown");
+  });
+</script>
+{% endblock footer-scripts %}
