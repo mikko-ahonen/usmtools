@@ -3,11 +3,29 @@
 {% block content %}
 <div class="container-fluid p-3 overflow-auto">
 
-<h1>{% trans 'Cross-reference' %} {{ object.name }} <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:cross-reference-update' object.id %}" href="{% url 'xref:cross-reference-update' object.id %}"><i class="bi bi-pencil"></i></a>
+<h1>{% trans 'Cross-reference' %} {{ xref.name }} <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:cross-reference-update' xref.id %}" href="{% url 'xref:cross-reference-update' xref.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:cross-reference-delete' xref.id %}" href="{% url 'xref:cross-reference-delete' xref.id %}"><i class="bi bi-trash3"></i></a></h1>
 <p class="text-small">
-{{ object.description|linebreaks }}
+{{ xref.description|linebreaks }}
 </p>
-{% include 'xref/fragments/cross-reference-sections.html' with object=object only %}
+<div class="row">
+  <div class="col">
+    {% include 'xref/fragments/cross-reference-sections.html' with object=xref selected_requirement=selected_requirement only %}
+  </div>
+  {% if selected_requirement %}
+  <div class="col">
+    {% for statement in selected_requirement.statements.all %}
+      {% include 'xref/fragments/cross-reference-statement.html' with xref=xref section=section requirement=requirement statement=statement selected_statement=selected_statement only %}
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if selected_statement %}
+  <div class="col">
+    {% for constraint in selected_statement.constraints.all %}
+      {% include 'xref/fragments/cross-reference-constraint.html' with selected_statement=selected_statement constraint=constraint selected_constraint=selected_constraint only %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
 </div>
 {% include 'xref/fragments/modal.html' with modal_size='xl' %}
 {% endblock %}

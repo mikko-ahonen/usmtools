@@ -20,6 +20,18 @@ class Domain(TenantAwareOrderedModelBase):
     description = models.TextField(blank=True, null=True)
     projects = models.ManyToManyField(Project, related_name="domains")
 
+    XREF_STATUS_DRAFT = "draft"
+    XREF_STATUS_READY = "ready"
+    XREF_STATUS_VERIFIED = "verified"
+
+    XREF_STATUSES = [
+        (XREF_STATUS_DRAFT, _("Draft")),
+        (XREF_STATUS_READY, _("Ready")),
+        (XREF_STATUS_VERIFIED, _("Verified")),
+    ]
+
+    xref_status = models.CharField(max_length=32, choices=XREF_STATUSES, default=XREF_STATUS_DRAFT)
+
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
     order_field_name = 'index'
 
@@ -85,9 +97,9 @@ class Domain(TenantAwareOrderedModelBase):
     def categories(self):
         return self.category_set(manager='unscoped')
 
-    @property
-    def constraints(self):
-        return self.constraint_set(manager='unscoped')
+    #@property
+    #def constraints(self):
+    #    return self.constraint_set(manager='unscoped')
 
     def recursive_status(self, section):
         child_statuses = [self.recursive_status(section) for section in section.children.all()]
@@ -99,8 +111,8 @@ class Domain(TenantAwareOrderedModelBase):
 
     def sections_with_status(self):
         sections = list(Section
-                        .unscoped
-                        .filter(tenant_id=self.tenant.id, domain_id=self.id)
+                        .objects
+                        .filter(domain_id=self.id)
                         .with_tree_fields())
 
         for section in sections:
@@ -126,6 +138,18 @@ class Section(TenantAwareTreeModelBase):
     index = models.PositiveSmallIntegerField(db_index=True)
     _status = None
 
+    XREF_STATUS_DRAFT = "draft"
+    XREF_STATUS_READY = "ready"
+    XREF_STATUS_VERIFIED = "verified"
+
+    XREF_STATUSES = [
+        (XREF_STATUS_DRAFT, _("Draft")),
+        (XREF_STATUS_READY, _("Ready")),
+        (XREF_STATUS_VERIFIED, _("Verified")),
+    ]
+
+    xref_status = models.CharField(max_length=32, choices=XREF_STATUSES, default=XREF_STATUS_DRAFT)
+
     @property
     def subsections(self):
         return self.section_set(manager="unscoped")
@@ -149,13 +173,26 @@ class Requirement(TenantAwareOrderedModelBase):
     section = models.ForeignKey(Section, on_delete=models.CASCADE, null=True)
     text = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
+
+    XREF_STATUS_DRAFT = "draft"
+    XREF_STATUS_READY = "ready"
+    XREF_STATUS_VERIFIED = "verified"
+
+    XREF_STATUSES = [
+        (XREF_STATUS_DRAFT, _("Draft")),
+        (XREF_STATUS_READY, _("Ready")),
+        (XREF_STATUS_VERIFIED, _("Verified")),
+    ]
+
+    xref_status = models.CharField(max_length=32, choices=XREF_STATUSES, default=XREF_STATUS_DRAFT)
+
     _status = None
 
     def get_status(self):
         if not self.statement:
             return Constraint.STATUS_FAILED
         if not self._status:
-            self._status = Constraint.most_urgent_status([constraint.status for constraint in self.statement.constraints])
+            self._status = Constraint.most_urgent_status([constraint.status for constraint in self.statement.constraints.all()])
         return self._status
 
     @property
@@ -256,6 +293,18 @@ class Statement(TenantAwareOrderedModelBase):
     description = models.TextField(blank=True, null=True)
     index = models.PositiveSmallIntegerField(editable=False, db_index=True)
 
+    XREF_STATUS_DRAFT = "draft"
+    XREF_STATUS_READY = "ready"
+    XREF_STATUS_VERIFIED = "verified"
+
+    XREF_STATUSES = [
+        (XREF_STATUS_DRAFT, _("Draft")),
+        (XREF_STATUS_READY, _("Ready")),
+        (XREF_STATUS_VERIFIED, _("Verified")),
+    ]
+
+    xref_status = models.CharField(max_length=32, choices=XREF_STATUSES, default=XREF_STATUS_DRAFT)
+
     @property
     def constraints(self):
         return [cs.constraint for cs in self.constraint_statements(manager='unscoped').all()]
@@ -284,7 +333,7 @@ class ConstraintDependency(TenantAwareOrderedModelBase):
 class Constraint(TenantAwareOrderedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=255, blank=True, null=True)
-    statements = models.ManyToManyField(Statement, through="ConstraintStatement")
+    statements = models.ManyToManyField(Statement, through="ConstraintStatement", related_name='constraints')
     title = models.CharField(max_length=255, blank=True, null=True)
     text = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -296,6 +345,18 @@ class Constraint(TenantAwareOrderedModelBase):
     key = models.CharField(max_length=255, blank=True, null=True)
     dependencies = models.ManyToManyField('Constraint', through="ConstraintDependency")
     definitions = models.ManyToManyField('Definition', through="ConstraintDefinition")
+
+    XREF_STATUS_DRAFT = "draft"
+    XREF_STATUS_READY = "ready"
+    XREF_STATUS_VERIFIED = "verified"
+
+    XREF_STATUSES = [
+        (XREF_STATUS_DRAFT, _("Draft")),
+        (XREF_STATUS_READY, _("Ready")),
+        (XREF_STATUS_VERIFIED, _("Verified")),
+    ]
+
+    xref_status = models.CharField(max_length=32, choices=XREF_STATUSES, default=XREF_STATUS_DRAFT)
 
     @property
     def unscoped_definitions(self):
@@ -374,9 +435,9 @@ class Constraint(TenantAwareOrderedModelBase):
     def stories(self):
         return self.story_set(manager='unscoped')
 
-    @property
-    def statements(self):
-        return [cs.statement for cs in self.constraint_statements(manager='unscoped').all()]
+    #@property
+    #def statements(self):
+    #    return [cs.statement for cs in self.constraint_statements(manager='unscoped').all()]
 
     def target_statuses(self):
         return self.STATUS_TRANSITIONS[self.status]

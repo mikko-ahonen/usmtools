@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="card mb-3 {% if selected_statement == statement %}bg-primary text-white{% endif %}">
+  <div class="card-header">
+    <h5>{{ statement | xref_status_badge }} {{ statement.title }}</h5>
+    <small class="text-white-50">
+      {{ statement.text | linebreaks }}
+    </small>
+  </div>
+  <div class="card-body" id="{{ statement.id }}">
+    <a class="m-1 btn {% if selected_statement == statement %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:statement-update' statement.id %}" href="{% url 'xref:statement-update' statement.id %}"><i class="bi bi-pencil"></i></a>
+    <a class="m-1 btn {% if selected_statement == statement %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:statement-delete' statement.id %}" href="{% url 'xref:statement-delete' statement.id %}"><i class="bi bi-trash3"></i></a>
+    <a class="btn  {% if selected_statement == statement %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:constraint-create' statement.id %}" href="{% url 'xref:statement-create' statement.id %}">{% trans 'Add a new constraint' %}</a>
+    <a href="{% url 'xref:statement-detail' statement.id %}" class="btn {% if selected_statement == statement %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
+  </div>
+</div>

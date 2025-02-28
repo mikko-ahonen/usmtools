@@ -1,16 +1,33 @@
 {% load i18n %}
-<h3>{% trans 'Controls' %}</h3>
-{% for section in object.domain.root_sections.all %}
-  <p>
-    <a href="{% url 'xref:section-detail' section.id %}">{{ section.title }}</a>
-    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:section-update' section.id %}" href="{% url 'xref:section-update' section.id %}"><i class="bi bi-pencil"></i></a>
-    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:section-delete' section.id %}" href="{% url 'xref:section-delete' section.id %}"><i class="bi bi-trash3"></i></a>
-  </p>
-{% empty %}
-  <p>
-    {% trans 'This cross-reference has no root sections.' %}
-  </p>
-{% endfor %}
+{% load compliances %}
+{% load tq_template %}
+{% load xref %}
+
+{% for section,structure in object.domain.sections_with_status|tree_info %}
+<h{{ section.tree_depth|add:1 }}>{{ section | xref_status_badge }} {% if section.doc and not section.doc == 'Main clauses' %}{{ section.doc }}: {% endif %}{{ section.docid }} {{ section.title }} <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:section-update' section.id %}" href="{% url 'xref:section-update' section.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:section-delete' section.id %}" href="{% url 'xref:section-delete' section.id %}"><i class="bi bi-trash3"></i></a><a class="btn btn-outline-primary mx-1 open-popup" data-popup-url="{% url 'xref:section-create-child' section.id %}" href="{% url 'xref:section-create-child' section.id %}"><i class="bi bi-plus"></i></a><a class="btn btn-outline-primary mx-1 open-popup" data-popup-url="{% url 'xref:requirement-create' section.id %}" href="{% url 'xref:requirement-create' section.id %}"><i class="bi bi-card-checklist"></i></a></h{{ section.tree_depth|add:1 }}>
+{% if section.text %}
 <p>
-  <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:section-create' object.id %}" href="{% url 'xref:section-create' object.id %}">{% trans 'Add a new section to this cross-reference' %}</a>
+{{ section.text|linebreaks }}
 </p>
+{% endif %}
+{% if structure.new_level %}
+{% endif %}
+{% if section.requirements.count > 0 %}
+  {% for requirement in section.requirements.all %}
+    <div class="card mb-3 {% if selected_requirement == requirement %}bg-primary text-white{% endif %}">
+      <div class="card-header">
+        <h5>{{ requirement | xref_status_badge }} {{ requirement.text }}</h5>
+        <small class="{% if selected_requirement == requirement %}text-white-50{% else %}text-muted{% endif %}">
+          {{ requirement.statement.text | linebreaks }}
+        </small>
+      </div>
+      <div class="card-body" id="{{ requirement.statement.id }}">
+        <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if selected_requirement == requirement%}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Select' %}</a>
+        <a class="btn {% if selected_requirement == requirement %}btn-outline-light{% else %}btn-outline-primary{% endif %} mx-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}
+{% for level in structure.closed_levels %}
+{% endfor %}
+{% endfor %}
