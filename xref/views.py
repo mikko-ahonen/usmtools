@@ -11,6 +11,13 @@ from .models import CrossReference
 from compliances.models import Section, Requirement, Statement, Constraint, Definition, Domain
 from .forms import CrossReferenceCreateOrUpdate, SectionCreateOrUpdate, RequirementCreateOrUpdate, StatementCreateOrUpdate, ConstraintCreateOrUpdate 
 
+class HTTPResponseHXRedirect(HttpResponseRedirect):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self['HX-Redirect'] = self['Location']
+
+    status_code = 200
+
 class UpdateModifiedByMixin():
     def form_valid(self, form):
        object = form.save(commit=False)
@@ -76,6 +83,26 @@ class CrossReferenceDetail(LoginRequiredMixin, PermissionRequiredMixin, GetCross
 
     template_name = 'xref/cross-reference-detail.html'
 
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        if request.GET.get('hx', None) != None:
+            url = self.get_url()
+            return HTTPResponseHXRedirect(redirect_to=url)
+        else:
+            return response
+
+    def get_url(self):
+        ctx = {}
+        for k in 'cross_reference section requirement statement constraint'.split():
+            id_field = k + '_id'
+            v = self.kwargs.get(id_field, None)
+            if v:
+                kwargs = {id_field: v}
+                if k == 'constraint':
+                    kwargs['statement_id'] = self.kwargs.get('statement_id', None)
+                url = reverse_lazy('xref:' + k + '-detail', kwargs=kwargs)
+        return url
+
     def get_context_data(self, **kwargs):
         xref_id = self.kwargs.get('cross_reference_id', None)
         section_id = self.kwargs.get('section_id', None)
@@ -109,7 +136,7 @@ class CrossReferenceDetail(LoginRequiredMixin, PermissionRequiredMixin, GetCross
                     requirement = statement.requirement
                 section = requirement.section
             xref = section.domain.cross_reference
-    
+
         context = super().get_context_data(**kwargs)
         context['xref'] = xref
         context['selected_section'] = section

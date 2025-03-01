@@ -1,7 +1,0 @@
-{% load i18n %}
-{% load status_badge %}
-<h3>{{control.name}} {{control|status_badge}} <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:control-update' control.id %}" href="{% url 'xref:control-update' control.id %}"><i class="bi bi-pencil"></i></a>
-    <a class="btn btn-primary open-popup" data-popup-url="{% url 'xref:control-delete' control.id %}" href="{% url 'xref:control-delete' control.id %}"><i class="bi bi-trash3"></i></a></h3>
-<p>
-{{ control.text|linebreaks }}
-</p>

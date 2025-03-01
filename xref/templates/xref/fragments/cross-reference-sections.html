@@ -3,31 +3,53 @@
 {% load tq_template %}
 {% load xref %}
 
+{% if object.domain.root_sections.count > 0 %}
 {% for section,structure in object.domain.sections_with_status|tree_info %}
 <h{{ section.tree_depth|add:1 }}>{{ section | xref_status_badge }} {% if section.doc and not section.doc == 'Main clauses' %}{{ section.doc }}: {% endif %}{{ section.docid }} {{ section.title }} <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:section-update' section.id %}" href="{% url 'xref:section-update' section.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:section-delete' section.id %}" href="{% url 'xref:section-delete' section.id %}"><i class="bi bi-trash3"></i></a><a class="btn btn-outline-primary mx-1 open-popup" data-popup-url="{% url 'xref:section-create-child' section.id %}" href="{% url 'xref:section-create-child' section.id %}"><i class="bi bi-plus"></i></a><a class="btn btn-outline-primary mx-1 open-popup" data-popup-url="{% url 'xref:requirement-create' section.id %}" href="{% url 'xref:requirement-create' section.id %}"><i class="bi bi-card-checklist"></i></a></h{{ section.tree_depth|add:1 }}>
 {% if section.text %}
 <p>
-{{ section.text|linebreaks }}
+{{ section.text|default:''|linebreaks }}
 </p>
 {% endif %}
 {% if structure.new_level %}
 {% endif %}
-{% if section.requirements.count > 0 %}
-  {% for requirement in section.requirements.all %}
-    <div class="card mb-3 {% if selected_requirement == requirement %}bg-primary text-white{% endif %}">
+{% with requirements=section.requirements.all %}
+{% if requirements %}
+  {% for requirement in requirements %}
+    {% with prev_requirement=requirements|prev_item:forloop.counter0 next_requirement=requirements|next_item:forloop.counter0 %}
+    {% requirement_is_selected requirement selected_requirement selected_statement as is_selected %}
+    <div class="card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
       <div class="card-header">
         <h5>{{ requirement | xref_status_badge }} {{ requirement.text }}</h5>
-        <small class="{% if selected_requirement == requirement %}text-white-50{% else %}text-muted{% endif %}">
+        <small class="{% if is_selected %}text-white-50{% else %}text-muted{% endif %}">
           {{ requirement.statement.text | linebreaks }}
         </small>
       </div>
       <div class="card-body" id="{{ requirement.statement.id }}">
-        <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if selected_requirement == requirement%}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Select' %}</a>
-        <a class="btn {% if selected_requirement == requirement %}btn-outline-light{% else %}btn-outline-primary{% endif %} mx-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
+        <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Select' %}</a>
+        <a class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} mx-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
+        {% if is_selected %}
+        {% with statement=selected_statement|default:selected_requirement.statement %}
+      {% if statement %}
+        <a hx-trigger="keydown[keyCode==39] from:body" hx-get="{% url 'xref:statement-detail' statement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select constraint</a>
+      {% endif %}
+    {% endwith %}
+        {% if prev_requirement %}
+          <a hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:requirement-detail' prev_requirement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Previous</a>
+        {% endif %}
+        {% if next_requirement %}
+          <a hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:requirement-detail' next_requirement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Next</a>
+        {% endif %}
+        {% else %}
+        <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
+        {% endif %}
       </div>
     </div>
+  {% endwith %}
   {% endfor %}
 {% endif %}
+{% endwith %}
 {% for level in structure.closed_levels %}
 {% endfor %}
 {% endfor %}
+{% endif %}

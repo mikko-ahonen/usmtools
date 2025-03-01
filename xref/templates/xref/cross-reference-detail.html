@@ -1,5 +1,6 @@
 {% extends "xref/base.html" %}
 {% load i18n %}
+{% load xref %}
 {% block content %}
 <div class="container-fluid p-3 overflow-auto">
 
@@ -9,20 +10,28 @@
 </p>
 <div class="row">
   <div class="col">
-    {% include 'xref/fragments/cross-reference-sections.html' with object=xref selected_requirement=selected_requirement only %}
+    {% include 'xref/fragments/cross-reference-sections.html' with object=xref selected_requirement=selected_requirement selected_statement=selected_statement only %}
   </div>
   {% if selected_requirement %}
   <div class="col">
-    {% for statement in selected_requirement.statements.all %}
-      {% include 'xref/fragments/cross-reference-statement.html' with xref=xref section=section requirement=requirement statement=statement selected_statement=selected_statement only %}
+    {% with statements=selected_requirement.statements.all %}
+    {% for statement in statements %}
+      {% with prev_statement=statements|prev_item:forloop.counter0 next_statement=statements|next_item:forloop.counter0 %}
+        {% include 'xref/fragments/cross-reference-statement.html' with xref=xref section=section requirement=requirement statement=statement selected_statement=selected_statement prev_statement=prev_statement next_statement=next_statement selected_constraint=selected_constraint only %}
+      {% endwith %}
     {% endfor %}
+    {% endwith %}
   </div>
   {% endif %}
   {% if selected_statement %}
   <div class="col">
-    {% for constraint in selected_statement.constraints.all %}
-      {% include 'xref/fragments/cross-reference-constraint.html' with selected_statement=selected_statement constraint=constraint selected_constraint=selected_constraint only %}
+    {% with constraints=selected_statement.constraints.all %}
+    {% for constraint in constraints %}
+      {% with prev_constraint=constraints|prev_item:forloop.counter0 next_constraint=constraints|next_item:forloop.counter0 %}
+        {% include 'xref/fragments/cross-reference-constraint.html' with selected_statement=selected_statement constraint=constraint selected_constraint=selected_constraint next_constraint=next_constraint prev_constraint=prev_constraint only %}
+      {% endwith %}
     {% endfor %}
+    {% endwith %}
   </div>
   {% endif %}
 </div>

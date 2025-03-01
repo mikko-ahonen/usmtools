@@ -1,15 +1,32 @@
+{% load xref %}
 {% load i18n %}
-<div class="card mb-3 {% if selected_statement == statement %}bg-primary text-white{% endif %}">
+
+{% statement_is_selected statement selected_statement selected_constraint as is_selected %}
+<div class="card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
   <div class="card-header">
     <h5>{{ statement | xref_status_badge }} {{ statement.title }}</h5>
-    <small class="text-white-50">
+    <small class="{% if is_selected %}text-white-50{% else %}text-muted{% endif %}">
       {{ statement.text | linebreaks }}
     </small>
   </div>
   <div class="card-body" id="{{ statement.id }}">
-    <a class="m-1 btn {% if selected_statement == statement %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:statement-update' statement.id %}" href="{% url 'xref:statement-update' statement.id %}"><i class="bi bi-pencil"></i></a>
-    <a class="m-1 btn {% if selected_statement == statement %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:statement-delete' statement.id %}" href="{% url 'xref:statement-delete' statement.id %}"><i class="bi bi-trash3"></i></a>
-    <a class="btn  {% if selected_statement == statement %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:constraint-create' statement.id %}" href="{% url 'xref:statement-create' statement.id %}">{% trans 'Add a new constraint' %}</a>
-    <a href="{% url 'xref:statement-detail' statement.id %}" class="btn {% if selected_statement == statement %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
+    <a class="m-1 btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:statement-update' statement.id %}" href="{% url 'xref:statement-update' statement.id %}"><i class="bi bi-pencil"></i></a>
+    <a class="m-1 btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:statement-delete' statement.id %}" href="{% url 'xref:statement-delete' statement.id %}"><i class="bi bi-trash3"></i></a>
+    <a class="btn  {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:constraint-create' statement.id %}" href="{% url 'xref:statement-create' statement.id %}">{% trans 'Add a new constraint' %}</a>
+    <a href="{% url 'xref:statement-detail' statement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
+    {% if is_selected and selected_constraint is None %}
+    <a hx-trigger="keydown[keyCode==37] from:body" hx-get="{% url 'xref:requirement-detail' selected_statement.requirement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select requirement</a>
+    {% if prev_statement %}
+      <a hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:statement-detail' prev_statement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Previous</a>
+    {% endif %}
+    {% if next_statement %}
+      <a hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:statement-detail' next_statement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Next</a>
+    {% endif %}
+    {% with constraint=selected_constraint|default:selected_statement.constraints.first %} 
+      {% if constraint %}
+        <a hx-trigger="keydown[keyCode==39] from:body" hx-get="{% url 'xref:constraint-detail' statement.id constraint.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select constraint</a>
+      {% endif %}
+    {% endwith %}
+    {% endif %}
   </div>
 </div>

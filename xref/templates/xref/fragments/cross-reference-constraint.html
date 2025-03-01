@@ -1,13 +1,26 @@
-<div class="card mb-3 {% if selected_constraint == constraint %}bg-primary text-white{% endif %}">
+{% load xref %}
+
+{% constraint_is_selected constraint selected_constraint as is_selected %}
+<div class="card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
   <div class="card-header">
     <h5>{{ constraint | xref_status_badge }} {{ constraint.title }}</h5>
-    <small class="text-white-50">
+    <small class="{% if is_selected %}text-white-50{% else %}text-muted{% endif %}">
       {{ constraint.text | linebreaks }}
     </small>
   </div>
   <div class="card-body" id="{{ constraint.id }}">
-    <a class="m-1 btn {% if selected_constraint == constraint %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:constraint-update' selected_statement.id constraint.id %}" href="{% url 'xref:constraint-update' selected_statement.id constraint.id %}"><i class="bi bi-pencil"></i></a>
-    <a class="m-1 btn {% if selected_constraint == constraint %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:constraint-delete' selected_statement.id constraint.id %}" href="{% url 'xref:constraint-delete' selected_statement.id constraint.id %}"><i class="bi bi-trash3"></i></a>
-    <a href="{% url 'xref:constraint-detail' selected_statement.id constraint.id %}" class="btn {% if selected_constraint == constraint %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
+    <a class="m-1 btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:constraint-update' selected_statement.id constraint.id %}" href="{% url 'xref:constraint-update' selected_statement.id constraint.id %}"><i class="bi bi-pencil"></i></a>
+    <a class="m-1 btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} open-popup" data-popup-url="{% url 'xref:constraint-delete' selected_statement.id constraint.id %}" href="{% url 'xref:constraint-delete' selected_statement.id constraint.id %}"><i class="bi bi-trash3"></i></a>
+    {% if is_selected %}
+    <a hx-trigger="keydown[keyCode==37] from:body" hx-get="{% url 'xref:statement-detail' selected_statement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select statement</a>
+    {% if prev_constraint %}
+      <a hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:constraint-detail' selected_statement.id prev_constraint.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Previous</a>
+    {% endif %}
+    {% if next_constraint %}
+      <a hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:constraint-detail' selected_statement.id next_constraint.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Next</a>
+    {% endif %}
+    {% else %}
+    <a href="{% url 'xref:constraint-detail' selected_statement.id constraint.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
+    {% endif %}
   </div>
 </div>
