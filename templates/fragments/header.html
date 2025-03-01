@@ -18,7 +18,7 @@
               {% if not tenant %}
               <li class="nav-item px-2">
                 <h5>
-                  <a class="nav-link active text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
+                  <a class="nav-link {% if request.resolver_match.view_name == 'workflows:tenant-list' %}active{% endif %} text-left" aria-current="page" href="{% url 'workflows:tenant-list' %}">
                     <i class="bi bi-house"></i>&nbsp;&nbsp;{% trans 'Tenants' %}
                   </a>
                 </h5>
@@ -27,7 +27,7 @@
               {% if tenant %}
               <li class="nav-item px-2">
                 <h5>
-                  <a class="nav-link text-left  {% if request.resolver_match.app_name == 'workflows' %}active{% endif %}" aria-current="page" href="{% url 'workflows:service-list' tenant.id %}">
+                  <a class="nav-link text-left  {% if request.resolver_match.app_name == 'workflows' and request.resolver_match.view_name != 'workflows:tenant-list' %}active{% endif %}" aria-current="page" href="{% url 'workflows:service-list' tenant.id %}">
                     <i class="bi bi-gear"></i>&nbsp;&nbsp;{% trans 'Services' %}
                   </a>
                 </h5>
@@ -51,8 +51,8 @@
               {% endif %}
               {% for group in request.user.groups.all %}
                   {% if group.name == 'XREF' %}
-                  <li class="nav-item px-2 {% if "/xref" in request.path %}active{% endif %}">
-                    <a class="nav-link" href="/xref/">{% trans 'XREF tool' %} <span class="badge bg-danger">beta</span></a>
+                  <li class="nav-item px-2">
+                    <a class="nav-link {% if request.resolver_match.app_name == 'xref' %}active{% endif %}" href="/xref/">{% trans 'Cross-references' %}</a>
                   </li>
                   {% endif %}
               {% endfor %}
@@ -94,7 +94,6 @@
                       <button class="dropdown-item btn btn-link" type="submit">{% trans "Log out" %}</button>
                       </form>
                     </li>
-
 
                     <li><a class="dropdown-item" href="{% url 'accounts:auth_password_change' %}">{% trans "Change password" %}</a></li>
                     {% if user.is_staff %}
