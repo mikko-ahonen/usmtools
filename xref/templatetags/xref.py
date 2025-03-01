@@ -9,7 +9,7 @@ def xref_status_badge(o):
         color = 'bg-danger'
     elif o.xref_status == 'ready':
         color = 'bg-success'
-    elif o.xref_status == 'approved':
+    elif o.xref_status == 'verified':
         color = 'bg-primary'
     return mark_safe(f'<span class="badge {color}">{ o.xref_status }</span>')
 
@@ -43,3 +43,8 @@ def statement_is_selected(current_statement, selected_statement, selected_constr
 def constraint_is_selected(current_constraint, selected_constraint):
     return current_constraint == selected_constraint
     
+@register.simple_tag
+def cond_assignment(cond, true_value, false_value):
+    if cond:
+        return true_value
+    return false_value

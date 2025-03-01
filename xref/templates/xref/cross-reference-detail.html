@@ -5,9 +5,11 @@
 <div class="container-fluid p-3 overflow-auto">
 
 <h1>{% trans 'Cross-reference' %} {{ xref.name }} <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:cross-reference-update' xref.id %}" href="{% url 'xref:cross-reference-update' xref.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:cross-reference-delete' xref.id %}" href="{% url 'xref:cross-reference-delete' xref.id %}"><i class="bi bi-trash3"></i></a></h1>
+
 <p class="text-small">
 {{ xref.description|linebreaks }}
 </p>
+
 <div class="row">
   <div class="col">
     {% include 'xref/fragments/cross-reference-sections.html' with object=xref selected_requirement=selected_requirement selected_statement=selected_statement only %}

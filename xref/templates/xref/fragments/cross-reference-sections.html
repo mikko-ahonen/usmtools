@@ -29,23 +29,23 @@
         <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Select' %}</a>
         <a class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} mx-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
         {% if is_selected %}
-        {% with statement=selected_statement|default:selected_requirement.statement %}
-      {% if statement %}
-        <a hx-trigger="keydown[keyCode==39] from:body" hx-get="{% url 'xref:statement-detail' statement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select constraint</a>
-      {% endif %}
-    {% endwith %}
-        {% if prev_requirement %}
-          <a hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:requirement-detail' prev_requirement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Previous</a>
-        {% endif %}
-        {% if next_requirement %}
-          <a hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:requirement-detail' next_requirement.id %}?hx=1" href="#" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Next</a>
-        {% endif %}
+          {% with statement=selected_statement|default:selected_requirement.statement %}
+            {% if statement %}
+              <div hx-trigger="keydown[keyCode==39] from:body" hx-get="{% url 'xref:statement-detail' statement.id %}?hx=1" href="#" class="{% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{# Down to statement #}</div>
+            {% endif %}
+          {% endwith %}
+          {% if prev_requirement %}
+            <div hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:requirement-detail' prev_requirement.id %}?hx=1" href="#" class="{% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{# Previous #}</div>
+          {% endif %}
+          {% if next_requirement %}
+            <div hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:requirement-detail' next_requirement.id %}?hx=1" href="#" class="{% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{# Next #}</div>
+          {% endif %}
         {% else %}
-        <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
+          <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
         {% endif %}
       </div>
     </div>
-  {% endwith %}
+    {% endwith %}
   {% endfor %}
 {% endif %}
 {% endwith %}

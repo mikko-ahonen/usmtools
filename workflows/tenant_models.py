@@ -27,7 +27,11 @@ class Tenant(models.Model):
         verbose_name = _('tenant')
         verbose_name_plural = _('tenants')
 
-class TenantAwareOrderedModelBase(OrderedModelBase):
+class ClassNameMixin():
+    def classname(self):
+        return self.__class__.__name__
+
+class TenantAwareOrderedModelBase(OrderedModelBase, ClassNameMixin):
     """
     An abstract base class model that provides a foreign key to a Tenant, plus ordering
     """
@@ -67,7 +71,7 @@ class OrderedModel(TenantAwareOrderedModelBase):
 
     order_field_name = 'index'
 
-class TenantAwareModelBase(models.Model):
+class TenantAwareModelBase(models.Model, ClassNameMixin):
     """
     An abstract base class model that provides a foreign key to a Tenant
     """
@@ -94,7 +98,7 @@ class Model(TenantAwareModelBase):
         abstract = True
 
 
-class TenantAwareTreeModelBase(TreeNode):
+class TenantAwareTreeModelBase(TreeNode, ClassNameMixin):
 
     """
     An abstract base class model that provides a foreign key to a Tenant, plus tree structure
