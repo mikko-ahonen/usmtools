@@ -52,7 +52,9 @@
               {% for group in request.user.groups.all %}
                   {% if group.name == 'XREF' %}
                   <li class="nav-item px-2">
-                    <a class="nav-link {% if request.resolver_match.app_name == 'xref' %}active{% endif %}" href="/xref/">{% trans 'Cross-references' %}</a>
+                    <h5>
+                      <a class="nav-link {% if request.resolver_match.app_name == 'xref' %}active{% endif %}" href="/xref/">{% trans 'Cross-references' %}</a>
+                    </h5>
                   </li>
                   {% endif %}
               {% endfor %}

@@ -105,6 +105,8 @@ class CrossReferenceDetail(LoginRequiredMixin, PermissionRequiredMixin, GetCross
 
     def get_context_data(self, **kwargs):
         xref_id = self.kwargs.get('cross_reference_id', None)
+        if xref_id is None:
+            xref_id = self.kwargs.get('pk', None)
         section_id = self.kwargs.get('section_id', None)
         requirement_id = self.kwargs.get('requirement_id', None)
         statement_id = self.kwargs.get('statement_id', None)
@@ -132,10 +134,12 @@ class CrossReferenceDetail(LoginRequiredMixin, PermissionRequiredMixin, GetCross
 
         if not xref:
             if not section:
-                if not requirement:
+                if not requirement and statement:
                     requirement = statement.requirement
-                section = requirement.section
-            xref = section.domain.cross_reference
+                if requirement:
+                    section = requirement.section
+            if section and section.domain:
+                xref = section.domain.cross_reference
 
         context = super().get_context_data(**kwargs)
         context['xref'] = xref
@@ -172,7 +176,7 @@ class CrossReferenceUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateVi
     model = CrossReference
     template_name = 'xref/modals/create-or-update.html'
     form_class = CrossReferenceCreateOrUpdate
-    permission_required = 'xref.change_cross-reference'
+    permission_required = 'xref.change_cross_reference'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -181,13 +185,13 @@ class CrossReferenceUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateVi
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:cross-reference-list')
+        return reverse_lazy('xref:cross-reference-detail', kwargs={'pk': self.object.id })
 
 
 class CrossReferenceDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = CrossReference
     template_name = 'xref/modals/delete.html'
-    permission_required = 'xref.delete_cross-reference'
+    permission_required = 'xref.delete_cross_reference'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -232,7 +236,7 @@ class SectionCreate(LoginRequiredMixin, PermissionRequiredMixin, GetSectionMixin
 
         self.object.save()
 
-        return HttpResponseRedirect(reverse_lazy('xref:cross-reference-detail', kwargs={'pk': xref_id}))
+        return HttpResponseRedirect(reverse_lazy('xref:section-detail', kwargs={'section_id': self.object.id}))
 
 
 class SectionUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, UpdateModifiedByMixin):
@@ -248,7 +252,7 @@ class SectionUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, Upd
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:cross-reference-detail', kwargs={'pk': self.object.cross-reference_id})
+        return reverse_lazy('xref:section-detail', kwargs={'section_id': self.object.id})
 
 
 class SectionDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -262,7 +266,7 @@ class SectionDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:cross-reference-detail', kwargs={'pk': self.object.cross_reference_id})
+        return reverse_lazy('xref:cross-reference-detail', kwargs={'pk': self.object.domain.cross_reference.id})
 
 
 class RequirementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
