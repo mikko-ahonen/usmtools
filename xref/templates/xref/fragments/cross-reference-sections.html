@@ -7,8 +7,6 @@
 {% with section_structures=object.domain.sections_with_status|tree_info %}
 {% for section,structure in section_structures %}
 {% with preceding_requirement=object.domain.sections_with_status|get_preceding_requirement:forloop.counter0 following_requirement=object.domain.sections_with_status|get_following_requirement:forloop.counter0 %}
-{{ preceding_requirement }}
-{{ following_requirement }}
 <h{{ section.tree_depth|add:1 }}>{{ section | xref_status_badge }} {% if section.doc and not section.doc == 'Main clauses' %}{{ section.doc }}: {% endif %}{{ section.docid }} {{ section.title }} <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:section-update' section.id %}" href="{% url 'xref:section-update' section.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:section-delete' section.id %}" href="{% url 'xref:section-delete' section.id %}"><i class="bi bi-trash3"></i></a><a class="btn btn-outline-primary mx-1 open-popup" data-popup-url="{% url 'xref:section-create-child' section.id %}" href="{% url 'xref:section-create-child' section.id %}"><i class="bi bi-plus"></i></a><a class="btn btn-outline-primary mx-1 open-popup" data-popup-url="{% url 'xref:requirement-create' section.id %}" href="{% url 'xref:requirement-create' section.id %}"><i class="bi bi-card-checklist"></i></a></h{{ section.tree_depth|add:1 }}>
 {% if section.text %}
 <p>
