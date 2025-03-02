@@ -4,7 +4,11 @@
 {% load xref %}
 
 {% if object.domain.root_sections.count > 0 %}
-{% for section,structure in object.domain.sections_with_status|tree_info %}
+{% with section_structures=object.domain.sections_with_status|tree_info %}
+{% for section,structure in section_structures %}
+{% with preceding_requirement=object.domain.sections_with_status|get_preceding_requirement:forloop.counter0 following_requirement=object.domain.sections_with_status|get_following_requirement:forloop.counter0 %}
+{{ preceding_requirement }}
+{{ following_requirement }}
 <h{{ section.tree_depth|add:1 }}>{{ section | xref_status_badge }} {% if section.doc and not section.doc == 'Main clauses' %}{{ section.doc }}: {% endif %}{{ section.docid }} {{ section.title }} <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:section-update' section.id %}" href="{% url 'xref:section-update' section.id %}"><i class="bi bi-pencil"></i></a> <a class="btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:section-delete' section.id %}" href="{% url 'xref:section-delete' section.id %}"><i class="bi bi-trash3"></i></a><a class="btn btn-outline-primary mx-1 open-popup" data-popup-url="{% url 'xref:section-create-child' section.id %}" href="{% url 'xref:section-create-child' section.id %}"><i class="bi bi-plus"></i></a><a class="btn btn-outline-primary mx-1 open-popup" data-popup-url="{% url 'xref:requirement-create' section.id %}" href="{% url 'xref:requirement-create' section.id %}"><i class="bi bi-card-checklist"></i></a></h{{ section.tree_depth|add:1 }}>
 {% if section.text %}
 <p>
@@ -16,8 +20,9 @@
 {% with requirements=section.requirements.all %}
 {% if requirements %}
   {% for requirement in requirements %}
-    {% with prev_requirement=requirements|prev_item:forloop.counter0 next_requirement=requirements|next_item:forloop.counter0 %}
+    {% with prev_requirement=requirements|prev_item:forloop.counter0|default:preceding_requirement next_requirement=requirements|next_item:forloop.counter0|default:following_requirement %}
     {% requirement_is_selected requirement selected_requirement selected_statement as is_selected %}
+    {% cond_assignment is_selected 'm-1 btn-outline-light' 'm-1 btn-outline-primary' as btn_css_class %}
     <div class="card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
       <div class="card-header">
         <h5>{{ requirement | xref_status_badge }} {{ requirement.text }}</h5>
@@ -26,7 +31,13 @@
         </small>
       </div>
       <div class="card-body" id="{{ requirement.statement.id }}">
-        <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Select' %}</a>
+        {% if not is_selected %}
+          <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Select' %}</a>
+        {% endif %}
+        {% component "xref_status_transitions" obj=requirement btn_css_class=btn_css_class %}
+        {% endcomponent %}
+        <a href="{% url 'xref:requirement-update' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Update' %}</a>
+        <a href="{% url 'xref:requirement-delete' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Delete' %}</a>
         <a class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} mx-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
         {% if is_selected %}
           {% with statement=selected_statement|default:selected_requirement.statement %}
@@ -40,8 +51,6 @@
           {% if next_requirement %}
             <div hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:requirement-detail' next_requirement.id %}?hx=1" href="#" class="{% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{# Next #}</div>
           {% endif %}
-        {% else %}
-          <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">Select</a>
         {% endif %}
       </div>
     </div>
@@ -51,5 +60,11 @@
 {% endwith %}
 {% for level in structure.closed_levels %}
 {% endfor %}
+{% endwith %}
 {% endfor %}
+{% endwith %}
+{% else %}
+{% blocktrans %}
+This cross-creference does not contain any sections.
+{% endblocktrans %}
 {% endif %}

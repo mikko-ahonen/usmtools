@@ -18,6 +18,22 @@ def as_params(selections):
     return mark_safe('&'.join([ k + '=' + v for k, v in selections.items() ]))
 
 @register.filter()
+def get_preceding_requirement(sections, n):
+    for section in reversed(sections[0:n-1]):
+        requirement = section.requirements.order_by('-index').first()
+        if requirement:
+            return requirement
+    return None
+
+@register.filter()
+def get_following_requirement(sections, n):
+    for section in sections[n+1:]:
+        requirement = section.requirements.order_by('index').first()
+        if requirement:
+            return requirement
+    return None
+
+@register.filter()
 def next_item(value, n):
     try:
         return value[int(n)+1]
