@@ -10,11 +10,9 @@ class XrefStatusTransitions(component.Component):
     def get_context_data(self, **kwargs):
 
         obj = kwargs["obj"]
-        btn_css_class = kwargs["btn_css_class"]
 
         return {
             "obj": obj,
-            "btn_css_class": btn_css_class,
         }
 
     def get_obj_class(self, obj_type):
@@ -44,11 +42,10 @@ class XrefStatusTransitions(component.Component):
     def post(self, request, obj_type, obj_id, target_status):
         obj = self.get_object(obj_type, obj_id)
         status = self.get_status(obj_type, target_status)
-        btn_css_class = request.POST.get('btn_css_class', '')
         obj.xref_status = status
         obj.save()
-        context = self.get_context_data(obj=obj, btn_css_class=btn_css_class)
-        response = self.render_to_response(context=context, slots={}, kwargs={'obj': obj, 'btn_css_class': btn_css_class})
+        context = self.get_context_data(obj=obj)
+        response = self.render_to_response(context=context, slots={}, kwargs={'obj': obj})
         response['HX-Refresh'] = 'true'
         response['Access-Control-Expose-Headers'] = 'HX-Refresh'
         return response 

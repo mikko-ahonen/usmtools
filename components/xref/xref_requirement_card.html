@@ -1,35 +1,34 @@
 {% load i18n %}
 {% load xref %}
 
-{% cond_assignment is_selected 'm-1 btn-outline-light' 'm-1 btn-outline-primary' as btn_css_class %}
-<div class="card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
+<div class="xred_requirement_card card mb-3"
+    id="{{ requirement.id | js_str }}"
+    x-data="{
+        get is_selected() { return '{{ requirement.id | js_str }}' == this.selected_id },
+        get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-primary' }
+    }"
+    {% if prev_requirement %}
+    @keydown.document.prevent.stop.up="if (is_selected) { console.log('REQ UP'); $nextTick(() => { select('Requirement', '{{ prev_requirement.id | js_str }}'); }) }"
+    {% endif %}
+    {% if next_requirement %}
+    @keydown.document.prevent.stop.down="console.log('selected_id', selected_id); if (is_selected) {  console.log('REQ DOWN', '{{ next_requirement.id }}'); $nextTick(() => { select('Requirement', '{{ next_requirement.id | js_str }}'); }) }"
+    {% endif %}
+    {% if requirement.statement %}
+    @keydown.window.prevent.stop.right="if (is_selected) { console.log('REQ RIGHT'); $nextTick(() => { select('Statement', '{{ requirement.statement.id | js_str }}'); }) }"
+    {% endif %}
+    :class="is_selected ? 'bg-primary text-white' : ''">
   <div class="card-header">
     <h5>{{ requirement | xref_status_badge }} {{ requirement.text }}</h5>
-    <small class="{% if is_selected %}text-white-50{% else %}text-muted{% endif %}">
+    <small :class="is_selected ? 'text-white-50' : 'text-muted'">
       {{ requirement.statement.text | linebreaks }}
     </small>
   </div>
-  <div class="card-body" id="{{ requirement.statement.id }}">
-    {% if not is_selected %}
-      <a href="{% url 'xref:requirement-detail' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Select' %}</a>
-    {% endif %}
-    {% component "xref_status_transitions" obj=requirement btn_css_class=btn_css_class %}
+  <div class="card-body">
+    <a :disabled="is_selected"  @click="select('Requirement', '{{ requirement.id | js_str }}'); return false;" class="m-1 btn" :class="btn_css_class">{% trans 'Select' %}</a>
+    {% component "xref_status_transitions" obj=requirement %}
     {% endcomponent %}
-    <a href="{% url 'xref:requirement-update' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Update' %}</a>
-    <a href="{% url 'xref:requirement-delete' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Delete' %}</a>
-    <a class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} mx-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
-    {% if is_selected %}
-      {% with statement=highlighted_statement|default:highlighted_requirement.statement %}
-        {% if statement %}
-          <div hx-trigger="keydown[keyCode==39] from:body" hx-get="{% url 'xref:statement-detail' statement.id %}?hx=1" href="#" class="{% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{# Down to statement #}</div>
-        {% endif %}
-      {% endwith %}
-      {% if prev_requirement %}
-        <div hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:requirement-detail' prev_requirement.id %}?hx=1" href="#" class="{% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{# Previous #}</div>
-      {% endif %}
-      {% if next_requirement %}
-        <div hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:requirement-detail' next_requirement.id %}?hx=1" href="#" class="{% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{# Next #}</div>
-      {% endif %}
-    {% endif %}
+    <a href="{% url 'xref:requirement-update' requirement.id %}" data-popup-url="{% url 'xref:requirement-update' requirement.id %}" class="btn m-1 open-popup" :class="btn_css_class">{% trans 'Update' %}</a>
+    <a href="{% url 'xref:requirement-delete' requirement.id %}" data-popup-url="{% url 'xref:requirement-delete' requirement.id %}" class="btn m-1 open-popup" :class="btn_css_class">{% trans 'Delete' %}</a>
+    <a class="btn m-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
   </div>
 </div>

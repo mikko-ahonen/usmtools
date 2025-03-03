@@ -20,8 +20,7 @@
 {% if requirements %}
   {% for requirement in requirements %}
     {% with prev_requirement=requirements|prev_item:forloop.counter0|default:preceding_requirement next_requirement=requirements|next_item:forloop.counter0|default:following_requirement %}
-    {% requirement_is_selected requirement highlighted_requirement highlighted_statement as is_selected %}
-    {% component 'xref_requirement_card' requirement=requirement is_selected=is_selected highlighted_requirement=highlighted_requirement prev_requirement=prev_requirement next_requirement=next_requirement %}
+    {% component 'xref_requirement_card' requirement=requirement prev_requirement=prev_requirement next_requirement=next_requirement %}
     {% endcomponent %}
     {% endwith %}
   {% endfor %}

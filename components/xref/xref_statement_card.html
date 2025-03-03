@@ -1,34 +1,40 @@
 {% load xref %}
 {% load i18n %}
-
-{% cond_assignment is_selected 'm-1 btn-outline-light' 'm-1 btn-outline-primary' as btn_css_class %}
-<div class="xref_statement_card card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
+<div class="xref_statement_card card mb-3"
+    id="{{ statement.id | js_str }}"
+    x-data="{
+        foo: 'bar',
+        get is_selected() { return '{{ statement.id | js_str }}' == this.selected_id },
+        visible_ids: ['{{ statement.id | js_str }}', '{{ statement.requirement_id | js_str }}'{% for constraint in statement.constraints.all %}, '{{ constraint.id | js_str }}'{% endfor %}],
+        get is_visible() { return this.visible_ids.includes(this.selected_requirement_id) },
+        get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-primary' }
+    }"
+    x-show="is_visible"
+    {% if prev_statement %}
+    @keydown.document.prevent.stop.up="console.log('UP'); if (is_selected) { $nextTick(() => { select('Statement', '{{ prev_statement.id | js_str }}'); }) }"
+    {% endif %}
+    {% if next_statement %}
+    @keydown.document.prevent.stop.down="console.log('DOWN'); if (is_selected) { $nextTick(() => { select('Statement', '{{ next_statement.id | js_str }}'); }) }"
+    {% endif %}
+    {% if requirement %}
+    @keydown.document.prevent.stop.left="console.log('LEFT'); if (is_selected) { $nextTick(() => { select('Requirement', '{{ statement.requirement.id | js_str }}'); }) }"
+    {% endif %}
+    {% if statement.constraints.first %}
+    @keydown.right.window.prevent.stop="console.log('RIGHT'); if (is_selected) { $nextTick(() => { select('Constraint', '{{ statement.constraints.first.id | js_str }}'); }) }"
+    {% endif %}
+    :class="is_selected ? 'bg-primary text-white' : ''">
   <div class="card-header">
     <h5>{{ statement | xref_status_badge }} {{ statement.title }}</h5>
-    <small class="{% if is_selected %}text-white-50{% else %}text-muted{% endif %}">
+    <small :class="is_selected ? 'text-white-50' : 'text-muted'">
       {{ statement.text | linebreaks }}
     </small>
   </div>
-  <div class="card-body" id="{{ statement.id }}">
-    <a href="{% url 'xref:statement-detail' statement.id %}" class="btn {{ btn_css_class }}">{% trans 'Select' %}</a>
-    {% component "xref_status_transitions" obj=statement btn_css_class=btn_css_class %}
+  <div class="card-body">
+    <a :disabled="is_selected" @click="select('Statement', '{{ statement.id | js_str }}'); return false;" class="m-1 btn" :class="btn_css_class">{% trans 'Select' %}</a>
+    {% component "xref_status_transitions" obj=statement %}
     {% endcomponent %}
-    <a class="m-1 btn {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:statement-update' statement.id %}" href="{% url 'xref:statement-update' statement.id %}">{% trans 'Edit' %}</a>
-    <a class="m-1 btn {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:statement-delete' statement.id %}" href="{% url 'xref:statement-delete' statement.id %}">{% trans 'Delete' %}</a>
-    <a class="btn  {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:constraint-create' statement.id %}" href="{% url 'xref:statement-create' statement.id %}">{% trans 'Add a new constraint' %}</a>
-    {% if is_selected and highlighted_constraint is None %}
-    <div hx-trigger="keydown[keyCode==37] from:body" hx-get="{% url 'xref:requirement-detail' highlighted_statement.requirement.id %}?hx=1" href="#" class="{{ btn_css_class }}">{# Up to requirement #}</div>
-    {% if prev_statement %}
-      <div hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:statement-detail' prev_statement.id %}?hx=1" href="#" class="btn {{ btn_css_class }}">{# Previous #}</div>
-    {% endif %}
-    {% if next_statement %}
-      <div hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:statement-detail' next_statement.id %}?hx=1" href="#" class="{{ btn_css_class }}">{# Next #}</div>
-    {% endif %}
-    {% with constraint=highlighted_constraint|default:highlighted_statement.constraints.first %} 
-      {% if constraint %}
-        <div hx-trigger="keydown[keyCode==39] from:body" hx-get="{% url 'xref:constraint-detail' statement.id constraint.id %}?hx=1" href="#" class="{{ btn_css_class }}">{# Down to constraint #}</div>
-      {% endif %}
-    {% endwith %}
-    {% endif %}
+    <a class="m-1 btn open-popup" :class="btn_css_class" data-popup-url="{% url 'xref:statement-update' statement.id %}" href="{% url 'xref:statement-update' statement.id %}">{% trans 'Edit' %}</a>
+    <a class="m-1 btn open-popup" :class="btn_css_class" data-popup-url="{% url 'xref:statement-delete' statement.id %}" href="{% url 'xref:statement-delete' statement.id %}">{% trans 'Delete' %}</a>
+    <a class="m-1 btn open-popup" :class="btn_css_class" data-popup-url="{% url 'xref:constraint-create' statement.id %}" href="{% url 'xref:statement-create' statement.id %}">{% trans 'Add a new constraint' %}</a>
   </div>
 </div>

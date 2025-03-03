@@ -10,13 +10,18 @@ class Xref(component.Component):
     def get_context_data(self, **kwargs):
 
         xref = kwargs["xref"]
-        highlighted_requirement = kwargs["highlighted_requirement"]
-        highlighted_statement = kwargs["highlighted_statement"]
-        highlighted_constraint = kwargs["highlighted_constraint"]
 
         return {
             "xref": xref,
-            "highlighted_requirement": highlighted_requirement,
-            "highlighted_statement": highlighted_statement,
-            "highlighted_constraint": highlighted_constraint,
+            "selected_type": 'Requirement',
+            "selected_id": self.get_first_requirement(xref.domain.root_sections),
         }
+
+    def get_first_requirement(self, sections):
+        for section in sections:
+            for requirement in section.requirements.all():
+                return requirement.id
+            req = self.get_first_requirement(section.children.all())
+            if req:
+                return req
+        return None

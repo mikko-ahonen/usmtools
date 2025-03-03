@@ -1,5 +1,7 @@
 from django import template
 from django.utils.html import mark_safe
+from django.template.defaultfilters import escapejs
+
 
 register = template.Library()
 
@@ -32,6 +34,10 @@ def get_following_requirement(sections, n):
         if requirement:
             return requirement
     return None
+
+@register.filter()
+def js_str(u):
+    return mark_safe(str(u))
 
 @register.filter()
 def next_item(value, n):

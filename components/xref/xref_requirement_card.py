@@ -10,15 +10,11 @@ class XrefRequirementCard(component.Component):
     def get_context_data(self, **kwargs):
 
         requirement = kwargs["requirement"]
-        is_selected = kwargs["is_selected"]
-        highlighted_requirement = kwargs["highlighted_requirement"]
         next_requirement = kwargs["next_requirement"]
         prev_requirement = kwargs["prev_requirement"]
 
         return {
             "requirement": requirement,
-            "is_selected": is_selected,
-            "highlighted_requirement": highlighted_requirement,
             "next_requirement": next_requirement,
             "prev_requirement": prev_requirement,
         }

@@ -10,17 +10,11 @@ class XrefStatementCard(component.Component):
     def get_context_data(self, **kwargs):
 
         statement = kwargs["statement"]
-        is_selected = kwargs["is_selected"]
-        highlighted_statement = kwargs["highlighted_statement"]
-        highlighted_constraint = kwargs["highlighted_constraint"]
         next_statement = kwargs["next_statement"]
         prev_statement = kwargs["prev_statement"]
 
         return {
             "statement": statement,
-            "is_selected": is_selected,
-            "highlighted_statement": highlighted_statement,
-            "highlighted_constraint": highlighted_constraint,
             "next_statement": next_statement,
             "prev_statement": prev_statement,
         }

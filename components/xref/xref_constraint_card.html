@@ -1,29 +1,37 @@
 {% load i18n %}
 {% load xref %}
 
-{% cond_assignment is_selected 'm-1 btn-outline-light' 'm-1 btn-outline-primary' as btn_css_class %}
-<div class="xref_constraint_card card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
+<div 
+    class="xref_constraint_card card mb-3"
+    id="{{ constraint.id | js_str }}"
+    x-data="{
+        visible_ids: ['{{ constraint.id | js_str }}'{% for statement in constraint.statements.all %}, '{{ statement.id | js_str }}', '{{ statement.requirement.id | js_str }}'{% endfor %}],
+        get is_selected() { return '{{ constraint.id | js_str }}' == this.selected_id },
+        get is_visible() { return this.visible_ids.includes(this.selected_statement_id) },
+        get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-primary' } 
+    }"
+    x-show="is_visible"
+    {% if prev_constraint %}
+    @keydown.document.prevent.stop.up="console.log('UP constraint'); if (is_selected) { $nextTick(() => { select('Constraint', '{{ prev_constraint.id | js_str }}'); }) }"
+    {% endif %}
+    {% if next_constraint %}
+    @keydown.document.prevent.stop.down="console.log('DOWN constraint'); if (is_selected) { $nextTick(() => { select('Constraint', '{{ next_constraint.id | js_str }}'); }) }"
+    {% endif %}
+    {% if statement %}
+    @keydown.document.prevent.stop.left="console.log('LEFT constraint'); if (is_selected) { $nextTick(() => { select('Statement', '{{ statement.id | js_str }}'); }) }"
+    {% endif %}
+    :class="is_selected ? 'bg-primary text-white' : ''">
   <div class="card-header">
     <h5>{{ constraint | xref_status_badge }} {{ constraint.title }}</h5>
-    <small class="{% if is_selected %}text-white-50{% else %}text-muted{% endif %}">
+    <small :class="is_selected ? 'text-white-50' : 'text-muted'">
       {{ constraint.text | linebreaks }}
     </small>
   </div>
-  <div class="card-body" id="{{ constraint.id }}">
-    {% component "xref_status_transitions" obj=constraint btn_css_class=btn_css_class %}
+  <div class="card-body">
+    <a :disabled="is_selected"  @click="select('Constraint', '{{ constraint.id | js_str }}'); return false;" class="m-1 btn" :class="btn_css_class">{% trans 'Select' %}</a>
+    {% component "xref_status_transitions" obj=constraint %}
     {% endcomponent %}
-    <a class="m-1 btn {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:constraint-update' highlighted_statement.id constraint.id %}" href="{% url 'xref:constraint-update' highlighted_statement.id constraint.id %}">{% trans 'Edit' %}</a>
-    <a class="m-1 btn {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:constraint-delete' highlighted_statement.id constraint.id %}" href="{% url 'xref:constraint-delete' highlighted_statement.id constraint.id %}">{% trans 'Delete' %}</a>
-    {% if is_selected %}
-    <div hx-trigger="keydown[keyCode==37] from:body" hx-get="{% url 'xref:statement-detail' highlighted_statement.id %}?hx=1" href="#" class="d-none {{ btn_css_class }}">{# Down to statement #}</div>
-    {% if prev_constraint %}
-      <div hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:constraint-detail' highlighted_statement.id prev_constraint.id %}?hx=1" href="#" class="d-none {{ btn_css_class }}">{# Previous #}</div>
-    {% endif %}
-    {% if next_constraint %}
-      <div hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:constraint-detail' highlighted_statement.id next_constraint.id %}?hx=1" href="#" class="{{ btn_css_class }}">{# Next #}</div>
-    {% endif %}
-    {% else %}
-    <a href="{% url 'xref:constraint-detail' highlighted_statement.id constraint.id %}" class="btn {{ btn_css_class }}">{% trans 'Select' %}</a>
-    {% endif %}
+    <a class="open-popup m-1 btn" :class="btn_css_class" data-popup-url="{% url 'xref:constraint-update' statement.id constraint.id %}" href="{% url 'xref:constraint-update' statement.id constraint.id %}">{% trans 'Edit' %}</a>
+    <a class="m-1 btn open-popup" :class="btn_css_class" data-popup-url="{% url 'xref:constraint-delete' statement.id constraint.id %}" href="{% url 'xref:constraint-delete' statement.id constraint.id %}">{% trans 'Delete' %}</a>
   </div>
 </div>

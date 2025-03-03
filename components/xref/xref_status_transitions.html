@@ -2,12 +2,12 @@
 
 <span class="xref_status_transitions">
   {% if obj.xref_status != 'draft' %}
-    <button class="btn {{ btn_css_class }}" hx-target="closest .xref_status_transitions" hx-swap="outerHTML" hx-post="{% url 'components:xref-status-transition' obj.classname obj.id 'draft' %}" hx-vals='{"btn_css_class": "{{ btn_css_class|escapejs }}"}'>{% trans 'Draft' %}</button>
+    <button class="m-1 btn" :class="btn_css_class" hx-target="closest .xref_status_transitions" hx-swap="outerHTML" hx-post="{% url 'components:xref-status-transition' obj.classname obj.id 'draft' %}">{% trans 'Draft' %}</button>
   {% endif %}
   {% if obj.xref_status != 'ready' %}
-    <button class="btn {{ btn_css_class }}" hx-target="closest .xref_status_transitions" hx-swap="outerHTML" hx-post="{% url 'components:xref-status-transition' obj.classname obj.id 'ready' %}" hx-vals='{"btn_css_class": "{{ btn_css_class|escapejs }}"}'>{% trans 'Ready' %}</button>
+    <button class="m-1 btn" :class="btn_css_class" hx-target="closest .xref_status_transitions" hx-swap="outerHTML" hx-post="{% url 'components:xref-status-transition' obj.classname obj.id 'ready' %}">{% trans 'Ready' %}</button>
   {% endif %}
   {% if obj.xref_status != 'verified' %}
-    <button class="btn {{ btn_css_class }}" hx-target="closest .xref_status_transitions" hx-swap="outerHTML" hx-post="{% url 'components:xref-status-transition' obj.classname obj.id 'verified' %}" hx-vals='{"btn_css_class": "{{ btn_css_class|escapejs }}"}'>{% trans 'Verified' %}</button>
+    <button class="m-1 btn" :class="btn_css_class" hx-target="closest .xref_status_transitions" hx-swap="outerHTML" hx-post="{% url 'components:xref-status-transition' obj.classname obj.id 'verified' %}">{% trans 'Verified' %}</button>
   {% endif %}
 </span>
