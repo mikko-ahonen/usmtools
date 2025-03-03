@@ -10,11 +10,11 @@ class XrefDocument(component.Component):
     def get_context_data(self, **kwargs):
 
         xref = kwargs["xref"]
-        selected_requirement = kwargs["selected_requirement"]
-        selected_statement = kwargs["selected_statement"]
+        highlighted_requirement = kwargs["highlighted_requirement"]
+        highlighted_statement = kwargs["highlighted_statement"]
 
         return {
             "xref": xref,
-            "selected_requirement": selected_requirement,
-            "selected_statement": selected_statement,
+            "highlighted_requirement": highlighted_requirement,
+            "highlighted_statement": highlighted_statement,
         }

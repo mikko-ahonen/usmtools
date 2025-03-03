@@ -11,14 +11,14 @@ class XrefRequirementCard(component.Component):
 
         requirement = kwargs["requirement"]
         is_selected = kwargs["is_selected"]
-        selected_requirement = kwargs["selected_requirement"]
+        highlighted_requirement = kwargs["highlighted_requirement"]
         next_requirement = kwargs["next_requirement"]
         prev_requirement = kwargs["prev_requirement"]
 
         return {
             "requirement": requirement,
             "is_selected": is_selected,
-            "selected_requirement": selected_requirement,
+            "highlighted_requirement": highlighted_requirement,
             "next_requirement": next_requirement,
             "prev_requirement": prev_requirement,
         }

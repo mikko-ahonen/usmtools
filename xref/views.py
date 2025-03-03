@@ -143,10 +143,10 @@ class CrossReferenceDetail(LoginRequiredMixin, PermissionRequiredMixin, GetCross
 
         context = super().get_context_data(**kwargs)
         context['xref'] = xref
-        context['selected_section'] = section
-        context['selected_requirement'] = requirement
-        context['selected_statement'] = statement
-        context['selected_constraint'] = constraint
+        context['highlighted_section'] = section
+        context['highlighted_requirement'] = requirement
+        context['highlighted_statement'] = statement
+        context['highlighted_constraint'] = constraint
         return context
 
 

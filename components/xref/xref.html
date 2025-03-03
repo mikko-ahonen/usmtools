@@ -2,29 +2,29 @@
 {% load xref %}
 <div class="xref row">
   <div class="col">
-    {% component 'xref_document' xref=xref selected_requirement=selected_requirement selected_statement=selected_statement %}
+    {% component 'xref_document' xref=xref highlighted_requirement=highlighted_requirement highlighted_statement=highlighted_statement %}
     {% endcomponent %}
   </div>
-  {% if selected_requirement %}
+  {% if highlighted_requirement %}
   <div class="col">
-    {% with statements=selected_requirement.statements.all %}
+    {% with statements=highlighted_requirement.statements.all %}
     {% for statement in statements %}
       {% with prev_statement=statements|prev_item:forloop.counter0 next_statement=statements|next_item:forloop.counter0 %}
-        {% statement_is_selected statement selected_statement selected_constraint as is_selected %}
-        {% component 'xref_statement_card' statement=statement is_selected=is_selected selected_statement=selected_statement prev_statement=prev_statement next_statement=next_statement selected_constraint=selected_constraint %}
+        {% statement_is_selected statement highlighted_statement highlighted_constraint as is_selected %}
+        {% component 'xref_statement_card' statement=statement is_selected=is_selected highlighted_statement=highlighted_statement prev_statement=prev_statement next_statement=next_statement highlighted_constraint=highlighted_constraint %}
         {% endcomponent %}
       {% endwith %}
     {% endfor %}
     {% endwith %}
   </div>
   {% endif %}
-  {% if selected_statement %}
+  {% if highlighted_statement %}
   <div class="col">
-    {% with constraints=selected_statement.constraints.all %}
+    {% with constraints=highlighted_statement.constraints.all %}
     {% for constraint in constraints %}
       {% with prev_constraint=constraints|prev_item:forloop.counter0 next_constraint=constraints|next_item:forloop.counter0 %}
-        {% constraint_is_selected constraint selected_constraint as is_selected %}
-        {% component 'xref_constraint_card' constraint=constraint is_selected=is_selected selected_statement=selected_statement selected_constraint=selected_constraint prev_constraint=prev_constraint next_constraint=next_constraint %}
+        {% constraint_is_selected constraint highlighted_constraint as is_selected %}
+        {% component 'xref_constraint_card' constraint=constraint is_selected=is_selected highlighted_statement=highlighted_statement highlighted_constraint=highlighted_constraint prev_constraint=prev_constraint next_constraint=next_constraint %}
         {% endcomponent %}
       {% endwith %}
     {% endfor %}

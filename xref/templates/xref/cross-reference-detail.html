@@ -10,7 +10,7 @@
 {{ xref.description|linebreaks }}
 </p>
 
-{% component 'xref' xref=xref selected_requirement=selected_requirement selected_statement=selected_statement selected_constraint=selected_constraint %}
+{% component 'xref' xref=xref highlighted_requirement=highlighted_requirement highlighted_statement=highlighted_statement highlighted_constraint=highlighted_constraint %}
 {% endcomponent %}
 </div>
 {% include 'xref/fragments/modal.html' with modal_size='xl' %}

@@ -19,7 +19,7 @@
     <a href="{% url 'xref:requirement-delete' requirement.id %}" class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{% trans 'Delete' %}</a>
     <a class="btn {% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %} mx-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
     {% if is_selected %}
-      {% with statement=selected_statement|default:selected_requirement.statement %}
+      {% with statement=highlighted_statement|default:highlighted_requirement.statement %}
         {% if statement %}
           <div hx-trigger="keydown[keyCode==39] from:body" hx-get="{% url 'xref:statement-detail' statement.id %}?hx=1" href="#" class="{% if is_selected %}btn-outline-light{% else %}btn-outline-primary{% endif %}">{# Down to statement #}</div>
         {% endif %}

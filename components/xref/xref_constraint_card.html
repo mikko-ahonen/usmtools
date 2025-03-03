@@ -12,18 +12,18 @@
   <div class="card-body" id="{{ constraint.id }}">
     {% component "xref_status_transitions" obj=constraint btn_css_class=btn_css_class %}
     {% endcomponent %}
-    <a class="m-1 btn {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:constraint-update' selected_statement.id constraint.id %}" href="{% url 'xref:constraint-update' selected_statement.id constraint.id %}">{% trans 'Edit' %}</a>
-    <a class="m-1 btn {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:constraint-delete' selected_statement.id constraint.id %}" href="{% url 'xref:constraint-delete' selected_statement.id constraint.id %}">{% trans 'Delete' %}</a>
+    <a class="m-1 btn {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:constraint-update' highlighted_statement.id constraint.id %}" href="{% url 'xref:constraint-update' highlighted_statement.id constraint.id %}">{% trans 'Edit' %}</a>
+    <a class="m-1 btn {{ btn_css_class }} open-popup" data-popup-url="{% url 'xref:constraint-delete' highlighted_statement.id constraint.id %}" href="{% url 'xref:constraint-delete' highlighted_statement.id constraint.id %}">{% trans 'Delete' %}</a>
     {% if is_selected %}
-    <div hx-trigger="keydown[keyCode==37] from:body" hx-get="{% url 'xref:statement-detail' selected_statement.id %}?hx=1" href="#" class="d-none {{ btn_css_class }}">{# Down to statement #}</div>
+    <div hx-trigger="keydown[keyCode==37] from:body" hx-get="{% url 'xref:statement-detail' highlighted_statement.id %}?hx=1" href="#" class="d-none {{ btn_css_class }}">{# Down to statement #}</div>
     {% if prev_constraint %}
-      <div hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:constraint-detail' selected_statement.id prev_constraint.id %}?hx=1" href="#" class="d-none {{ btn_css_class }}">{# Previous #}</div>
+      <div hx-trigger="keydown[keyCode==38] from:body" hx-get="{% url 'xref:constraint-detail' highlighted_statement.id prev_constraint.id %}?hx=1" href="#" class="d-none {{ btn_css_class }}">{# Previous #}</div>
     {% endif %}
     {% if next_constraint %}
-      <div hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:constraint-detail' selected_statement.id next_constraint.id %}?hx=1" href="#" class="{{ btn_css_class }}">{# Next #}</div>
+      <div hx-trigger="keydown[keyCode==40] from:body" hx-get="{% url 'xref:constraint-detail' highlighted_statement.id next_constraint.id %}?hx=1" href="#" class="{{ btn_css_class }}">{# Next #}</div>
     {% endif %}
     {% else %}
-    <a href="{% url 'xref:constraint-detail' selected_statement.id constraint.id %}" class="btn {{ btn_css_class }}">{% trans 'Select' %}</a>
+    <a href="{% url 'xref:constraint-detail' highlighted_statement.id constraint.id %}" class="btn {{ btn_css_class }}">{% trans 'Select' %}</a>
     {% endif %}
   </div>
 </div>

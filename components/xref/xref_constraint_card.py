@@ -11,16 +11,16 @@ class XrefConstraintCard(component.Component):
 
         constraint = kwargs["constraint"]
         is_selected = kwargs["is_selected"]
-        selected_statement = kwargs["selected_statement"]
-        selected_constraint = kwargs["selected_constraint"]
+        highlighted_statement = kwargs["highlighted_statement"]
+        highlighted_constraint = kwargs["highlighted_constraint"]
         next_constraint = kwargs["next_constraint"]
         prev_constraint = kwargs["prev_constraint"]
 
         return {
             "constraint": constraint,
             "is_selected": is_selected,
-            "selected_statement": selected_statement,
-            "selected_constraint": selected_constraint,
+            "highlighted_statement": highlighted_statement,
+            "highlighted_constraint": highlighted_constraint,
             "next_constraint": next_constraint,
             "prev_constraint": prev_constraint,
         }   
