@@ -10,9 +10,9 @@ def xref_status_badge(o):
     if o.xref_status == 'draft':
         color = 'bg-danger'
     elif o.xref_status == 'ready':
-        color = 'bg-success'
+        color = 'bg-warning'
     elif o.xref_status == 'verified':
-        color = 'bg-primary'
+        color = 'bg-success'
     return mark_safe(f'<span class="badge {color}">{ o.xref_status }</span>')
 
 @register.filter()

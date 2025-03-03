@@ -12669,5 +12669,8 @@ ul.org-unit-hierarchy li:last-child:before {
     line-height: 1;
 }
 */
+.card {
+  scroll-margin-top: 20px;
+}
 
 /*# sourceMappingURL=styles.css.map */

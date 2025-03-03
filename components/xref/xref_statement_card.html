@@ -1,11 +1,11 @@
 {% load xref %}
 {% load i18n %}
-<div class="xref_statement_card card mb-3"
-    id="{{ statement.id | js_str }}"
+<div class="xref_statement_card"
+    id="{{ statement.id | js_str }}">
+  <div class="card mb-3"
     x-data="{
-        foo: 'bar',
         get is_selected() { return '{{ statement.id | js_str }}' == this.selected_id },
-        visible_ids: ['{{ statement.id | js_str }}', '{{ statement.requirement_id | js_str }}'{% for constraint in statement.constraints.all %}, '{{ constraint.id | js_str }}'{% endfor %}],
+        visible_ids: ['{{ statement.id | js_str }}', '{{ statement.requirement.id | js_str }}'{% for constraint in statement.constraints.all %}, '{{ constraint.id | js_str }}'{% endfor %}],
         get is_visible() { return this.visible_ids.includes(this.selected_requirement_id) },
         get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-primary' }
     }"
@@ -16,11 +16,11 @@
     {% if next_statement %}
     @keydown.document.prevent.stop.down="console.log('DOWN'); if (is_selected) { $nextTick(() => { select('Statement', '{{ next_statement.id | js_str }}'); }) }"
     {% endif %}
-    {% if requirement %}
+    {% if statement.requirement %}
     @keydown.document.prevent.stop.left="console.log('LEFT'); if (is_selected) { $nextTick(() => { select('Requirement', '{{ statement.requirement.id | js_str }}'); }) }"
     {% endif %}
     {% if statement.constraints.first %}
-    @keydown.right.window.prevent.stop="console.log('RIGHT'); if (is_selected) { $nextTick(() => { select('Constraint', '{{ statement.constraints.first.id | js_str }}'); }) }"
+    @keydown.document.prevent.stop.right="console.log('RIGHT'); if (is_selected) { $nextTick(() => { select('Constraint', '{{ statement.constraints.first.id | js_str }}'); }) }"
     {% endif %}
     :class="is_selected ? 'bg-primary text-white' : ''">
   <div class="card-header">
@@ -31,10 +31,13 @@
   </div>
   <div class="card-body">
     <a :disabled="is_selected" @click="select('Statement', '{{ statement.id | js_str }}'); return false;" class="m-1 btn" :class="btn_css_class">{% trans 'Select' %}</a>
-    {% component "xref_status_transitions" obj=statement %}
-    {% endcomponent %}
+    {% for status, name in statuses  %}
+      {% if statement.xref_status != status %}
+        <button class="m-1 btn" :class="btn_css_class" hx-target="closest .xref_statement_card" hx-swap="outerHTML" hx-post="{% url 'components:xref-statement-status-transition' statement.id status %}" hx-vals='{"next_statement_id": "{{ next_statement.id | js_str}}","prev_statement_id":"{{ prev_statement..id | js_str }}"}'>{{ name }}</button>
+      {% endif %}
+    {% endfor %}
     <a class="m-1 btn open-popup" :class="btn_css_class" data-popup-url="{% url 'xref:statement-update' statement.id %}" href="{% url 'xref:statement-update' statement.id %}">{% trans 'Edit' %}</a>
     <a class="m-1 btn open-popup" :class="btn_css_class" data-popup-url="{% url 'xref:statement-delete' statement.id %}" href="{% url 'xref:statement-delete' statement.id %}">{% trans 'Delete' %}</a>
-    <a class="m-1 btn open-popup" :class="btn_css_class" data-popup-url="{% url 'xref:constraint-create' statement.id %}" href="{% url 'xref:statement-create' statement.id %}">{% trans 'Add a new constraint' %}</a>
   </div>
+</div>
 </div>

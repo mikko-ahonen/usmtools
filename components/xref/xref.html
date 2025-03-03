@@ -67,6 +67,7 @@
                       {% endwith %}
                     {% endfor %}
                   {% endwith %}
+                  <a x-show="selected_requirement_id == '{{ requirement.id | js_str }}'" class="btn m-1 open-popup btn-outline-primary" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Add a statement' %}</a>
                 {% endfor %}
               </div>
               <div class="col">
@@ -80,6 +81,7 @@
                         {% endwith %}
                       {% endfor %} {# for constraints #}
                     {% endwith %} {# with constraints #}
+                    <a x-show="selected_statement_id == '{{ statement.id }}'" class="m-1 btn btn-outline-primary open-popup" data-popup-url="{% url 'xref:constraint-create' statement.id %}" href="{% url 'xref:statement-create' statement.id %}">{% trans 'Add a constraint' %}</a>
                   {% endfor %} {# for statements #}
                 {% endfor %} {# for requirements #}
               </div>

@@ -1,8 +1,8 @@
 {% load i18n %}
 {% load xref %}
 
-<div class="xred_requirement_card card mb-3"
-    id="{{ requirement.id | js_str }}"
+<div class="xref_requirement_card" id="{{ requirement.id | js_str }}">
+  <div class="card mb-3"
     x-data="{
         get is_selected() { return '{{ requirement.id | js_str }}' == this.selected_id },
         get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-primary' }
@@ -13,22 +13,26 @@
     {% if next_requirement %}
     @keydown.document.prevent.stop.down="console.log('selected_id', selected_id); if (is_selected) {  console.log('REQ DOWN', '{{ next_requirement.id }}'); $nextTick(() => { select('Requirement', '{{ next_requirement.id | js_str }}'); }) }"
     {% endif %}
-    {% if requirement.statement %}
-    @keydown.window.prevent.stop.right="if (is_selected) { console.log('REQ RIGHT'); $nextTick(() => { select('Statement', '{{ requirement.statement.id | js_str }}'); }) }"
-    {% endif %}
-    :class="is_selected ? 'bg-primary text-white' : ''">
+    @keydown.document.prevent.stop.right="if (is_selected) { console.log('REQ RIGHT'); $nextTick(() => { select('Statement', '{{ requirement.statements.first.id | js_str }}'); }) }"
+    :class="is_selected ? 'bg-primary text-white' : ''"
+    >
   <div class="card-header">
     <h5>{{ requirement | xref_status_badge }} {{ requirement.text }}</h5>
     <small :class="is_selected ? 'text-white-50' : 'text-muted'">
-      {{ requirement.statement.text | linebreaks }}
+      {{ requirement.text | linebreaks }}
     </small>
   </div>
   <div class="card-body">
     <a :disabled="is_selected"  @click="select('Requirement', '{{ requirement.id | js_str }}'); return false;" class="m-1 btn" :class="btn_css_class">{% trans 'Select' %}</a>
-    {% component "xref_status_transitions" obj=requirement %}
-    {% endcomponent %}
+
+    {% for status, name in statuses  %}
+      {% if requirement.xref_status != status %}
+        <button class="m-1 btn" :class="btn_css_class" hx-target="closest .xref_requirement_card" hx-swap="outerHTML" hx-post="{% url 'components:xref-requirement-status-transition' requirement.id status %}" hx-vals='{"next_requirement_id": "{{ next_requirement.id | js_str}}","prev_requirement_id":"{{ prev_requirement.id | js_str }}"}'>{{ name }}</button>
+      {% endif %}
+    {% endfor %}
+
     <a href="{% url 'xref:requirement-update' requirement.id %}" data-popup-url="{% url 'xref:requirement-update' requirement.id %}" class="btn m-1 open-popup" :class="btn_css_class">{% trans 'Update' %}</a>
     <a href="{% url 'xref:requirement-delete' requirement.id %}" data-popup-url="{% url 'xref:requirement-delete' requirement.id %}" class="btn m-1 open-popup" :class="btn_css_class">{% trans 'Delete' %}</a>
-    <a class="btn m-1 open-popup" data-popup-url="{% url 'xref:statement-create' requirement.id %}" href="{% url 'xref:statement-create' requirement.id %}">{% trans 'Create a statement' %}</a>
   </div>
+</div>
 </div>

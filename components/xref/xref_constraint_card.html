@@ -2,8 +2,10 @@
 {% load xref %}
 
 <div 
-    class="xref_constraint_card card mb-3"
-    id="{{ constraint.id | js_str }}"
+    class="xref_constraint_card"
+    id="{{ constraint.id | js_str }}">
+  <div 
+    class="card mb-3"
     x-data="{
         visible_ids: ['{{ constraint.id | js_str }}'{% for statement in constraint.statements.all %}, '{{ statement.id | js_str }}', '{{ statement.requirement.id | js_str }}'{% endfor %}],
         get is_selected() { return '{{ constraint.id | js_str }}' == this.selected_id },
@@ -29,9 +31,13 @@
   </div>
   <div class="card-body">
     <a :disabled="is_selected"  @click="select('Constraint', '{{ constraint.id | js_str }}'); return false;" class="m-1 btn" :class="btn_css_class">{% trans 'Select' %}</a>
-    {% component "xref_status_transitions" obj=constraint %}
-    {% endcomponent %}
+    {% for status, name in statuses  %}
+      {% if constraint.xref_status != status %}
+        <button class="m-1 btn" :class="btn_css_class" hx-target="closest .xref_constraint_card" hx-swap="outerHTML" hx-post="{% url 'components:xref-constraint-status-transition' statement.id constraint.id status %}" hx-vals='{"next_constraint_id": "{{ next_constraint.id | js_str}}","prev_constraint_id":"{{ prev_constraint..id | js_str }}"}'>{{ name }}</button>
+      {% endif %}
+    {% endfor %}
     <a class="open-popup m-1 btn" :class="btn_css_class" data-popup-url="{% url 'xref:constraint-update' statement.id constraint.id %}" href="{% url 'xref:constraint-update' statement.id constraint.id %}">{% trans 'Edit' %}</a>
     <a class="m-1 btn open-popup" :class="btn_css_class" data-popup-url="{% url 'xref:constraint-delete' statement.id constraint.id %}" href="{% url 'xref:constraint-delete' statement.id constraint.id %}">{% trans 'Delete' %}</a>
   </div>
+</div>
 </div>

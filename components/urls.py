@@ -16,7 +16,10 @@ from components.constraint_references.constraint_references import ConstraintRef
 from components.constraint.constraint_editor import ConstraintEditor
 from components.action.responsibility_editor import ResponsibilityEditor
 from components.action.action_editor import ActionEditor
-from components.xref.xref_status_transitions import XrefStatusTransitions
+#from components.xref.xref_status_transitions import XrefStatusTransitions
+from components.xref.xref_requirement_card import XrefRequirementCard
+from components.xref.xref_statement_card import XrefStatementCard
+from components.xref.xref_constraint_card import XrefConstraintCard
 
 app_name = "components"
 
@@ -38,5 +41,8 @@ urlpatterns = [
     path("<uuid:tenant_id>/responsibilities/<uuid:responsibility_id>/editor/", ResponsibilityEditor.as_view(), name='responsibility-editor'),
     path("<uuid:tenant_id>/actions/<uuid:action_id>/responsibilities/create/", ActionEditor.as_view(), name='responsibility-create'),
     path("<uuid:tenant_id>/responsibilities/<uuid:responsibility_id>/delete/", ActionEditor.as_view(), name='responsibility-delete'),
-    path("xref/<str:obj_type>/<uuid:obj_id>/status/<str:target_status>/", XrefStatusTransitions.as_view(), name='xref-status-transition'),
+    #path("xref/<str:obj_type>/<uuid:obj_id>/status/<str:target_status>/", XrefStatusTransitions.as_view(), name='xref-status-transition'),
+    path("xref/requirement/<uuid:obj_id>/status/<str:target_status>/", XrefRequirementCard.as_view(), name='xref-requirement-status-transition'),
+    path("xref/statement/<uuid:obj_id>/status/<str:target_status>/", XrefStatementCard.as_view(), name='xref-statement-status-transition'),
+    path("xref/constraint/<uuid:statement_id>/<uuid:obj_id>/status/<str:target_status>/", XrefConstraintCard.as_view(), name='xref-constraint-status-transition'),
 ]
