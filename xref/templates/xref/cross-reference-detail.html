@@ -19,7 +19,9 @@
     {% with statements=selected_requirement.statements.all %}
     {% for statement in statements %}
       {% with prev_statement=statements|prev_item:forloop.counter0 next_statement=statements|next_item:forloop.counter0 %}
-        {% include 'xref/fragments/cross-reference-statement.html' with xref=xref section=section requirement=requirement statement=statement selected_statement=selected_statement prev_statement=prev_statement next_statement=next_statement selected_constraint=selected_constraint only %}
+        {% statement_is_selected statement selected_statement selected_constraint as is_selected %}
+        {% component 'xref_statement_card' statement=statement is_selected=is_selected selected_statement=selected_statement prev_statement=prev_statement next_statement=next_statement selected_constraint=selected_constraint %}
+        {% endcomponent %}
       {% endwith %}
     {% endfor %}
     {% endwith %}
@@ -30,7 +32,9 @@
     {% with constraints=selected_statement.constraints.all %}
     {% for constraint in constraints %}
       {% with prev_constraint=constraints|prev_item:forloop.counter0 next_constraint=constraints|next_item:forloop.counter0 %}
-        {% include 'xref/fragments/cross-reference-constraint.html' with selected_statement=selected_statement constraint=constraint selected_constraint=selected_constraint next_constraint=next_constraint prev_constraint=prev_constraint only %}
+        {% constraint_is_selected constraint selected_constraint as is_selected %}
+        {% component 'xref_constraint_card' constraint=constraint is_selected=is_selected selected_statement=selected_statement selected_constraint=selected_constraint prev_constraint=prev_constraint next_constraint=next_constraint %}
+        {% endcomponent %}
       {% endwith %}
     {% endfor %}
     {% endwith %}

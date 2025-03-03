@@ -1,9 +1,8 @@
 {% load i18n %}
 {% load xref %}
 
-{% constraint_is_selected constraint selected_constraint as is_selected %}
 {% cond_assignment is_selected 'm-1 btn-outline-light' 'm-1 btn-outline-primary' as btn_css_class %}
-<div class="card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
+<div class="xref_constraint_card card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
   <div class="card-header">
     <h5>{{ constraint | xref_status_badge }} {{ constraint.title }}</h5>
     <small class="{% if is_selected %}text-white-50{% else %}text-muted{% endif %}">

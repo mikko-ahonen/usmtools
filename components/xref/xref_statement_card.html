@@ -1,10 +1,8 @@
 {% load xref %}
 {% load i18n %}
-{% load component_tags %}
 
-{% statement_is_selected statement selected_statement selected_constraint as is_selected %}
 {% cond_assignment is_selected 'm-1 btn-outline-light' 'm-1 btn-outline-primary' as btn_css_class %}
-<div class="card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
+<div class="xref_statement_card card mb-3 {% if is_selected %}bg-primary text-white{% endif %}">
   <div class="card-header">
     <h5>{{ statement | xref_status_badge }} {{ statement.title }}</h5>
     <small class="{% if is_selected %}text-white-50{% else %}text-muted{% endif %}">
