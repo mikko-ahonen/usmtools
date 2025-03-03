@@ -12,7 +12,8 @@
 
 <div class="row">
   <div class="col">
-    {% include 'xref/fragments/cross-reference-sections.html' with object=xref selected_requirement=selected_requirement selected_statement=selected_statement only %}
+    {% component 'xref_document' xref=xref selected_requirement=selected_requirement selected_statement=selected_statement %}
+    {% endcomponent %}
   </div>
   {% if selected_requirement %}
   <div class="col">
