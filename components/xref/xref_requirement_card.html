@@ -6,7 +6,7 @@
     @click="if (!is_selected) { select('Requirement', '{{ requirement.id | js_str }}'); }"
     x-data="{
         get is_selected() { return '{{ requirement.id | js_str }}' == this.selected_id },
-        get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-primary' }
+        get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-dark' }
     }"
     {% if prev_requirement %}
     @keydown.document.prevent.stop.up="if (is_selected) { console.log('REQ UP'); $nextTick(() => { select('Requirement', '{{ prev_requirement.id | js_str }}'); }) }"
@@ -17,7 +17,7 @@
     {% if requirement.statements.first %}
     @keydown.document.prevent.stop.right="if (is_selected) { console.log('REQ RIGHT'); $nextTick(() => { select('Statement', '{{ requirement.statements.first.id | js_str }}'); }) }"
     {% endif %}
-    :class="is_selected ? 'bg-primary text-white' : ''"
+    :class="is_selected ? 'bg-primary text-white' : 'bg-primary-subtle'"
     >
   <div class="card-header">
     <h5>{{ requirement | xref_status_badge }} {{ requirement.text }}</h5>

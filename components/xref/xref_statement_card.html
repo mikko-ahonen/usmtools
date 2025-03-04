@@ -8,7 +8,7 @@
         get is_selected() { return '{{ statement.id | js_str }}' == this.selected_id },
         visible_ids: ['{{ statement.id | js_str }}', '{{ statement.requirement.id | js_str }}'{% for constraint in statement.constraints.all %}, '{{ constraint.id | js_str }}'{% endfor %}],
         get is_visible() { return this.visible_ids.includes(this.selected_requirement_id) },
-        get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-primary' }
+        get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-dark' }
     }"
     x-show="is_visible"
     {% if prev_statement %}
@@ -23,7 +23,7 @@
     {% if statement.constraints.first %}
     @keydown.document.prevent.stop.right="console.log('RIGHT'); if (is_selected) { $nextTick(() => { select('Constraint', '{{ statement.constraints.first.id | js_str }}'); }) }"
     {% endif %}
-    :class="is_selected ? 'bg-primary text-white' : ''">
+    :class="is_selected ? 'bg-danger text-white' : 'bg-danger-subtle'">
   <div class="card-header">
     <h5>{{ statement | xref_status_badge }} {{ statement.title }}</h5>
     <small :class="is_selected ? 'text-white-50' : 'text-muted'">

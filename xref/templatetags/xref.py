@@ -13,7 +13,7 @@ def xref_status_badge(o):
         color = 'bg-warning'
     elif o.xref_status == 'verified':
         color = 'bg-success'
-    return mark_safe(f'<span class="badge {color}">{ o.xref_status }</span>')
+    return mark_safe(f'<span class="badge border border-light {color}">{ o.xref_status }</span>')
 
 @register.filter()
 def as_params(selections):
