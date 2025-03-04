@@ -31,7 +31,7 @@
       <td>
         <h2>
           <button type="button" class="create-target-button btn btn-outline-primary btn-sm"
-              @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ Add target</button>
+              @click="open=true; $refs.input.value = ''; $nextTick(() => $refs.input.focus())" x-show="!open">+ {% trans 'Add target' %}</button>
         </h2>
     
         <form class="create-target-form" x-show="open" @click.outside="open=false" hx-post="{% url 'compliances:project-create-target' tenant_id project.id %}" hx-target="this">
