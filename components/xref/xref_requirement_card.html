@@ -3,6 +3,7 @@
 
 <div class="xref_requirement_card" id="{{ requirement.id | js_str }}">
   <div class="card mb-3"
+    @click="if (!is_selected) { select('Requirement', '{{ requirement.id | js_str }}'); }"
     x-data="{
         get is_selected() { return '{{ requirement.id | js_str }}' == this.selected_id },
         get btn_css_class() { return this.is_selected ? 'm-1 btn btn-outline-light': 'm-1 btn btn-outline-primary' }
@@ -25,8 +26,6 @@
     </small>
   </div>
   <div class="card-body">
-    <a :disabled="is_selected"  @click="select('Requirement', '{{ requirement.id | js_str }}'); return false;" class="m-1 btn" :class="btn_css_class">{% trans 'Select' %}</a>
-
     {% for status, name in statuses  %}
       {% if requirement.xref_status != status %}
         <button class="m-1 btn" :class="btn_css_class" hx-target="closest .xref_requirement_card" hx-swap="outerHTML" hx-post="{% url 'components:xref-requirement-status-transition' requirement.id status %}" hx-vals='{"next_requirement_id": "{{ next_requirement.id | js_str}}","prev_requirement_id":"{{ prev_requirement.id | js_str }}"}'>{{ name }}</button>

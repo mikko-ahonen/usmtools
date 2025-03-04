@@ -3,6 +3,7 @@
 <div class="xref_statement_card"
     id="{{ statement.id | js_str }}">
   <div class="card mb-3"
+    @click="if (!is_selected) { select('Statement', '{{ statement.id | js_str }}'); }"
     x-data="{
         get is_selected() { return '{{ statement.id | js_str }}' == this.selected_id },
         visible_ids: ['{{ statement.id | js_str }}', '{{ statement.requirement.id | js_str }}'{% for constraint in statement.constraints.all %}, '{{ constraint.id | js_str }}'{% endfor %}],
@@ -30,7 +31,6 @@
     </small>
   </div>
   <div class="card-body">
-    <a :disabled="is_selected" @click="select('Statement', '{{ statement.id | js_str }}'); return false;" class="m-1 btn" :class="btn_css_class">{% trans 'Select' %}</a>
     {% for status, name in statuses  %}
       {% if statement.xref_status != status %}
         <button class="m-1 btn" :class="btn_css_class" hx-target="closest .xref_statement_card" hx-swap="outerHTML" hx-post="{% url 'components:xref-statement-status-transition' statement.id status %}" hx-vals='{"next_statement_id": "{{ next_statement.id | js_str}}","prev_statement_id":"{{ prev_statement..id | js_str }}"}'>{{ name }}</button>
