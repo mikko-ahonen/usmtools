@@ -21,7 +21,7 @@ def as_params(selections):
 
 @register.filter()
 def get_preceding_requirement(sections, n):
-    for section in reversed(sections[0:n-1]):
+    for section in reversed(list(sections)[0:n-1]):
         requirement = section.requirements.order_by('-index').first()
         if requirement:
             return requirement
@@ -29,7 +29,7 @@ def get_preceding_requirement(sections, n):
 
 @register.filter()
 def get_following_requirement(sections, n):
-    for section in sections[n+1:]:
+    for section in list(sections)[n+1:]:
         requirement = section.requirements.order_by('index').first()
         if requirement:
             return requirement
