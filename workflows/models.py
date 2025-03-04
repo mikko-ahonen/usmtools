@@ -18,10 +18,12 @@ class Account(AbstractUser):
 
     LANGUAGE_FI = 'fi'
     LANGUAGE_EN = 'en'
+    LANGUAGE_NL = 'nl'
 
     LANGUAGES = (
         (LANGUAGE_EN, _('English')),
         (LANGUAGE_FI, _('Finnish')),
+        (LANGUAGE_NL, _('Dutch')),
     )
 
     lang = models.CharField(
@@ -162,6 +164,16 @@ class Routine(TenantAwareOrderedModelBase):
     modified_at = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name='+')
     based_on = models.ForeignKey('Routine', on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+    lang = models.CharField(
+        max_length=2,
+        verbose_name=_('Language'),
+        choices=Account.LANGUAGES,
+        default=Account.LANGUAGE_EN,
+        error_messages={
+          'required': _("You must choose a language"),
+          'invalid_choice': _("Wrong language choice")
+        }
+    )
 
     PROCESS_AGREE = "agree"
     PROCESS_CHANGE = "change"

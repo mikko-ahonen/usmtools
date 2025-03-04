@@ -269,9 +269,12 @@ class RoutineCreate(ModelForm):
 
     def __init__(self, *args, **kwargs):
         tenant_id = kwargs.pop('tenant_id')
+        lang = kwargs.pop('lang', None)
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
+        if lang:
+            self.fields['template'].queryset = Routine.unscoped.filter(is_template=True, lang=lang)
 
 class ServiceShare(ModelForm):
     workflow = ModelChoiceField(

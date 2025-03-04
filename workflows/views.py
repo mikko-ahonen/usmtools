@@ -21,6 +21,7 @@ from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
+from django.utils.translation import get_language
 from extra_views import ModelFormSetView
 
 from django.contrib import messages
@@ -772,6 +773,7 @@ class RoutineCreate(TenantMixin, GetServiceMixin, CreateView):
         kwargs = super().get_form_kwargs()
         tenant_id = self.kwargs.get('tenant_id')
         kwargs['tenant_id'] = tenant_id
+        kwargs['lang'] = get_language()
         return kwargs
 
     def get_context_data(self, *args, **kwargs):
