@@ -7,6 +7,8 @@ from django.utils.translation import gettext_lazy as _
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
+from workflows.tenant import set_tenant_id
+
 from .models import CrossReference
 from compliances.models import Section, Requirement, Statement, Constraint, Definition, Domain
 from .forms import CrossReferenceCreateOrUpdate, SectionCreateOrUpdate, RequirementCreateOrUpdate, StatementCreateOrUpdate, ConstraintCreateOrUpdate 
@@ -84,6 +86,7 @@ class CrossReferenceDetail(LoginRequiredMixin, PermissionRequiredMixin, GetCross
     template_name = 'xref/cross-reference-detail.html'
 
     def get(self, request, *args, **kwargs):
+        set_tenant_id(None)
         response = super().get(request, *args, **kwargs)
         if request.GET.get('hx', None) != None:
             url = self.get_url()
@@ -163,6 +166,7 @@ class CrossReferenceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         return context
 
     def form_valid(self, form):
+        set_tenant_id(None)
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
@@ -178,6 +182,10 @@ class CrossReferenceUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateVi
     form_class = CrossReferenceCreateOrUpdate
     permission_required = 'xref.change_cross_reference'
 
+    def form_valid(self, form):
+        set_tenant_id(None)
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['object_type'] = _('cross-reference')
@@ -192,6 +200,10 @@ class CrossReferenceDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteVi
     model = CrossReference
     template_name = 'xref/modals/delete.html'
     permission_required = 'xref.delete_cross_reference'
+
+    def delete(self, request, *args, **kwargs):
+        set_tenant_id(None)
+        return super().delete(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -215,6 +227,8 @@ class SectionCreate(LoginRequiredMixin, PermissionRequiredMixin, GetSectionMixin
         return context
 
     def form_valid(self, form):
+        set_tenant_id(None)
+
         if not form.cleaned_data['index']:
             form.cleaned_data['docid'].split('.')[-1]
         self.object = form.save(commit=False)
@@ -245,6 +259,10 @@ class SectionUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, Upd
     form_class = SectionCreateOrUpdate
     permission_required = 'xref.change_section'
 
+    def form_valid(self, form):
+        set_tenant_id(None)
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['object_type'] = _('section')
@@ -254,11 +272,14 @@ class SectionUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView, Upd
     def get_success_url(self):
         return reverse_lazy('xref:section-detail', kwargs={'section_id': self.object.id})
 
-
 class SectionDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Section
     template_name = 'xref/modals/delete.html'
     permission_required = 'xref.delete_section'
+
+    def delete(self, request, *args, **kwargs):
+        set_tenant_id(None)
+        return super().delete(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -282,6 +303,7 @@ class RequirementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         return context
 
     def form_valid(self, form):
+        set_tenant_id(None)
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
@@ -300,6 +322,10 @@ class RequirementUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView,
     form_class = RequirementCreateOrUpdate
     permission_required = 'xref.change_requirement'
 
+    def form_valid(self, form):
+        set_tenant_id(None)
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['object_type'] = _('requirement')
@@ -307,7 +333,7 @@ class RequirementUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView,
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:section-detail', kwargs={'pk': self.object.section_id})
+        return reverse_lazy('xref:section-detail', kwargs={'section_id': self.object.section_id})
 
 
 class RequirementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -315,13 +341,17 @@ class RequirementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
     template_name = 'xref/modals/delete.html'
     permission_required = 'xref.delete_requirement'
 
+    def delete(self, request, *args, **kwargs):
+        set_tenant_id(None)
+        return super().delete(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['object_type'] = _('requirement')
         return context
 
     def get_success_url(self):
-        return reverse_lazy('xref:section-detail', kwargs={'pk': self.object.section_id})
+        return reverse_lazy('xref:section-detail', kwargs={'section_id': self.object.section_id})
 
 
 class StatementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -337,6 +367,7 @@ class StatementCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        set_tenant_id(None)
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.modified_by = self.request.user
@@ -367,6 +398,10 @@ class StatementDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Statement
     template_name = 'xref/modals/delete.html'
     permission_required = 'xref.delete_statement'
+
+    def delete(self, request, *args, **kwargs):
+        set_tenant_id(None)
+        return super().delete(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -425,6 +460,10 @@ class ConstraintDelete(LoginRequiredMixin, GetStatementMixin, PermissionRequired
     model = Constraint
     template_name = 'xref/modals/delete.html'
     permission_required = 'xref.delete_constraint'
+
+    def delete(self, request, *args, **kwargs):
+        set_tenant_id(None)
+        return super().delete(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -36,7 +36,7 @@ class XrefStatementCard(component.Component):
     def post(self, request, obj_id, target_status):
         obj = self.get_statement(obj_id)
         next_statement_id = request.POST.get('next_statement_id', None)
-        next_requirement = None
+        next_statement = None
         if next_statement_id:
             next_statement = self.get_statement(next_statement_id)
         prev_statement_id = request.POST.get('prev_statement_id', None)
