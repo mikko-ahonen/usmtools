@@ -21,7 +21,7 @@
           {{ requirement.statement.text | linebreaks }}
         </small>
         <ul class="list-unstyled">
-        {% for constraint in requirement.statement.constraints %}
+        {% for constraint in requirement.statement.constraints.all %}
           <li class="my-1" id="{{ constraint.id }}">
             {% for story in constraint.stories.all %}{% compliances_story domain story %}{% endfor %} {{ constraint.key }} {{ constraint.text | compliances_format_text }}
           </li>
